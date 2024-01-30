@@ -1,0 +1,95 @@
+name: "💥 Bug Report"
+description: "Create a bug report to help us improve MiniCPM | 提交一个 bug 报告来帮助我们改进 MiniCPM"
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+        
+        感谢您抽出时间来填写 bug 报告！
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue ? / 是否已有相关的 issue ?
+      description: |
+        Please search the existing issues to see if your bug has already been reported. If so, please add a comment to the existing issue instead of creating a new one.
+
+        针对您遇到的问题，请先搜索您遇到的错误是否在已有的issues中提到过。如果有，请在已有的 issue 下方添加评论，而不是创建一个新的 issue。
+
+        [🚩Issues](https://github.com/OpenBMB/MiniCPM/issues)
+      options:
+        - label: I have searched, and there is no existing issue. / 我已经搜索过了，没有相关的 issue。
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Describe the bug / 描述这个 bug"
+      description: |
+        A clear and concise description of what the bug is.
+
+        请用一段清晰且准确的描述，说明这个 bug 的是什么。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: "To Reproduce / 如何复现"
+      description: |
+        Please describe the steps to reproduce the bug.
+
+        请一步一步的描述如何复现这个 bug。
+      placeholder: |
+        Steps to reproduce the behavior:
+
+          Go to '...'
+          Click on '....'
+          Scroll down to '....'
+          See error
+
+        复现这个 bug 的步骤：
+
+          前往 '...'
+          点击 '...'
+          滚动到 '...'
+          发现错误
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected behavior / 期望的结果"
+      description: |
+        A clear and concise description of what you expected to happen.
+
+        请用一段清晰且准确的描述，说明您期望的正确结果是什么。
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / 截图
+      description: |
+        If applicable, add screenshots to help explain your problem.
+
+        如果可以的话，请添加截图来帮助解释您的问题。
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / 环境
+      description: |
+        Please provide the following information about your environment.
+
+        请提供您的运行环境的以下信息。
+      render: shell
+      value: | 
+        - OS: [e.g. Ubuntu 20.04]
+        - Pytorch: [e.g. torch 2.0.0]
+        - CUDA: [e.g. CUDA 11.8]
+        - Device: [e.g. A10, RTX3090]
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context / 其他信息
+      description: |
+        Add any other context about the problem here.
+
+        在这里添加有关此问题的任何其他上下文。

@@ -1,0 +1,27 @@
+name: "💡 Feature Request"
+description: "Submit a new idea or application example for MiniCPM | 为 MiniCPM 提出一个新的想法或使用案例"
+title: "[Feature Request]: "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your support to MiniCPM! Here you can:
+        1. Suggest improvements to MiniCPM project
+        2. Suggest new papers/datasets to help us optimize MiniCPM model
+        3. Provide your test results/application examples to help more people understand and use MiniCPM
+
+        感谢您对 MiniCPM 项目的支持！在这里您可以：
+        1. 提出您对 MiniCPM 项目的改进建议
+        2. 推荐新的论文/数据集，帮助我们优化 MiniCPM 模型
+        3. 提供您的测试结果/应用示例，帮助更多人了解和使用 MiniCPM
+  - type: textarea
+    id: feature
+    attributes:
+      label: "Feature request  / 功能建议"
+      description: |
+        Please describe your suggestion in detail, and provide some reference links (e.g. links to paper, application example repository, etc.)
+
+        请详细的描述您的建议，并提供一些可以参考的链接（例如：论文地址、应用示例仓库等）
+    validations:
+      required: true
