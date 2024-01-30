@@ -55,6 +55,11 @@ Read this in [English]()
   IOS：
 
 ## Demo & API
+### 基于Gradio的网页版Demo
+使用如下命令启动基于Gradio的网页版demo：
+```shell
+python demo/gradio_based_demo.py
+```
 
 ## 高效参数微调
 
