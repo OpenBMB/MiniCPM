@@ -1,5 +1,5 @@
 name: "💡 Feature Request"
-description: "Suggest an idea for MiniCPM | 为 MiniCPM 提出一个新的想法"
+description: "Submit a new idea or application example for MiniCPM | 为 MiniCPM 提出一个新的想法或使用案例"
 title: "[Feature Request]: "
 labels: ["feature"]
 body:
