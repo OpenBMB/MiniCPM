@@ -63,7 +63,7 @@ body:
         A clear and concise description of what you expected to happen.
 
         请用一段清晰且准确的描述，说明您期望的正确结果是什么。
-  - type: markdown
+  - type: textarea
     id: screenshots
     attributes:
       label: Screenshots / 截图
