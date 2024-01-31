@@ -18,7 +18,7 @@ tokenizer = AutoTokenizer.from_pretrained(path)
 model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map="auto", trust_remote_code=True)
 
 
-def hf_gen(query: str, top_p: float, temperature: float, max_dec_len: int):
+def hf_gen(dialog: str, top_p: float, temperature: float, max_dec_len: int):
     """generate model output with huggingface api
 
     Args:
@@ -30,10 +30,11 @@ def hf_gen(query: str, top_p: float, temperature: float, max_dec_len: int):
     Yields:
         str: real-time generation results of hf model
     """    
-    inputs = tokenizer([query], return_tensors="pt").to("cuda")
+    inputs = tokenizer.apply_chat_template(dialog, tokenize=False, add_generation_prompt=False)
+    enc = tokenizer(inputs, return_tensors="pt").to("cuda")
     streamer = TextIteratorStreamer(tokenizer)
     generation_kwargs = dict(
-        inputs,
+        enc,
         do_sample=True,
         top_p=top_p,
         temperature=temperature,
@@ -45,7 +46,7 @@ def hf_gen(query: str, top_p: float, temperature: float, max_dec_len: int):
     answer = ""
     for new_text in streamer:
         answer += new_text
-        yield answer
+        yield answer[4 + len(inputs):]
 
 
 def generate(chat_history: List, query: str, top_p: float, temperature: float, max_dec_len: int):
@@ -63,14 +64,15 @@ def generate(chat_history: List, query: str, top_p: float, temperature: float, m
     """    
     assert query != "", "Input must not be empty!!!"
     # apply chat template
-    model_input = ""
+    model_input = []
     for q, a in chat_history:
-        model_input += "<用户>" + q + "<AI>" + a
-    model_input += "<用户>" + query + "<AI>"
+        model_input.append({"role": "user", "content": q})
+        model_input.append({"role": "assistant", "content": a})
+    model_input.append({"role": "user", "content": query})
     # yield model generation
     chat_history.append([query, ""])
     for answer in hf_gen(model_input, top_p, temperature, max_dec_len):
-        chat_history[-1][1] = answer[4 + len(model_input):].strip("</s>")
+        chat_history[-1][1] = answer.strip("</s>")
         yield gr.update(value=""), chat_history
 
 
@@ -88,13 +90,14 @@ def regenerate(chat_history: List, top_p: float, temperature: float, max_dec_len
     """    
     assert len(chat_history) >= 1, "History is empty. Nothing to regenerate!!"
     # apply chat template
-    model_input = ""
+    model_input = []
     for q, a in chat_history[:-1]:
-        model_input += "<用户>" + q + "<AI>" + a
-    model_input += "<用户>" + chat_history[-1][0] + "<AI>"
+        model_input.append({"role": "user", "content": q})
+        model_input.append({"role": "assistant", "content": a})
+    model_input.append({"role": "user", "content": chat_history[-1][0]})
     # yield model generation
     for answer in hf_gen(model_input, top_p, temperature, max_dec_len):
-        chat_history[-1][1] = answer[4 + len(model_input):].strip("</s>")
+        chat_history[-1][1] = answer.strip("</s>")
         yield gr.update(value=""), chat_history
 
 
@@ -125,8 +128,8 @@ with gr.Blocks(theme="soft") as demo:
 
     with gr.Row():
         with gr.Column(scale=1):
-            top_p = gr.Slider(0, 1, value=0.5, step=0.1, label="top_p")
-            temperature = gr.Slider(0.1, 2.0, value=1.0, step=0.1, label="temperature")
+            top_p = gr.Slider(0, 1, value=0.8, step=0.1, label="top_p")
+            temperature = gr.Slider(0.1, 2.0, value=0.8, step=0.1, label="temperature")
             max_dec_len = gr.Slider(1, 1024, value=1024, step=1, label="max_dec_len")
         with gr.Column(scale=5):
             chatbot = gr.Chatbot(bubble_full_width=False, height=400)
