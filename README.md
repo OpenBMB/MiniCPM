@@ -101,6 +101,7 @@ XXXXXX
   #### 安卓
 
   #### IOS
+[ios编译安装MiniCPM指南](https://github.com/zkh2016/LLMFarm/blob/main/CPM.md)
 
   #### 多模态
 
