@@ -1,8 +1,4 @@
 {
-    "train_batch_size": "auto",
-    "train_micro_batch_size_per_gpu": "auto",
-    "gradient_accumulation_steps": "auto",
-    "gradient_clipping": 1.0,
     "fp16": {
         "enabled": "auto",
         "loss_scale": 0,
@@ -16,10 +12,15 @@
     },
     "zero_optimization": {
         "stage": 2,
+        "allgather_partitions": true,
         "overlap_comm": true,
         "reduce_scatter": true,
         "contiguous_gradients": true
     },
+    "train_batch_size": "auto",
+    "train_micro_batch_size_per_gpu": "auto",
+    "gradient_accumulation_steps": "auto",
+    "gradient_clipping": 1.0,
     "wall_clock_breakdown": false,
     "flops_profiler": {
         "enabled": false,

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-import time
 from typing import Dict, Optional
-from datetime import datetime
 from dataclasses import dataclass, field
 
 import torch
@@ -155,7 +153,7 @@ def load_model_and_tokenizer(
         model = get_peft_model(model, lora_config)
         # trainable params: 2,949,120 || all params: 3,010,652,928 || trainable%: 0.09795616002669305
         model.print_trainable_parameters()
-        model.enable_input_require_grads()
+        # model.enable_input_require_grads()  # need when using adapter
 
     return model, tokenizer
 
@@ -184,15 +182,12 @@ if __name__ == "__main__":
         model_max_length=training_args.model_max_length,
     )
 
-    formatted_time = datetime.now().strftime("%Y%m%d%H%M%S")
-
     trainer = Trainer(
         model=model,
         args=training_args,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         tokenizer=tokenizer,
-        # compute_metrics=compute_metrics,
     )
 
     trainer.train()

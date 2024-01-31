@@ -11,12 +11,21 @@
         "enabled": "auto"
     },
     "zero_optimization": {
-        "stage": 2,
+        "stage": 3,
         "allgather_partitions": true,
-        "overlap_comm": true,
+        "allgather_bucket_size": 5e8,
         "reduce_scatter": true,
         "contiguous_gradients": true,
+        "overlap_comm": true,
+        "reduce_bucket_size": "auto",
+        "stage3_prefetch_bucket_size": "auto",
+        "stage3_param_persistence_threshold": "auto",
+        "stage3_gather_16bit_weights_on_model_save": true,
         "offload_optimizer": {
+            "device": "cpu",
+            "pin_memory": true
+        },
+        "offload_param": {
             "device": "cpu",
             "pin_memory": true
         }
