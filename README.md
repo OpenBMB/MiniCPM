@@ -29,7 +29,7 @@ XXXXXX
 
 # 目录
 
-- [模型介绍]()
+- [模型介绍](https://github.com/OpenBMB/miniCPM?tab=readme-ov-file#模型介绍)
 - [模型下载]()
 - [评测结果]()
     - [中文]()
