@@ -99,7 +99,7 @@ XXXXXX
 ### 部署步骤
 
   #### 安卓
-[android编译安装MiniCPM指南](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README.md)
+android编译安装MiniCPM指南 [EN](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README.md) [ZH](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README-ZH.md)
 
   #### IOS
 [ios编译安装MiniCPM指南](https://github.com/OpenBMB/LLMFarm)
