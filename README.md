@@ -27,7 +27,7 @@ XXXXXX
 
 </div>
 
-## 目录
+# 目录
 
 - [模型介绍]()
 - [模型下载]()
@@ -52,7 +52,7 @@ XXXXXX
   [ModelScope仓库]()
   [XX仓库]()
 
-## 评测结果
+# 评测结果
 
 
      
@@ -89,24 +89,23 @@ XXXXXX
 |MPT-7B-chat|5.42|
 
 
-## 端侧部署
+# 端侧部署
 
 进行Int4量化后，MiniCPM只占2GB空间，具备在端侧手机进行模型部署的条件。
 对此，我们针对Android和Harmony系统使用开源框架MLC-LLM进行模型适配，针对iPhone系统使用开源框架LLMFarm进行模型适配，并分别选取了部分端侧手机设备进行了测试。
 
 
 
-### 部署步骤
+## 部署步骤
 
-  #### 安卓
+  ### 安卓
 android编译安装MiniCPM指南 [EN](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README.md) [ZH](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README-ZH.md)
 
-  #### IOS
+  ### IOS
 [ios编译安装MiniCPM指南](https://github.com/OpenBMB/LLMFarm)
 
-  #### 多模态
 
-### 部署性能
+## 部署性能
 
 我们并为针对手机部署进行深度优化，仅验证MiniCPM使用手机芯片进行推理的可行性。
 **我们也欢迎更多开发者进一步调优并更新下面的测试列表，不断提升端侧大模型在手机上的推理性能。**
@@ -132,29 +131,29 @@ android编译安装MiniCPM指南 [EN](https://github.com/OpenBMB/mlc-MiniCPM/blo
 |iPhone 12|iOS 17.2.1|A14|4|5.8|
 |iPhone 11|iOS 16.6|A13|4|4.6|
   
-## Demo & API
+# Demo & API
 
-#### 基于Gradio的网页版Demo
+## 基于Gradio的网页版Demo
 使用如下命令启动基于Gradio的网页版demo：
 ```shell
 python demo/gradio_based_demo.py
 ```
 
-## 高效参数微调
+# 高效参数微调
 
-## 开源协议
+# 开源协议
 
-#### 模型协议
+## 模型协议
 
 本仓库中代码依照 [Apache-2.0](https://github.com/OpenBMB/MiniCPM/blob/main/LICENSE) 协议开源，MiniCPM 模型权重的使用则需要遵循 [“通用模型许可协议-来源说明-宣传限制-商业授权”](https://github.com/OpenBMB/General-Model-License/blob/main/%E9%80%9A%E7%94%A8%E6%A8%A1%E5%9E%8B%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE-%E6%9D%A5%E6%BA%90%E8%AF%B4%E6%98%8E-%E5%AE%A3%E4%BC%A0%E9%99%90%E5%88%B6-%E5%95%86%E4%B8%9A%E6%8E%88%E6%9D%83.md)。
 MiniCPM 模型权重对学术研究完全开放。如需将模型用于商业用途，请联系cpm@modelbest.cn来获取书面授权，在登记后亦允许免费商业使用。
 
-#### 声明
+## 声明
 
 作为一个语言模型，MiniCPM 通过学习大量的文本来生成内容，但它无法理解、表达个人观点或价值判断，它所输出的任何内容都不代表模型开发者的观点和立场。
 因此用户在使用 MiniCPM 生成的内容时，应自行负责对其进行评估和验证。
 
-## 工作引用
+# 工作引用
 
 如果觉得MiniCPM有助于您的工作，请考虑引用下列[技术报告]()
 
@@ -166,7 +165,7 @@ MiniCPM 模型权重对学术研究完全开放。如需将模型用于商业用
 }
 ```
 
-## 典型示例
+# 典型示例
 
 #### 代码生成
 Case 1:
