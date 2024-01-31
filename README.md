@@ -99,6 +99,7 @@ XXXXXX
 ### 部署步骤
 
   #### 安卓
+[android编译安装MiniCPM指南](https://github.com/Achazwl/mlc-MiniCPM/blob/main/README.md)
 
   #### IOS
 [ios编译安装MiniCPM指南](https://github.com/zkh2016/LLMFarm/blob/main/CPM.md)
