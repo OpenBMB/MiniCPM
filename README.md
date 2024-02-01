@@ -12,9 +12,6 @@
 </h4>
 
 <p align="center">
-<a href="XXXX" target="_blank">Hugging Face</a> |
-<a href="XXXX" target="_blank">ModelScope 魔搭</a> |
-<a href="XXXX" target="_blank">OpenI 启智</a> |
 <a href="XXXX" target="_blank">MiniCPM 技术报告</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">多模态模型 OmniLMM</a> |
 <a href="https://luca.cn/" target="_blank">千亿模型 Luca</a> 
