@@ -126,22 +126,23 @@ print(responds)
 ```
 
 ##### MiniCPM-V
+
 ```python
 import torch
 from PIL import Image
 from transformers import AutoModel, AutoTokenizer
 
-model_path='openbmb/MiniCPM-V'
-model = AutoModel.from_pretrained(model_path, trust_remote_code=True).to(dtype=torch.bfloat16)
-tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+model = AutoModel.from_pretrained('openbmb/MiniCPM-V/', trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-V', trust_remote_code=True)
 model.eval().cuda()
 
-image = Image.open('./assets/COCO_test2015_000000262144.jpg').convert('RGB')
+image = Image.open('xx.jpg').convert('RGB')
+question = 'What is in the image?'
+msgs = [{'role': 'user', 'content': question}]
 
-question = '请描述一下该图像'
 res, context, _ = model.chat(
     image=image,
-    question=question,
+    msgs=msgs,
     context=None,
     tokenizer=tokenizer,
     sampling=True,

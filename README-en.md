@@ -103,6 +103,8 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 
 #### Huggingface 
 
+##### MiniCPM-2B
+
 * Install `transformers>=4.36.0` and `accelerate`，run the following python code.
 
 ```python
@@ -124,10 +126,31 @@ print(responds)
 The capital city of China is Beijing. Beijing is not only the political center of China but also a cultural and economic hub. It is known for its rich history and numerous landmarks, such as the Great Wall, the Forbidden City, and the Temple of Heaven. The city is also home to the National Stadium, also known as the "Bird's Nest," and the National Aquatics Center, or "Water Cube." Beijing is a significant city in China, with a population of over 21 million people.
 ```
 
-<p id="3"></p>
+##### MiniCPM-V
 
-Update soon.
+```python
+import torch
+from PIL import Image
+from transformers import AutoModel, AutoTokenizer
 
+model = AutoModel.from_pretrained('openbmb/MiniCPM-V/', trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-V', trust_remote_code=True)
+model.eval().cuda()
+
+image = Image.open('xx.jpg').convert('RGB')
+question = 'What is in the image?'
+msgs = [{'role': 'user', 'content': question}]
+
+res, context, _ = model.chat(
+    image=image,
+    msgs=msgs,
+    context=None,
+    tokenizer=tokenizer,
+    sampling=True,
+    temperature=0.7
+)
+print(res)
+```
 
 <p id="3"></p>
 
@@ -137,7 +160,7 @@ Update soon.
 
 * Since it is difficult to standardize the evaluation of LLMs and there is no public prompt and test code for a large number of evaluations, we can only try our best to make it suitable for all types of models in terms of specific evaluation methods.
 * Overall, we use a unified prompt input for testing, and adjust the input according to the corresponding template for each model.
-* **The evaluation scripts and prompts have been open-sourced in our Github repository, and we welcome more developers to continuously improve our evaluation methods. **
+* **The evaluation scripts and prompts have been open-sourced in our Github repository, and we welcome more developers to continuously improve our evaluation methods.**
   * For the text evaluation part, we use our open source large model capability evaluation framework [UltraEval](https://github.com/OpenBMB/UltraEval). The following is the open source model reproduction process:
     * install UltraEval
       ```shell
@@ -315,7 +338,7 @@ Update soon.
   * Support MiniCPM-2B-SFT-INT4、MiniCPM-2B-DPO-INT4.
   * [Compile and Installation Guide](https://github.com/OpenBMB/LLMFarm)
 
-### Performance
+#### Performance
 
 * We did not conduct in-depth optimization and system testing on the mobile inference model, only verifying the feasibility of MiniCPM using mobile phone chips for inference.
 * There have been no previous attempts to deploy multimodal models on mobile phones. We have verified the feasibility of deploying MiniCPM-V on mobile phones based on MLC-LLM this time, and it can input and output normally. However, there also exist a problem of long image processing time, which needs further optimization :)
