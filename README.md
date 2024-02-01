@@ -258,36 +258,7 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
   * 使用[BMTrain](https://github.com/OpenBMB/BMTrain)，借助重计算和ZeRO-3，一张3090/4090可实现全参数微调，一台机器可实现持续训练
   * 相关代码也将陆续推出
 
-<p id="7"></p>
 
-## 开源协议
-
-#### 模型协议
-
-* 本仓库中代码依照 [Apache-2.0](https://github.com/OpenBMB/MiniCPM/blob/main/LICENSE) 协议开源
-* MiniCPM 模型权重的使用则需要遵循 [“通用模型许可协议-来源说明-宣传限制-商业授权”](https://github.com/OpenBMB/General-Model-License/blob/main/%E9%80%9A%E7%94%A8%E6%A8%A1%E5%9E%8B%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE-%E6%9D%A5%E6%BA%90%E8%AF%B4%E6%98%8E-%E5%AE%A3%E4%BC%A0%E9%99%90%E5%88%B6-%E5%95%86%E4%B8%9A%E6%8E%88%E6%9D%83.md)。
-* MiniCPM 模型权重对学术研究完全开放。
-* 如需将模型用于商业用途，请联系cpm@modelbest.cn来获取书面授权，在登记后亦允许免费商业使用。
-
-#### 声明
-
-* 作为一个语言模型，MiniCPM 通过学习大量的文本来生成内容，但它无法理解、表达个人观点或价值判断，它所输出的任何内容都不代表模型开发者的观点和立场。
-* 因此用户在使用 MiniCPM 生成的内容时，应自行负责对其进行评估和验证。
-* 如果由于使用 MinCPM 开源模型而导致的任何问题，包括但不限于数据安全问题、公共舆论风险，或模型被误导、滥用、传播或不当利用所带来的任何风险和问题，我们将不承担任何责任。
-
-<p id="8"></p>
-
-## 工作引用
-
-* 如果觉得MiniCPM有助于您的工作，请引用我们的[技术报告](todo)
-
-```
-@inproceedings{minicpm2024,
-	title={MiniCPM：Unveiling the Potential of End-side Large Language Models},
-	booktitle={OpenBMB Blog},
-	year={2024}
-}
-```
 
 <p id="9"></p>
 
@@ -330,3 +301,35 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 ![特殊字符-case1](./assets/special_char.case1.png)
 
 ![特殊字符-case2](./assets/special_char.case2.png)
+
+
+<p id="7"></p>
+
+## 开源协议
+
+#### 模型协议
+
+* 本仓库中代码依照 [Apache-2.0](https://github.com/OpenBMB/MiniCPM/blob/main/LICENSE) 协议开源
+* MiniCPM 模型权重的使用则需要遵循 [“通用模型许可协议-来源说明-宣传限制-商业授权”](https://github.com/OpenBMB/General-Model-License/blob/main/%E9%80%9A%E7%94%A8%E6%A8%A1%E5%9E%8B%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE-%E6%9D%A5%E6%BA%90%E8%AF%B4%E6%98%8E-%E5%AE%A3%E4%BC%A0%E9%99%90%E5%88%B6-%E5%95%86%E4%B8%9A%E6%8E%88%E6%9D%83.md)。
+* MiniCPM 模型权重对学术研究完全开放。
+* 如需将模型用于商业用途，请联系cpm@modelbest.cn来获取书面授权，在登记后亦允许免费商业使用。
+
+#### 声明
+
+* 作为一个语言模型，MiniCPM 通过学习大量的文本来生成内容，但它无法理解、表达个人观点或价值判断，它所输出的任何内容都不代表模型开发者的观点和立场。
+* 因此用户在使用 MiniCPM 生成的内容时，应自行负责对其进行评估和验证。
+* 如果由于使用 MinCPM 开源模型而导致的任何问题，包括但不限于数据安全问题、公共舆论风险，或模型被误导、滥用、传播或不当利用所带来的任何风险和问题，我们将不承担任何责任。
+
+<p id="8"></p>
+
+## 工作引用
+
+* 如果觉得MiniCPM有助于您的工作，请引用我们的[技术报告](todo)
+
+```
+@inproceedings{minicpm2024,
+	title={MiniCPM：Unveiling the Potential of End-side Large Language Models},
+	booktitle={OpenBMB Blog},
+	year={2024}
+}
+```
