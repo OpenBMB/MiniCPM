@@ -199,7 +199,7 @@ print(responds)
   * 使用开源框架MLC-LLM进行模型适配。
   * 支持文本模型、多模态模型。
   * 适用于MiniCPM-2B-SFT-INT4、MiniCPM-2B-DPO-INT4、MiniCPM-V。
-  * [编译安装MiniCPM指南](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README.md) 
+  * [编译安装MiniCPM指南](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README-ZH.md) 
 * iOS
   * 使用开源框架LLMFarm进行模型适配。
   * 支持文本模型。
