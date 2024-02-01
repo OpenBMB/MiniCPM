@@ -14,7 +14,7 @@
 <p align="center">
 <a href="XXXX" target="_blank">MiniCPM 技术报告</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">OmniLMM 多模态模型</a> |
-<a href="https://luca.cn/" target="_blank">千亿模型试用 Luca</a> 
+<a href="https://luca.cn/" target="_blank">千亿模型CPMC试用</a> 
 </p>
 
 MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列端侧语言大模型，主体语言模型 MiniCPM-2B 仅有 24亿（2.4B）的非词嵌入参数量。
