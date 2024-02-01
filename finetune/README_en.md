@@ -1,5 +1,7 @@
 # MiniCPM Fine-tune
 
+[中文版](https://github.com/OpenBMB/MiniCPM/blob/main/finetune/README.md)
+
 This directory provides examples of fine-tuning the MiniCPM-2B model, including full model fine-tuning and PEFT. In terms of format, we offer examples for multi-turn dialogue fine-tuning and input-output format fine-tuning.
 
 If you have downloaded the model to your local system, the `OpenBMB/MiniCPM-2B` field mentioned in this document and in the code should be replaced with the corresponding address to load the model from your local system.
