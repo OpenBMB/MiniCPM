@@ -190,18 +190,28 @@ Instead of conducting in-depth optimization for deployment on mobile phones, we 
 |iPhone 12 Pro|iOS 16.5.1|A14|6|5.8|
 |iPhone 12|iOS 17.2.1|A14|4|5.8|
 |iPhone 11|iOS 16.6|A13|4|4.6|
+
+![多模态样例](https://github.com/OpenBMB/OmniLMM/blob/main/assets/Snake_cn_Mushroom_en.gif)
   
 ## Demo & API
 
 #### Web-demo based on Gradio
-Launch gradio-based demo using the following command: 
+
+Using the following command can launch the gradio-based demo. 
 ```shell
 python demo/gradio_based_demo.py
 ```
 
+## Fine-tuning
 
+* Parameter-efficient Tuning
+  * With parameter-efficient tuning, we can tune MiniCPM using one piece of NVIDIA GeForce GTX 1080/2080.
+  * [Code for Parameter-efficient Tuning](https://github.com/OpenBMB/MiniCPM/tree/main/finetune)
+  
+* Full-parameter Tuning
+  * Using [BMTrain](https://github.com/OpenBMB/BMTrain)，as well as checkpointing and ZeRO-3 (zero redundancy optimizer)，we can tune all parameters of MiniCPM using one piece of NVIDIA GeForce GTX 3090/4090.
+  * This code will be available soon.
 
-## 
 
 ## LICENSE
 
@@ -212,7 +222,6 @@ MiniCPM 模型权重对学术研究完全开放。如需将模型用于商业用
 This repository is released under the [Apache-2.0](https://github.com/OpenBMB/MiniCPM/blob/main/LICENSE) License. The usage of MiniCPM's models and weights must strictly follow [“通用模型许可协议-来源说明-宣传限制-商业授权”](https://github.com/OpenBMB/General-Model-License/blob/main/%E9%80%9A%E7%94%A8%E6%A8%A1%E5%9E%8B%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE-%E6%9D%A5%E6%BA%90%E8%AF%B4%E6%98%8E-%E5%AE%A3%E4%BC%A0%E9%99%90%E5%88%B6-%E5%95%86%E4%B8%9A%E6%8E%88%E6%9D%83.md).
 
 The models and weights of MiniCPM are completely free for academic research. If you need to use MiniCPM for commercial purposes, feel free to contact cpm@modelbest.cn for obtaining written authorization. After registration, free commercial usage is also allowed.
-
 
 
 #### Disclaimer
@@ -227,10 +236,9 @@ Users are responsible for the evaluation and verification of all generated conte
 ## Citation
 
 Please cite our [techinical report]() if you find our work valuable.
-
 ```
-@inproceedings{han2022bminf,
-	title={MiniCPM: todo},
+@inproceedings{minicpm2024,
+	title={MiniCPM：Unveiling the Potential of End-side Large Language Models},
 	booktitle={OpenBMB Blog},
 	year={2024}
 }
