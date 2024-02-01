@@ -2,6 +2,7 @@ from typing import Dict
 from typing import List
 from typing import Tuple
 
+import argparse
 import gradio as gr
 import torch
 from threading import Thread
@@ -11,14 +12,17 @@ from transformers import (
     TextIteratorStreamer
 )
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--model_path", type=str, default="")
+args = parser.parse_args()
 
 # init model and tokenizer
-path = "openbmb/miniCPM-dpo-fp32"
+path = args.model_path
 tokenizer = AutoTokenizer.from_pretrained(path)
 model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map="auto", trust_remote_code=True)
 
 
-def hf_gen(dialog: str, top_p: float, temperature: float, max_dec_len: int):
+def hf_gen(dialog: List, top_p: float, temperature: float, max_dec_len: int):
     """generate model output with huggingface api
 
     Args:
@@ -121,6 +125,7 @@ def reverse_last_round(chat_history):
     """    
     assert len(chat_history) >= 1, "History is empty. Nothing to reverse!!"
     return chat_history[:-1]
+
 
 # launch gradio demo
 with gr.Blocks(theme="soft") as demo:
