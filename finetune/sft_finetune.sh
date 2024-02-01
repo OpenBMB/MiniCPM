@@ -2,9 +2,9 @@ formatted_time=$(date +"%Y%m%d%H%M%S")
 echo $formatted_time
 
 
-deepspeed --include localhost:1,2,4,5 finetune.py \
+deepspeed --include localhost:0,1,2,3 finetune.py \
     --model_name_or_path <your_model_name_or_path> \
-    --output_dir output/AdvertiseGenLoRA/$formatted_time/ \
+    --output_dir output/AdvertiseGenSFT/$formatted_time/ \
     --train_data_path data/AdvertiseGenChatML/train.json \
     --eval_data_path data/AdvertiseGenChatML/dev.json \
     --learning_rate 1e-3 --per_device_train_batch_size 1 \
