@@ -12,7 +12,7 @@
 
 
 <p align="center">
-<a href="https://shengdinghu.notion.site/MiniCPM-c805a17c5c8046398914e47f0542095a" target="_blank">MiniCPM 技术报告</a> |
+<a href="https://shengdinghu.notion.site/MiniCPM-c805a17c5c8046398914e47f0542095a" target="_blank">MiniCPM 技术博客</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">OmniLMM 多模态模型</a> |
 <a href="https://luca.cn/" target="_blank">CPM-C 千亿模型试用</a> |
 加入我们的 <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> 和 <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">wechat</a>
@@ -26,7 +26,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 - 经过 Int4 量化后，MiniCPM 可在手机上进行部署推理，流式输出速度略高于人类说话速度。MiniCPM-V 也首次跑通了多模态大模型在手机上的部署。
 - 一张1080/2080可高效参数微调，一张3090/4090可全参数微调，一台机器可持续训练 MiniCPM，二次开发成本较低。
 
-我们将完全开源MiniCPM-2B的模型参数供学术研究和有限商用，以及训练过程中的所有Checkpoint和大部分非专有数据供模型机理研究。
+我们完全开源MiniCPM-2B的模型参数供学术研究和有限商用，在未来我们还将发布训练过程中的所有Checkpoint和大部分非专有数据供模型机理研究。
 
 - 基于MiniCPM-2B的指令微调与人类偏好对**MiniCPM-2B-SFT/DPO**。
 - 基于MiniCPM-2B的多模态模型**MiniCPM-V**，能力超越基于Phi-2的同参数级别多模态模型。
