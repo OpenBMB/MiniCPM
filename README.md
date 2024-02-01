@@ -72,7 +72,7 @@ MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列
 #### vLLM 推理
 
 * 安装支持 MiniCPM 的 vLLM
-  — 因为 MiniCPM 采用 MUP 结构，在矩阵乘法中存在一定的放缩计算，与Llama类模型结构有细微差别。
+  - 因为 MiniCPM 采用 MUP 结构，在矩阵乘法中存在一定的放缩计算，与Llama类模型结构有细微差别。
   - 我们基于版本为 0.2.2 的 vLLM 实现了 MiniCPM 的推理，代码位于仓库[inference](https://github.com/OpenBMB/MiniCPM/tree/main/inference)文件夹下，未来将会支持更新的vLLM 版本。
 
 * 安装支持 MiniCPM 的 vLLM 版本
