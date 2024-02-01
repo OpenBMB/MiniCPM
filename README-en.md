@@ -30,62 +30,39 @@ Experience models with larger scale at [Luca](https://luca.cn/).
 
 ## Quick Links
 
-- [Introduction](#1)
-- [Downloading](#2)
+- [Downloading](#1)
+- [Quick Start](#2)
 - [Benchmark](#3)
-    - [Chinese](#3.1)
-    - [English](#3.2)
-    - [Code](#3.3)
-    - [Logic](#3.4)
-    - [Multi-modal](#3.5)
-- [Deployment on mobile phones](#4)
+- [Deployment on Mobile Phones](#4)
 - [Demo & API](#5)
-- [Parameter-efficient Fine-tuning](#6)
+- [Fine-tuning Models](#6)
 - [LICENSE](#7)
 - [Citation](#8)
 - [Show Cases](#9)
 
 <p id="1"></p>
 
-# Introduction
+## Downloading
+
+  | HuggingFace | ModelScope | WiseModel |
+  |-------------|------------|-----------|
+  |[sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)
+  |[sft-fp32](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32)|[sft-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-sft-fp32)|[sft-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
+  |[dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)
+  |[dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)
+  |[dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
 
 <p id="2"></p>
 
-# Downloading
-- [HuggingFace Repo]()
-- [ModelScope Repo]()
-- [XX Repo]()
-
-# Quick Start
+## Quick Start
 
 <p id="3"></p>
 
+#### vLLM 
 
-#### Huggingface Model
-
-* Install `transformers>=4.36.0` and `accelerate`，run the following python code。
-```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-torch.manual_seed(0)
-
-path = 'openbmb/MiniCPM-2B-dpo-bf16'
-tokenizer = AutoTokenizer.from_pretrained(path)
-model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
-
-responds, history = model.chat(tokenizer, "Which city is the capital of China?", temperature=0.8, top_p=0.8)
-print(responds)
-```
-
-* Expected Output
-```shell
-The capital city of China is Beijing. Beijing is not only the political center of China but also a cultural and economic hub. It is known for its rich history and numerous landmarks, such as the Great Wall, the Forbidden City, and the Temple of Heaven. The city is also home to the National Stadium, also known as the "Bird's Nest," and the National Aquatics Center, or "Water Cube." Beijing is a significant city in China, with a population of over 21 million people.
-```
-
-#### vLLM Inference
-
-* Install vLLM supporting MiniCPM
-  - vLLM 0.2.2 is adapted to MiniCPM in `inference/vllm`. More vLLM versions will be supported in the future
+* Install vLLM supporting MiniCPM.
+  - MiniCPM adopts the MUP structure, and this structure introduces some extra scaling operations to make the training process stable. And the MUP structure is little different from the structure used by Llama and other LLMs.
+  - vLLM 0.2.2 is adapted to MiniCPM in the folder [inference](https://github.com/OpenBMB/MiniCPM/tree/main/inference). More vLLM versions will be supported in the future.
 ```shell
 pip install inference/vllm
 ```
@@ -100,6 +77,28 @@ python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_
 cd inference/vllm/examples/infer_cpm
 python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
 ```
+
+#### Huggingface 
+
+* Install `transformers>=4.36.0` and `accelerate`，run the following python code.
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+torch.manual_seed(0)
+
+path = 'openbmb/MiniCPM-2B-dpo-bf16'
+tokenizer = AutoTokenizer.from_pretrained(path)
+model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
+
+responds, history = model.chat(tokenizer, "Which city is the capital of China?", temperature=0.8, top_p=0.8)
+print(responds)
+```
+
+* Examples
+```shell
+The capital city of China is Beijing. Beijing is not only the political center of China but also a cultural and economic hub. It is known for its rich history and numerous landmarks, such as the Great Wall, the Forbidden City, and the Temple of Heaven. The city is also home to the National Stadium, also known as the "Bird's Nest," and the National Aquatics Center, or "Water Cube." Beijing is a significant city in China, with a population of over 21 million people.
+```
+
 
 # Benchmark 
 
