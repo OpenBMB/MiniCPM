@@ -1,22 +1,8 @@
 <div align="center">
 <h1>
-  MiniCPM
+  MiniCPM: 揭示端侧大语言模型的无限潜力
 </h1>
 </div>
-
-<p align="center">
-<a href="https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16" target="_blank">Hugging Face</a> |
-<a href="https://modelscope.cn/models/OpenBMB/miniCPM-bf16" target="_blank">ModelScope</a> |
-<a href="https://wisemodel.cn/models/OpenBMB/miniCPM-bf16" target="_blank">WiseModel</a> |
-<a href="XXXX" target="_blank">技术报告</a> 
-</p>
-
-<div align="center">
-
-XXXXXX
-XXXXXX
-
-在[面壁露卡](https://luca.cn/)体验更大规模的模型。
 
 <h4 align="center">
     <p>
@@ -25,12 +11,35 @@ XXXXXX
     <p>
 </h4>
 
-</div>
+<p align="center">
+<a href="XXXX" target="_blank">Hugging Face</a> |
+<a href="XXXX" target="_blank">ModelScope 魔搭</a> |
+<a href="XXXX" target="_blank">OpenI 启智</a> |
+<a href="XXXX" target="_blank">MiniCPM 技术报告</a> |
+<a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">多模态模型 OmniLMM</a> |
+<a href="https://luca.cn/" target="_blank">千亿模型 Luca</a> 
+</p>
+
+
+MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列端侧语言大模型，主体语言模型 MiniCPM-2B 仅有 24亿（2.4B）的非词嵌入参数量。
+- 经过 SFT 后，MiniCPM 在公开综合性评测集上，MiniCPM 与 Mistral-7B相近（中文、数学、代码能力更优），整体性能超越 Llama2-13B、MPT-30B、Falcon-40B 等模型。
+- 经过 DPO 后，MiniCPM 在当前最接近用户体感的评测集 MTBench上，MiniCPM-2B 也超越了 Llama2-70B-Chat、Vicuna-33B、Mistral-7B-Instruct-v0.1、Zephyr-7B-alpha 等众多代表性开源大模型。
+- 以 MiniCPM-2B 为基础构建端侧多模态大模型 MiniCPM-V，整体性能在同规模模型中实现最佳，超越基于 Phi-2 构建的现有多模态大模型，在部分评测集上达到与 9.6B Qwen-VL-Chat 相当甚至更好的性能。
+- 经过 Int4 量化后，MiniCPM 可在手机上进行部署推理，流式输出速度略高于人类说话速度。MiniCPM-V 也首次跑通了多模态大模型在手机上的部署。
+- 一张1080/2080可高效参数微调，一张3090/4090可全参数微调，一台机器可持续训练 MiniCPM，二次开发成本较低。
+
+我们将完全开源MiniCPM-2B的模型参数供学术研究和有限商用，以及训练过程中的所有Checkpoint和大部分非专有数据供模型机理研究。
+
+- 基于MiniCPM-2B的指令微调与人类偏好对**MiniCPM-2B-SFT/DPO。**
+- 基于MiniCPM-2B的多模态模型**MiniCPM-V**，能力超越基于Phi-2的同参数级别多模态模型**。**
+- MiniCPM-2B-SFT/DPO的Int4量化版**MiniCPM-2B-SFT/DPO-Int4。**
+- 基于MLC-LLM、LLMFarm开发的MiniCPM手机端程序，**文本及多模态模型均可在手机端进行推理。**
+
 
 # 目录
 
-- [模型介绍](#1)
-- [模型下载](#2)
+- [模型下载](#1)
+- [快速上手](#2)
 - [评测结果](#3)
 - [手机部署](#4)
 - [Demo & API 部署](#5)
@@ -40,12 +49,6 @@ XXXXXX
 - [典型示例](#9)
 
 <p id="1"></p>
-
-# 模型介绍
-
-
-
-<p id="2"></p>
 
 # 模型下载
  
@@ -58,6 +61,9 @@ XXXXXX
   |[dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
 
 
+<p id="2"></p>
+
+# 快速上手
 
 
 <p id="3"></p>
@@ -106,75 +112,13 @@ XXXXXX
 
 #### 多模态评测
 
-<table style="margin: 0px auto;">
-<thead>
-  <tr>
-    <th align="left">Model</th>
-    <th>Size</th>
-    <th>MME</th>
-    <th nowrap="nowrap" >MMB dev (en)</th>
-    <th nowrap="nowrap" >MMB dev (zh)</th>
-    <th nowrap="nowrap" >MMMU val</th>
-    <th nowrap="nowrap" >CMMMU val</th>
-  </tr>
-</thead>
-<tbody align="center">
-  <tr>
-    <td align="left">LLaVA-Phi</td>
-    <td align="right">3B</td>
-    <td>1335</td>
-    <td>59.8</td>
-    <td>- </td>
-    <td>- </td>
-    <td>- </td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap" align="left">MobileVLM</td>
-    <td align="right">3B</td>
-    <td>1289</td>
-    <td>59.6</td>
-    <td>- </td>
-    <td>- </td>
-    <td>- </td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap" align="left" >Imp-v1</td>
-    <td align="right">3B</td>
-    <td>1434</td>
-    <td>66.5</td>
-    <td>- </td>
-    <td>- </td>
-    <td>- </td>
-  </tr>
-  <tr>
-    <td align="left" >Qwen-VL-Chat</td>
-    <td align="right" >9.6B</td>
-    <td>1487</td>
-    <td>60.6 </td>
-    <td>56.7 </td>
-    <td>35.9 </td>
-    <td>30.7 </td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap" align="left" >CogVLM</td>
-    <td align="right">17.4B </td>
-    <td>1438 </td>
-    <td>63.7 </td>
-    <td>53.8 </td>
-    <td>32.1 </td>
-    <td>- </td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap" align="left" ><b>OmniLMM-3B</b></td>
-    <td align="right">3B </td>
-    <td>1452 </td>
-    <td>67.3 </td>
-    <td>61.9 </td>
-    <td>34.7 </td>
-    <td>32.1 </td>
-  </tr>
-</tbody>
-</table>
+|模型|MME(P)|MMB-dev(en)|MMB-dev(zh)|MMMU-val|CMMMU-val|
+|-|-|-|-|-|-|
+|LLaVA-Phi|1335.1|59.8|/|/|/|
+|MobileVLM|1288.9|59.6|/|/|/|
+|Imp-v1|1434.0|66.5|/|/|/|
+|Qwen-VL-Chat|**1487**|60.6|56.7|**35.9**|30.7
+|**MiniCPM-V**|1446|**67.3**|**61.9**|34.7|**32.1**|
 
 #### DPO评测
 
@@ -241,6 +185,7 @@ XXXXXX
 
 ![多模态样例](https://github.com/OpenBMB/OmniLMM/blob/main/assets/Snake_cn_Mushroom_en.gif)
 
+
 <p id="5"></p>
 
 ## Demo & API 部署
@@ -252,24 +197,7 @@ XXXXXX
 ```shell
 python demo/gradio_based_demo.py
 ```
-#### vLLM推理部署（推荐）
 
-* 安装支持MiniCPM的vLLM
-  - 我们当前支持版本为0.2.2的vLLM，代码位于`inference/vllm`,未来将会支持更多版本
-```shell
-pip install inference/vllm
-```
-
-* 将Huggingface Transformers仓库转为vLLM-MiniCPM支持的格式，其中`<hf_repo_path>`, `<vllmcpm_repo_path>`均为本地路径
-```shell
-python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
-```
-
-* 测试样例
-```shell
-cd inference/vllm/examples/infer_cpm
-python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
-```
 
 <p id="6"></p>
 
