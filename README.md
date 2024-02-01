@@ -7,16 +7,15 @@
 <h4 align="center">
     <p>
         <b>中文</b> |
-        <a href="XXXX">English</a>
+        <a href="https://github.com/OpenBMB/MiniCPM/blob/main/README-en.md">English</a>
     <p>
 </h4>
 
 <p align="center">
 <a href="XXXX" target="_blank">MiniCPM 技术报告</a> |
-<a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">多模态模型 OmniLMM</a> |
-<a href="https://luca.cn/" target="_blank">千亿模型 Luca</a> 
+<a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">OmniLMM 多模态模型</a> |
+<a href="https://luca.cn/" target="_blank">千亿模型试用 Luca</a> 
 </p>
-
 
 MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列端侧语言大模型，主体语言模型 MiniCPM-2B 仅有 24亿（2.4B）的非词嵌入参数量。
 - 经过 SFT 后，MiniCPM 在公开综合性评测集上，MiniCPM 与 Mistral-7B相近（中文、数学、代码能力更优），整体性能超越 Llama2-13B、MPT-30B、Falcon-40B 等模型。
