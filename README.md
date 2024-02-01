@@ -249,9 +249,15 @@ python demo/gradio_based_demo.py
 
 <p id="6"></p>
 
-## 高效参数微调
+## 二次开发
 
-
+* 高效参数微调
+  * 一张1080/2080可实现高效参数微调
+  * [高效参数微调代码](https://github.com/OpenBMB/MiniCPM/tree/main/finetune)
+  
+* 全参数微调 or 持续训练
+  * 使用[BMTrain](https://github.com/OpenBMB/BMTrain)，借助重计算和ZeRO-3，一张3090/4090可实现全参数微调，一台机器可实现持续训练
+  * 相关代码也将陆续推出
 
 <p id="7"></p>
 
@@ -274,11 +280,11 @@ python demo/gradio_based_demo.py
 
 ## 工作引用
 
-* 如果觉得MiniCPM有助于您的工作，请考虑引用下列[技术报告](todo)
+* 如果觉得MiniCPM有助于您的工作，请引用我们的[技术报告](todo)
 
 ```
 @inproceedings{minicpm2024,
-	title={MiniCPM: todo},
+	title={MiniCPM：Unveiling the Potential of End-side Large Language Models},
 	booktitle={OpenBMB Blog},
 	year={2024}
 }
