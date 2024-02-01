@@ -8,7 +8,7 @@
 <p align="center">
 <a href="https://shengdinghu.notion.site/MiniCPM-c805a17c5c8046398914e47f0542095a" target="_blank">MiniCPM 技术报告</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">OmniLMM 多模态模型</a> |
-<a href="https://luca.cn/" target="_blank">CPM-C 千亿模型试用</a> 
+<a href="https://luca.cn/" target="_blank">CPM-C 千亿模型试用</a> |
 <a href="https://discord.gg/3cGQn9b3YM" target="_blank">加入我们的社区</a> 
  
 </p>
