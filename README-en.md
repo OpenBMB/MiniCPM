@@ -365,7 +365,8 @@ print(res)
 | iPhone 12         | iOS 17.2.1    | A14                | 4            | 5.8                             |
 | iPhone 11         | iOS 16.6      | A13                | 4            | 4.6                             |
 
-![multimodel demo](https://github.com/OpenBMB/OmniLMM/blob/main/assets/Snake_cn_Mushroom_en.gif)
+![multimodel demo](https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/Snake_en.gif)
+
 
 <p id="5"></p>
 
