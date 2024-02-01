@@ -25,7 +25,7 @@ MiniCPM is an End-Side LLM developed by ModelBest Inc. and TsinghuaNLP, with onl
 - MiniCPM can be deployed and infer on smartphones, and the speed of streaming output is relatively higher than human verbal speed. MiniCPM-V is the first multi-modal models that can be deployed on smartphones.
 - The cost of developing based on MiniCPM is low. Parameter efficient finetuning can be conducted with a single 1080/2080 GPU and full parameter finetuning can be conducted with a 3090/4090 GPU.
 
-We release all model parameters for research and limited commercial use. We also release all the checkpoint during training and most public training data for research on model mechanism.
+We release all model parameters for research and limited commercial use. In future, we will also release all the checkpoint during training and most public training data for research on model mechanism.
 
 - SFT and DPO version based on MiniCPM-2B and human preference: **MiniCPM-2B-SFT/DPO**
 - The multi-modal model **MiniCPM-V** based on MiniCPM-2B, which outperforms models with similar size, i.e., Phi-2
