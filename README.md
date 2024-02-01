@@ -95,7 +95,14 @@ python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_
 * 测试样例
 ```shell
 cd inference/vllm/examples/infer_cpm
-python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
+python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_demo.txt
+```
+
+* 期望输出
+```shell
+<用户>: Which city is the capital of China?
+<AI>:
+ The capital city of China is Beijing. Beijing is a major political, cultural, and economic center in China, and it is known for its rich history, beautiful architecture, and vibrant nightlife. It is also home to many of China's most important cultural and historical sites, including the Forbidden City, the Great Wall of China, and the Temple of Heaven. Beijing is a popular destination for tourists from around the world, and it is an important hub for international business and trade.
 ```
 
 #### Huggingface 模型
