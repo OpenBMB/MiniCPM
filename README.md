@@ -51,6 +51,8 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 <p id="1"></p>
 
 ## 模型下载
+
+* 语言模型
  
   | HuggingFace | ModelScope | WiseModel |
   |-------------|------------|-----------|
@@ -60,6 +62,13 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
   |[dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)
   |[dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
   |[v-bf16](https://huggingface.co/openbmb/MiniCPM-V)|[v-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-V)|[v-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-V)
+
+* 多模态模型
+  | HuggingFace | ModelScope | WiseModel |
+  |-------------|------------|-----------|
+  | [MiniCPM-V](https://huggingface.co/openbmb/MiniCPM-V) | [MiniCPM-V](https://modelscope.cn/models/OpenBMB/MiniCPM-V/) | [MiniCPM-V](https://wisemodel.cn/models/OpenBMB/MiniCPM-V) |
+  | [OmniLMM](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
+
   
 
 
