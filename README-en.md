@@ -405,16 +405,14 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 
 ![内容创作-case2](./assets/en.creation.case2.png)
 
-#### Code
+#### Code Generation
 
 ![代码生成-case1](./assets/en.code.case1.gif)
 
 #### Reasoning
 
-Case 1:
 ![数理逻辑-case1](./assets/en.math.case1.png)
 
-Case 2:
 ![数理逻辑-case2](./assets/en.math.case2.png)
 
 #### Translation
@@ -427,10 +425,8 @@ Case 2:
 
 #### Special characters
 
-Case 1:
 ![指令跟随-case1](./assets/en.special_char.case1.png)
 
-Case 2:
 ![指令跟随-case2](./assets/en.special_char.case2.png)
 
 <p id="7"></p>
@@ -455,7 +451,7 @@ Case 2:
 
 ## Citation
 
-* Please cite our [techinical report]() if you find our work valuable.
+* Please cite our [techinical report](https://shengdinghu.notion.site/MiniCPM-c805a17c5c8046398914e47f0542095a) if you find our work valuable.
 
 ```
 @inproceedings{minicpm2024,
