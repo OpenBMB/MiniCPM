@@ -1,4 +1,4 @@
-# MiniCPM Fine-tune
+# MiniCPM Fine-tuning
 
 [中文版](https://github.com/OpenBMB/MiniCPM/blob/main/finetune/README.md)
 
