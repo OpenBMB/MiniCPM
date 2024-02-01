@@ -14,7 +14,7 @@
 <p align="center">
 <a href="XXXX" target="_blank">MiniCPM 技术报告</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">OmniLMM 多模态模型</a> |
-<a href="https://luca.cn/" target="_blank">千亿模型CPMC试用</a> 
+<a href="https://luca.cn/" target="_blank">CPM-C 千亿模型试用</a> 
 </p>
 
 MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列端侧语言大模型，主体语言模型 MiniCPM-2B 仅有 24亿（2.4B）的非词嵌入参数量。
@@ -45,10 +45,12 @@ MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列
 - [评测结果](#3)
 - [手机部署](#4)
 - [Demo & API 部署](#5)
-- [高效参数微调](#6)
+- [二次开发](#6)
 - [开源协议](#7)
 - [工作引用](#8)
 - [典型示例](#9)
+
+<p id="1"></p>
 
 <p id="1"></p>
 
@@ -65,11 +67,33 @@ MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列
 
 <p id="2"></p>
 
-# 快速上手
+## 快速上手
+
+#### vLLM 推理
+
+* 安装支持 MiniCPM 的 vLLM
+  — 因为 MiniCPM 采用 MUP 结构，在矩阵乘法中存在一定的放缩计算，与Llama类模型结构有细微差别。
+  - 我们基于版本为 0.2.2 的 vLLM 实现了 MiniCPM 的推理，代码位于仓库[inference](https://github.com/OpenBMB/MiniCPM/tree/main/inference)文件夹下，未来将会支持更新的vLLM 版本。
+
+* 安装支持 MiniCPM 的 vLLM 版本
+```shell
+pip install inference/vllm
+```
+
+* 将Huggingface Transformers仓库转为vLLM-MiniCPM支持的格式，其中`<hf_repo_path>`, `<vllmcpm_repo_path>`均为本地路径
+```shell
+python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
+```
+
+* 测试样例
+```shell
+cd inference/vllm/examples/infer_cpm
+python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
+```
 
 #### Huggingface 模型
 
-* 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码。
+* 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
@@ -89,26 +113,6 @@ print(responds)
 
 相对于黄山（海拔1864米），泰山海拔较低，相差约319米。
 ```
-
-#### vLLM 推理
-
-* 安装支持MiniCPM的vLLM
-  - 我们当前支持版本为0.2.2的vLLM，代码位于`inference/vllm`,未来将会支持更多版本
-```shell
-pip install inference/vllm
-```
-
-* 将Huggingface Transformers仓库转为vLLM-MiniCPM支持的格式，其中`<hf_repo_path>`, `<vllmcpm_repo_path>`均为本地路径
-```shell
-python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
-```
-
-* 测试样例
-```shell
-cd inference/vllm/examples/infer_cpm
-python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
-```
-
 
 <p id="3"></p>
 
