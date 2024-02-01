@@ -5,11 +5,12 @@
 </div>
 
 <p align="center">
-<a href="XXXX" target="_blank">Hugging Face</a> |
-<a href="XXXX" target="_blank">ModelScope</a> |
-<a href="XXXX" target="_blank">Hugging Face</a> |
-<a href="XXXX" target="_blank">Technical Report</a> 
+<a href="https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16" target="_blank">Hugging Face</a> |
+<a href="https://modelscope.cn/models/OpenBMB/miniCPM-bf16" target="_blank">ModelScope</a> |
+<a href="https://wisemodel.cn/models/OpenBMB/miniCPM-bf16" target="_blank">WiseModel</a> |
+<a href="XXXX" target="_blank">技术报告</a> 
 </p>
+
 
 <div align="center">
 
@@ -57,8 +58,15 @@ Experience models with larger scale at [Luca](https://luca.cn/).
 
 <p id="3"></p>
 
-# Benchmark
+# Benchmark 
 
+  | HuggingFace | ModelScope | WiseModel |
+  |-------------|------------|-----------|
+  |[sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)
+  |[sft-fp32](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32)|[sft-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-sft-fp32)|[sft-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
+  |[dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)
+  |[dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)
+  |[dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
 
 ## Multi-modal
 
@@ -148,6 +156,24 @@ Launch gradio-based demo using the following command:
 ```shell
 python demo/gradio_based_demo.py
 ```
+
+#### Inference with vLLM (Recommended!)
+
+* Install vLLM supporting MiniCPM
+  - vLLM 0.2.2 is adapted to MiniCPM in `inference/vllm`. More vLLM versions will be supported in the future
+```shell
+pip install inference/vllm
+```
+
+* Transfer Huggingface Transformers repo to vLLM-MiniCPM repo, where `<hf_repo_path>`, `<vllmcpm_repo_path>` are local paths.
+```shell
+python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
+```
+
+* Examples
+```shell
+cd inference/vllm/examples/infer_cpm
+python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
 
 ## 
 

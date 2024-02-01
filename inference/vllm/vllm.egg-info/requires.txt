@@ -1,0 +1,14 @@
+ninja
+psutil
+ray>=2.5.1
+pandas
+pyarrow
+sentencepiece
+numpy
+einops
+torch>=2.1.0
+transformers>=4.34.0
+xformers>=0.0.22.post7
+fastapi
+uvicorn[standard]
+pydantic==1.10.13
