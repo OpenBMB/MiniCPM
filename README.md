@@ -245,7 +245,10 @@ print(responds)
 * 使用如下命令启动基于Gradio的网页版demo：
 
 ```shell
-python demo/gradio_based_demo.py
+# generation powered by vllm
+python demo/vllm_based_demo.py --model_path <vllmcpm_repo_path>
+# generation powered by huggingface
+python demo/hf_based_demo.py --model_path <hf_repo_path>
 ```
 
 
