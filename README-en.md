@@ -11,7 +11,7 @@
 </h4>
 
 <p align="center">
-<a href="https://shengdinghu.notion.site/MiniCPM-c805a17c5c8046398914e47f0542095a" target="_blank">Technical Report</a> |
+<a href="https://shengdinghu.notion.site/MiniCPM-Unveiling-the-Potential-of-End-side-Large-Language-Models-d4d3a8c426424654a4e80e42a711cb20?pvs=4" target="_blank">Technical Blog</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">Multi-modal Model OmniLMM</a> |
 <a href="https://luca.cn/" target="_blank">CPM-C 100B Model Trial</a> |
 Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">wechat</a>
