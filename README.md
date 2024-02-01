@@ -313,7 +313,7 @@ print(res)
     <td>- </td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" ><b>OmniLMM-3B</b></td>
+    <td nowrap="nowrap" align="left" ><b>MiniCPM-V（3B)</b></td>
     <td align="right">3B </td>
     <td>1452 </td>
     <td>67.3 </td>
