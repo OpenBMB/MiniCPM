@@ -5,9 +5,9 @@
 </div>
 
 <p align="center">
-<a href="XXXX" target="_blank">Hugging Face</a> |
-<a href="XXXX" target="_blank">ModelScope</a> |
-<a href="XXXX" target="_blank">Hugging Face</a> |
+<a href="https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16" target="_blank">Hugging Face</a> |
+<a href="https://modelscope.cn/models/OpenBMB/miniCPM-bf16" target="_blank">ModelScope</a> |
+<a href="https://wisemodel.cn/models/OpenBMB/miniCPM-bf16" target="_blank">WiseModel</a> |
 <a href="XXXX" target="_blank">技术报告</a> 
 </p>
 
