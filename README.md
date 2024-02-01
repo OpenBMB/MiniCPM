@@ -77,7 +77,7 @@ XXXXXX
 
 * 文本评测
 
-|平均分|英文均分|中文均分|CEval|CMMLU|MMLU|HumanEval|MBPP|GSM8K|MATH|BBH|Arc-e|ARC-c|HellaSwag|
+|模型|英文均分|中文均分|CEval|CMMLU|MMLU|HumanEval|MBPP|GSM8K|MATH|BBH|Arc-e|ARC-c|HellaSwag|
 |-|-|-|-|-|-|-|-|-|-|-|-|-|-|
 |Llama2-7B|35.40|36.21|31.765|32.42|31.11|44.32|12.2|27.17|13.57|1.8|33.23|75.25|42.75|75.62*|
 |Qwen-7B|53.87|52.42|59.655|58.96|60.35|57.65|17.07|42.15|41.24|37.75|83.42|64.76|75.32*|
@@ -88,7 +88,7 @@ XXXXXX
 |Falcon-40B|43.62|44.21|40.93|40.29|41.57|53.53|24.39|36.53|22.44|1.92|36.24|81.94*|57.68|83.26*|
 |MiniCPM-2B|52.33|52.6|51.1|51.13|51.07|53.46|50.00|47.31|53.83|10.24|36.87|85.44|68.00|68.25|
 
-|平均分|英文均分|中文均分|CEval|CMMLU|MMLU|HumanEval|MBPP|GSM8K|MATH|BBH|Arc-e|ARC-c|HellaSwag|
+|模型|英文均分|中文均分|CEval|CMMLU|MMLU|HumanEval|MBPP|GSM8K|MATH|BBH|Arc-e|ARC-c|HellaSwag|
 |-|-|-|-|-|-|-|-|-|-|-|-|-|-|
 |TinyLlama-1.1B|25.36|25.55|24.525|25.02|24.03|24.3|6.71|19.91|2.27|0.74|28.78|60.77*|28.15*|58.33*|Qwen-1.8B|34.72|31.87|47.565|49.81|45.32|43.37|7.93|17.8|19.26|2.42|29.07|63.97*|43.69|59.28*|
 |Gemini Nano-3B|-|-|-|-|-|-|-|27.2(report)|22.8(report)|-|42.4(report)|-|-|-|
@@ -98,7 +98,7 @@ XXXXXX
 
 * 多模态评测
 
-|Models|MME(P)|MMB-dev(en)|MMB-dev(zh)|MMMU-val|CMMMU-val|
+|模型|MME(P)|MMB-dev(en)|MMB-dev(zh)|MMMU-val|CMMMU-val|
 |-|-|-|-|-|-|
 |LLaVA-Phi|1335.1|59.8|/|/|/|
 |MobileVLM|1288.9|59.6|/|/|/|
@@ -108,7 +108,7 @@ XXXXXX
 
 * DPO评测
 
-|Models|MT-bench|
+|模型|MT-bench|
 |---|---|
 |GPT-4-turbo|9.32|
 |GPT-3.5-turbo|8.39|
