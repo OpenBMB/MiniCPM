@@ -144,54 +144,50 @@ The capital city of China is Beijing. Beijing is not only the political center o
 
 ## Deployment on mobile phones
 
-<!-- 进行Int4量化后，MiniCPM只占2GB空间，具备在端侧手机进行模型部署的条件。
-对此，我们针对Android和Harmony系统使用开源框架MLC-LLM进行模型适配，针对iPhone系统使用开源框架LLMFarm进行模型适配，并分别选取了部分端侧手机设备进行了测试。 -->
-After INT4 quantization, MiniCPM only occupies 2GB of space, meeting the requirements of inference on edge devices. 
+#### Tutorial
 
-We utilize the open-source framework [MLC-LLM](https://github.com/mlc-ai/mlc-llm) for deployment on Android and Harmony OS. For deployment on IOS, we adapt MiniCPM using [LLMFarm](https://github.com/guinmoon/LLMFarm). We select some mobile phones for testing respectively.
-
-### Tutorial
-
-  #### Android
-<!-- android编译安装MiniCPM指南 [EN](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README.md)  -->
-[Compilation and installation on Android](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README.md)
-
-  #### IOS
-<!-- [ios编译安装MiniCPM指南](https://github.com/OpenBMB/LLMFarm) -->
-[Compilation and installation on IOS](https://github.com/OpenBMB/LLMFarm)
-
-  #### Multimodal
+* After INT4 quantization, MiniCPM only occupies 2GB of space, meeting the requirements of inference on end devices. 
+* We have made different adaptations for different operating systems.
+* **Note: The current open-source framework is still improving its support for mobile phones, and not all chips and operating system versions can successfully run MLC-LLM or LLMFarm.**
+* Android, Harmony OS
+  * Adapt based on [MLC-LLM](https://github.com/mlc-ai/mlc-llm).
+  * Adapted for text model MiniCPM, and multimodel model MiniCPM-V.
+  * Support MiniCPM-2B-SFT-INT4、MiniCPM-2B-DPO-INT4、MiniCPM-V.
+  * [Compile and Installation Guide](https://github.com/OpenBMB/mlc-MiniCPM/blob/main/README.md) 
+* iOS
+  * Adapt based on [LLMFarm](https://github.com/guinmoon/LLMFarm).
+  * Adapted for text model MiniCPM.
+  * Support MiniCPM-2B-SFT-INT4、MiniCPM-2B-DPO-INT4.
+  * [Compile and Installation Guide](https://github.com/OpenBMB/LLMFarm)
 
 ### Performance
 
-<!-- 我们并为针对手机部署进行深度优化，仅验证MiniCPM使用手机芯片进行推理的可行性。
-**我们也欢迎更多开发者进一步调优并更新下面的测试列表，不断提升端侧大模型在手机上的推理性能。** -->
-Instead of conducting in-depth optimization for deployment on mobile phones, we only verify the feasibility of MiniCPM using mobile chips for inference.
+* We did not conduct in-depth optimization and system testing on the mobile inference model, only verifying the feasibility of MiniCPM using mobile phone chips for inference.
+* There have been no previous attempts to deploy multimodal models on mobile phones. We have verified the feasibility of deploying MiniCPM-V on mobile phones based on MLC-LLM this time, and it can input and output normally. However, there also exist a problem of long image processing time, which needs further optimization :)
+* **We welcome more developers to continuously improve the inference performance of LLMs on mobile phones and update the test results below.**
 
-**We welcome more developers to continuously improve the inference performance of LLMs on mobile phones and update the test results below.**
+| Mobile Phones     | OS            | Processor          | Memory（GB） | Inference Throughput（token/s） |
+| ----------------- | ------------- | ------------------ | ------------ | ------------------------------- |
+| OPPO Find N3      | Android 13    | snapdragon 8 Gen2  | 12           | 6.5                             |
+| Samsung S23 Ultra | Android 14    | snapdragon 8 Gen2  | 12           | 6.4                             |
+| Meizu M182Q       | Android 11    | snapdragon 888Plus | 8            | 3.7                             |
+| Xiaomi 12 Pro     | Android 13    | snapdragon 8 Gen1  | 8+3          | 3.7                             |
+| Xiaomi Redmi K40  | Android 11    | snapdragon 870     | 8            | 3.5                             |
+| Oneplus LE 2100   | Android 13    | snapdragon 870     | 12           | 3.5                             |
+| Oneplus HD1900    | Android 11    | snapdragon 865     | 8            | 3.2                             |
+| Oneplus HD1900    | Android 11    | snapdragon 855     | 8            | 3.0                             |
+| Oneplus HD1905    | Android 10    | snapdragon 855     | 8            | 3.0                             |
+| Oneplus HD1900    | Android 11    | snapdragon 855     | 8            | 3.0                             |
+| Xiaomi MI 8       | Android 9     | snapdragon 845     | 6            | 2.3                             |
+| Huawei Nova 11SE  | Harmony 4.0.0 | snapdragon 778     | 12           | 1.9                             |
+| Xiaomi MIX 2      | Android 9     | snapdragon 835     | 6            | 1.3                             |
+| iPhone 15 Pro     | iOS 17.2.1    | A16                | 8            | 18.0                            |
+| iPhone 15         | iOS 17.2.1    | A16                | 6            | 15.0                            |
+| iPhone 12 Pro     | iOS 16.5.1    | A14                | 6            | 5.8                             |
+| iPhone 12         | iOS 17.2.1    | A14                | 4            | 5.8                             |
+| iPhone 11         | iOS 16.6      | A13                | 4            | 4.6                             |
 
-|Mobile Phones|OS|Processor|Memory（GB）|Inference Throughput（token/s）|
-|-|-|-|-|-|
-|OPPO Find N3|Android 13|snapdragon 8 Gen2|12|6.5|
-|Samsung S23 Ultra|Android 14|snapdragon 8 Gen2|12|6.4|
-|Meizu M182Q|Android 11|snapdragon 888Plus|8|3.7|
-|Xiaomi 12 Pro|Android 13|snapdragon 8 Gen1|8+3|3.7|
-|Xiaomi Redmi K40|Android 11|snapdragon 870|8|3.5|
-|Oneplus LE 2100|Android 13|snapdragon 870|12|3.5|
-|Oneplus HD1900|Android 11|snapdragon 865|8|3.2|
-|Oneplus HD1900|Android 11|snapdragon 855|8|3.0|
-|Oneplus HD1905|Android 10|snapdragon 855|8|3.0|
-|Oneplus HD1900|Android 11|snapdragon 855|8|3.0|
-|Xiaomi MI 8|Android 9|snapdragon 845|6|2.3|
-|Huawei Nova 11SE|Harmony 4.0.0|snapdragon 778|12|1.9|
-|Xiaomi MIX 2|Android 9|snapdragon 835|6|1.3|
-|iPhone 15 Pro|iOS 17.2.1|A16|8|18.0|
-|iPhone 15|iOS 17.2.1|A16|6|15.0|
-|iPhone 12 Pro|iOS 16.5.1|A14|6|5.8|
-|iPhone 12|iOS 17.2.1|A14|4|5.8|
-|iPhone 11|iOS 16.6|A13|4|4.6|
-
-![多模态样例](https://github.com/OpenBMB/OmniLMM/blob/main/assets/Snake_cn_Mushroom_en.gif)
+![multimodel demo](https://github.com/OpenBMB/OmniLMM/blob/main/assets/Snake_cn_Mushroom_en.gif)
   
 ## Demo & API
 
