@@ -4,12 +4,6 @@
 </h1>
 </div>
 
-<h4 align="center">
-    <p>
-        <b>中文</b> |
-        <a href="https://github.com/OpenBMB/MiniCPM/blob/main/README-en.md">English</a>
-    <p>
-</h4>
 
 <p align="center">
 <a href="XXXX" target="_blank">MiniCPM 技术报告</a> |
