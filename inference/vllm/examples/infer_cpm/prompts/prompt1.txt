@@ -1,0 +1,34 @@
+给我写一份去东京旅游的游记，要求每句话都以“哈哈太搞笑了”开头。
+某个乐队被大家怀疑在之前的演唱会上假唱。他们为了证明自己，在新一场演唱会他们选择了不播放人声轨，结果唱得一塌糊涂。请问这个结果是加重了大家的怀疑还是减轻了？
+请告诉我把大象放进冰箱需要几步？
+如果以下算式中减号均表示加号，而加号实际上是减号，给出算式的计算结果15 - 25 - 12 + 34=
+直接给出以下算式的计算结果15 + 25 + 33 + 22 + 9=
+给我一个藏头(“雪碧”)的春联, 分别按顺序给出上联（七个字），下联（七个字），横批。
+Write a Python program to reverse a list and concatenate them into a string. The variables in the program should all begin with prefix 'foo_'. 
+请给我写一首描绘极寒的冬天的七言绝句。
+火影忍者里面猿飞日斩是几代什么影？
+火影忍者里面猿飞日斩是几代什么影？<AI> 在《火影忍者》中，猿飞日斩是三代火影。<用户>波风水门是谁？漩涡鸣人又是谁呢？
+海贼王的主人公是谁？是漩涡鸣人吗？
+海贼王的主人公是谁？是漩涡鸣人吗？<AI>海贼王的主人公是蒙其·D·路飞，而不是漩涡鸣人。<用户>路飞有什么技能，漩涡鸣人呢？ 
+周杰伦都写了哪些歌呢?尽可能多地列举一些
+铁做氧化还原反应的化学方程式是什么
+跟我说一个关于的同学上课想上厕所的笑话
+费马大定理怎么证明？
+请用非常惊喜的语气求解x^2 + 5x + 6 = 0
+请求解x^2 + 5x + 6 = 0，一开始用非常惊喜的语气，然而在解完之后你觉得这题很简单，你会说:“就这种简单题，我还能做100道“
+2024年的2月份有多少天？2025年呢？
+天津之眼是什么？
+山东省最高的山是哪座山, 它比黄山高还是矮？
+Write five words that start with “en”, then write the result of “77+33”
+Here we have a book, 9 eggs, a laptop, a bottle and a nail. Please tell me how to stack them onto each other in a stable manner.
+A group of students are planning to go on a field trip to a museum. They need to decide how many buses to rent and how to divide the students among the buses. Each bus can hold up to 40 students, but the museum can only accommodate 120 students at a time. The group has a budget of $800 for the bus rental, and each bus costs $200 per day. How many buses should the group rent, and how many students should go on each bus? Explain your reasoning.
+Selena, Jennifer and Miley wear a blue dress, yellow dress, and green dress in an unknown order. It is known that: 1) If Selena wears blue, then Jennifer wears green. 2) If Selena wears yellow, then Miley wears green. 3) If Jennifer does not wear yellow, then Miley wears blue. What is the color of the dress Selena is wearing?
+Given the following premise: It is given that Amy, Bernadette and Penny are good friends of Sheldon and Leonard. Leslie is a good friend of Leonard. We can deduce that Leslie is a friend of Sheldon as well. Does this deduction follow the premise? Explain your reasoning.
+A group of five friends are going to watch a movie together. They have to choose between three genres: comedy, horror, and action. Each friend has a different preference for the genre. Here are some clues to help you figure out their preferences: Alice likes comedy more than horror, but less than action. Bob likes horror more than comedy, but less than action. Carol likes action more than horror, but less than comedy. David likes comedy more than action, but less than horror. Eve likes horror more than action, but less than comedy. What is the order of preference for each friend from most to least liked genre? Write your answer using the following format: Friend: Genre > Genre > Genre
+If you were in a race and passed the person in second place, what place would you be in now?
+Which one is more south? California or New York?
+linux里 watch -n1 file.txt命令是什么意思
+Translate this sentence into Russian: '如何用Python创建一个简单的网页爬虫？'.
+Translate this sentence into French: "I am a fresh man on Chinese, do you know how this sentence is translated: 如何用Python创建一个简单的网页爬虫？",
+Micro-expressions mean that people express their inner feelings to each other by making some expressions.Between different expressions made by people or in a certain expression, the face will \"leak\" other information.The shortest-lasting micro-expressions can last 1 / 25 seconds, although a subconscious expression may only last for a moment, it is easy to expose emotions.When the face is making an expression, these extremely short-term expressions suddenly flash by, and sometimes the opposite mood.\nAccording to the above definition, which of the following is a micro-expression?\nA.After Wang was frightened, his face continued to twitch\nB.The spy sends a message to associates in the blink of an eye\nC.The sales clerk may flash a contemptuous smirk when he smiles in front of a shabby customer.\nD.Walking against the biting cold wind, Xiao Li's upper and lower teeth kept shaking and colliding. 
+A’s brother was half her age when she was 6 how old is her brother when she’s 42?
