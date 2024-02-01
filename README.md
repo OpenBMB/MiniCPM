@@ -68,6 +68,48 @@ MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列
 
 # 快速上手
 
+#### Huggingface 模型
+
+* 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码。
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+torch.manual_seed(0)
+
+path = 'openbmb/MiniCPM-2B-dpo-bf16'
+tokenizer = AutoTokenizer.from_pretrained(path)
+model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
+
+responds, history = model.chat(tokenizer, "山东省最高的山是哪座山, 它比黄山高还是矮？差距多少？", temperature=0.8, top_p=0.8)
+print(responds)
+```
+
+* 期望输出
+```shell
+山东省最高的山是泰山，海拔1545米。
+
+相对于黄山（海拔1864米），泰山海拔较低，相差约319米。
+```
+
+#### vLLM 推理
+
+* 安装支持MiniCPM的vLLM
+  - 我们当前支持版本为0.2.2的vLLM，代码位于`inference/vllm`,未来将会支持更多版本
+```shell
+pip install inference/vllm
+```
+
+* 将Huggingface Transformers仓库转为vLLM-MiniCPM支持的格式，其中`<hf_repo_path>`, `<vllmcpm_repo_path>`均为本地路径
+```shell
+python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
+```
+
+* 测试样例
+```shell
+cd inference/vllm/examples/infer_cpm
+python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
+```
+
 
 <p id="3"></p>
 

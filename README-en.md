@@ -56,7 +56,50 @@ Experience models with larger scale at [Luca](https://luca.cn/).
 - [ModelScope Repo]()
 - [XX Repo]()
 
+# Quick Start
+
 <p id="3"></p>
+
+
+#### Huggingface Model
+
+* Install `transformers>=4.36.0` and `accelerate`，run the following python code。
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+torch.manual_seed(0)
+
+path = 'openbmb/MiniCPM-2B-dpo-bf16'
+tokenizer = AutoTokenizer.from_pretrained(path)
+model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
+
+responds, history = model.chat(tokenizer, "Which city is the capital of China?", temperature=0.8, top_p=0.8)
+print(responds)
+```
+
+* Expected Output
+```shell
+The capital city of China is Beijing. Beijing is not only the political center of China but also a cultural and economic hub. It is known for its rich history and numerous landmarks, such as the Great Wall, the Forbidden City, and the Temple of Heaven. The city is also home to the National Stadium, also known as the "Bird's Nest," and the National Aquatics Center, or "Water Cube." Beijing is a significant city in China, with a population of over 21 million people.
+```
+
+#### vLLM Inference
+
+* Install vLLM supporting MiniCPM
+  - vLLM 0.2.2 is adapted to MiniCPM in `inference/vllm`. More vLLM versions will be supported in the future
+```shell
+pip install inference/vllm
+```
+
+* Transfer Huggingface Transformers repo to vLLM-MiniCPM repo, where `<hf_repo_path>`, `<vllmcpm_repo_path>` are local paths.
+```shell
+python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
+```
+
+* Examples
+```shell
+cd inference/vllm/examples/infer_cpm
+python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
+```
 
 # Benchmark 
 
@@ -157,23 +200,7 @@ Launch gradio-based demo using the following command:
 python demo/gradio_based_demo.py
 ```
 
-#### Inference with vLLM (Recommended!)
 
-* Install vLLM supporting MiniCPM
-  - vLLM 0.2.2 is adapted to MiniCPM in `inference/vllm`. More vLLM versions will be supported in the future
-```shell
-pip install inference/vllm
-```
-
-* Transfer Huggingface Transformers repo to vLLM-MiniCPM repo, where `<hf_repo_path>`, `<vllmcpm_repo_path>` are local paths.
-```shell
-python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
-```
-
-* Examples
-```shell
-cd inference/vllm/examples/infer_cpm
-python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
 
 ## 
 
