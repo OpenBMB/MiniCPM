@@ -296,9 +296,11 @@ python demo/gradio_based_demo.py
 
 #### 文本生成
 
-![知识推理-case1](./assets/knowledge.case1.png)
-
 ![内容创作-case1](./assets/creation.case1.png)
+
+![内容创作-case2](./assets/creation.case2.png)
+
+![内容创作-case3](./assets/creation.case3.png)
 
 #### 代码生成
 
@@ -316,7 +318,7 @@ python demo/gradio_based_demo.py
 
 ![文本翻译-case1](./assets/translation.case1.png)
 
-![文本翻译-case1](./assets/translation.case2.png)
+![文本翻译-case2](./assets/translation.case2.png)
 
 #### 指令跟随
 
@@ -326,6 +328,6 @@ python demo/gradio_based_demo.py
 
 #### 特殊字符
 
-![指令跟随-case1](./assets/instruction_following.case3.png)
+![特殊字符-case1](./assets/special_char.case1.png)
 
-![指令跟随-case1](./assets/instruction_following.case4.png)
+![特殊字符-case2](./assets/special_char.case2.png)
