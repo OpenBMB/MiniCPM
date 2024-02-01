@@ -106,13 +106,75 @@ XXXXXX
 
 #### 多模态评测
 
-|模型|MME(P)|MMB-dev(en)|MMB-dev(zh)|MMMU-val|CMMMU-val|
-|-|-|-|-|-|-|
-|LLaVA-Phi|1335.1|59.8|/|/|/|
-|MobileVLM|1288.9|59.6|/|/|/|
-|Imp-v1|1434.0|66.5|/|/|/|
-|Qwen-VL-Chat|**1487**|60.6|56.7|**35.9**|30.7
-|**MiniCPM-V**|1446|**67.3**|**61.9**|34.7|**32.1**|
+<table style="margin: 0px auto;">
+<thead>
+  <tr>
+    <th align="left">Model</th>
+    <th>Size</th>
+    <th>MME</th>
+    <th nowrap="nowrap" >MMB dev (en)</th>
+    <th nowrap="nowrap" >MMB dev (zh)</th>
+    <th nowrap="nowrap" >MMMU val</th>
+    <th nowrap="nowrap" >CMMMU val</th>
+  </tr>
+</thead>
+<tbody align="center">
+  <tr>
+    <td align="left">LLaVA-Phi</td>
+    <td align="right">3B</td>
+    <td>1335</td>
+    <td>59.8</td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left">MobileVLM</td>
+    <td align="right">3B</td>
+    <td>1289</td>
+    <td>59.6</td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >Imp-v1</td>
+    <td align="right">3B</td>
+    <td>1434</td>
+    <td>66.5</td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td align="left" >Qwen-VL-Chat</td>
+    <td align="right" >9.6B</td>
+    <td>1487</td>
+    <td>60.6 </td>
+    <td>56.7 </td>
+    <td>35.9 </td>
+    <td>30.7 </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >CogVLM</td>
+    <td align="right">17.4B </td>
+    <td>1438 </td>
+    <td>63.7 </td>
+    <td>53.8 </td>
+    <td>32.1 </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" ><b>OmniLMM-3B</b></td>
+    <td align="right">3B </td>
+    <td>1452 </td>
+    <td>67.3 </td>
+    <td>61.9 </td>
+    <td>34.7 </td>
+    <td>32.1 </td>
+  </tr>
+</tbody>
+</table>
 
 #### DPO评测
 
