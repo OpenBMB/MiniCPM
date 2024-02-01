@@ -1,6 +1,6 @@
 <div align="center">
 <h1>
-  MiniCPM
+  MiniCPM: Unveiling the Potential of End-side Large Language Models
 </h1>
 </div>
 
@@ -14,7 +14,7 @@
 <a href="https://shengdinghu.notion.site/MiniCPM-c805a17c5c8046398914e47f0542095a" target="_blank">Technical Report</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">Multi-modal Model OmniLMM</a> |
 <a href="https://luca.cn/" target="_blank">CPM-C 100B Model Trial</a> |
-<a href="https://discord.gg/3cGQn9b3YM" target="_blank">Welcome to our community</a> 
+Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">wechat</a>
 </p>
 
 MiniCPM is an End-Side LLM developed by ModelBest Inc. and TsinghuaNLP, with only 2.4B parameters excluding embeddings.
