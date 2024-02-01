@@ -57,6 +57,8 @@ MiniCPM 是面壁与清华大学自然语言处理实验室共同开源的系列
   |[dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)
   |[dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)
   |[dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
+  |[v-bf16](https://huggingface.co/openbmb/MiniCPM-V)|[v-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-V)|[v-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-V)
+  
 
 
 <p id="2"></p>
@@ -86,7 +88,7 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 ```
 
 #### Huggingface 模型
-
+##### MiniCPM-2B
 * 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -106,6 +108,31 @@ print(responds)
 山东省最高的山是泰山，海拔1545米。
 
 相对于黄山（海拔1864米），泰山海拔较低，相差约319米。
+```
+
+##### MiniCPM-V
+```python
+import torch
+from PIL import Image
+from transformers import AutoModel, AutoTokenizer
+
+model_path='openbmb/MiniCPM-V'
+model = AutoModel.from_pretrained(model_path, trust_remote_code=True).to(dtype=torch.bfloat16)
+tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+model.eval().cuda()
+
+image = Image.open('./assets/COCO_test2015_000000262144.jpg').convert('RGB')
+
+question = '请描述一下该图像'
+res, context, _ = model.chat(
+    image=image,
+    question=question,
+    context=None,
+    tokenizer=tokenizer,
+    sampling=True,
+    temperature=0.7
+)
+print(res)
 ```
 
 <p id="3"></p>
@@ -156,13 +183,79 @@ print(responds)
 
 #### 多模态评测
 
-|模型|MME(P)|MMB-dev(en)|MMB-dev(zh)|MMMU-val|CMMMU-val|
-|-|-|-|-|-|-|
-|LLaVA-Phi|1335.1|59.8|/|/|/|
-|MobileVLM|1288.9|59.6|/|/|/|
-|Imp-v1|1434.0|66.5|/|/|/|
-|Qwen-VL-Chat|**1487**|60.6|56.7|**35.9**|30.7
-|**MiniCPM-V**|1446|**67.3**|**61.9**|34.7|**32.1**|
+<div align="left">
+
+<table style="margin: 0px auto;">
+<thead>
+  <tr>
+    <th align="left">Model</th>
+    <th>Size</th>
+    <th>MME</th>
+    <th nowrap="nowrap" >MMB dev (en)</th>
+    <th nowrap="nowrap" >MMB dev (zh)</th>
+    <th nowrap="nowrap" >MMMU val</th>
+    <th nowrap="nowrap" >CMMMU val</th>
+  </tr>
+</thead>
+<tbody align="center">
+  <tr>
+    <td align="left">LLaVA-Phi</td>
+    <td align="right">3B</td>
+    <td>1335</td>
+    <td>59.8</td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left">MobileVLM</td>
+    <td align="right">3B</td>
+    <td>1289</td>
+    <td>59.6</td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >Imp-v1</td>
+    <td align="right">3B</td>
+    <td>1434</td>
+    <td>66.5</td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td align="left" >Qwen-VL-Chat</td>
+    <td align="right" >9.6B</td>
+    <td>1487</td>
+    <td>60.6 </td>
+    <td>56.7 </td>
+    <td>35.9 </td>
+    <td>30.7 </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >CogVLM</td>
+    <td align="right">17.4B </td>
+    <td>1438 </td>
+    <td>63.7 </td>
+    <td>53.8 </td>
+    <td>32.1 </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" ><b>OmniLMM-3B</b></td>
+    <td align="right">3B </td>
+    <td>1452 </td>
+    <td>67.3 </td>
+    <td>61.9 </td>
+    <td>34.7 </td>
+    <td>32.1 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
 
 #### DPO评测
 
