@@ -375,7 +375,7 @@ print(res)
 |iPhone 12 Pro|iOS 16.5.1|A14|6|5.8|
 |iPhone 12|iOS 17.2.1|A14|4|5.8|
 |iPhone 11|iOS 16.6|A13|4|4.6|
-
+|Xiaomi Redmi K50|HyperOS 1.0.2|MediaTek Dimensity 8100|12|3.5
 ![多模态样例](https://github.com/OpenBMB/OmniLMM/blob/main/assets/Snake_cn_Mushroom_en.gif)
 
 
