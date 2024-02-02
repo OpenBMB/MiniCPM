@@ -43,6 +43,7 @@ def hf_gen(dialog: List, top_p: float, temperature: float, max_dec_len: int):
         top_p=top_p,
         temperature=temperature,
         max_new_tokens=max_dec_len,
+        pad_token_id=tokenizer.eos_token_id,
         streamer=streamer,
     )
     thread = Thread(target=model.generate, kwargs=generation_kwargs)
