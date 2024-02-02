@@ -9,11 +9,22 @@ from vllm import LLM, SamplingParams
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_path", type=str, default="")
+parser.add_argument("--torch_dtype", type=str, default="bfloat16")
 args = parser.parse_args()
+
+
+# init model torch dtype
+torch_dtype = args.torch_dtype
+if torch_dtype =="" or torch_dtype == "bfloat16":
+    torch_dtype = "bfloat16"
+elif torch_dtype == "float32":
+    torch_dtype = "float32"
+else:
+    raise ValueError(f"Invalid torch dtype: {torch_dtype}")
 
 # init model and tokenizer
 path = args.model_path
-llm = LLM(model=path, tensor_parallel_size=1, dtype="bfloat16")
+llm = LLM(model=path, tensor_parallel_size=1, dtype=torch_dtype)
 
 
 def vllm_gen(dialog: List, top_p: float, temperature: float, max_dec_len: int):
