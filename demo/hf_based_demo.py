@@ -14,7 +14,7 @@ from transformers import (
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_path", type=str, default="")
-parser.add_argument("--torch_dtype", type=str, default="bfloat16", choices=["float32", "bfloat16"]))
+parser.add_argument("--torch_dtype", type=str, default="bfloat16", choices=["float32", "bfloat16"])
 parser.add_argument("--server_name", type=str, default="127.0.0.1")
 parser.add_argument("--server_port", type=int, default=7860)
 args = parser.parse_args()
