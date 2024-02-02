@@ -14,6 +14,9 @@ from transformers import (
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_path", type=str, default="")
+parser.add_argument("--server_name", type=str, default="127.0.0.1")
+parser.add_argument("--server_port", type=int, default=7860)
+
 args = parser.parse_args()
 
 # init model and tokenizer
@@ -21,6 +24,9 @@ path = args.model_path
 tokenizer = AutoTokenizer.from_pretrained(path)
 model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map="auto", trust_remote_code=True)
 
+# init gradio demo host and port
+server_name=args.server_name
+server_port=args.server_port
 
 def hf_gen(dialog: List, top_p: float, temperature: float, max_dec_len: int):
     """generate model output with huggingface api
@@ -151,4 +157,4 @@ with gr.Blocks(theme="soft") as demo:
     reverse.click(reverse_last_round, inputs=[chatbot], outputs=[chatbot])
 
 demo.queue()
-demo.launch(server_name="127.0.0.1", show_error=True)
+demo.launch(server_name=server_name, server_port=server_port, show_error=True)
