@@ -109,7 +109,7 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 ```
 
 #### Huggingface 模型
-（注：我们发现当前Huggingface的推理代码推理效果差于Vllm的推理代码，我们正在对齐中，请耐心等待）
+（注：我们发现当前Huggingface的推理代码推理效果差于Vllm的推理代码，我们正在对齐中，目前已定为到PageAttention和普通attention的区别，请耐心等待）
 ##### MiniCPM-2B
 * 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码
 ```python
