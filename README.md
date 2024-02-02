@@ -370,7 +370,7 @@ print(res)
 |Xiaomi MI 8|Android 9|snapdragon 845|6|2.3|
 |Huawei Nova 11SE|Harmony 4.0.0|snapdragon 778|12|1.9|
 |Xiaomi MIX 2|Android 9|snapdragon 835|6|1.3|
-|iPhone 15 Pro|iOS 17.2.1|A16|8|18.0|
+|iPhone 15 Pro|iOS 17.2.1|A17 pro|8|18.0|
 |iPhone 15|iOS 17.2.1|A16|6|15.0|
 |iPhone 12 Pro|iOS 16.5.1|A14|6|5.8|
 |iPhone 12|iOS 17.2.1|A14|4|5.8|
