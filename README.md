@@ -109,7 +109,7 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 ```
 
 #### Huggingface 模型
-（注：我们发现当前Huggingface的推理代码推理效果差于Vllm的推理代码，我们正在对齐中，目前已定位到attention计算的精度问题，请耐心等待）
+
 ##### MiniCPM-2B
 * 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码
 ```python
@@ -121,7 +121,7 @@ path = 'openbmb/MiniCPM-2B-dpo-bf16'
 tokenizer = AutoTokenizer.from_pretrained(path)
 model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
 
-responds, history = model.chat(tokenizer, "山东省最高的山是哪座山, 它比黄山高还是矮？差距多少？", temperature=0.8, top_p=0.8)
+responds, history = model.chat(tokenizer, "山东省最高的山是哪座山, 它比黄山高还是矮？差距多少？", temperature=0.5, top_p=0.8, repetition_penalty=1.02)
 print(responds)
 ```
 
