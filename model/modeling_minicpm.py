@@ -51,10 +51,11 @@ from transformers.utils.import_utils import is_torch_fx_available
 from .configuration_minicpm import MiniCPMConfig
 import re
 
-
-if is_flash_attn_2_available():
+try:
     from flash_attn import flash_attn_func, flash_attn_varlen_func
     from flash_attn.bert_padding import index_first_axis, pad_input, unpad_input  # noqa
+except:
+    pass
 
 
 # This makes `_prepare_4d_causal_attention_mask` a leaf function in the FX graph.
@@ -125,7 +126,7 @@ ALL_LAYERNORM_LAYERS.append(MiniCPMRMSNorm)
 
 
 class MiniCPMRotaryEmbedding(nn.Module):
-    def __init__(self, dim, max_position_embeddings=2048, base=10000, device="cuda"):
+    def __init__(self, dim, max_position_embeddings=2048, base=10000, device=None):
         super().__init__()
 
         self.dim = dim
@@ -763,7 +764,6 @@ class MiniCPMDecoderLayer(nn.Module):
     def __init__(self, config: MiniCPMConfig, layer_idx: int):
         super().__init__()
         self.hidden_size = config.hidden_size
-
         self.self_attn = MINICPM_ATTENTION_CLASSES[config._attn_implementation](config=config, layer_idx=layer_idx)
 
         self.mlp = MiniCPMMLP(config)

@@ -174,6 +174,11 @@ class MiniCPMConfig(PretrainedConfig):
             tie_word_embeddings=tie_word_embeddings,
             **kwargs,
         )
+        try:
+            import flash_attn
+            self._attn_implementation = "flash_attention_2"
+        except:
+            pass
 
     def _rope_scaling_validation(self):
         """
