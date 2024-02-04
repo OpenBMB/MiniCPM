@@ -11,6 +11,8 @@ from transformers import (
     AutoTokenizer,
     TextIteratorStreamer
 )
+import warnings
+warnings.filterwarnings('ignore', category=UserWarning, message='TypedStorage is deprecated')
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_path", type=str, default="")
