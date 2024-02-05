@@ -79,6 +79,10 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 
 ## 快速上手
 
+#### 在线体验
+
+- [Colab](https://colab.research.google.com/drive/1tJcfPyWGWA5HezO7GKLeyeIso0HyOc0l?usp=sharing)
+
 #### vLLM 推理
 
 * 安装支持 MiniCPM 的 vLLM

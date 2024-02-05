@@ -78,6 +78,10 @@ We release all model parameters for research and limited commercial use. In futu
 
 ## Quick Start
 
+#### Online
+
+- [Colab](https://colab.research.google.com/drive/1tJcfPyWGWA5HezO7GKLeyeIso0HyOc0l?usp=sharing)
+
 #### vLLM 
 
 * Install vLLM supporting MiniCPM.
