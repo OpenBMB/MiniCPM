@@ -137,7 +137,7 @@ import torch
 from PIL import Image
 from transformers import AutoModel, AutoTokenizer
 
-model = AutoModel.from_pretrained('openbmb/MiniCPM-V/', trust_remote_code=True)
+model = AutoModel.from_pretrained('openbmb/MiniCPM-V', trust_remote_code=True)
 tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-V', trust_remote_code=True)
 model.eval().cuda()
 
