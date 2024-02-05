@@ -356,7 +356,7 @@ print(res)
 #### 部署性能
 
 * 我们未针对手机推理模型进行深度优化和系统测试，仅验证MiniCPM使用手机芯片进行推理的可行性。
-* 此前尚未有工作尝试在手机上部署多模态大模型。我们此次在MLC-LLM上验证了手机部署MiniCPM-V的可行性，能够正常输入输出，但也存在图片处理时间较长的问题，需要进一步优化 :)。
+* 【更正】在本工作之前已有初步的基于llama.cpp进行手机部署多模态大模型的[努力](https://github.com/ggerganov/llama.cpp/blob/master/examples/llava/MobileVLM-README.md)，我们此次在MLC-LLM上验证了手机部署MiniCPM-V的可行性，能够正常输入输出，但也存在图片处理时间较长的问题，需要进一步优化，兼容性问题也需要进一步解决 :)。
 * **我们也欢迎更多开发者进一步调优并更新下面的测试列表，不断提升端侧大模型在手机上的推理性能**。
 
 |手机型号|操作系统|处理器|Memory（GB）|文本吞吐（token/s）|
@@ -380,6 +380,7 @@ print(res)
 |iPhone 12|iOS 17.2.1|A14|4|5.8|
 |iPhone 11|iOS 16.6|A13|4|4.6|
 |Xiaomi Redmi K50|HyperOS 1.0.2|MediaTek Dimensity 8100|12|3.5
+
 ![多模态样例](https://github.com/OpenBMB/OmniLMM/blob/main/assets/Snake_cn_Mushroom_en.gif)
 
 
