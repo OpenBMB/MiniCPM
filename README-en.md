@@ -345,7 +345,7 @@ print(res)
 #### Performance
 
 * We did not conduct in-depth optimization and system testing on the mobile inference model, only verifying the feasibility of MiniCPM using mobile phone chips for inference.
-* There have been no previous attempts to deploy multimodal models on mobile phones. We have verified the feasibility of deploying MiniCPM-V on mobile phones based on MLC-LLM this time, and it can input and output normally. However, there also exist a problem of long image processing time, which needs further optimization :)
+* Besides us, there are also some [efforts](https://github.com/ggerganov/llama.cpp/blob/master/examples/llava/MobileVLM-README.md) to deploy multimodal models on mobile phones based on llama.cpp. We have verified the feasibility of deploying MiniCPM-V on mobile phones based on MLC-LLM this time, and it can input and output normally. However, there also exist a problem of long image processing time, which needs further optimization :)
 * **We welcome more developers to continuously improve the inference performance of LLMs on mobile phones and update the test results below.**
 
 | Mobile Phones     | OS            | Processor          | Memory（GB） | Inference Throughput（token/s） |
