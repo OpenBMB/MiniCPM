@@ -264,6 +264,7 @@ print(res)
   <tr>
     <th align="left">Model</th>
     <th>Size</th>
+    <th nowrap="nowrap" >Visual Tokens</th>
     <th>MME</th>
     <th nowrap="nowrap" >MMB dev (en)</th>
     <th nowrap="nowrap" >MMB dev (zh)</th>
@@ -275,6 +276,7 @@ print(res)
   <tr>
     <td align="left">LLaVA-Phi</td>
     <td align="right">3B</td>
+    <td>576</td>
     <td>1335</td>
     <td>59.8</td>
     <td>- </td>
@@ -284,6 +286,7 @@ print(res)
   <tr>
     <td nowrap="nowrap" align="left">MobileVLM</td>
     <td align="right">3B</td>
+    <td>144</td>
     <td>1289</td>
     <td>59.6</td>
     <td>- </td>
@@ -293,6 +296,7 @@ print(res)
   <tr>
     <td nowrap="nowrap" align="left" >Imp-v1</td>
     <td align="right">3B</td>
+    <td>576</td>
     <td>1434</td>
     <td>66.5</td>
     <td>- </td>
@@ -300,8 +304,9 @@ print(res)
     <td>- </td>
   </tr>
   <tr>
-    <td align="left" >Qwen-VL-Chat</td>
+    <td  nowrap="nowrap" align="left" >Qwen-VL-Chat</td>
     <td align="right" >9.6B</td>
+    <td>256</td>
     <td>1487</td>
     <td>60.6 </td>
     <td>56.7 </td>
@@ -311,6 +316,7 @@ print(res)
   <tr>
     <td nowrap="nowrap" align="left" >CogVLM</td>
     <td align="right">17.4B </td>
+    <td>1225</td>
     <td>1438 </td>
     <td>63.7 </td>
     <td>53.8 </td>
@@ -318,8 +324,9 @@ print(res)
     <td>- </td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" ><b>MiniCPM-V（3B)</b></td>
+    <td nowrap="nowrap" align="left" ><b>MiniCPM-V(3B)</b></td>
     <td align="right">3B </td>
+    <td>64</td>
     <td>1452 </td>
     <td>67.3 </td>
     <td>61.9 </td>
