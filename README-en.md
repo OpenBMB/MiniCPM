@@ -41,6 +41,7 @@ We release all model parameters for research and limited commercial use. In futu
 
 ## Quick Links
 
+- [Updates](#0)
 - [Downloading](#1)
 - [Quick Start](#2)
 - [Benchmark](#3)
@@ -50,6 +51,12 @@ We release all model parameters for research and limited commercial use. In futu
 - [LICENSE](#7)
 - [Citation](#8)
 - [Show Cases](#9)
+- 
+<p id="0"></p>
+
+## Update Log
+- 2024/02/08 We updated the [llama-format model weights](#llamaformat), which can be loaded into LlamaModel directly. We also supporting llama.cpp and ollama, making it more convenient for everyone to use our model quickly.
+- 2024/02/01 Initial release.
 
 <p id="1"></p>
 
@@ -82,29 +89,6 @@ We release all model parameters for research and limited commercial use. In futu
 
 - [Colab](https://colab.research.google.com/drive/1tJcfPyWGWA5HezO7GKLeyeIso0HyOc0l?usp=sharing)
 
-#### vLLM 
-
-* Install vLLM supporting MiniCPM.
-  - MiniCPM adopts the MUP program, which introduces some extra scaling operations to make the training process stable. And the MUP structure is a little different from the structure used by Llama and other LLMs.
-  - vLLM 0.2.2 is adapted to MiniCPM in the folder [inference](https://github.com/OpenBMB/MiniCPM/tree/main/inference). More vLLM versions will be supported in the future.
-
-```shell
-pip install inference/vllm
-```
-
-* Transfer Huggingface Transformers repo to vLLM-MiniCPM repo, where `<hf_repo_path>`, `<vllmcpm_repo_path>` are local paths.
-
-```shell
-python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
-```
-
-* Examples
-
-```shell
-cd inference/vllm/examples/infer_cpm
-python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
-```
-
 #### Huggingface 
 
 ##### MiniCPM-2B
@@ -129,6 +113,24 @@ print(responds)
 ```shell
 The capital city of China is Beijing. Beijing is not only the political center of China but also a cultural and economic hub. It is known for its rich history and numerous landmarks, such as the Great Wall, the Forbidden City, and the Temple of Heaven. The city is also home to the National Stadium, also known as the "Bird's Nest," and the National Aquatics Center, or "Water Cube." Beijing is a significant city in China, with a population of over 21 million people.
 ```
+<p id="llamaformat"></p>
+
+##### MiniCPM-2B (Llama Format)
+We have converted the model weights of MiniCPM into a format that can be directly called by Llama code, for everyone to try:
+```python
+import torch
+from transformers import LlamaTokenizerFast, LlamaForCausalLM
+model_path = "openbmb/MiniCPM-2B-dpo-bf16-llama-format"
+tokenizer = LlamaTokenizerFast.from_pretrained(model_path)
+model = LlamaForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
+
+prompt="Now you act like a terminal situated within a beginner's C++ practice repository folder, please provide the output for the command: `ls -l`"
+input_ids = tokenizer.encode("<User>{}<AI>".format(prompt), return_tensors='pt', add_special_tokens=True).cuda()
+responses = model.generate(input_ids, temperature=0.3, top_p=0.8, repetition_penalty=1.02, max_length=1024)
+responses = tokenizer.decode(responses[0], skip_special_tokens=True)
+print(responses)
+```
+
 
 ##### MiniCPM-V
 
@@ -155,6 +157,50 @@ res, context, _ = model.chat(
 )
 print(res)
 ```
+
+#### vLLM 
+
+* Install vLLM supporting MiniCPM.
+  - MiniCPM adopts the MUP program, which introduces some extra scaling operations to make the training process stable. And the MUP structure is a little different from the structure used by Llama and other LLMs.
+  - vLLM 0.2.2 is adapted to MiniCPM in the folder [inference](https://github.com/OpenBMB/MiniCPM/tree/main/inference). More vLLM versions will be supported in the future.
+
+```shell
+pip install inference/vllm
+```
+
+* Transfer Huggingface Transformers repo to vLLM-MiniCPM repo, where `<hf_repo_path>`, `<vllmcpm_repo_path>` are local paths.
+
+```shell
+python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
+```
+
+* Examples
+
+```shell
+cd inference/vllm/examples/infer_cpm
+python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
+```
+
+
+#### llama.cpp and Ollama Inference
+We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) and [ollama](https://github.com/ollama/ollama).
+
+##### Ollama
+First, download ggml-model-q4_0.gguf from [huggingface](openbmb/minicpm-dpo-bf16-ggml-model-q4_0).
+
+ModelFile:
+```
+FROM ggml-model-q4_0.gguf
+PARAMETER temperature 0.5
+PARAMETER num_ctx 4096
+TEMPLATE """<用户>{{ .Prompt }}<AI>"""
+```
+cmd:
+```
+ollama create minicpm -f ModelFile
+ollama run minicpm
+```
+(Note: We have noticed that this quantized model has noticable performance decrease and are trying to fix it)
 
 <p id="3"></p>
 

@@ -42,6 +42,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 
 ## 目录
 
+- [更新日志](#0)
 - [模型下载](#1)
 - [快速上手](#2)
 - [评测结果](#3)
@@ -51,6 +52,12 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 - [开源协议](#7)
 - [工作引用](#8)
 - [典型示例](#9)
+
+<p id="0"></p>
+
+## 更新日志
+- 2024/02/08 我们更新了[llama-format的模型权重](#llamaformat)，支持了llama.cpp调用和ollama调用，方便大家更加快捷地使用我们的模型。
+- 2024/02/01 初始发布。
 
 <p id="1"></p>
 
@@ -65,6 +72,9 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
   |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://replicate.com/tuantuanzhang/minicpm)
   |[MiniCPM-2B-dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[MiniCPM-2B-dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[MiniCPM-2B-dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)|
   |[MiniCPM-2B-dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)|
+  |[MiniCPM-2B-sft-fp32-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32)|
+
+  注: -llama-format后缀的模型是我们将MiniCPM结构的模型转化成了Llama结构的（主要将mup的参数化方案融合进了模型本身的参数）。使得Llama模型的使用者可以零成本尝试MiniCPM。详见
 
 * 多模态模型
   | HuggingFace | ModelScope | WiseModel |
@@ -82,6 +92,75 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 #### 在线体验
 
 - [Colab](https://colab.research.google.com/drive/1tJcfPyWGWA5HezO7GKLeyeIso0HyOc0l?usp=sharing)
+
+#### Huggingface 模型
+
+##### MiniCPM-2B
+* 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+torch.manual_seed(0)
+
+path = 'openbmb/MiniCPM-2B-dpo-bf16'
+tokenizer = AutoTokenizer.from_pretrained(path)
+model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
+
+responds, history = model.chat(tokenizer, "山东省最高的山是哪座山, 它比黄山高还是矮？差距多少？", temperature=0.5, top_p=0.8, repetition_penalty=1.02)
+print(responds)
+```
+
+* 期望输出
+```shell
+山东省最高的山是泰山，海拔1545米。
+
+相对于黄山（海拔1864米），泰山海拔较低，相差约319米。
+```
+
+<p id="llamaformat"></p>
+
+##### MiniCPM-2B （Llama Format）
+我们将minicpm的模型权重转化成了Llama代码可以直接调用的形式，以便大家尝试:
+```python
+import torch
+from transformers import LlamaTokenizerFast, LlamaForCausalLM
+model_path = "openbmb/MiniCPM-2B-dpo-bf16-llama-format"
+tokenizer = LlamaTokenizerFast.from_pretrained(model_path)
+model = LlamaForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
+
+prompt="Now you act like a terminal situated within a beginner's C++ practice repository folder, please provide the output for the command: `ls -l`"
+input_ids = tokenizer.encode("<用户>{}<AI>".format(prompt), return_tensors='pt', add_special_tokens=True).cuda()
+responds = model.generate(input_ids, temperature=0.3, top_p=0.8, repetition_penalty=1.02, max_length=1024)
+responds = tokenizer.decode(responds[0], skip_special_tokens=True)
+print(responds)
+```
+
+##### MiniCPM-V
+
+```python
+import torch
+from PIL import Image
+from transformers import AutoModel, AutoTokenizer
+
+model = AutoModel.from_pretrained('openbmb/MiniCPM-V', trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-V', trust_remote_code=True)
+model.eval().cuda()
+
+image = Image.open('xx.jpg').convert('RGB')
+question = 'What is in the image?'
+msgs = [{'role': 'user', 'content': question}]
+
+res, context, _ = model.chat(
+    image=image,
+    msgs=msgs,
+    context=None,
+    tokenizer=tokenizer,
+    sampling=True,
+    temperature=0.7
+)
+print(res)
+```
+
 
 #### vLLM 推理
 
@@ -112,55 +191,26 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
  The capital city of China is Beijing. Beijing is a major political, cultural, and economic center in China, and it is known for its rich history, beautiful architecture, and vibrant nightlife. It is also home to many of China's most important cultural and historical sites, including the Forbidden City, the Great Wall of China, and the Temple of Heaven. Beijing is a popular destination for tourists from around the world, and it is an important hub for international business and trade.
 ```
 
-#### Huggingface 模型
+#### llama.cpp与Ollama推理
+我们支持了[llama.cpp](https://github.com/ggerganov/llama.cpp/) 推理与[ollama](https://github.com/ollama/ollama)推理.
 
-##### MiniCPM-2B
-* 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码
-```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-torch.manual_seed(0)
+##### Ollama
+先下载ggml-model-q4_0.gguf in [huggingface](openbmb/minicpm-dpo-bf16-ggml-model-q4_0)
 
-path = 'openbmb/MiniCPM-2B-dpo-bf16'
-tokenizer = AutoTokenizer.from_pretrained(path)
-model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
-
-responds, history = model.chat(tokenizer, "山东省最高的山是哪座山, 它比黄山高还是矮？差距多少？", temperature=0.5, top_p=0.8, repetition_penalty=1.02)
-print(responds)
+ModelFile:
+```
+FROM ggml-model-q4_0.gguf
+PARAMETER temperature 0.5
+PARAMETER num_ctx 4096
+TEMPLATE """<用户>{{ .Prompt }}<AI>"""
 ```
 
-* 期望输出
-```shell
-山东省最高的山是泰山，海拔1545米。
-
-相对于黄山（海拔1864米），泰山海拔较低，相差约319米。
+cmd:
 ```
-
-##### MiniCPM-V
-
-```python
-import torch
-from PIL import Image
-from transformers import AutoModel, AutoTokenizer
-
-model = AutoModel.from_pretrained('openbmb/MiniCPM-V', trust_remote_code=True)
-tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-V', trust_remote_code=True)
-model.eval().cuda()
-
-image = Image.open('xx.jpg').convert('RGB')
-question = 'What is in the image?'
-msgs = [{'role': 'user', 'content': question}]
-
-res, context, _ = model.chat(
-    image=image,
-    msgs=msgs,
-    context=None,
-    tokenizer=tokenizer,
-    sampling=True,
-    temperature=0.7
-)
-print(res)
+ollama create minicpm -f ModelFile
+ollama run minicpm
 ```
+（注：我们注意到这个量化后的模型性能有较大损失，正在尝试解决）
 
 <p id="3"></p>
 
