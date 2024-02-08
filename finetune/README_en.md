@@ -34,7 +34,7 @@ For the data file, the example uses the following format
 ```json
 [
   {
-    "message": [
+    "messages": [
       {
         "role": "system",
         "content": "<system prompt text>"
@@ -72,7 +72,7 @@ or [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/f/b3f119a008264b1cabd1/?dl=1) 
 > Please note, the fine-tuning code now includes a validation set, so for a complete set of fine-tuning datasets, it must contain training and validation datasets, while the test dataset is optional. Or, you can use the validation dataset in place of it.
 
 ```
-{"message": [{"role": "user", "content": "类型#裙*裙长#半身裙"}, {"role": "assistant", "content": "这款百搭时尚的仙女半身裙，整体设计非常的飘逸随性，穿上之后每个女孩子都能瞬间变成小仙女啦。料子非常的轻盈，透气性也很好，穿到夏天也很舒适。"}]}
+{"messages": [{"role": "user", "content": "类型#裙*裙长#半身裙"}, {"role": "assistant", "content": "这款百搭时尚的仙女半身裙，整体设计非常的飘逸随性，穿上之后每个女孩子都能瞬间变成小仙女啦。料子非常的轻盈，透气性也很好，穿到夏天也很舒适。"}]}
 ```
 
 ## Start Fine-tuning
