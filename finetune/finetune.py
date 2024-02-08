@@ -190,3 +190,5 @@ if __name__ == "__main__":
     )
 
     trainer.train()
+    # save the incremental PEFT weights, more details can be found in https://huggingface.co/blog/peft
+    # model.save_pretrained("output_dir") 
