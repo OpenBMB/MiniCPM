@@ -44,6 +44,7 @@ We release all model parameters for research and limited commercial use. In futu
 - [Updates](#0)
 - [Downloading](#1)
 - [Quick Start](#2)
+- [Community](#community)
 - [Benchmark](#3)
 - [Deployment on Mobile Phones](#4)
 - [Demo & API](#5)
@@ -55,6 +56,7 @@ We release all model parameters for research and limited commercial use. In futu
 <p id="0"></p>
 
 ## Update Log
+- 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
 - 2024/02/08 We updated the [llama-format model weights](#llamaformat), which can be loaded into LlamaModel directly. We also supporting llama.cpp and ollama, making it more convenient for everyone to use our model quickly.
 - 2024/02/01 Initial release.
 
@@ -201,6 +203,14 @@ ollama create minicpm -f ModelFile
 ollama run minicpm
 ```
 (Note: We have noticed that this quantized model has noticable performance decrease and are trying to fix it)
+
+<p id="Community"></p>
+
+## Community
+
+- [ChatLLM](https://github.com/foldl/chatllm.cpp) :[Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
+
+
 
 <p id="3"></p>
 

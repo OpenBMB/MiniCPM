@@ -45,6 +45,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 - [更新日志](#0)
 - [模型下载](#1)
 - [快速上手](#2)
+- [开源社区](#community)
 - [评测结果](#3)
 - [手机部署](#4)
 - [Demo & API 部署](#5)
@@ -56,6 +57,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 <p id="0"></p>
 
 ## 更新日志
+- 2024/02/09 我们在readme里加入了一个[开源社区](#community)章节，用来收集开源社区对MiniCPM的支持案例。
 - 2024/02/08 我们更新了[llama-format的模型权重](#llamaformat)，支持了llama.cpp调用和ollama调用，方便大家更加快捷地使用我们的模型。
 - 2024/02/01 初始发布。
 
@@ -211,6 +213,15 @@ ollama create minicpm -f ModelFile
 ollama run minicpm
 ```
 （注：我们注意到这个量化后的模型性能有较大损失，正在尝试解决）
+
+
+<p id="community"></p>
+
+## 开源社区
+
+- [ChatLLM框架](https://github.com/foldl/chatllm.cpp):[在CPU上跑MiniCPM](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
+
+
 
 <p id="3"></p>
 
