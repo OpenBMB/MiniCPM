@@ -17,7 +17,7 @@
 Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">wechat</a>
 </p>
 
-MiniCPM is an End-Side LLM developed by ModelBest Inc. and TsinghuaNLP, with only 2.4B parameters excluding embeddings.
+MiniCPM is an End-Side LLM developed by ModelBest Inc. and TsinghuaNLP, with only 2.4B parameters excluding embeddings (2.7B in total).
 
 - MiniCPM has very close performance compared with Mistral-7B on open-sourced general benchmarks with better ability on Chinese, Mathematics and Coding after SFT. The overall performance exceeds Llama2-13B, MPT-30B, Falcon-40B, etc.
 - After DPO, MiniCPM outperforms Llama2-70B-Chat, Vicuna-33B, Mistral-7B-Instruct-v0.1, Zephyr-7B-alpha, etc. on MTBench.
@@ -56,6 +56,7 @@ We release all model parameters for research and limited commercial use. In futu
 <p id="0"></p>
 
 ## Update Log
+- 2024/02/13 We support llama.cpp 
 - 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
 - 2024/02/08 We updated the [llama-format model weights](#llamaformat), which can be loaded into LlamaModel directly. We also supporting llama.cpp and ollama, making it more convenient for everyone to use our model quickly.
 - 2024/02/01 Initial release.
