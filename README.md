@@ -204,7 +204,7 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 #### llama.cpp与Ollama推理
 我们支持了[llama.cpp](https://github.com/ggerganov/llama.cpp/) 推理与[ollama](https://github.com/ollama/ollama)推理.
 
-##### llama.cpp
+**llama.cpp**
 1. [安装llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build)
 2. 下载gguf形式的模型。[下载链接-fp16格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [下载链接-q4km格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf)
 3. 在命令行运行示例代码:
@@ -213,7 +213,7 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 ```
 更多参数调整[详见](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/README.md)
 
-##### Ollama
+**ollama**
 正在解决[这个问题](https://github.com/ollama/ollama/issues/2383)
 
 

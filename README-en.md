@@ -198,16 +198,16 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) and [ollama](https://github.com/ollama/ollama).
 
 
-##### llama.cpp
+**llama.cpp**
 1. [install llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build)
-2. download model in gguf format。[link-fp16](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [link-q4km](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf)
+2. download model in gguf format. [link-fp16](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [link-q4km](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf)
 3. In command line:
 ```
-./main -m ../../model_ckpts/download_from_hf/MiniCPM-2B-dpo-fp16-gguf.gguf --prompt "<用户>写藏头诗，藏头是龙年大吉<AI>" --temp 0.3 --top-p 0.8 --repeat-penalty 1.05
+./main -m ../../model_ckpts/download_from_hf/MiniCPM-2B-dpo-fp16-gguf.gguf --prompt "<用户>Write an acrostic poem with the word MINICPM (One line per letter)<AI>" --temp 0.3 --top-p 0.8 --repeat-penalty 1.05
 ```
 More parameters adjustment [see this](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/README.md)
 
-##### ollama
+**ollama**
 Solving [this issue](https://github.com/ollama/ollama/issues/2383)
 
 
