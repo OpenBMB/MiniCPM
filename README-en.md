@@ -73,7 +73,16 @@ We release all model parameters for research and limited commercial use. In futu
   |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://replicate.com/tuantuanzhang/minicpm)
   |[MiniCPM-2B-dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[MiniCPM-2B-dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[MiniCPM-2B-dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)
   |[MiniCPM-2B-dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
+  |[MiniCPM-2B-sft-fp32-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32-llama-format)|
+  |[MiniCPM-2B-sft-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)|
+  |[MiniCPM-2B-dpo-fp16-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) |
+  |[MiniCPM-2B-dpo-q4km-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf) |
 
+  Note: 
+  1. The model training was conducted in bf16 format, so inference using bf16 will yield the best results. Other formats might experience a slight performance decline due to precision issues.
+  2. The models with a '-llama-format' suffix are those where we have transformed the MiniCPM structure into the Llama structure (primarily integrating the parameterization scheme of mup into the model's own parameters). This enables users of the Llama model to try out MiniCPM at no extra cost. [See details](#llamaformat)
+  3. Thanks to [the contributor](https://github.com/runfuture) for adapting MiniCPM to [llama.cpp](https://github.com/ggerganov/llama.cpp) and [ollama](https://github.com/ollama/ollama).
+     
 * Multimodel Model
 
     | HuggingFace | ModelScope | WiseModel |
@@ -187,22 +196,19 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 #### llama.cpp and Ollama Inference
 We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) and [ollama](https://github.com/ollama/ollama).
 
-##### Ollama
-First, download ggml-model-q4_0.gguf from [huggingface](openbmb/minicpm-dpo-bf16-ggml-model-q4_0).
 
-ModelFile:
+##### llama.cpp
+1. [install llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build)
+2. download model in gguf format。[link-fp16](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [link-q4km](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf)
+3. In command line:
 ```
-FROM ggml-model-q4_0.gguf
-PARAMETER temperature 0.5
-PARAMETER num_ctx 4096
-TEMPLATE """<用户>{{ .Prompt }}<AI>"""
+./main -m ../../model_ckpts/download_from_hf/MiniCPM-2B-dpo-fp16-gguf.gguf --prompt "<用户>写藏头诗，藏头是龙年大吉<AI>" --temp 0.3 --top-p 0.8 --repeat-penalty 1.05
 ```
-cmd:
-```
-ollama create minicpm -f ModelFile
-ollama run minicpm
-```
-(Note: We have noticed that this quantized model has noticable performance decrease and are trying to fix it)
+More parameters adjustment [see this](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/README.md)
+
+##### ollama
+Solving [this issue](https://github.com/ollama/ollama/issues/2383)
+
 
 <p id="Community"></p>
 
