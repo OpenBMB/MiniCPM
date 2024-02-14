@@ -58,7 +58,7 @@ We release all model parameters for research and limited commercial use. In futu
 ## Update Log
 - 2024/02/13 We support llama.cpp 
 - 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
-- 2024/02/08 We updated the [llama-format model weights](#llamaformat), which can be loaded into LlamaModel directly. We also supporting llama.cpp and ollama, making it more convenient for everyone to use our model quickly.
+- 2024/02/08 We updated the [llama-format model weights](#llamaformat), which can be loaded into LlamaModel directly, making it more convenient for everyone to use our model quickly.
 - 2024/02/01 Initial release.
 
 <p id="1"></p>
