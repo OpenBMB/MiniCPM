@@ -530,7 +530,7 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 * Please cite our [techinical report](https://shengdinghu.notion.site/MiniCPM-c805a17c5c8046398914e47f0542095a) if you find our work valuable.
 
 ```
-@inproceedings{minicpm2024,
+@misc{minicpm2024,
 	title={MiniCPM：Unveiling the Potential of End-side Large Language Models},
 	booktitle={OpenBMB Blog},
 	year={2024}
