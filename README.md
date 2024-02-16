@@ -553,7 +553,7 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 
 ```
 @misc{minicpm2024,
-	title={MiniCPM：Unveiling the Potential of End-side Large Language Models},
+	title={MiniCPM: Unveiling the Potential of End-side Large Language Models},
 	booktitle={OpenBMB Blog},
 	year={2024}
 }
