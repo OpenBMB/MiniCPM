@@ -82,8 +82,8 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 
   注: 
   1. 模型训练为bf16训练，因此用bf16进行推理将取得最好的效果，其他的格式会由于精度问题造成一点的性能下降。
-  2. -llama-format后缀的模型是我们将MiniCPM结构的模型转化成了Llama结构的（主要将mup的参数化方案融合进了模型本身的参数）。使得Llama模型的使用者可以零成本尝试MiniCPM。[详见](#llamaformat)
-  3. 感谢[贡献者](https://github.com/runfuture)对minicpm进行了[llama.cpp](https://github.com/ggerganov/llama.cpp)和[ollama](https://github.com/ollama/ollama)的适配
+  2. -llama-format后缀的模型是我们将MiniCPM结构的模型转化成了Llama结构的（主要将mup的参数化方案融合进了模型本身的参数）。使得Llama模型的使用者可以零成本尝试MiniCPM。[详见这里](#llamaformat)
+  3. 感谢[@runfuture](https://github.com/runfuture)对MiniCPM进行了[llama.cpp](https://github.com/ggerganov/llama.cpp)和[ollama](https://github.com/ollama/ollama)的适配
 
 
 * 多模态模型
@@ -130,7 +130,7 @@ print(responds)
 <p id="llamaformat"></p>
 
 ##### MiniCPM-2B （Llama Format）
-我们将minicpm的模型权重转化成了Llama代码可以直接调用的形式，以便大家尝试:
+我们将MiniCPM的模型权重转化成了Llama代码可以直接调用的形式，以便大家尝试:
 ```python
 import torch
 from transformers import LlamaTokenizerFast, LlamaForCausalLM
@@ -413,7 +413,7 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 * 进行Int4量化后，MiniCPM只占2GB空间，具备在端侧手机进行模型部署的条件。
 * 对于不同的操作系统，我们进行了不同的适配。
 * **注意：当前开源框架对手机支持还在完善，并非所有芯片与操作系统版本均能成功运行MLC-LLM或LLMFarm。**
-* Android、Harmony
+* Android、HarmonyOS
   * 使用开源框架MLC-LLM进行模型适配。
   * 支持文本模型、多模态模型。
   * 适用于MiniCPM-2B-SFT-INT4、MiniCPM-2B-DPO-INT4、MiniCPM-V。
@@ -443,7 +443,7 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 |Oneplus HD1905|Android 10|snapdragon 855|8|3.0|
 |Oneplus HD1900|Android 11|snapdragon 855|8|3.0|
 |Xiaomi MI 8|Android 9|snapdragon 845|6|2.3|
-|Huawei Nova 11SE|Harmony 4.0.0|snapdragon 778|12|1.9|
+|Huawei Nova 11SE|HarmonyOS 4.0.0|snapdragon 778|12|1.9|
 |Xiaomi MIX 2|Android 9|snapdragon 835|6|1.3|
 |iPhone 15 Pro|iOS 17.2.1|A17 pro|8|18.0|
 |iPhone 15|iOS 17.2.1|A16|6|15.0|
@@ -543,7 +543,7 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 
 * 作为一个语言模型，MiniCPM 通过学习大量的文本来生成内容，但它无法理解、表达个人观点或价值判断，它所输出的任何内容都不代表模型开发者的观点和立场。
 * 因此用户在使用 MiniCPM 生成的内容时，应自行负责对其进行评估和验证。
-* 如果由于使用 MinCPM 开源模型而导致的任何问题，包括但不限于数据安全问题、公共舆论风险，或模型被误导、滥用、传播或不当利用所带来的任何风险和问题，我们将不承担任何责任。
+* 如果由于使用 MiniCPM 开源模型而导致的任何问题，包括但不限于数据安全问题、公共舆论风险，或模型被误导、滥用、传播或不当利用所带来的任何风险和问题，我们将不承担任何责任。
 
 <p id="8"></p>
 

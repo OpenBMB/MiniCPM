@@ -401,7 +401,7 @@ Solving [this issue](https://github.com/ollama/ollama/issues/2383)
 * After INT4 quantization, MiniCPM only occupies 2GB of space, meeting the requirements of inference on end devices. 
 * We have made different adaptations for different operating systems.
 * **Note: The current open-source framework is still improving its support for mobile phones, and not all chips and operating system versions can successfully run MLC-LLM or LLMFarm.**
-* Android, Harmony OS
+* Android, HarmonyOS
   * Adapt based on open-source framework MLC-LLM.
   * Adapted for text model MiniCPM, and multimodel model MiniCPM-V.
   * Support MiniCPM-2B-SFT-INT4、MiniCPM-2B-DPO-INT4、MiniCPM-V.
@@ -431,7 +431,7 @@ Solving [this issue](https://github.com/ollama/ollama/issues/2383)
 | Oneplus HD1905    | Android 10    | snapdragon 855     | 8            | 3.0                             |
 | Oneplus HD1900    | Android 11    | snapdragon 855     | 8            | 3.0                             |
 | Xiaomi MI 8       | Android 9     | snapdragon 845     | 6            | 2.3                             |
-| Huawei Nova 11SE  | Harmony 4.0.0 | snapdragon 778     | 12           | 1.9                             |
+| Huawei Nova 11SE  | HarmonyOS 4.0.0 | snapdragon 778     | 12           | 1.9                             |
 | Xiaomi MIX 2      | Android 9     | snapdragon 835     | 6            | 1.3                             |
 | iPhone 15 Pro     | iOS 17.2.1    | A16                | 8            | 18.0                            |
 | iPhone 15         | iOS 17.2.1    | A16                | 6            | 15.0                            |
