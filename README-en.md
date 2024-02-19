@@ -76,6 +76,7 @@ We release all model parameters for research and limited commercial use. In futu
   |[MiniCPM-2B-dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
   |[MiniCPM-2B-sft-fp32-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32-llama-format)|
   |[MiniCPM-2B-sft-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)|
+  |[MiniCPM-2B-dpo-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16-llama-format)|
   |[MiniCPM-2B-dpo-fp16-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) |
   |[MiniCPM-2B-dpo-q4km-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf) |
 
