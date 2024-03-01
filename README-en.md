@@ -195,8 +195,8 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 ```
 
 
-#### llama.cpp and Ollama Inference
-We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) and [ollama](https://github.com/ollama/ollama).
+#### llama.cpp、Ollama、fastllm Inference
+We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm).
 
 
 **llama.cpp**
@@ -217,6 +217,21 @@ Solving [this issue](https://github.com/ollama/ollama/issues/2383)
 ## Community
 
 - [ChatLLM](https://github.com/foldl/chatllm.cpp) :[Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
+
+**fastllm**
+1. [install fastllm]([fastllm](https://github.com/ztxz16/fastllm)
+2. inference
+```
+import torch
+from transformers import AutoTokenizer, LlamaTokenizerFast, AutoModelForCausalLM
+path = 'openbmb/MiniCPM-2B-dpo-fp16'
+tokenizer = AutoTokenizer.from_pretrained(path)
+model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.float16, device_map='cuda', trust_remote_code=True)
+from fastllm_pytools import llm
+llm.set_device_map("cpu")
+model = llm.from_hf(model, tokenizer, dtype = "float16") # dtype支持 "float16", "int8", "int4"
+print(model.response("<用户>Write an acrostic poem with the word MINICPM (One line per letter)<AI>", top_p=0.8, temperature=0.5, repeat_penalty=1.02))
+```
 
 
 
