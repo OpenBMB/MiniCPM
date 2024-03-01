@@ -1,5 +1,7 @@
 # MiniCPM 微调
 
+（部分代码函数的文档由[RepoAgent](https://github.com/OpenBMB/RepoAgent)自动产生)
+
 [English Version](https://github.com/OpenBMB/MiniCPM/blob/main/finetune/README_en.md)
 
 本目录提供 MiniCPM-2B 模型的微调示例，包括全量微调和 PEFT。格式上，提供多轮对话微调样例和输入输出格式微调样例。
