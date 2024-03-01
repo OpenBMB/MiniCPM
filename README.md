@@ -202,8 +202,8 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
  The capital city of China is Beijing. Beijing is a major political, cultural, and economic center in China, and it is known for its rich history, beautiful architecture, and vibrant nightlife. It is also home to many of China's most important cultural and historical sites, including the Forbidden City, the Great Wall of China, and the Temple of Heaven. Beijing is a popular destination for tourists from around the world, and it is an important hub for international business and trade.
 ```
 
-#### llama.cpp与Ollama推理
-我们支持了[llama.cpp](https://github.com/ggerganov/llama.cpp/) 推理与[ollama](https://github.com/ollama/ollama)推理.
+#### llama.cpp、Ollama、fastllm推理
+我们支持了[llama.cpp](https://github.com/ggerganov/llama.cpp/) 推理、[ollama](https://github.com/ollama/ollama)推理、[fastllm](https://github.com/ztxz16/fastllm)推理.
 
 **llama.cpp**
 1. [安装llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build)
@@ -217,6 +217,21 @@ python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/promp
 **ollama**
 正在解决[这个问题](https://github.com/ollama/ollama/issues/2383)
 
+**fastllm**
+1. [编译安装fastllm](https://github.com/ztxz16/fastllm)
+2. 模型推理
+```
+import torch
+from transformers import AutoTokenizer, LlamaTokenizerFast, AutoModelForCausalLM
+path = 'openbmb/MiniCPM-2B-dpo-fp16'
+tokenizer = AutoTokenizer.from_pretrained(path)
+model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.float16, device_map='cuda', trust_remote_code=True)
+from fastllm_pytools import llm
+llm.set_device_map("cpu")
+model = llm.from_hf(model, tokenizer, dtype = "float16") # dtype支持 "float16", "int8", "int4"
+print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高还是矮？差距多少？<AI>", top_p=0.8, temperature=0.5, repeat_penalty=1.02))
+```
+ 
 
 
 <p id="community"></p>
