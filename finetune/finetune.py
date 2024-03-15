@@ -73,7 +73,7 @@ class SupervisedDataset(Dataset):
 
     def preprocessing(self, example):
         input_ids = [self.tokenizer.bos_token_id]
-        label_ids = []
+        label_ids = [self.ignore_index]
 
         for message in example["messages"]:
             role = message["role"]
@@ -92,17 +92,22 @@ class SupervisedDataset(Dataset):
                     + content_ids
                 )
 
+        input_ids.append(self.tokenizer.eos_token_id)
+        label_ids.append(self.tokenizer.eos_token_id)
+        # truncate to max len
         input_ids = input_ids[: self.model_max_length]
         label_ids = label_ids[: self.model_max_length]
-        # input_ids += [self.tokenizer.eos_token_id] * (len(label_ids) - len(input_ids))
+        attention_mask = [1] * len(input_ids)
+        # pad to max len
         input_ids += [self.tokenizer.eos_token_id] * (
             self.model_max_length - len(input_ids)
         )
         label_ids += [self.ignore_index] * (self.model_max_length - len(label_ids))
+        attention_mask += [0] * (self.model_max_length - len(attention_mask))
+        # convert to pt tensor
         input_ids = torch.LongTensor(input_ids)
         label_ids = torch.LongTensor(label_ids)
-        # print(f"len input_ids: {len(input_ids)}, len label_ids: {len(label_ids)}")
-        attention_mask = input_ids.ne(self.tokenizer.eos_token_id)
+        attention_mask = torch.LongTensor(attention_mask)
         return {
             "input_ids": input_ids,
             "label_ids": label_ids,
@@ -158,7 +163,6 @@ def load_model_and_tokenizer(
 
 if __name__ == "__main__":
     model_path = "/mnt/data/user/tc_agi/yh/models/MiniCPM"
-    max_length = 512
     parser = transformers.HfArgumentParser(
         (ModelArguments, DataArguments, TrainingArguments)
     )

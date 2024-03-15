@@ -66,11 +66,6 @@ For the data file, the example uses the following format
 
 ## Dataset Format Example
 
-Here, taking the AdvertiseGen dataset as an example,
-you can download the AdvertiseGen dataset from [Google Drive](https://drive.google.com/file/d/13_vf0xRTQsyneRKdD1bZIr93vBGOczrk/view?usp=sharing)
-or [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/f/b3f119a008264b1cabd1/?dl=1) . After extracting the AdvertiseGen directory, place it in the `data` directory and convert it into the following format dataset.
-
-
 > Please note, the fine-tuning code now includes a validation set, so for a complete set of fine-tuning datasets, it must contain training and validation datasets, while the test dataset is optional. Or, you can use the validation dataset in place of it.
 
 ```

@@ -2,13 +2,13 @@ formatted_time=$(date +"%Y%m%d%H%M%S")
 echo $formatted_time
 
 
-deepspeed --include localhost:0 finetune.py \
-    --model_name_or_path <your_model_name_or_path> \
+deepspeed --include localhost:1 finetune.py \
+    --model_name_or_path MiniCPM-2B-sft-bf16 \
     --output_dir output/AdvertiseGenLoRA/$formatted_time/ \
     --train_data_path data/AdvertiseGenChatML/train.json \
     --eval_data_path data/AdvertiseGenChatML/dev.json \
-    --learning_rate 1e-3 --per_device_train_batch_size 1 \
-    --per_device_eval_batch_size 1 --fp16 --use_lora \
+    --learning_rate 5e-5 --per_device_train_batch_size 32 \
+    --per_device_eval_batch_size 64  --model_max_length 384 --bf16 --use_lora \
     --gradient_accumulation_steps 1 --warmup_steps 100 \
     --max_steps 3000 --weight_decay 0.01 \
     --evaluation_strategy steps --eval_steps 500 \
