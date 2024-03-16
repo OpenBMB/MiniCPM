@@ -25,12 +25,13 @@ MiniCPM is an End-Side LLM developed by ModelBest Inc. and TsinghuaNLP, with onl
 - MiniCPM can be deployed and infer on smartphones, and the speed of streaming output is relatively higher than human verbal speed. MiniCPM-V has also successfully deployed multi-modal models on smartphones.
 - The cost of developing based on MiniCPM is low. Parameter efficient finetuning can be conducted with a single 1080/2080 GPU and full parameter finetuning can be conducted with a 3090/4090 GPU.
 
-We release all model parameters for research and limited commercial use. In future, we will also release all the checkpoint during training and most public training data for research on model mechanism.
+We release all model parameters for research and limited commercial use. 
 
 - SFT and DPO version based on MiniCPM-2B and human preference: **MiniCPM-2B-SFT/DPO**
 - The multi-modal model **MiniCPM-V** based on MiniCPM-2B, which outperforms models with similar size, i.e., Phi-2
 - The INT4 quantized version **MiniCPM-2B-SFT/DPO-Int4** based on MiniCPM-2B-SFT/DPO
 - Mobile phone application based on MLC-LLM and LLMFarm. Both language model and multimodel model can conduct inference on smartphones.
+- 30 Intermidiate [checkpoints](https://huggingface.co/openbmb/MiniCPM-2B-history) for academic purpose.
 
 ### Limitations
 
@@ -56,6 +57,7 @@ We release all model parameters for research and limited commercial use. In futu
 <p id="0"></p>
 
 ## Update Log
+- 2024/03/16 Intermediate checkpoints were released [here](https://huggingface.co/openbmb/MiniCPM-2B-history)!
 - 2024/02/13 We support llama.cpp 
 - 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
 - 2024/02/08 We updated the [llama-format model weights](#llamaformat), which can be loaded into LlamaModel directly, making it more convenient for everyone to use our model quickly.
