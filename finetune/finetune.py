@@ -171,6 +171,8 @@ if __name__ == "__main__":
         model_path=model_args.model_name_or_path,
         max_length=training_args.model_max_length,
         use_lora=training_args.use_lora,
+        bf16=training_args.bf16,
+        fp16=training_args.fp16
     )
 
     train_dataset = SupervisedDataset(
