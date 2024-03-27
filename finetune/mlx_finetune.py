@@ -683,7 +683,6 @@ if __name__ == "__main__":
     print(f"Trainable parameters {p:.3f}M")
 
     print("Loading datasets")
-    breakpoint()
     train_set, valid_set, test_set = load(args)
 
     # Resume training the given adapters.
