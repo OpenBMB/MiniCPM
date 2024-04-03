@@ -5,7 +5,7 @@ Using Code is modified from https://github.com/ml-explore/mlx-examples.
 Using Model with https://huggingface.co/mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx
 
 Use this Code with command:
-python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data AdvertiseGen  --train  --seed 2024 --iters 1000
+python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data finetune/data/AdvertiseGen  --train  --seed 2024 --iters 1000
 """
 import argparse
 import json
@@ -329,7 +329,7 @@ def build_parser():
         "--data",
         type=str,
         default="data/",
-        help="Directory with {train, valid, test}.jsonl files",
+        help="Directory with {train, valid, test}.json files",
     )
     parser.add_argument(
         "--lora-layers",
@@ -395,35 +395,26 @@ def build_parser():
     return parser
 
 
+
+
 class ConversationDataset:
-    """
-    Light-weight wrapper to handle conversation data from a jsonl file.
-    Each data entry is expected to have a "conversations" list, with each item
-    containing "role" and "content".
-    """
 
     def __init__(self, path: Path):
         with open(path, "r") as fid:
             self._data = [json.loads(l) for l in fid]
 
     def __getitem__(self, idx: int):
-        conversation = self._data[idx]["conversations"]
-        user_texts = []
-        assistant_texts = []
-        for turn in conversation:
-            if turn["role"] == "user":
-                user_texts.append(turn["content"])
-            elif turn["role"] == "assistant":
-                assistant_texts.append(turn["content"])
-        return " ".join(user_texts), " ".join(assistant_texts)
+        entry = self._data[idx]
+        content = entry.get("content", "")
+        summary = entry.get("summary", "")
+        return content, summary
 
     def __len__(self):
         return len(self._data)
 
-
 def load(args):
     def load_and_check(name):
-        dataset_path = Path(args.data) / f"{name}.jsonl"
+        dataset_path = Path(args.data) / f"{name}.json"
         try:
             return ConversationDataset(dataset_path)
         except Exception as e:
