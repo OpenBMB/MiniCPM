@@ -5,7 +5,28 @@ Using Code is modified from https://github.com/ml-explore/mlx-examples.
 Using Model with https://huggingface.co/mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx
 
 Use this Code with command:
-python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data finetune/data/AdvertiseGen  --train  --seed 2024 --iters 1000
+
+train:
+python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data data/AdvertiseGen  --train  --seed 2024 --iters 500
+
+输出结果如下：
+
+Training
+Iter 1: Val loss 4.015, Val took 1067.669s
+Iter 2: Val loss 4.001, Val took 1061.649s
+...
+
+训练结束之后，文件夹下会有 adapters.npz 文件，用于后续的测试。接着，运行测试命令
+
+test:
+python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data data/AdvertiseGen  --test --seed 2024
+
+输出结果如下：
+
+Testing
+Test loss 3.977, Test ppl 53.350.
+
+
 """
 import argparse
 import json
@@ -395,8 +416,6 @@ def build_parser():
     return parser
 
 
-
-
 class ConversationDataset:
 
     def __init__(self, path: Path):
@@ -411,6 +430,7 @@ class ConversationDataset:
 
     def __len__(self):
         return len(self._data)
+
 
 def load(args):
     def load_and_check(name):
