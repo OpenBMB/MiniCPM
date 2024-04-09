@@ -57,6 +57,7 @@ We release all model parameters for research and limited commercial use.
 <p id="0"></p>
 
 ## Update Log
+- 2024/04/11 We release [MiniCPM-V-v2.0](https://huggingface.co/openbmb/MiniCPM-V-v2.0)、[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) and[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B)。
 - 2024/03/16 Intermediate checkpoints were released [here](https://huggingface.co/openbmb/MiniCPM-2B-history)!
 - 2024/02/13 We support llama.cpp 
 - 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
@@ -71,11 +72,10 @@ We release all model parameters for research and limited commercial use.
 
   | HuggingFace | ModelScope | WiseModel | Replicate |
   |-------------|------------|-----------|-----------|
-  |[MiniCPM-2B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[MiniCPM-2B-sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)
-  |[MiniCPM-2B-sft-fp32](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32)|[MiniCPM-2B-sft-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-sft-fp32)|[MiniCPM-2B-sft-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
+  |[MiniCPM-2B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[MiniCPM-2B-sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)|
   |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://replicate.com/tuantuanzhang/minicpm)
-  |[MiniCPM-2B-dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[MiniCPM-2B-dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[MiniCPM-2B-dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)
-  |[MiniCPM-2B-dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
+  |[MiniCPM-2B-128k]() |[MiniCPM-2B-128k]()|
+  |[MiniCPM-MoE-8x2B]() |[MiniCPM-MoE-8x2B]()|
   |[MiniCPM-2B-sft-fp32-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32-llama-format)|
   |[MiniCPM-2B-sft-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)|
   |[MiniCPM-2B-dpo-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16-llama-format)|
@@ -175,26 +175,12 @@ print(res)
 
 #### vLLM 
 
-* Install vLLM supporting MiniCPM.
-  - MiniCPM adopts the MUP program, which introduces some extra scaling operations to make the training process stable. And the MUP structure is a little different from the structure used by Llama and other LLMs.
-  - vLLM 0.2.2 is adapted to MiniCPM in the folder [inference](https://github.com/OpenBMB/MiniCPM/tree/main/inference). More vLLM versions will be supported in the future.
-
-```shell
-pip install inference/vllm
-```
-
-* Transfer Huggingface Transformers repo to vLLM-MiniCPM repo, where `<hf_repo_path>`, `<vllmcpm_repo_path>` are local paths.
-
-```shell
-python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
-```
+* Install [vLLM](https://github.com/vllm-project/vllm) main: [build from source](https://docs.vllm.ai/en/latest/getting_started/installation.html#build-from-source)。
 
 * Examples
-
-```shell
-cd inference/vllm/examples/infer_cpm
-python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
-```
+  ```shell
+  python inference/inference_vllm.py --model_path <hf_repo_path> --prompt_path prompts/prompt_demo.txt
+  ```
 
 
 #### llama.cpp、Ollama、fastllm Inference
@@ -310,6 +296,112 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
 |Deepseek-7B-chat|49.34|49.56|48.335|46.95|49.72|51.67|40.85|48.48|48.52|4.26|35.7|76.85|63.05|76.68*|
 |Llama2-7B-Chat|38.16|39.17|33.59|34.54|32.64|47.64|14.02|27.4|21.15|2.08|35.54|74.28|54.78|75.65*|
 |MiniCPM-2B|52.33|52.6|51.1|51.13|51.07|53.46|50.00|47.31|53.83|10.24|36.87|85.44|68.00|68.25|
+
+#### MiniCPM-MoE-8x2B Evaluation
+<div align="left">
+
+<table style="margin: 0px auto;">
+<thead>
+  <tr>
+    <th align="left">Model</th>
+    <th nowrap="nowrap" >BBH</th>
+    <th nowrap="nowrap" >MMLU</th>
+    <th nowrap="nowrap" >CEval</th>
+    <th nowrap="nowrap" >CMMLU</th>
+    <th nowrap="nowrap" >HumanEval</th>
+    <th nowrap="nowrap" >MBPP</th>
+    <th nowrap="nowrap" >GSM8K</th>
+    <th nowrap="nowrap" >MATH</th
+  </tr>
+</thead>
+<tbody align="center">
+  <tr>
+    <td nowrap="nowrap" align="left">Llama2-34B*</td>
+    <td>44.1</td>
+    <td>62.6</td>
+    <td>-</td>
+    <td>-</td>
+    <td>22.6</td>
+    <td>33.0&dagger;</td>
+    <td>42.2</td>
+    <td>6.24</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left">Mistral-7B</td>
+    <td>41.06</td>
+    <td>62.69</td>
+    <td>46.12</td>
+    <td>42.96</td>
+    <td>27.44</td>
+    <td>45.20</td>
+    <td>33.13</td>
+    <td>5.0</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >Gemma-7B</td>
+    <td>39.19</td>
+    <td>60.83</td>
+    <td>42.57</td>
+    <td>44.20</td>
+    <td>38.41</td>
+    <td>50.12</td>
+    <td>47.31</td>
+    <td>6.18</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >Qwen1.5-7B*</td>
+    <td>40.2</td>
+    <td>61</td>
+    <td>74.1</td>
+    <td>73.1</td>
+    <td>36</td>
+    <td>37.4&dagger;</td>
+    <td>62.5</td>
+    <td>20.3</td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >Deepseek-MoE(16B)*</td>
+    <td>-</td>
+    <td>45.0</td>
+    <td>40.6</td>
+    <td>42.5</td>
+    <td>26.8</td>
+    <td>39.2&dagger;</td>
+    <td>18.8</td>
+    <td>4.3</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" ><b>MiniCPM-2.4B</b></td>
+    <td>36.87</td>
+    <td>53.46</td>
+    <td>51.13</td>
+    <td>51.07</td>
+    <td>50.00</td>
+    <td>47.31</td>
+    <td>53.83</td>
+    <td>10.24</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" ><b>MiniCPM-MoE-8x2B</b></td>
+    <td>39.22</td>
+    <td>58.90</td>
+    <td>58.11</td>
+    <td>58.80</td>
+    <td>56.71</td>
+    <td>51.05</td>
+    <td>61.56</td>
+    <td>10.52</td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+
+<p id="4"></p>
+
+Note：* means evaluation results are directly taken from their technical reports. &dagger; means evaluation results on the full set of
+MBPP, instead of the hand-verified set.
+
 
 #### Multimodal evaluation
 

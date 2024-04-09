@@ -58,6 +58,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 <p id="0"></p>
 
 ## 更新日志
+- 2024/04/11 开源[MiniCPM-V-v2.0](https://huggingface.co/openbmb/MiniCPM-V-v2.0)、[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k)和[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B)。
 - 2024/03/16 minicpm-2b 的30余个中间检查点开放了！[huggingface链接](https://huggingface.co/openbmb/MiniCPM-2B-history)
 - 2024/02/13 支持了llama.cpp
 - 2024/02/09 我们在readme里加入了一个[开源社区](#community)章节，用来收集开源社区对MiniCPM的支持案例。
@@ -73,10 +74,9 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
   | HuggingFace | ModelScope | WiseModel | Replicate |
   |-------------|------------|-----------|-----------|
   |[MiniCPM-2B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[MiniCPM-2B-sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)|
-  |[MiniCPM-2B-sft-fp32](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32)|[MiniCPM-2B-sft-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-sft-fp32)|[MiniCPM-2B-sft-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)|
   |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://replicate.com/tuantuanzhang/minicpm)
-  |[MiniCPM-2B-dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[MiniCPM-2B-dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[MiniCPM-2B-dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)|
-  |[MiniCPM-2B-dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)|
+  |[MiniCPM-2B-128k]() |[MiniCPM-2B-128k]()|
+  |[MiniCPM-MoE-8x2B]() |[MiniCPM-MoE-8x2B]()|
   |[MiniCPM-2B-sft-fp32-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32-llama-format)|
   |[MiniCPM-2B-sft-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)|
   |[MiniCPM-2B-dpo-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16-llama-format)|
@@ -177,24 +177,11 @@ print(res)
 
 #### vLLM 推理
 
-* 安装支持 MiniCPM 的 vLLM
-  - 因为 MiniCPM 采用 MUP 结构，在矩阵乘法中存在一定的放缩计算，与Llama类模型结构有细微差别。
-  - 我们基于版本为 0.2.2 的 vLLM 实现了 MiniCPM 的推理，代码位于仓库[inference](https://github.com/OpenBMB/MiniCPM/tree/main/inference)文件夹下，未来将会支持更新的vLLM 版本。
-
-* 安装支持 MiniCPM 的 vLLM 版本
-```shell
-pip install inference/vllm
-```
-
-* 将Huggingface Transformers仓库转为vLLM-MiniCPM支持的格式，其中`<hf_repo_path>`, `<vllmcpm_repo_path>`均为本地路径
-```shell
-python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
-```
+* 安装[vLLM](https://github.com/vllm-project/vllm)主分支版本: [从源码安装](https://docs.vllm.ai/en/latest/getting_started/installation.html#build-from-source)。
 
 * 测试样例
 ```shell
-cd inference/vllm/examples/infer_cpm
-python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_demo.txt
+python inference/inference_vllm.py --model_path <hf_repo_path> --prompt_path prompts/prompt_demo.txt
 ```
 
 * 期望输出
@@ -336,6 +323,110 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
 |LLaMA-2-70B-chat|6.86|
 |Mistral-7B-Instruct-v0.1|6.84|
 |MPT-34B-instruct|6.39|
+
+#### MiniCPM-MoE-8x2B模型评测
+<div align="left">
+
+<table style="margin: 0px auto;">
+<thead>
+  <tr>
+    <th align="left">Model</th>
+    <th nowrap="nowrap" >BBH</th>
+    <th nowrap="nowrap" >MMLU</th>
+    <th nowrap="nowrap" >CEval</th>
+    <th nowrap="nowrap" >CMMLU</th>
+    <th nowrap="nowrap" >HumanEval</th>
+    <th nowrap="nowrap" >MBPP</th>
+    <th nowrap="nowrap" >GSM8K</th>
+    <th nowrap="nowrap" >MATH</th
+  </tr>
+</thead>
+<tbody align="center">
+  <tr>
+    <td nowrap="nowrap" align="left">Llama2-34B*</td>
+    <td>44.1</td>
+    <td>62.6</td>
+    <td>-</td>
+    <td>-</td>
+    <td>22.6</td>
+    <td>33.0&dagger;</td>
+    <td>42.2</td>
+    <td>6.24</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left">Mistral-7B</td>
+    <td>41.06</td>
+    <td>62.69</td>
+    <td>46.12</td>
+    <td>42.96</td>
+    <td>27.44</td>
+    <td>45.20</td>
+    <td>33.13</td>
+    <td>5.0</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >Gemma-7B</td>
+    <td>39.19</td>
+    <td>60.83</td>
+    <td>42.57</td>
+    <td>44.20</td>
+    <td>38.41</td>
+    <td>50.12</td>
+    <td>47.31</td>
+    <td>6.18</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >Qwen1.5-7B*</td>
+    <td>40.2</td>
+    <td>61</td>
+    <td>74.1</td>
+    <td>73.1</td>
+    <td>36</td>
+    <td>37.4&dagger;</td>
+    <td>62.5</td>
+    <td>20.3</td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >Deepseek-MoE(16B)*</td>
+    <td>-</td>
+    <td>45.0</td>
+    <td>40.6</td>
+    <td>42.5</td>
+    <td>26.8</td>
+    <td>39.2&dagger;</td>
+    <td>18.8</td>
+    <td>4.3</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" ><b>MiniCPM-2.4B</b></td>
+    <td>36.87</td>
+    <td>53.46</td>
+    <td>51.13</td>
+    <td>51.07</td>
+    <td>50.00</td>
+    <td>47.31</td>
+    <td>53.83</td>
+    <td>10.24</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" ><b>MiniCPM-MoE-8x2B</b></td>
+    <td>39.22</td>
+    <td>58.90</td>
+    <td>58.11</td>
+    <td>58.80</td>
+    <td>56.71</td>
+    <td>51.05</td>
+    <td>61.56</td>
+    <td>10.52</td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+
+<p id="4"></p>
+
+注：* 表示结果取自技术报告。&dagger; 表示评测集为MBPP全集。
 
 #### 多模态模型评测
 
