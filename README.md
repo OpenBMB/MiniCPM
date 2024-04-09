@@ -28,9 +28,11 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 
 我们完全开源MiniCPM-2B的模型参数供学术研究和有限商用.
 具体而言，我们目前已公开以下模型，地址详见 [模型下载](#1) 部分
-- 基于MiniCPM-2B的指令微调与人类偏好对**MiniCPM-2B-SFT/DPO**。
+- 基于MiniCPM-2B的指令微调与人类偏好对齐**MiniCPM-2B-SFT/DPO**。
 - 基于MiniCPM-2B的多模态模型**MiniCPM-V**，能力超越基于Phi-2的同参数级别多模态模型。
 - MiniCPM-2B-SFT/DPO的Int4量化版**MiniCPM-2B-SFT/DPO-Int4**。
+- MiniCPM-2B的128k长文本版本**MiniCPM-2B-128k**。
+- MiniCPM-2B的MoE版本**MiniCPM-MoE-8x2B**。
 - 基于MLC-LLM、LLMFarm开发的MiniCPM手机端程序，**文本及多模态模型均可在手机端进行推理**。
 - 训练过程中的[30个Checkpoints](https://huggingface.co/openbmb/MiniCPM-2B-history)供模型机理研究。
 
@@ -59,7 +61,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 
 ## 更新日志
 - 2024/04/11 开源[MiniCPM-V-v2.0](https://huggingface.co/openbmb/MiniCPM-V-v2.0)、[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k)和[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B)。
-- 2024/03/16 minicpm-2b 的30余个中间检查点开放了！[huggingface链接](https://huggingface.co/openbmb/MiniCPM-2B-history)
+- 2024/03/16 MiniCPM-2B 的30余个中间检查点开放了！[huggingface链接](https://huggingface.co/openbmb/MiniCPM-2B-history)
 - 2024/02/13 支持了llama.cpp
 - 2024/02/09 我们在readme里加入了一个[开源社区](#community)章节，用来收集开源社区对MiniCPM的支持案例。
 - 2024/02/08 我们更新了[llama-format的模型权重](#llamaformat)，方便大家更加快捷地使用我们的模型。
@@ -71,22 +73,16 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 
 * 语言模型
  
-  | HuggingFace | ModelScope | WiseModel | Replicate |
-  |-------------|------------|-----------|-----------|
+  | HuggingFace | ModelScope | WiseModel | 
+  |-------------|------------|-----------|
   |[MiniCPM-2B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[MiniCPM-2B-sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)|
   |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://replicate.com/tuantuanzhang/minicpm)
   |[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) |[MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary)|
   |[MiniCPM-MoE-8x2B]() |[MiniCPM-MoE-8x2B]()|
-  |[MiniCPM-2B-sft-fp32-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32-llama-format)|
-  |[MiniCPM-2B-sft-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)|
-  |[MiniCPM-2B-dpo-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16-llama-format)|
-  |[MiniCPM-2B-dpo-fp16-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) |
-  |[MiniCPM-2B-dpo-q4km-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf) |
 
   注: 
   1. 模型训练为bf16训练，因此用bf16进行推理将取得最好的效果，其他的格式会由于精度问题造成一点的性能下降。
-  2. -llama-format后缀的模型是我们将MiniCPM结构的模型转化成了Llama结构的（主要将mup的参数化方案融合进了模型本身的参数）。使得Llama模型的使用者可以零成本尝试MiniCPM。[详见这里](#llamaformat)
-  3. 感谢[@runfuture](https://github.com/runfuture)对MiniCPM进行了[llama.cpp](https://github.com/ggerganov/llama.cpp)和[ollama](https://github.com/ollama/ollama)的适配
+  2. 更多模型版本见[这里](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f)。
 
 
 * 多模态模型
@@ -133,7 +129,7 @@ print(responds)
 <p id="llamaformat"></p>
 
 ##### MiniCPM-2B （Llama Format）
-我们将MiniCPM的模型权重转化成了Llama代码可以直接调用的形式，以便大家尝试:
+我们将MiniCPM的模型权重转化成了Llama代码可以直接调用的[格式](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)，以便大家尝试:
 ```python
 import torch
 from transformers import LlamaTokenizerFast, LlamaForCausalLM
@@ -192,7 +188,7 @@ python inference/inference_vllm.py --model_path <hf_repo_path> --prompt_path pro
 ```
 
 #### llama.cpp、Ollama、fastllm推理
-我们支持了[llama.cpp](https://github.com/ggerganov/llama.cpp/) 推理、[ollama](https://github.com/ollama/ollama)推理、[fastllm](https://github.com/ztxz16/fastllm)推理.
+MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm)推理。感谢[@runfuture](https://github.com/runfuture)对llama.cpp和ollama的适配。
 
 **llama.cpp**
 1. [安装llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build)
@@ -227,7 +223,7 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
 
 ## 开源社区
 
-- [ChatLLM框架](https://github.com/foldl/chatllm.cpp):[在CPU上跑MiniCPM](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
+- [ChatLLM框架](https://github.com/foldl/chatllm.cpp)：[在CPU上跑MiniCPM](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
 
 
 

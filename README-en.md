@@ -30,6 +30,8 @@ We release all model parameters for research and limited commercial use.
 - SFT and DPO version based on MiniCPM-2B and human preference: **MiniCPM-2B-SFT/DPO**
 - The multi-modal model **MiniCPM-V** based on MiniCPM-2B, which outperforms models with similar size, i.e., Phi-2
 - The INT4 quantized version **MiniCPM-2B-SFT/DPO-Int4** based on MiniCPM-2B-SFT/DPO
+- The 128k long context version of MiniCPM-2B: **MiniCPM-2B-128k**.
+- The MoE version of MiniCPM-2B: **MiniCPM-MoE-8x2B**.
 - Mobile phone application based on MLC-LLM and LLMFarm. Both language model and multimodel model can conduct inference on smartphones.
 - 30 Intermidiate [checkpoints](https://huggingface.co/openbmb/MiniCPM-2B-history) for academic purpose.
 
@@ -57,7 +59,7 @@ We release all model parameters for research and limited commercial use.
 <p id="0"></p>
 
 ## Update Log
-- 2024/04/11 We release [MiniCPM-V-v2.0](https://huggingface.co/openbmb/MiniCPM-V-v2.0)、[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) and[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B)。
+- 2024/04/11 We release [MiniCPM-V-v2.0](https://huggingface.co/openbmb/MiniCPM-V-v2.0)、[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) and [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B)。
 - 2024/03/16 Intermediate checkpoints were released [here](https://huggingface.co/openbmb/MiniCPM-2B-history)!
 - 2024/02/13 We support llama.cpp 
 - 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
@@ -70,22 +72,16 @@ We release all model parameters for research and limited commercial use.
 
 * Language Model
 
-  | HuggingFace | ModelScope | WiseModel | Replicate |
-  |-------------|------------|-----------|-----------|
+  | HuggingFace | ModelScope | WiseModel | 
+  |-------------|------------|-----------|
   |[MiniCPM-2B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[MiniCPM-2B-sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)|
   |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://replicate.com/tuantuanzhang/minicpm)
   |[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) |[MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary)|
   |[MiniCPM-MoE-8x2B]() |[MiniCPM-MoE-8x2B]()|
-  |[MiniCPM-2B-sft-fp32-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32-llama-format)|
-  |[MiniCPM-2B-sft-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)|
-  |[MiniCPM-2B-dpo-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16-llama-format)|
-  |[MiniCPM-2B-dpo-fp16-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) |
-  |[MiniCPM-2B-dpo-q4km-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf) |
 
   Note: 
   1. The model training was conducted in bf16 format, so inference using bf16 will yield the best results. Other formats might experience a slight performance decline due to precision issues.
-  2. The models with a '-llama-format' suffix are those where we have transformed the MiniCPM structure into the Llama structure (primarily integrating the parameterization scheme of mup into the model's own parameters). This enables users of the Llama model to try out MiniCPM at no extra cost. [See details](#llamaformat)
-  3. Thanks to [the contributor](https://github.com/runfuture) for adapting MiniCPM to [llama.cpp](https://github.com/ggerganov/llama.cpp) and [ollama](https://github.com/ollama/ollama).
+  2. More model versions can be found [here](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f).
      
 * Multimodel Model
 
@@ -131,7 +127,7 @@ The capital city of China is Beijing. Beijing is not only the political center o
 <p id="llamaformat"></p>
 
 ##### MiniCPM-2B (Llama Format)
-We have converted the model weights of MiniCPM into a format that can be directly called by Llama code, for everyone to try:
+To facilitate ease of use, we have converted the model weights of MiniCPM to adapt to the structure of the LLaMA model:
 ```python
 import torch
 from transformers import LlamaTokenizerFast, LlamaForCausalLM
@@ -184,7 +180,7 @@ print(res)
 
 
 #### llama.cpp、Ollama、fastllm Inference
-We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm).
+We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm). Thanks to [@runfuture](https://github.com/runfuture) for the adaptation of llama.cpp and ollama.
 
 
 **llama.cpp**
@@ -207,7 +203,7 @@ Solving [this issue](https://github.com/ollama/ollama/issues/2383)
 - [ChatLLM](https://github.com/foldl/chatllm.cpp) :[Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
 
 **fastllm**
-1. [install fastllm]([fastllm](https://github.com/ztxz16/fastllm)
+1. install [fastllm](https://github.com/ztxz16/fastllm)
 2. inference
 ```
 import torch
