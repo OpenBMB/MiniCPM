@@ -200,12 +200,12 @@ Solving [this issue](https://github.com/ollama/ollama/issues/2383)
 
 ## Community
 
-- [ChatLLM](https://github.com/foldl/chatllm.cpp) :[Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
+- [ChatLLM](https://github.com/foldl/chatllm.cpp): [Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
 
 **fastllm**
 1. install [fastllm](https://github.com/ztxz16/fastllm)
 2. inference
-```
+```python
 import torch
 from transformers import AutoTokenizer, LlamaTokenizerFast, AutoModelForCausalLM
 path = 'openbmb/MiniCPM-2B-dpo-fp16'

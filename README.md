@@ -205,7 +205,7 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 **fastllm**
 1. [编译安装fastllm](https://github.com/ztxz16/fastllm)
 2. 模型推理
-```
+```python
 import torch
 from transformers import AutoTokenizer, LlamaTokenizerFast, AutoModelForCausalLM
 path = 'openbmb/MiniCPM-2B-dpo-fp16'
