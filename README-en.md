@@ -14,7 +14,7 @@
 <a href="https://openbmb.vercel.app/" target="_blank">Technical Blog</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">Multi-modal Model OmniLMM</a> |
 <a href="https://luca.cn/" target="_blank">CPM-C 100B Model Trial</a> |
-Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">wechat</a>
+Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">WeChat</a>
 </p>
 
 MiniCPM is an End-Side LLM developed by ModelBest Inc. and TsinghuaNLP, with only 2.4B parameters excluding embeddings (2.7B in total).
@@ -60,7 +60,7 @@ We release all model parameters for research and limited commercial use.
 <p id="0"></p>
 
 ## Update Log
-- 2024/04/11 We release [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0), [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k), [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) and [MiniCPM-1B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)!
+- 2024/04/11 We release [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0), [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k), [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) and [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)!
 - 2024/03/16 Intermediate checkpoints were released [here](https://huggingface.co/openbmb/MiniCPM-2B-history)!
 - 2024/02/13 We support llama.cpp 
 - 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
@@ -410,86 +410,236 @@ MBPP, instead of the hand-verified set.
 
 #### Multimodal evaluation
 
-<div align="left">
+<div align="center">
 
 <table style="margin: 0px auto;">
 <thead>
   <tr>
     <th align="left">Model</th>
     <th>Size</th>
-    <th nowrap="nowrap" >Visual Tokens</th>
-    <th>MME</th>
-    <th nowrap="nowrap" >MMB dev (en)</th>
-    <th nowrap="nowrap" >MMB dev (zh)</th>
-    <th nowrap="nowrap" >MMMU val</th>
-    <th nowrap="nowrap" >CMMMU val</th>
+    <th>TextVQA val</th>
+    <th>DocVQA test</th>
+    <th>OCRBench</th>
+    <th>OpenCompass</th>
+    <th nowrap="nowrap" >MME</th>
+    <th>MMB dev(en)</th>
+    <th>MMB dev(zh)</th>
+    <th>MMMU val</th>
+    <th>MathVista</th>
+    <th>LLaVA Bench</th>
+    <th nowrap="nowrap">Object HalBench</th>
   </tr>
 </thead>
 <tbody align="center">
   <tr>
-    <td align="left">LLaVA-Phi</td>
-    <td align="right">3B</td>
-    <td>576</td>
-    <td>1335</td>
-    <td>59.8</td>
+    <td colspan="12" align="left"><strong>Proprietary models</strong></td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left">Gemini Pro Vision</td>
     <td>- </td>
-    <td>- </td>
+    <td>74.6</td>
+    <td>88.1</td>
+    <td>680</td>
+    <td>63.8</td>
+    <td>2148.9</td>
+    <td>75.2</td>
+    <td>74.0</td>
+    <td>48.9</td>
+    <td>45.8</td>
+    <td>79.9</td>
     <td>- </td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left">MobileVLM</td>
-    <td align="right">3B</td>
-    <td>144</td>
-    <td>1289</td>
-    <td>59.6</td>
+    <td nowrap="nowrap" align="left">GPT-4V</td>
     <td>- </td>
-    <td>- </td>
-    <td>- </td>
+    <td>78.0</td>
+    <td>88.4</td>
+    <td>645</td>
+    <td>63.2</td>
+    <td>1771.5</td>
+    <td>75.1</td>
+    <td>75.0</td>
+    <td>53.8</td>
+    <td>47.8</td>
+    <td>93.1</td>
+    <td>86.4 / 92.7</td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" >Imp-v1</td>
-    <td align="right">3B</td>
-    <td>576</td>
-    <td>1434</td>
-    <td>66.5</td>
-    <td>- </td>
-    <td>- </td>
+    <td colspan="12" align="left"><strong>Open-source models 6B~34B</strong></td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >Yi-VL-6B</td>
+    <td align="right" >6.7B</td>
+    <td>45.5*</td>
+    <td>17.1*</td>
+    <td>290</td>
+    <td>49.3</td>
+    <td>1915.1 </td>
+    <td>68.6 </td>
+    <td>68.3 </td>
+    <td>40.3 </td>
+    <td>28.8 </td>
+    <td>51.9 </td>
     <td>- </td>
   </tr>
   <tr>
     <td  nowrap="nowrap" align="left" >Qwen-VL-Chat</td>
     <td align="right" >9.6B</td>
-    <td>256</td>
-    <td>1487</td>
+    <td>61.5</td>
+    <td>62.6</td>
+    <td>488 </td>
+    <td>52.1 </td>
+    <td>1860.0 </td>
     <td>60.6 </td>
     <td>56.7 </td>
-    <td>35.9 </td>
-    <td>30.7 </td>
+    <td>37.0 </td>
+    <td>33.8 </td>
+    <td>67.7 </td>
+    <td>56.2 / 80.0</td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" >CogVLM</td>
-    <td align="right">17.4B </td>
-    <td>1225</td>
-    <td>1438 </td>
-    <td>63.7 </td>
-    <td>53.8 </td>
-    <td>32.1 </td>
+    <td nowrap="nowrap" align="left" >Yi-VL-34B</td>
+    <td align="right" >34B</td>
+    <td>43.4*</td>
+    <td>16.9*</td>
+    <td>290</td>
+    <td>52.6 </td>
+    <td>2050.2</td>
+    <td>71.1</td>
+    <td>71.4</td>
+    <td>45.1</td>
+    <td>30.7</td>
+    <td>62.3</td>
     <td>- </td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" ><b>MiniCPM-V(3B)</b></td>
-    <td align="right">3B </td>
-    <td>64</td>
-    <td>1452 </td>
-    <td>67.3 </td>
-    <td>61.9 </td>
+    <td  nowrap="nowrap" align="left" >DeepSeek-VL-7B</td>
+    <td align="right" >7.3B</td>
+    <td>64.7*</td>
+    <td>47.0* </td>
+    <td>435</td>
+    <td>55.6 </td>
+    <td>1765.4 </td>
+    <td>74.1 </td>
+    <td>72.8 </td>
+    <td>38.3 </td>
+    <td>36.8</td>
+    <td>77.8 </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >TextMonkey</td>
+    <td align="right" >9.7B</td>
+    <td>64.3</td>
+    <td>66.7 </td>
+    <td>558</td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+    <td>-</td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+    <tr>
+    <td  nowrap="nowrap" align="left" >CogVLM-Chat</td>
+    <td align="right" >17.4B</td>
+    <td>70.4</td>
+    <td>33.3*</td>
+    <td>590 </td>
+    <td>52.5 </td>
+    <td>1736.6 </td>
+    <td>63.7 </td>
+    <td>53.8 </td>
+    <td>37.3 </td>
     <td>34.7 </td>
-    <td>32.1 </td>
+    <td>73.9 </td>
+    <td>73.6 / 87.4 </td>
+  </tr>
+  <tr>
+    <td colspan="12" align="left"><strong>Open-source models 1B~3B </strong></td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >DeepSeek-VL-1.3B</td>
+    <td align="right" >1.7B</td>
+    <td>58.4*</td>
+    <td>37.9*</td>
+    <td>413</td>
+    <td>46.0 </td>
+    <td>1531.6 </td>
+    <td>64.0 </td>
+    <td>61.2 </td>
+    <td>33.8 </td>
+    <td>29.4 </td>
+    <td>51.1 </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >MobileVLM V2</td>
+    <td align="right" >3.1B</td>
+    <td>57.5</td>
+    <td>19.4*</td>
+    <td>-</td>
+    <td>-</td>
+    <td>1440.5(P) </td>
+    <td>63.2 </td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >Mini-Gemini</td>
+    <td align="right" >2.2B</td>
+    <td>56.2</td>
+    <td>34.2*</td>
+    <td>-</td>
+    <td>-</td>
+    <td>1653.0 </td>
+    <td>59.8 </td>
+    <td>- </td>
+    <td>31.7 </td>
+    <td>-</td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >MiniCPM-V</td>
+    <td align="right" >2.8B </td>
+    <td>60.6</td>
+    <td>38.2 </td>
+    <td>366</td>
+    <td>47.6</td>
+    <td>1650.2 </td>
+    <td>67.9 </td>
+    <td>65.3 </td>
+    <td><strong>38.3</strong></td>
+    <td>28.9</td>
+    <td>51.3 </td>
+    <td>78.4 / 88.5 </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" ><strong>MiniCPM-V 2.0</strong></td>
+    <td align="right" >2.8B </td>
+    <td><strong>74.1</strong></td>
+    <td><strong>71.9</strong> </td>
+    <td><strong>605</strong></td>
+    <td><strong>55.0</strong></td>
+    <td><strong>1808.6</strong> </td>
+    <td><strong>69.6</strong> </td>
+    <td><strong>68.1</strong> </td>
+    <td>38.2 </td>
+    <td><strong>38.7</strong></td>
+    <td><strong>69.2</strong> </td>
+    <td><strong>85.5 / 92.2 </strong></td>
   </tr>
 </tbody>
 </table>
 
 </div>
+* We evaluate the officially released checkpoint by ourselves.
 
 #### DPO evaluation
 
