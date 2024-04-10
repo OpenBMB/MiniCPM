@@ -797,12 +797,15 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 
 ## Citation
 
-* Please cite our [techinical report](https://shengdinghu.notion.site/MiniCPM-Unveiling-the-Potential-of-End-side-Large-Language-Models-d4d3a8c426424654a4e80e42a711cb20) if you find our work valuable.
+* Please cite our [paper](https://arxiv.org/abs/2404.06395) if you find our work valuable.
 
 ```
-@misc{minicpm2024,
-	title={MiniCPM：Unveiling the Potential of End-side Large Language Models},
-	booktitle={OpenBMB Blog},
-	year={2024}
+@misc{hu2024minicpm,
+      title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies}, 
+      author={Shengding Hu and Yuge Tu and Xu Han and Chaoqun He and Ganqu Cui and Xiang Long and Zhi Zheng and Yewei Fang and Yuxiang Huang and Weilin Zhao and Xinrong Zhang and Zheng Leng Thai and Kaihuo Zhang and Chongyi Wang and Yuan Yao and Chenyang Zhao and Jie Zhou and Jie Cai and Zhongwu Zhai and Ning Ding and Chao Jia and Guoyang Zeng and Dahai Li and Zhiyuan Liu and Maosong Sun},
+      year={2024},
+      eprint={2404.06395},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 ```

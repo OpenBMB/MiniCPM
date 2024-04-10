@@ -820,12 +820,15 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 
 ## 工作引用
 
-* 如果觉得MiniCPM有助于您的工作，请引用我们的[技术报告](https://shengdinghu.notion.site/MiniCPM-c805a17c5c8046398914e47f0542095a?pvs=4)
+* 如果觉得MiniCPM有助于您的工作，请引用我们的[论文](https://arxiv.org/abs/2404.06395)
 
 ```
-@misc{minicpm2024,
-	title={MiniCPM: Unveiling the Potential of End-side Large Language Models},
-	booktitle={OpenBMB Blog},
-	year={2024}
+@misc{hu2024minicpm,
+      title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies}, 
+      author={Shengding Hu and Yuge Tu and Xu Han and Chaoqun He and Ganqu Cui and Xiang Long and Zhi Zheng and Yewei Fang and Yuxiang Huang and Weilin Zhao and Xinrong Zhang and Zheng Leng Thai and Kaihuo Zhang and Chongyi Wang and Yuan Yao and Chenyang Zhao and Jie Zhou and Jie Cai and Zhongwu Zhai and Ning Ding and Chao Jia and Guoyang Zeng and Dahai Li and Zhiyuan Liu and Maosong Sun},
+      year={2024},
+      eprint={2404.06395},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 ```
