@@ -11,7 +11,7 @@
 </h4>
 
 <p align="center">
-<a href="https://shengdinghu.notion.site/MiniCPM-Unveiling-the-Potential-of-End-side-Large-Language-Models-d4d3a8c426424654a4e80e42a711cb20?pvs=4" target="_blank">Technical Blog</a> |
+<a href="https://openbmb.vercel.app/" target="_blank">Technical Blog</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">Multi-modal Model OmniLMM</a> |
 <a href="https://luca.cn/" target="_blank">CPM-C 100B Model Trial</a> |
 Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">wechat</a>
@@ -21,19 +21,20 @@ MiniCPM is an End-Side LLM developed by ModelBest Inc. and TsinghuaNLP, with onl
 
 - MiniCPM has very close performance compared with Mistral-7B on open-sourced general benchmarks with better ability on Chinese, Mathematics and Coding after SFT. The overall performance exceeds Llama2-13B, MPT-30B, Falcon-40B, etc.
 - After DPO, MiniCPM outperforms Llama2-70B-Chat, Vicuna-33B, Mistral-7B-Instruct-v0.1, Zephyr-7B-alpha, etc. on MTBench.
-- MiniCPM-V, based on MiniCPM-2B, achieves the best overall performance among multimodel models of the same scale, surpassing existing multimodal large models built on Phi-2 and achieving performance comparable to or even better than 9.6B Qwen-VL-Chat on some tasks.
+- MiniCPM-V 2.0, based on MiniCPM-2B, achieves state-of-the-art performance on multiple benchmarks among models under 7B parameters. It even outperforms strong Qwen-VL-Chat 9.6B, CogVLM-Chat 17.4B, and Yi-VL 34B on OpenCompass. MiniCPM-V 2.0 also shows strong OCR capability, achieving comparable performance to Gemini Pro in scene-text understanding.
 - MiniCPM can be deployed and infer on smartphones, and the speed of streaming output is relatively higher than human verbal speed. MiniCPM-V has also successfully deployed multi-modal models on smartphones.
 - The cost of developing based on MiniCPM is low. Parameter efficient finetuning can be conducted with a single 1080/2080 GPU and full parameter finetuning can be conducted with a 3090/4090 GPU.
 
 We release all model parameters for research and limited commercial use. 
 
-- SFT and DPO version based on MiniCPM-2B and human preference: **MiniCPM-2B-SFT/DPO**
-- The multi-modal model **MiniCPM-V** based on MiniCPM-2B, which outperforms models with similar size, i.e., Phi-2
+- SFT and DPO version based on MiniCPM-2B: **MiniCPM-2B-SFT/DPO**
+- The multi-modal model **MiniCPM-V 2.0** based on MiniCPM-2B.
 - The INT4 quantized version **MiniCPM-2B-SFT/DPO-Int4** based on MiniCPM-2B-SFT/DPO
 - The 128k long context version of MiniCPM-2B: **MiniCPM-2B-128k**.
 - The MoE version of MiniCPM-2B: **MiniCPM-MoE-8x2B**.
+- SFT version of MiniCPM-1B, a lighter-weight model: **MiniCPM-1B-SFT**.
 - Mobile phone application based on MLC-LLM and LLMFarm. Both language model and multimodel model can conduct inference on smartphones.
-- 30 Intermidiate [checkpoints](https://huggingface.co/openbmb/MiniCPM-2B-history) for academic purpose.
+- 30 Intermidiate [checkpoints](https://huggingface.co/openbmb/MiniCPM-2B-history) of MiniCPM-2B for academic purpose.
 
 ### Limitations
 
@@ -59,7 +60,7 @@ We release all model parameters for research and limited commercial use.
 <p id="0"></p>
 
 ## Update Log
-- 2024/04/11 We release [MiniCPM-V-v2.0](https://huggingface.co/openbmb/MiniCPM-V-v2.0)、[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) and [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B)。
+- 2024/04/11 We release [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0), [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k), [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) and [MiniCPM-1B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)!
 - 2024/03/16 Intermediate checkpoints were released [here](https://huggingface.co/openbmb/MiniCPM-2B-history)!
 - 2024/02/13 We support llama.cpp 
 - 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
@@ -75,18 +76,18 @@ We release all model parameters for research and limited commercial use.
   | HuggingFace | ModelScope | WiseModel | 
   |-------------|------------|-----------|
   |[MiniCPM-2B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[MiniCPM-2B-sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)|
-  |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://replicate.com/tuantuanzhang/minicpm)
-  |[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) |[MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary)|
-  |[MiniCPM-MoE-8x2B]() |[MiniCPM-MoE-8x2B]()|
+  |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|
+  |[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) |[MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary)| 
+  |[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) |[MiniCPM-MoE-8x2B](https://modelscope.cn/models/OpenBMB/MiniCPM-MoE-8x2B)| 
+  |[MiniCPM-1B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) |
 
-  Note: 
-  1. The model training was conducted in bf16 format, so inference using bf16 will yield the best results. Other formats might experience a slight performance decline due to precision issues.
-  2. More model versions can be found [here](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f).
+  Note: More model versions can be found [here](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f).
      
 * Multimodel Model
 
     | HuggingFace | ModelScope | WiseModel |
     |-------------|------------|-----------|
+    | [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0) | [MiniCPM-V 2.0](https://modelscope.cn/models/OpenBMB/MiniCPM-V-2.0/) |
     | [MiniCPM-V](https://huggingface.co/openbmb/MiniCPM-V) | [MiniCPM-V](https://modelscope.cn/models/OpenBMB/MiniCPM-V/) | [MiniCPM-V](https://wisemodel.cn/models/OpenBMB/MiniCPM-V) |
     | [OmniLMM](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
 
@@ -195,13 +196,6 @@ More parameters adjustment [see this](https://github.com/ggerganov/llama.cpp/blo
 **ollama**
 Solving [this issue](https://github.com/ollama/ollama/issues/2383)
 
-
-<p id="Community"></p>
-
-## Community
-
-- [ChatLLM](https://github.com/foldl/chatllm.cpp): [Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
-
 **fastllm**
 1. install [fastllm](https://github.com/ztxz16/fastllm)
 2. inference
@@ -217,6 +211,11 @@ model = llm.from_hf(model, tokenizer, dtype = "float16") # dtype支持 "float16"
 print(model.response("<用户>Write an acrostic poem with the word MINICPM (One line per letter)<AI>", top_p=0.8, temperature=0.5, repeat_penalty=1.02))
 ```
 
+<p id="Community"></p>
+
+## Community
+
+- [ChatLLM](https://github.com/foldl/chatllm.cpp): [Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
 
 
 <p id="3"></p>
@@ -530,9 +529,7 @@ MBPP, instead of the hand-verified set.
 
 #### Performance
 
-* We did not conduct in-depth optimization and system testing on the mobile inference model, only verifying the feasibility of MiniCPM using mobile phone chips for inference.
-* Besides us, there are also some [efforts](https://github.com/ggerganov/llama.cpp/blob/master/examples/llava/MobileVLM-README.md) to deploy multimodal models on mobile phones based on llama.cpp. We have verified the feasibility of deploying MiniCPM-V on mobile phones based on MLC-LLM this time, and it can input and output normally. However, there also exist a problem of long image processing time, which needs further optimization :)
-* **We welcome more developers to continuously improve the inference performance of LLMs on mobile phones and update the test results below.**
+* We did not conduct in-depth optimization and system testing on the mobile inference model, only verifying the feasibility of MiniCPM using mobile phone chips for inference. **We welcome more developers to continuously improve the inference performance of LLMs on mobile phones and update the test results below.**
 
 | Mobile Phones     | OS            | Processor          | Memory（GB） | Inference Throughput（token/s） |
 | ----------------- | ------------- | ------------------ | ------------ | ------------------------------- |
@@ -556,7 +553,14 @@ MBPP, instead of the hand-verified set.
 | iPhone 11         | iOS 16.6      | A13                | 4            | 4.6                             |
 |Xiaomi Redmi K50   | HyperOS 1.0.2 |	MediaTek Dimensity 8100	|12	|3.5|
 
-![multimodel demo](https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/Snake_en.gif)
+* We have also verified the feasibility of deploying MiniCPM-V series models on mobile phones based on MLC-LLM, and it can input and output normally. However, there also exist a problem of long image processing time, which needs further optimization. The demo video below is the raw screen recording on a Xiaomi 14 Pro without edition.
+
+<table align="center">
+    <p align="center">
+      <img src="https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/station.gif" width=36%/>
+      <img src="https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/english_menu.gif" width=36%/>
+    </p>
+</table>
 
 
 <p id="5"></p>
