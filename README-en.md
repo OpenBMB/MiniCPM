@@ -392,7 +392,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <td>58.90</td>
     <td>58.11</td>
     <td>58.80</td>
-    <td>56.71</td>
+    <td>55.49</td>
     <td>51.05</td>
     <td>61.56</td>
     <td>10.52</td>
