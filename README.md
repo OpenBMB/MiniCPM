@@ -13,8 +13,8 @@
 
 <p align="center">
 <a href="https://openbmb.vercel.app/?category=Chinese+Blog" target="_blank">MiniCPM 技术博客</a> |
+<a href="https://arxiv.org/abs/2404.06395" target="_blank">MiniCPM 论文</a> |
 <a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">OmniLMM 多模态模型</a> |
-<a href="https://luca.cn/" target="_blank">CPM-C 千亿模型试用</a> |
 加入我们的 <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> 和 <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">微信群</a>
  
 </p>
@@ -26,7 +26,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 - 经过 Int4 量化后，MiniCPM 可在手机上进行部署推理，流式输出速度略高于人类说话速度。MiniCPM-V 也直接跑通了多模态大模型在手机上的部署。
 - 一张1080/2080可高效参数微调，一张3090/4090可全参数微调，一台机器可持续训练 MiniCPM，二次开发成本较低。
 
-我们完全开源MiniCPM系列的模型参数供学术研究和有限商用.
+我们完全开源MiniCPM系列的模型参数供学术研究和有限商用。
 具体而言，我们目前已公开以下模型，地址详见 [模型下载](#1) 部分
 - 基于MiniCPM-2B的指令微调与人类偏好对齐版本**MiniCPM-2B-SFT/DPO**。
 - 基于MiniCPM-2B的多模态模型**MiniCPM-V 2.0**。
@@ -62,7 +62,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 
 ## 更新日志
 - 2024/04/11 开源[MiniCPM-V-2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0)、[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k)、[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B)和[MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)！
-- 2024/03/16 MiniCPM-2B 的30余个中间检查点开放了！[huggingface链接](https://huggingface.co/openbmb/MiniCPM-2B-history)
+- 2024/03/16 MiniCPM-2B 的30余个中间检查点开放了！[HuggingFace链接](https://huggingface.co/openbmb/MiniCPM-2B-history)
 - 2024/02/13 支持了llama.cpp
 - 2024/02/09 我们在README里加入了一个[开源社区](#community)章节，用来收集开源社区对MiniCPM的支持案例。
 - 2024/02/08 我们更新了[llama-format的模型权重](#llamaformat)，方便大家更加快捷地使用我们的模型。
@@ -80,7 +80,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
   |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|
   |[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) |[MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary)| 
   |[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) |[MiniCPM-MoE-8x2B](https://modelscope.cn/models/OpenBMB/MiniCPM-MoE-8x2B)| 
-  |[MiniCPM-1B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) |
+  |[MiniCPM-1B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B-sft-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
 
   注: 更多模型版本见[这里](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f)。
 
