@@ -303,6 +303,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
 | MiniCPM-2.4B-128k                   | 27.32 | 37.68             | 98.31   | 99.83         | 9            | 29.69               | 23.06           | 16.33           | 15.73            | 9.5                 | 0         | 4.29      | 22.08      | 0        |
 
 #### MiniCPM-MoE-8x2B Evaluation
+#### MiniCPM-MoE-8x2B模型评测
 <div align="left">
 
 <table style="margin: 0px auto;">
@@ -314,7 +315,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <th nowrap="nowrap" >CEval</th>
     <th nowrap="nowrap" >CMMLU</th>
     <th nowrap="nowrap" >HumanEval</th>
-    <th nowrap="nowrap" >MBPP</th>
+    <th nowrap="nowrap" >MBPP&dagger;</th>
     <th nowrap="nowrap" >GSM8K</th>
     <th nowrap="nowrap" >MATH</th
   </tr>
@@ -327,7 +328,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <td>-</td>
     <td>-</td>
     <td>22.6</td>
-    <td>33.0&dagger;</td>
+    <td>33.0</td>
     <td>42.2</td>
     <td>6.24</td>
   </tr>
@@ -349,7 +350,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <td>-</td>
     <td>-</td>
     <td>32.3</td>
-    <td>44.4&dagger;</td>
+    <td>44.4</td>
     <td>46.4</td>
     <td>24.3</td>
   </tr>
@@ -360,7 +361,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <td>74.1</td>
     <td>73.1</td>
     <td>36</td>
-    <td>37.4&dagger;</td>
+    <td>37.4</td>
     <td>62.5</td>
     <td>20.3</td>
   </tr>
@@ -371,7 +372,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <td>40.6</td>
     <td>42.5</td>
     <td>26.8</td>
-    <td>39.2&dagger;</td>
+    <td>39.2</td>
     <td>18.8</td>
     <td>4.3</td>
   </tr>
@@ -382,7 +383,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <td>51.13</td>
     <td>51.07</td>
     <td>50.00</td>
-    <td>47.31</td>
+    <td>35.93</td>
     <td>53.83</td>
     <td>10.24</td>
   </tr>
@@ -393,7 +394,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <td>58.11</td>
     <td>58.80</td>
     <td>55.49</td>
-    <td>51.05</td>
+    <td>41.68</td>
     <td>61.56</td>
     <td>10.52</td>
   </tr>
