@@ -11,27 +11,30 @@
 </h4>
 
 <p align="center">
-<a href="https://shengdinghu.notion.site/MiniCPM-Unveiling-the-Potential-of-End-side-Large-Language-Models-d4d3a8c426424654a4e80e42a711cb20?pvs=4" target="_blank">Technical Blog</a> |
-<a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">Multi-modal Model OmniLMM</a> |
-<a href="https://luca.cn/" target="_blank">CPM-C 100B Model Trial</a> |
-Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">wechat</a>
+<a href="https://openbmb.vercel.app/" target="_blank">Technical Blog</a> |
+<a href="https://arxiv.org/abs/2404.06395" target="_blank">MiniCPM Paper</a> |
+<a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V Repo</a> |
+Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">WeChat</a>
 </p>
 
 MiniCPM is an End-Side LLM developed by ModelBest Inc. and TsinghuaNLP, with only 2.4B parameters excluding embeddings (2.7B in total).
 
 - MiniCPM has very close performance compared with Mistral-7B on open-sourced general benchmarks with better ability on Chinese, Mathematics and Coding after SFT. The overall performance exceeds Llama2-13B, MPT-30B, Falcon-40B, etc.
 - After DPO, MiniCPM outperforms Llama2-70B-Chat, Vicuna-33B, Mistral-7B-Instruct-v0.1, Zephyr-7B-alpha, etc. on MTBench.
-- MiniCPM-V, based on MiniCPM-2B, achieves the best overall performance among multimodel models of the same scale, surpassing existing multimodal large models built on Phi-2 and achieving performance comparable to or even better than 9.6B Qwen-VL-Chat on some tasks.
+- MiniCPM-V 2.0, based on MiniCPM-2B, achieves state-of-the-art performance on multiple benchmarks among models under 7B parameters. It even outperforms strong Qwen-VL-Chat 9.6B, CogVLM-Chat 17.4B, and Yi-VL 34B on OpenCompass. MiniCPM-V 2.0 also shows strong OCR capability, achieving comparable performance to Gemini Pro in scene-text understanding.
 - MiniCPM can be deployed and infer on smartphones, and the speed of streaming output is relatively higher than human verbal speed. MiniCPM-V has also successfully deployed multi-modal models on smartphones.
 - The cost of developing based on MiniCPM is low. Parameter efficient finetuning can be conducted with a single 1080/2080 GPU and full parameter finetuning can be conducted with a 3090/4090 GPU.
 
 We release all model parameters for research and limited commercial use. 
 
-- SFT and DPO version based on MiniCPM-2B and human preference: **MiniCPM-2B-SFT/DPO**
-- The multi-modal model **MiniCPM-V** based on MiniCPM-2B, which outperforms models with similar size, i.e., Phi-2
+- SFT and DPO version based on MiniCPM-2B: **MiniCPM-2B-SFT/DPO**
+- The multi-modal model **MiniCPM-V 2.0** based on MiniCPM-2B.
 - The INT4 quantized version **MiniCPM-2B-SFT/DPO-Int4** based on MiniCPM-2B-SFT/DPO
+- The 128k long context version of MiniCPM-2B: **MiniCPM-2B-128k**.
+- The MoE version of MiniCPM-2B: **MiniCPM-MoE-8x2B**.
+- SFT version of MiniCPM-1B, a lighter-weight model: **MiniCPM-1B-SFT**.
 - Mobile phone application based on MLC-LLM and LLMFarm. Both language model and multimodel model can conduct inference on smartphones.
-- 30 Intermidiate [checkpoints](https://huggingface.co/openbmb/MiniCPM-2B-history) for academic purpose.
+- 30 Intermidiate [checkpoints](https://huggingface.co/openbmb/MiniCPM-2B-history) of MiniCPM-2B for academic purpose.
 
 ### Limitations
 
@@ -57,6 +60,7 @@ We release all model parameters for research and limited commercial use.
 <p id="0"></p>
 
 ## Update Log
+- 2024/04/11 We release [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0), [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k), [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) and [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)!
 - 2024/03/16 Intermediate checkpoints were released [here](https://huggingface.co/openbmb/MiniCPM-2B-history)!
 - 2024/02/13 We support llama.cpp 
 - 2024/02/09 We have included a [Community](#community) section in the README to encourage support for MiniCPM from the open-source community.
@@ -69,30 +73,23 @@ We release all model parameters for research and limited commercial use.
 
 * Language Model
 
-  | HuggingFace | ModelScope | WiseModel | Replicate |
-  |-------------|------------|-----------|-----------|
-  |[MiniCPM-2B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[MiniCPM-2B-sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)
-  |[MiniCPM-2B-sft-fp32](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32)|[MiniCPM-2B-sft-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-sft-fp32)|[MiniCPM-2B-sft-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
-  |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://replicate.com/tuantuanzhang/minicpm)
-  |[MiniCPM-2B-dpo-fp16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp16)|[MiniCPM-2B-dpo-fp16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16/)|[MiniCPM-2B-dpo-fp16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-fp16)
-  |[MiniCPM-2B-dpo-fp32](https://huggingface.co/openbmb/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-fp32)|[MiniCPM-2B-dpo-fp32](https://wisemodel.cn/models/OpenBMB/miniCPM-dpo-fp32)
-  |[MiniCPM-2B-sft-fp32-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-fp32-llama-format)|
-  |[MiniCPM-2B-sft-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)|
-  |[MiniCPM-2B-dpo-bf16-llama-format](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16-llama-format)|
-  |[MiniCPM-2B-dpo-fp16-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) |
-  |[MiniCPM-2B-dpo-q4km-gguf](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf) |
+  | HuggingFace | ModelScope | WiseModel | 
+  |-------------|------------|-----------|
+  |[MiniCPM-2B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft-bf16](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|[MiniCPM-2B-sft-bf16](https://wisemodel.cn/models/OpenBMB/miniCPM-bf16)|
+  |[MiniCPM-2B-dpo-bf16](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|[MiniCPM-2B-dpo-bf16](https://wisemodel.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16)|
+  |[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) |[MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary)| 
+  |[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) |[MiniCPM-MoE-8x2B](https://modelscope.cn/models/OpenBMB/MiniCPM-MoE-8x2B)| 
+  |[MiniCPM-1B-sft-bf16](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B-sft-bf16](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
 
-  Note: 
-  1. The model training was conducted in bf16 format, so inference using bf16 will yield the best results. Other formats might experience a slight performance decline due to precision issues.
-  2. The models with a '-llama-format' suffix are those where we have transformed the MiniCPM structure into the Llama structure (primarily integrating the parameterization scheme of mup into the model's own parameters). This enables users of the Llama model to try out MiniCPM at no extra cost. [See details](#llamaformat)
-  3. Thanks to [the contributor](https://github.com/runfuture) for adapting MiniCPM to [llama.cpp](https://github.com/ggerganov/llama.cpp) and [ollama](https://github.com/ollama/ollama).
+  Note: More model versions can be found [here](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f).
      
 * Multimodel Model
 
     | HuggingFace | ModelScope | WiseModel |
     |-------------|------------|-----------|
+    | [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0) | [MiniCPM-V 2.0](https://modelscope.cn/models/OpenBMB/MiniCPM-V-2.0/) |
     | [MiniCPM-V](https://huggingface.co/openbmb/MiniCPM-V) | [MiniCPM-V](https://modelscope.cn/models/OpenBMB/MiniCPM-V/) | [MiniCPM-V](https://wisemodel.cn/models/OpenBMB/MiniCPM-V) |
-    | [OmniLMM](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
+    | [OmniLMM-12B](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM-12B](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM-12B](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
 
 
 
@@ -131,7 +128,7 @@ The capital city of China is Beijing. Beijing is not only the political center o
 <p id="llamaformat"></p>
 
 ##### MiniCPM-2B (Llama Format)
-We have converted the model weights of MiniCPM into a format that can be directly called by Llama code, for everyone to try:
+To facilitate ease of use, we have converted the model weights of MiniCPM to adapt to the structure of the LLaMA model:
 ```python
 import torch
 from transformers import LlamaTokenizerFast, LlamaForCausalLM
@@ -175,30 +172,16 @@ print(res)
 
 #### vLLM 
 
-* Install vLLM supporting MiniCPM.
-  - MiniCPM adopts the MUP program, which introduces some extra scaling operations to make the training process stable. And the MUP structure is a little different from the structure used by Llama and other LLMs.
-  - vLLM 0.2.2 is adapted to MiniCPM in the folder [inference](https://github.com/OpenBMB/MiniCPM/tree/main/inference). More vLLM versions will be supported in the future.
-
-```shell
-pip install inference/vllm
-```
-
-* Transfer Huggingface Transformers repo to vLLM-MiniCPM repo, where `<hf_repo_path>`, `<vllmcpm_repo_path>` are local paths.
-
-```shell
-python inference/convert_hf_to_vllmcpm.py --load <hf_repo_path> --save <vllmcpm_repo_path>
-```
+* Install [vLLM](https://github.com/vllm-project/vllm) main: [build from source](https://docs.vllm.ai/en/latest/getting_started/installation.html#build-from-source)。
 
 * Examples
-
-```shell
-cd inference/vllm/examples/infer_cpm
-python inference.py --model_path <vllmcpm_repo_path> --prompt_path prompts/prompt_final.txt
-```
+  ```shell
+  python inference/inference_vllm.py --model_path <hf_repo_path> --prompt_path prompts/prompt_demo.txt
+  ```
 
 
 #### llama.cpp、Ollama、fastllm Inference
-We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm).
+We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm). Thanks to [@runfuture](https://github.com/runfuture) for the adaptation of llama.cpp and ollama.
 
 
 **llama.cpp**
@@ -213,17 +196,10 @@ More parameters adjustment [see this](https://github.com/ggerganov/llama.cpp/blo
 **ollama**
 Solving [this issue](https://github.com/ollama/ollama/issues/2383)
 
-
-<p id="Community"></p>
-
-## Community
-
-- [ChatLLM](https://github.com/foldl/chatllm.cpp) :[Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
-
 **fastllm**
-1. [install fastllm]([fastllm](https://github.com/ztxz16/fastllm)
+1. install [fastllm](https://github.com/ztxz16/fastllm)
 2. inference
-```
+```python
 import torch
 from transformers import AutoTokenizer, LlamaTokenizerFast, AutoModelForCausalLM
 path = 'openbmb/MiniCPM-2B-dpo-fp16'
@@ -235,6 +211,11 @@ model = llm.from_hf(model, tokenizer, dtype = "float16") # dtype支持 "float16"
 print(model.response("<用户>Write an acrostic poem with the word MINICPM (One line per letter)<AI>", top_p=0.8, temperature=0.5, repeat_penalty=1.02))
 ```
 
+<p id="Community"></p>
+
+## Community
+
+- [ChatLLM](https://github.com/foldl/chatllm.cpp): [Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
 
 
 <p id="3"></p>
@@ -311,88 +292,354 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
 |Llama2-7B-Chat|38.16|39.17|33.59|34.54|32.64|47.64|14.02|27.4|21.15|2.08|35.54|74.28|54.78|75.65*|
 |MiniCPM-2B|52.33|52.6|51.1|51.13|51.07|53.46|50.00|47.31|53.83|10.24|36.87|85.44|68.00|68.25|
 
-#### Multimodal evaluation
+#### MiniCPM-2B-128k Evaluation
+| Model                               | avg   | avg w/o code&math | passkey | number_string | kv_retrieval | longbook_choice_eng | longbook_qa_chn | longbook_qa_eng | longbook_sum_eng | longdialogue_qa_eng | math_calc | math_find | code_debug | code_run |
+|-------------------------------------|-------|-------------------|---------|---------------|--------------|---------------------|-----------------|-----------------|------------------|---------------------|-----------|-----------|------------|----------|
+| LWM-Text-128k                       | 24.45 | 33.62             | 100     | 97.8          | 0.6          | 28.82               | 15.93           | 14.31           | 9.99             | 1.5                 | 0         | 3.43      | 20.05      | 1        |
+| Yarn-Mistral-7b-128k                | 19.84 | 27.36             | 92.71   |               | 0            | 27.95               | 15.49           | 9.55            | 9.06             | 7.5                 | 0         | 17.14     | 0.76       | 1.25     |
+| Mistral-7B-Instruct-v0.2(ABF 1000w) | 27.75 | 36.9              | 100     | 78.98         | 3.6          | 37.12               | 11.74           | 17.37           | 21.12            | 9.5                 | 0         | 29.43     | 17.51      | 0        |
+| Yi-6B-200k                          | 22.15 | 32.54             | 100     | 94.92         | 0            | 36.68               | 15.07           | 9.2             | 0.92             | 3.5                 | 0         | 4.29      | 0.51       | 0.75     |
+| chatglm3-6b-128k                    | 25.58 | 36.57             | 89.93   | 99.66         | 5.2          | 46.29               | 10.7            | 8.38            | 25.91            | 6.5                 | 0         | 8         | 5.33       | 1        |
+| MiniCPM-2.4B-128k                   | 27.32 | 37.68             | 98.31   | 99.83         | 9            | 29.69               | 23.06           | 16.33           | 15.73            | 9.5                 | 0         | 4.29      | 22.08      | 0        |
 
+#### MiniCPM-MoE-8x2B Evaluation
 <div align="left">
 
 <table style="margin: 0px auto;">
 <thead>
   <tr>
     <th align="left">Model</th>
-    <th>Size</th>
-    <th nowrap="nowrap" >Visual Tokens</th>
-    <th>MME</th>
-    <th nowrap="nowrap" >MMB dev (en)</th>
-    <th nowrap="nowrap" >MMB dev (zh)</th>
-    <th nowrap="nowrap" >MMMU val</th>
-    <th nowrap="nowrap" >CMMMU val</th>
+    <th nowrap="nowrap" >BBH</th>
+    <th nowrap="nowrap" >MMLU</th>
+    <th nowrap="nowrap" >CEval</th>
+    <th nowrap="nowrap" >CMMLU</th>
+    <th nowrap="nowrap" >HumanEval</th>
+    <th nowrap="nowrap" >MBPP</th>
+    <th nowrap="nowrap" >GSM8K</th>
+    <th nowrap="nowrap" >MATH</th
   </tr>
 </thead>
 <tbody align="center">
   <tr>
-    <td align="left">LLaVA-Phi</td>
-    <td align="right">3B</td>
-    <td>576</td>
-    <td>1335</td>
-    <td>59.8</td>
-    <td>- </td>
-    <td>- </td>
-    <td>- </td>
+    <td nowrap="nowrap" align="left">Llama2-34B*</td>
+    <td>44.1</td>
+    <td>62.6</td>
+    <td>-</td>
+    <td>-</td>
+    <td>22.6</td>
+    <td>33.0&dagger;</td>
+    <td>42.2</td>
+    <td>6.24</td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left">MobileVLM</td>
-    <td align="right">3B</td>
-    <td>144</td>
-    <td>1289</td>
-    <td>59.6</td>
-    <td>- </td>
-    <td>- </td>
-    <td>- </td>
+    <td nowrap="nowrap" align="left">Mistral-7B-Instruct-v0.2</td>
+    <td>39.81</td>
+    <td>60.51</td>
+    <td>42.55</td>
+    <td>41.92</td>
+    <td>36.59</td>
+    <td>39.63</td>
+    <td>40.49</td>
+    <td>4.95</td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" >Imp-v1</td>
-    <td align="right">3B</td>
-    <td>576</td>
-    <td>1434</td>
-    <td>66.5</td>
-    <td>- </td>
-    <td>- </td>
-    <td>- </td>
+    <td nowrap="nowrap" align="left" >Gemma-7B*</td>
+    <td>55.1</td>
+    <td>64.3</td>
+    <td>-</td>
+    <td>-</td>
+    <td>32.3</td>
+    <td>44.4&dagger;</td>
+    <td>46.4</td>
+    <td>24.3</td>
   </tr>
   <tr>
-    <td  nowrap="nowrap" align="left" >Qwen-VL-Chat</td>
-    <td align="right" >9.6B</td>
-    <td>256</td>
-    <td>1487</td>
-    <td>60.6 </td>
-    <td>56.7 </td>
-    <td>35.9 </td>
-    <td>30.7 </td>
+    <td nowrap="nowrap" align="left" >Qwen1.5-7B*</td>
+    <td>40.2</td>
+    <td>61</td>
+    <td>74.1</td>
+    <td>73.1</td>
+    <td>36</td>
+    <td>37.4&dagger;</td>
+    <td>62.5</td>
+    <td>20.3</td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" >CogVLM</td>
-    <td align="right">17.4B </td>
-    <td>1225</td>
-    <td>1438 </td>
-    <td>63.7 </td>
-    <td>53.8 </td>
-    <td>32.1 </td>
-    <td>- </td>
+    <td  nowrap="nowrap" align="left" >Deepseek-MoE(16B)*</td>
+    <td>-</td>
+    <td>45.0</td>
+    <td>40.6</td>
+    <td>42.5</td>
+    <td>26.8</td>
+    <td>39.2&dagger;</td>
+    <td>18.8</td>
+    <td>4.3</td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" ><b>MiniCPM-V(3B)</b></td>
-    <td align="right">3B </td>
-    <td>64</td>
-    <td>1452 </td>
-    <td>67.3 </td>
-    <td>61.9 </td>
-    <td>34.7 </td>
-    <td>32.1 </td>
+    <td nowrap="nowrap" align="left" ><b>MiniCPM-2.4B</b></td>
+    <td>36.87</td>
+    <td>53.46</td>
+    <td>51.13</td>
+    <td>51.07</td>
+    <td>50.00</td>
+    <td>47.31</td>
+    <td>53.83</td>
+    <td>10.24</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" ><b>MiniCPM-MoE-8x2B</b></td>
+    <td>39.22</td>
+    <td>58.90</td>
+    <td>58.11</td>
+    <td>58.80</td>
+    <td>55.49</td>
+    <td>51.05</td>
+    <td>61.56</td>
+    <td>10.52</td>
   </tr>
 </tbody>
 </table>
 
 </div>
+
+<p id="4"></p>
+
+Note：* means evaluation results are directly taken from their technical reports. &dagger; means evaluation results on the full set of
+MBPP, instead of the hand-verified set.
+
+
+#### Multimodal evaluation
+
+<div align="center">
+
+<table style="margin: 0px auto;">
+<thead>
+  <tr>
+    <th align="left">Model</th>
+    <th>Size</th>
+    <th>TextVQA val</th>
+    <th>DocVQA test</th>
+    <th>OCRBench</th>
+    <th>OpenCompass</th>
+    <th nowrap="nowrap" >MME</th>
+    <th>MMB dev(en)</th>
+    <th>MMB dev(zh)</th>
+    <th>MMMU val</th>
+    <th>MathVista</th>
+    <th>LLaVA Bench</th>
+    <th nowrap="nowrap">Object HalBench</th>
+  </tr>
+</thead>
+<tbody align="center">
+  <tr>
+    <td colspan="12" align="left"><strong>Proprietary models</strong></td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left">Gemini Pro Vision</td>
+    <td>- </td>
+    <td>74.6</td>
+    <td>88.1</td>
+    <td>680</td>
+    <td>63.8</td>
+    <td>2148.9</td>
+    <td>75.2</td>
+    <td>74.0</td>
+    <td>48.9</td>
+    <td>45.8</td>
+    <td>79.9</td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left">GPT-4V</td>
+    <td>- </td>
+    <td>78.0</td>
+    <td>88.4</td>
+    <td>645</td>
+    <td>63.2</td>
+    <td>1771.5</td>
+    <td>75.1</td>
+    <td>75.0</td>
+    <td>53.8</td>
+    <td>47.8</td>
+    <td>93.1</td>
+    <td>86.4 / 92.7</td>
+  </tr>
+  <tr>
+    <td colspan="12" align="left"><strong>Open-source models 6B~34B</strong></td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >Yi-VL-6B</td>
+    <td align="right" >6.7B</td>
+    <td>45.5*</td>
+    <td>17.1*</td>
+    <td>290</td>
+    <td>49.3</td>
+    <td>1915.1 </td>
+    <td>68.6 </td>
+    <td>68.3 </td>
+    <td>40.3 </td>
+    <td>28.8 </td>
+    <td>51.9 </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >Qwen-VL-Chat</td>
+    <td align="right" >9.6B</td>
+    <td>61.5</td>
+    <td>62.6</td>
+    <td>488 </td>
+    <td>52.1 </td>
+    <td>1860.0 </td>
+    <td>60.6 </td>
+    <td>56.7 </td>
+    <td>37.0 </td>
+    <td>33.8 </td>
+    <td>67.7 </td>
+    <td>56.2 / 80.0</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap" align="left" >Yi-VL-34B</td>
+    <td align="right" >34B</td>
+    <td>43.4*</td>
+    <td>16.9*</td>
+    <td>290</td>
+    <td>52.6 </td>
+    <td>2050.2</td>
+    <td>71.1</td>
+    <td>71.4</td>
+    <td>45.1</td>
+    <td>30.7</td>
+    <td>62.3</td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >DeepSeek-VL-7B</td>
+    <td align="right" >7.3B</td>
+    <td>64.7*</td>
+    <td>47.0* </td>
+    <td>435</td>
+    <td>55.6 </td>
+    <td>1765.4 </td>
+    <td>74.1 </td>
+    <td>72.8 </td>
+    <td>38.3 </td>
+    <td>36.8</td>
+    <td>77.8 </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >TextMonkey</td>
+    <td align="right" >9.7B</td>
+    <td>64.3</td>
+    <td>66.7 </td>
+    <td>558</td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+    <td>- </td>
+    <td>-</td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+    <tr>
+    <td  nowrap="nowrap" align="left" >CogVLM-Chat</td>
+    <td align="right" >17.4B</td>
+    <td>70.4</td>
+    <td>33.3*</td>
+    <td>590 </td>
+    <td>52.5 </td>
+    <td>1736.6 </td>
+    <td>63.7 </td>
+    <td>53.8 </td>
+    <td>37.3 </td>
+    <td>34.7 </td>
+    <td>73.9 </td>
+    <td>73.6 / 87.4 </td>
+  </tr>
+  <tr>
+    <td colspan="12" align="left"><strong>Open-source models 1B~3B </strong></td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >DeepSeek-VL-1.3B</td>
+    <td align="right" >1.7B</td>
+    <td>58.4*</td>
+    <td>37.9*</td>
+    <td>413</td>
+    <td>46.0 </td>
+    <td>1531.6 </td>
+    <td>64.0 </td>
+    <td>61.2 </td>
+    <td>33.8 </td>
+    <td>29.4 </td>
+    <td>51.1 </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >MobileVLM V2</td>
+    <td align="right" >3.1B</td>
+    <td>57.5</td>
+    <td>19.4*</td>
+    <td>-</td>
+    <td>-</td>
+    <td>1440.5(P) </td>
+    <td>63.2 </td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >Mini-Gemini</td>
+    <td align="right" >2.2B</td>
+    <td>56.2</td>
+    <td>34.2*</td>
+    <td>-</td>
+    <td>-</td>
+    <td>1653.0 </td>
+    <td>59.8 </td>
+    <td>- </td>
+    <td>31.7 </td>
+    <td>-</td>
+    <td>- </td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" >MiniCPM-V</td>
+    <td align="right" >2.8B </td>
+    <td>60.6</td>
+    <td>38.2 </td>
+    <td>366</td>
+    <td>47.6</td>
+    <td>1650.2 </td>
+    <td>67.9 </td>
+    <td>65.3 </td>
+    <td><strong>38.3</strong></td>
+    <td>28.9</td>
+    <td>51.3 </td>
+    <td>78.4 / 88.5 </td>
+  </tr>
+  <tr>
+    <td  nowrap="nowrap" align="left" ><strong>MiniCPM-V 2.0</strong></td>
+    <td align="right" >2.8B </td>
+    <td><strong>74.1</strong></td>
+    <td><strong>71.9</strong> </td>
+    <td><strong>605</strong></td>
+    <td><strong>55.0</strong></td>
+    <td><strong>1808.6</strong> </td>
+    <td><strong>69.6</strong> </td>
+    <td><strong>68.1</strong> </td>
+    <td>38.2 </td>
+    <td><strong>38.7</strong></td>
+    <td><strong>69.2</strong> </td>
+    <td><strong>85.5 / 92.2 </strong></td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+* We evaluate the officially released checkpoint by ourselves.
 
 #### DPO evaluation
 
@@ -432,9 +679,7 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
 
 #### Performance
 
-* We did not conduct in-depth optimization and system testing on the mobile inference model, only verifying the feasibility of MiniCPM using mobile phone chips for inference.
-* Besides us, there are also some [efforts](https://github.com/ggerganov/llama.cpp/blob/master/examples/llava/MobileVLM-README.md) to deploy multimodal models on mobile phones based on llama.cpp. We have verified the feasibility of deploying MiniCPM-V on mobile phones based on MLC-LLM this time, and it can input and output normally. However, there also exist a problem of long image processing time, which needs further optimization :)
-* **We welcome more developers to continuously improve the inference performance of LLMs on mobile phones and update the test results below.**
+* We did not conduct in-depth optimization and system testing on the mobile inference model, only verifying the feasibility of MiniCPM using mobile phone chips for inference. **We welcome more developers to continuously improve the inference performance of LLMs on mobile phones and update the test results below.**
 
 | Mobile Phones     | OS            | Processor          | Memory（GB） | Inference Throughput（token/s） |
 | ----------------- | ------------- | ------------------ | ------------ | ------------------------------- |
@@ -458,7 +703,14 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
 | iPhone 11         | iOS 16.6      | A13                | 4            | 4.6                             |
 |Xiaomi Redmi K50   | HyperOS 1.0.2 |	MediaTek Dimensity 8100	|12	|3.5|
 
-![multimodel demo](https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/Snake_en.gif)
+* We have also verified the feasibility of deploying MiniCPM-V series models on mobile phones based on MLC-LLM, and it can input and output normally. However, there also exist a problem of long image processing time, which needs further optimization. The demo video below is the raw screen recording on a Xiaomi 14 Pro without edition.
+
+<table align="center">
+    <p align="center">
+      <img src="https://github.com/OpenBMB/MiniCPM-V/blob/main/assets/gif_cases/station.gif" width=36%/>
+      <img src="https://github.com/OpenBMB/MiniCPM-V/blob/main/assets/gif_cases/english_menu.gif" width=36%/>
+    </p>
+</table>
 
 
 <p id="5"></p>
@@ -545,12 +797,15 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 
 ## Citation
 
-* Please cite our [techinical report](https://shengdinghu.notion.site/MiniCPM-Unveiling-the-Potential-of-End-side-Large-Language-Models-d4d3a8c426424654a4e80e42a711cb20) if you find our work valuable.
+* Please cite our [paper](https://arxiv.org/abs/2404.06395) if you find our work valuable.
 
 ```
-@misc{minicpm2024,
-	title={MiniCPM：Unveiling the Potential of End-side Large Language Models},
-	booktitle={OpenBMB Blog},
-	year={2024}
+@misc{hu2024minicpm,
+      title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies}, 
+      author={Shengding Hu and Yuge Tu and Xu Han and Chaoqun He and Ganqu Cui and Xiang Long and Zhi Zheng and Yewei Fang and Yuxiang Huang and Weilin Zhao and Xinrong Zhang and Zheng Leng Thai and Kaihuo Zhang and Chongyi Wang and Yuan Yao and Chenyang Zhao and Jie Zhou and Jie Cai and Zhongwu Zhai and Ning Ding and Chao Jia and Guoyang Zeng and Dahai Li and Zhiyuan Liu and Maosong Sun},
+      year={2024},
+      eprint={2404.06395},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 ```
