@@ -303,7 +303,6 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
 | MiniCPM-2.4B-128k                   | 27.32 | 37.68             | 98.31   | 99.83         | 9            | 29.69               | 23.06           | 16.33           | 15.73            | 9.5                 | 0         | 4.29      | 22.08      | 0        |
 
 #### MiniCPM-MoE-8x2B Evaluation
-#### MiniCPM-MoE-8x2B模型评测
 <div align="left">
 
 <table style="margin: 0px auto;">
