@@ -488,6 +488,12 @@ python demo/vllm_based_demo.py --model_path <vllmcpm_repo_path>
 python demo/hf_based_demo.py --model_path <hf_repo_path>
 ```
 
+#### 使用如下命令启动基于 Mac mlx 加速框架推理
+
+你需要安装 `mlx_lm` 库，并且，你需要下载对应的转换后的专用模型权重[MiniCPM-2B-sft-bf16-llama-format-mlx](https://huggingface.co/mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx)，然后运行以下命令：
+```shell
+python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
+```
 
 <p id="6"></p>
 
