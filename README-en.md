@@ -180,8 +180,8 @@ print(res)
   ```
 
 
-#### llama.cpp、Ollama、fastllm Inference
-We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm). Thanks to [@runfuture](https://github.com/runfuture) for the adaptation of llama.cpp and ollama.
+#### llama.cpp、Ollama、fastllm、mlx_lm Inference
+We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm)、、[mlx_lm](https://github.com/ml-explore/mlx-examples). Thanks to [@runfuture](https://github.com/runfuture) for the adaptation of llama.cpp and ollama.
 
 
 **llama.cpp**
@@ -210,6 +210,17 @@ llm.set_device_map("cpu")
 model = llm.from_hf(model, tokenizer, dtype = "float16") # dtype支持 "float16", "int8", "int4"
 print(model.response("<用户>Write an acrostic poem with the word MINICPM (One line per letter)<AI>", top_p=0.8, temperature=0.5, repeat_penalty=1.02))
 ```
+
+**mlx_lm**
+1. install mlx_lm
+    ```shell
+    pip install mlx_lm
+    ```
+2. download model weights [MiniCPM-2B-sft-bf16-llama-format-mlx](https://huggingface.co/mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx)
+3. inference
+    ```shell
+    python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
+    ```
 
 <p id="Community"></p>
 
@@ -740,6 +751,18 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
   * Using [BMTrain](https://github.com/OpenBMB/BMTrain)，as well as checkpointing and ZeRO-3 (zero redundancy optimizer)，we can tune all parameters of MiniCPM using one piece of NVIDIA GeForce GTX 3090/4090.
   * This code will be available soon.
 
+* mlx Parameter-efficient Tuning
+  * environment preparation
+    ```shell
+    pip install -r finetune/requirements_mlx.txt
+    ```
+  * finetune
+    ```shell
+    # train
+    python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data data/AdvertiseGen  --train  --seed 2024 --iters 500
+    # test
+    python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data data/AdvertiseGen  --test --seed 2024
+    ```
 
 <p id="9"></p>
 

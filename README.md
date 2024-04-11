@@ -188,8 +188,8 @@ python inference/inference_vllm.py --model_path <hf_repo_path> --prompt_path pro
  The capital city of China is Beijing. Beijing is a major political, cultural, and economic center in China, and it is known for its rich history, beautiful architecture, and vibrant nightlife. It is also home to many of China's most important cultural and historical sites, including the Forbidden City, the Great Wall of China, and the Temple of Heaven. Beijing is a popular destination for tourists from around the world, and it is an important hub for international business and trade.
 ```
 
-#### llama.cpp、Ollama、fastllm推理
-MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm)推理。感谢[@runfuture](https://github.com/runfuture)对llama.cpp和ollama的适配。
+#### llama.cpp、Ollama、fastllm、mlx_lm推理
+MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm)、[mlx_lm](https://github.com/ml-explore/mlx-examples)推理。感谢[@runfuture](https://github.com/runfuture)对llama.cpp和ollama的适配。
 
 **llama.cpp**
 1. [安装llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build)
@@ -217,7 +217,17 @@ llm.set_device_map("cpu")
 model = llm.from_hf(model, tokenizer, dtype = "float16") # dtype支持 "float16", "int8", "int4"
 print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高还是矮？差距多少？<AI>", top_p=0.8, temperature=0.5, repeat_penalty=1.02))
 ```
- 
+
+**mlx_lm**
+1. 安装mlx_lm库
+    ```shell
+    pip install mlx_lm
+    ```
+2. 下载转换后的模型权重[MiniCPM-2B-sft-bf16-llama-format-mlx](https://huggingface.co/mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx)
+3. 模型推理
+    ```shell
+    python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
+    ```
 
 
 <p id="community"></p>
@@ -741,13 +751,6 @@ python demo/vllm_based_demo.py --model_path <vllmcpm_repo_path>
 python demo/hf_based_demo.py --model_path <hf_repo_path>
 ```
 
-#### 使用如下命令启动基于 Mac mlx 加速框架推理
-
-你需要安装 `mlx_lm` 库，并且，你需要下载对应的转换后的专用模型权重[MiniCPM-2B-sft-bf16-llama-format-mlx](https://huggingface.co/mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx)，然后运行以下命令：
-```shell
-python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
-```
-
 <p id="6"></p>
 
 ## 二次开发
@@ -760,6 +763,18 @@ python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format
   * 使用[BMTrain](https://github.com/OpenBMB/BMTrain)，借助重计算和ZeRO-3，一张3090/4090可实现全参数微调，一台机器可实现持续训练
   * 相关代码也将陆续推出
 
+* mlx高效参数微调
+  * 环境准备
+    ```shell
+    pip install -r finetune/requirements_mlx.txt
+    ```
+  * 微调命令
+    ```shell
+    # train
+    python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data data/AdvertiseGen  --train  --seed 2024 --iters 500
+    # test
+    python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data data/AdvertiseGen  --test --seed 2024
+    ```
 
 
 <p id="9"></p>
