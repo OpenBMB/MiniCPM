@@ -14,7 +14,7 @@
 <p align="center">
 <a href="https://openbmb.vercel.app/?category=Chinese+Blog" target="_blank">MiniCPM 技术博客</a> |
 <a href="https://arxiv.org/abs/2404.06395" target="_blank">MiniCPM 论文</a> |
-<a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">OmniLMM 多模态模型</a> |
+<a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V 仓库</a> |
 加入我们的 <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> 和 <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">微信群</a>
  
 </p>
@@ -90,7 +90,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
   |-------------|------------|-----------|
   | [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0) | [MiniCPM-V 2.0](https://modelscope.cn/models/OpenBMB/MiniCPM-V-2.0/) |
   | [MiniCPM-V](https://huggingface.co/openbmb/MiniCPM-V) | [MiniCPM-V](https://modelscope.cn/models/OpenBMB/MiniCPM-V/) | [MiniCPM-V](https://wisemodel.cn/models/OpenBMB/MiniCPM-V) |
-  | [OmniLMM](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
+  | [OmniLMM-12B](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM-12B](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM-12B](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
 
   
 
@@ -720,8 +720,8 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
 
 <table align="center">
     <p align="center">
-      <img src="https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/station.gif" width=36%/>
-      <img src="https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/english_menu.gif" width=36%/>
+      <img src="https://github.com/OpenBMB/MiniCPM-V/blob/main/assets/gif_cases/station.gif" width=36%/>
+      <img src="https://github.com/OpenBMB/MiniCPM-V/blob/main/assets/gif_cases/english_menu.gif" width=36%/>
     </p>
 </table>
 

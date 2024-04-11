@@ -13,7 +13,7 @@
 <p align="center">
 <a href="https://openbmb.vercel.app/" target="_blank">Technical Blog</a> |
 <a href="https://arxiv.org/abs/2404.06395" target="_blank">MiniCPM Paper</a> |
-<a href="https://github.com/OpenBMB/OmniLMM/" target="_blank">Multi-modal Model OmniLMM</a> |
+<a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V Repo</a> |
 Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">WeChat</a>
 </p>
 
@@ -89,7 +89,7 @@ We release all model parameters for research and limited commercial use.
     |-------------|------------|-----------|
     | [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0) | [MiniCPM-V 2.0](https://modelscope.cn/models/OpenBMB/MiniCPM-V-2.0/) |
     | [MiniCPM-V](https://huggingface.co/openbmb/MiniCPM-V) | [MiniCPM-V](https://modelscope.cn/models/OpenBMB/MiniCPM-V/) | [MiniCPM-V](https://wisemodel.cn/models/OpenBMB/MiniCPM-V) |
-    | [OmniLMM](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
+    | [OmniLMM-12B](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM-12B](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM-12B](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
 
 
 
@@ -707,8 +707,8 @@ MBPP, instead of the hand-verified set.
 
 <table align="center">
     <p align="center">
-      <img src="https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/station.gif" width=36%/>
-      <img src="https://github.com/OpenBMB/OmniLMM/blob/main/assets/gif_cases/english_menu.gif" width=36%/>
+      <img src="https://github.com/OpenBMB/MiniCPM-V/blob/main/assets/gif_cases/station.gif" width=36%/>
+      <img src="https://github.com/OpenBMB/MiniCPM-V/blob/main/assets/gif_cases/english_menu.gif" width=36%/>
     </p>
 </table>
 
