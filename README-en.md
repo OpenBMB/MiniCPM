@@ -332,26 +332,26 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     <td>6.24</td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left">Mistral-7B</td>
-    <td>41.06</td>
-    <td>62.69</td>
-    <td>46.12</td>
-    <td>42.96</td>
-    <td>27.44</td>
-    <td>45.20</td>
-    <td>33.13</td>
-    <td>5.0</td>
+    <td nowrap="nowrap" align="left">Mistral-7B-Instruct-v0.2</td>
+    <td>39.81</td>
+    <td>60.51</td>
+    <td>42.55</td>
+    <td>41.92</td>
+    <td>36.59</td>
+    <td>39.63</td>
+    <td>40.49</td>
+    <td>4.95</td>
   </tr>
   <tr>
-    <td nowrap="nowrap" align="left" >Gemma-7B</td>
-    <td>39.19</td>
-    <td>60.83</td>
-    <td>42.57</td>
-    <td>44.20</td>
-    <td>38.41</td>
-    <td>50.12</td>
-    <td>47.31</td>
-    <td>6.18</td>
+    <td nowrap="nowrap" align="left" >Gemma-7B*</td>
+    <td>55.1</td>
+    <td>64.3</td>
+    <td>-</td>
+    <td>-</td>
+    <td>32.3</td>
+    <td>44.4&dagger;</td>
+    <td>46.4</td>
+    <td>24.3</td>
   </tr>
   <tr>
     <td nowrap="nowrap" align="left" >Qwen1.5-7B*</td>
