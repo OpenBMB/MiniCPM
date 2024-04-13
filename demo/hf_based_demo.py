@@ -1,7 +1,4 @@
-from typing import Dict
 from typing import List
-from typing import Tuple
-
 import argparse
 import gradio as gr
 import torch
@@ -16,7 +13,7 @@ import warnings
 warnings.filterwarnings('ignore', category=UserWarning, message='TypedStorage is deprecated')
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model_path", type=str, default="")
+parser.add_argument("--model_path", type=str, default="openbmb/MiniCPM-2B-dpo-fp16")
 parser.add_argument("--torch_dtype", type=str, default="bfloat16", choices=["float32", "bfloat16", "float16"])
 parser.add_argument("--server_name", type=str, default="127.0.0.1")
 parser.add_argument("--server_port", type=int, default=7860)
@@ -55,7 +52,7 @@ def hf_gen(dialog: List, top_p: float, temperature: float, repetition_penalty: f
         str: real-time generation results of hf model
     """
     inputs = tokenizer.apply_chat_template(dialog, tokenize=False, add_generation_prompt=False)
-    enc = tokenizer(inputs, return_tensors="pt").to("cuda")
+    enc = tokenizer(inputs, return_tensors="pt").to(next(model.parameters()).device)
     streamer = TextIteratorStreamer(tokenizer)
     generation_kwargs = dict(
         enc,
