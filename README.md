@@ -844,12 +844,10 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 * 如果觉得MiniCPM有助于您的工作，请引用我们的[论文](https://arxiv.org/abs/2404.06395)
 
 ```
-@misc{hu2024minicpm,
-      title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies}, 
-      author={Shengding Hu and Yuge Tu and Xu Han and Chaoqun He and Ganqu Cui and Xiang Long and Zhi Zheng and Yewei Fang and Yuxiang Huang and Weilin Zhao and Xinrong Zhang and Zheng Leng Thai and Kaihuo Zhang and Chongyi Wang and Yuan Yao and Chenyang Zhao and Jie Zhou and Jie Cai and Zhongwu Zhai and Ning Ding and Chao Jia and Guoyang Zeng and Dahai Li and Zhiyuan Liu and Maosong Sun},
-      year={2024},
-      eprint={2404.06395},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@article{hu2024minicpm,
+  title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies},
+  author={Hu, Shengding and Tu, Yuge and Han, Xu and He, Chaoqun and Cui, Ganqu and Long, Xiang and Zheng, Zhi and Fang, Yewei and Huang, Yuxiang and Zhao, Weilin and others},
+  journal={arXiv preprint arXiv:2404.06395},
+  year={2024}
 }
 ```
