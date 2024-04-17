@@ -88,7 +88,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 * 多模态模型
   | HuggingFace | ModelScope | WiseModel |
   |-------------|------------|-----------|
-  | [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0) | [MiniCPM-V 2.0](https://modelscope.cn/models/OpenBMB/MiniCPM-V-2.0/) |
+  | [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2) | [MiniCPM-V 2.0](https://modelscope.cn/models/OpenBMB/MiniCPM-V-2) |
   | [MiniCPM-V](https://huggingface.co/openbmb/MiniCPM-V) | [MiniCPM-V](https://modelscope.cn/models/OpenBMB/MiniCPM-V/) | [MiniCPM-V](https://wisemodel.cn/models/OpenBMB/MiniCPM-V) |
   | [OmniLMM-12B](https://huggingface.co/openbmb/OmniLMM-12B) | [OmniLMM-12B](https://modelscope.cn/models/OpenBMB/OmniLMM-12B) | [OmniLMM-12B](https://wisemodel.cn/models/OpenBMB/OmniLMM-12B) |
 
