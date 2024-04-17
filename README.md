@@ -201,7 +201,11 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 更多参数调整[详见](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/README.md)
 
 **ollama**
-正在解决[这个问题](https://github.com/ollama/ollama/issues/2383)
+1. [安装ollama](https://github.com/ollama/ollama)
+2. 在命令行运行:
+```
+ollama run modelbest/minicpm-2b-dpo
+```
 
 **fastllm**
 1. [编译安装fastllm](https://github.com/ztxz16/fastllm)
