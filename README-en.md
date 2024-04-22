@@ -194,7 +194,11 @@ We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.
 More parameters adjustment [see this](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/README.md)
 
 **ollama**
-Solving [this issue](https://github.com/ollama/ollama/issues/2383)
+1. [install ollama](https://github.com/ollama/ollama)
+2. In command line:
+```
+ollama run modelbest/minicpm-2b-dpo 
+```
 
 **fastllm**
 1. install [fastllm](https://github.com/ztxz16/fastllm)
