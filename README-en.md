@@ -172,7 +172,10 @@ print(res)
 
 #### vLLM 
 
-* Install [vLLM](https://github.com/vllm-project/vllm) main: [build from source](https://docs.vllm.ai/en/latest/getting_started/installation.html#build-from-source)。
+* Install [vLLM](https://github.com/vllm-project/vllm)
+  ```shell
+  pip install "vllm>=0.4.1"
+  ```
 
 * Examples
   ```shell

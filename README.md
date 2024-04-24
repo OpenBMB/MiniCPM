@@ -174,7 +174,10 @@ print(res)
 
 #### vLLM 推理
 
-* 安装[vLLM](https://github.com/vllm-project/vllm)主分支版本: [从源码安装](https://docs.vllm.ai/en/latest/getting_started/installation.html#build-from-source)。
+* 安装[vLLM](https://github.com/vllm-project/vllm)
+```shell
+pip install "vllm>=0.4.1"
+```
 
 * 测试样例
 ```shell
