@@ -48,8 +48,8 @@ class SupervisedDataset(Dataset):
         data_path,
         tokenizer,
         model_max_length=4096,
-        user_tokens=[1786, 4194, 95388],
-        assistant_tokens=[1786, 10850, 95388],
+        user_tokens=[1786, 4194],
+        assistant_tokens=[1786, 10850],
     ):
         super(SupervisedDataset, self).__init__()
         self.data = json.load(open(data_path))
