@@ -204,10 +204,33 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 更多参数调整[详见](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/README.md)
 
 **ollama**
+
+***ollama自动安装模型***
 1. [安装ollama](https://github.com/ollama/ollama)
 2. 在命令行运行:
 ```
 ollama run modelbest/minicpm-2b-dpo
+```
+***ollama手动安装模型***
+1. [安装ollama](https://github.com/ollama/ollama)
+2. 下载gguf形式的模型。[下载链接2b-fp16格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [下载链接2b-q4km格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf)[下载链接1b-fp16格式](https://huggingface.co/linglingdan/MiniCPM-1b-fp16-gguf)[下载链接1b-qr_1格式](https://huggingface.co/linglingdan/MiniCPM-1b-q4-1)
+3. 在命令行运行以下命令,model_name可自定义：
+```
+touch model_name.Modelfile
+```
+4. 将以上model_name.Modelfile的内容修改如下,FROM空格后写入gguf的模型路径
+```
+FROM model_path/model_name.gguf
+TEMPLATE """<s><USER>{{ .Prompt }}<AI>{{ .Response }}"""
+PARAMETER stop "<\s>"
+```
+5. 在命令行运行以下命令，创建ollama模型，ollama_model_name可自定义，model_name.Modelfile参考第3步命名
+```
+ollama create ollama_model_name -f model_name.Modelfile
+```
+6. 运行ollama模型：
+```
+ollama run ollama_model_name
 ```
 
 **fastllm**
