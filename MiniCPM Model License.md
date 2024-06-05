@@ -1,9 +1,13 @@
 Version 1.0, June 5, 2024
 © 2024 OpenBMB. All rights reserved.
-Part One: Preamble
+
+## Part One: Preamble
+
 We are opening the entire series of the globally leading MiniCPM edge-side large language models, including the flagship edge-side models MiniCPM-2.4B and MiniCPM-1.2B, as well as the world's most powerful edge multimodal models MiniCPM-V series. The aforementioned weights are completely open for all academic research. Commercial use is also allowed after filling out a registration questionnaire. Community use of the MiniCPM series models must comply with Apache 2.0 and the "MiniCPM Model Community License Agreement."
 Therefore, you and the MiniCPM development team agree to the following "MiniCPM Model Community License Agreement":
-Part Two: Licensing and Redistributio
+
+## Part Two: Licensing and Redistributio
+
 1. Grant of Rights
 You are granted a non-exclusive, worldwide, non-transferable, royalty-free, limited license to use, copy, distribute, reproduce, create derivative works from, and modify MiniCPM materials in accordance with OpenBMB's intellectual property rights or other rights in the MiniCPM materials.
 2. Distribution and Redistribution
@@ -15,12 +19,14 @@ You are granted a non-exclusive, worldwide, non-transferable, royalty-free, limi
 If you or your affiliates' services or products deploy the model on edge-side devices not exceeding 5,000 units, or provide applications with a daily active user count (DAU) of less than 1 million, you can apply to OpenBMB for permission and, after filling out the registration questionnaire, may be allowed to use it commercially for free. Otherwise, please email (cpm@modelbest.cn) to apply for authorization from OpenBMB, which may, at its discretion, grant permission, and you will not have the right to exercise any rights under this agreement.
 4. Usage-based Restrictions
 The restrictions set forth in Appendix A are considered usage-based restrictions. Therefore, you may not use the model or its derivatives for designated restricted uses. You may use the model under this license, including only for lawful purposes and in compliance with the terms of the license. Usage includes creating any content, fine-tuning, updating, running, training, evaluating, and/or re-parameterizing the model. You should require all users of the model or its derivatives to comply with the terms of this section.
-Part Three: Other Terms
+
+## Part Three: Other Terms
 5. Trademarks and Related
 This license does not grant you the right to use OpenBMB, OpenBMB Intelligence, MiniCPM trademarks, trade names, logos, or otherwise imply a relationship between the parties; any rights not expressly granted herein are reserved by OpenBMB.
 6. Disclaimer
 Unless required by applicable law or agreed to in writing, OpenBMB provides the model and supplemental materials "as is," without any warranty or condition, express or implied, including but not limited to all express and implied warranties or conditions of title, non-infringement, merchantability, or fitness for a particular purpose. You are solely responsible for determining the appropriateness of using or redistributing the model, its derivatives, and supplemental materials, and assume any risks associated with exercising the permissions under this license.
-Appendix A: Usage Restrictions
+
+## Appendix A: Usage Restrictions
 You agree not to use the model or its derivatives for:
 - Any use that violates applicable national or international laws or regulations or infringes upon the legal rights and interests of any third party;
 - Any military purposes;
