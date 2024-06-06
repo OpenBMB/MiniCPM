@@ -213,7 +213,7 @@ ollama run modelbest/minicpm-2b-dpo
 ```
 ***ollama手动安装模型***
 1. [安装ollama](https://github.com/ollama/ollama)
-2. 下载gguf形式的模型。[下载链接2b-fp16格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [下载链接2b-q4km格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf)[下载链接1b-fp16格式](https://huggingface.co/linglingdan/MiniCPM-1b-fp16-gguf)[下载链接1b-qr_1格式](https://huggingface.co/linglingdan/MiniCPM-1b-q4-1)
+2. 下载gguf形式的模型。[下载链接2b-fp16格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [下载链接2b-q4km格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf) [下载链接1b-fp16格式](https://huggingface.co/linglingdan/MiniCPM-1b-fp16-gguf) [下载链接1b-qr_1格式](https://huggingface.co/linglingdan/MiniCPM-1b-q4-1)
 3. 在命令行运行以下命令,model_name可自定义：
 ```
 touch model_name.Modelfile
@@ -259,7 +259,18 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
     ```
 
-
+**gptq量化**
+1. 首先git获取[minicpm_gptqd代码](https://github.com/LDLINGLINGLING/AutoGPTQ/tree/minicpm_gptq)
+2. 进入minicpm_gptqd主目录./AutoGPTQ，命令行输入：
+    ```
+    pip install e .
+    ```
+3. 前往[模型下载](#1)下载未量化的MiniCPM仓库下所有文件放至本地同一文件夹下,1b、2b模型均可,训练后模型亦可。
+4. 在./AutoGPTQ/examples/quantization路径下输入以下命令，其中no_quantized_path是第3步模型下载路径，save_path是量化模型保存路径，--bits 为量化位数可以选择输入4或者8
+    ```
+    python quant_with_alpaca.py --pretrained_model_dir no_quantized_path --quantized_model_dir save_path --bits 4
+    ```
+5. 可以使用./AutoGPTQ/examples/quantization/inference.py进行推理，也可以参考前文使用vllm对量化后的模型，单卡4090下minicpm-1b-int4模型vllm推理在2000token/s左右。
 <p id="community"></p>
 
 ## 开源社区
