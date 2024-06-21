@@ -55,8 +55,8 @@ class SupervisedDataset(Dataset):
         self.data = json.load(open(data_path))
         self.tokenizer = tokenizer
         self.model_max_length = model_max_length
-        self.user_tokens = self.tokenizer.encode(user_tokens)#针对不同模型，都可以对应到<用户>的id
-        self.assistant_tokens = self.tokenizer.encode(assistant_tokens)#针对不同模型，都可以对应到<AI>的id
+        self.user_tokens = self.tokenizer.encode(user_tokens) #针对不同模型，都可以对应到<用户>的id
+        self.assistant_tokens = self.tokenizer.encode(assistant_tokens) #针对不同模型，都可以对应到<AI>的id
         self.ignore_index = -100
         item = self.preprocessing(self.data[0])
         print("input:", self.tokenizer.decode(item["input_ids"]))
