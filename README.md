@@ -49,6 +49,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 - [更新日志](#0)
 - [模型下载](#1)
 - [快速上手](#2)
+- [模型量化](#quantize)
 - [开源社区](#community)
 - [评测结果](#3)
 - [手机部署](#4)
@@ -258,7 +259,9 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     ```shell
     python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
     ```
+<p id="community"></p>
 
+## 模型量化
 **gptq量化**
 1. 首先git获取[minicpm_gptqd代码](https://github.com/LDLINGLINGLING/AutoGPTQ/tree/minicpm_gptq)
 2. 进入minicpm_gptqd主目录./AutoGPTQ，命令行输入：
