@@ -12,7 +12,7 @@ from transformers import (AutoModelForCausalLM, AutoTokenizer, Trainer,
 
 @dataclass
 class ModelArguments:
-    model_name_or_path: Optional[str] = field(default="baichuan-inc/Baichuan2-7B-Base")
+    model_name_or_path: Optional[str] = field(default="openbmb/MiniCPM-2B-sft-bf16")
 
 
 @dataclass
