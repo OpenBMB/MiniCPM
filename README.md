@@ -271,6 +271,29 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     python quant_with_alpaca.py --pretrained_model_dir no_quantized_path --quantized_model_dir save_path --bits 4
     ```
 5. 可以使用./AutoGPTQ/examples/quantization/inference.py进行推理，也可以参考前文使用vllm对量化后的模型，单卡4090下minicpm-1b-int4模型vllm推理在2000token/s左右。
+
+**awq量化**
+1. 在quantize/awq_quantize.py 文件中修改根据注释修改配置参数：model_path , quant_path, quant_data_path , quant_config, quant_samples, 如需自定数据集则需要修改 custom_data。
+2. 在quantize/quantize_data文件下已经提供了alpaca和wiki_text两个数据集作为量化校准集，如果需要自定义数据集，修改quantize/awq_quantize.py中的custom_data变量，如：
+    ```
+    custom_data=[{'question':'过敏性鼻炎有什么症状？','answer':'过敏性鼻炎可能鼻塞，流鼻涕，头痛等症状反复发作，严重时建议及时就医。'},
+                 {'question':'1+1等于多少？','answer':'等于2'}]
+    ```
+3. 运行quantize/awq_quantize.py文件,在设置的quan_path目录下可得awq量化后的模型。
+
+**量化测试**
+1. 命令行进入到 MiniCPM/quantize 目录下
+2. 修改quantize_eval.sh文件中awq_path，gptq_path，awq_path,如果不需要测试的类型保持为空字符串，如下示例表示仅测试awq模型：
+  ```
+    awq_path="/root/ld/ld_project/AutoAWQ/examples/awq_cpm_1b_4bit"
+    gptq_path=""
+    model_path=""
+  ```
+3. 在MiniCPM/quantize路径下命令行输入：
+  ```
+    bash quantize_eval.sh
+  ```
+4. 窗口将输出该模型的内存占用情况、困惑度。
 <p id="community"></p>
 
 ## 开源社区

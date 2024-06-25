@@ -3,9 +3,7 @@ import torch.nn as nn
 from tqdm import tqdm
 from datasets import load_dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from awq import AutoAWQForCausalLM
-from auto_gptq import AutoGPTQForCausalLM
-import GPUtil
+#import GPUtil
 import argparse
 
 parser = argparse.ArgumentParser(description="========量化困惑度测试========")
@@ -31,7 +29,7 @@ parser.add_argument(
 parser.add_argument(
     "--data_path",  
     type=str,  
-    default='/root/ld/ld_project/pull_request/MiniCPM/quantize/quantize_data/wikitext',  
+    default='quantize_data/wikitext',  
     help="可以是以后的量化数据集，示例中默认为wiki_text"  
 )
 
@@ -94,6 +92,8 @@ if __name__ == "__main__":
         del model
 
     if args.awq_path:
+        from awq import AutoAWQForCausalLM
+
         model = AutoAWQForCausalLM.from_quantized(args.awq_path, fuse_layers=True,device_map={"":'cuda:0'})
         tokenizer = AutoTokenizer.from_pretrained(args.awq_path)
         print("awq model：",args.awq_path.split('/')[-1])
@@ -104,6 +104,8 @@ if __name__ == "__main__":
 
 #we will support the autogptq  later
     if args.gptq_path:
+        from auto_gptq import AutoGPTQForCausalLM
+
         tokenizer = AutoTokenizer.from_pretrained(args.gptq_path, use_fast=True)
         model = AutoGPTQForCausalLM.from_quantized(args.gptq_path, device="cuda:0",trust_remote_code=True)
         print("gptq model：",args.gptq_path.split('/')[-1])
