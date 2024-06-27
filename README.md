@@ -296,14 +296,30 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
 <p id="awq"></p>
 
 **awq量化**
-1. 在quantize/awq_quantize.py 文件中修改根据注释修改配置参数：model_path , quant_path, quant_data_path , quant_config, quant_samples, 如需自定数据集则需要修改 custom_data。
-2. 在quantize/quantize_data文件下已经提供了alpaca和wiki_text两个数据集作为量化校准集，如果需要自定义数据集，修改quantize/awq_quantize.py中的custom_data变量，如：
-    ```
+1. 在quantize/awq_quantize.py 文件中修改根据注释修改配置参数：
+  ```python
+  model_path = '/root/ld/ld_model_pretrained/MiniCPM-1B-sft-bf16' # model_path or model_id
+  quant_path = '/root/ld/ld_project/pull_request/MiniCPM/quantize/awq_cpm_1b_4bit' # quant_save_path
+  quant_data_path='/root/ld/ld_project/pull_request/MiniCPM/quantize/quantize_data/wikitext'# 写入自带量化数据集，data下的alpaca或者wikitext
+  quant_config = { "zero_point": True, "q_group_size": 128, "w_bit": 4, "version": "GEMM" } # "w_bit":4 or 8
+  quant_samples=512 # how many samples to use for calibration
+  custom_data=[{'question':'你叫什么名字。','answer':'我是openmbmb开源的小钢炮minicpm。'}, # 自定义数据集可用
+                 {'question':'你有什么特色。','answer':'我很小，但是我很强。'}]
+  ```
+2. 在quantize/quantize_data文件下已经提供了alpaca和wiki_text两个数据集作为量化校准集，修改上述quant_data_path为其中一个文件夹的路径
+3. 如果需要自定义数据集，修改quantize/awq_quantize.py中的custom_data变量，如：
+    ```python
     custom_data=[{'question':'过敏性鼻炎有什么症状？','answer':'过敏性鼻炎可能鼻塞，流鼻涕，头痛等症状反复发作，严重时建议及时就医。'},
                  {'question':'1+1等于多少？','answer':'等于2'}]
     ```
-3. 运行quantize/awq_quantize.py文件,在设置的quan_path目录下可得awq量化后的模型。
-
+4. 根据选择的数据集，修改quantize/awq_quantize.py 第三十八行：
+  ```python
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_wikitext(quant_data_path=quant_data_path))#使用wikitext进行量化
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_alpaca(quant_data_path=quant_data_path))#使用alpaca进行量化
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_cust_data(quant_data_path=quant_data_path))#使用自定义数据集进行量化
+    
+  ```
+5. 运行quantize/awq_quantize.py文件,在设置的quan_path目录下可得awq量化后的模型。
 <p id="quantize_test"></p>
 
 **量化测试**
