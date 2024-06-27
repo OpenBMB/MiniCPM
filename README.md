@@ -312,11 +312,14 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     custom_data=[{'question':'过敏性鼻炎有什么症状？','answer':'过敏性鼻炎可能鼻塞，流鼻涕，头痛等症状反复发作，严重时建议及时就医。'},
                  {'question':'1+1等于多少？','answer':'等于2'}]
     ```
-4. 根据选择的数据集，修改quantize/awq_quantize.py 第三十八行：
+4. 根据选择的数据集，修改quantize/awq_quantize.py 为以下三行代码其中一行：
   ```python
-    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_wikitext(quant_data_path=quant_data_path))#使用wikitext进行量化
-    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_alpaca(quant_data_path=quant_data_path))#使用alpaca进行量化
-    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_cust_data(quant_data_path=quant_data_path))#使用自定义数据集进行量化
+    #使用wikitext进行量化
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_wikitext(quant_data_path=quant_data_path))
+    #使用alpaca进行量化
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_alpaca(quant_data_path=quant_data_path))
+    #使用自定义数据集进行量化
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_cust_data(quant_data_path=quant_data_path))
     
   ```
 5. 运行quantize/awq_quantize.py文件,在设置的quan_path目录下可得awq量化后的模型。
