@@ -46,19 +46,28 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 
 ## 目录
 
-- [更新日志](#0)
-- [模型下载](#1)
-- [快速上手](#2)
-- [模型量化](#quantize)
-- [开源社区](#community)
-- [评测结果](#3)
-- [手机部署](#4)
-- [Demo & API 部署](#5)
-- [二次开发](#6)
-- [开源协议](#7)
-- [工作引用](#8)
-- [典型示例](#9)
+- [更新日志](#0)｜
+- [模型下载](#1)｜
+- [快速上手](#2)｜
+- [模型量化](#quantize)｜
+- [开源社区](#community)｜
+- [评测结果](#3)｜
+- [手机部署](#4)｜
+- [Demo & API 部署](#5)｜
+- [二次开发](#6)｜
+- [开源协议](#7)｜
+- [工作引用](#8)｜
+- [典型示例](#9)｜
 
+## 常用模块导航
+| [推理](#2) | [微调](#6) | [手机部署](#4) | [量化](#quantize)
+|-------------|------------|-----------|-----------|
+|[Transformers](#Huggingface模型)|[Transformers](#transformer_finetune)|[MLC部署](#MLC)|[GPTQ](#gptq)|
+|[vLLM](#vllm-推理)|[mlx_finetune](#mlx)|[llama.cpp](#llama.cpp)|[AWQ](#awq)|
+|[llama.cpp](#llama.cpp)|[llama_factory](https://github.com/OpenBMB/MiniCPM/tree/main/finetune/llama_factory_example/README.md)||[困惑度测试](#quantize_test)|
+|[ollama](#ollama)||||
+|[fastllm](#fastllm)||||
+|[mlx_lm](#mlx_lm)||||
 <p id="0"></p>
 
 ## 更新日志
@@ -103,6 +112,8 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 #### 在线体验
 
 - [Colab](https://colab.research.google.com/drive/1tJcfPyWGWA5HezO7GKLeyeIso0HyOc0l?usp=sharing)
+
+<p id="Huggingface模型"></p>
 
 #### Huggingface 模型
 
@@ -195,7 +206,9 @@ python inference/inference_vllm.py --model_path <hf_repo_path> --prompt_path pro
 #### llama.cpp、Ollama、fastllm、mlx_lm推理
 MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm)、[mlx_lm](https://github.com/ml-explore/mlx-examples)推理。感谢[@runfuture](https://github.com/runfuture)对llama.cpp和ollama的适配。
 
-**llama.cpp**
+<p id="llama.cpp"></p>
+
+#### llama.cpp
 1. [安装llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build)
 2. 下载gguf形式的模型。[下载链接-fp16格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [下载链接-q4km格式](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf)
 3. 在命令行运行示例代码:
@@ -204,8 +217,9 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 ```
 更多参数调整[详见](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/README.md)
 
-**ollama**
+<p id="ollama"></p>
 
+#### ollama
 ***ollama自动安装模型***
 1. [安装ollama](https://github.com/ollama/ollama)
 2. 在命令行运行:
@@ -233,8 +247,9 @@ ollama create ollama_model_name -f model_name.Modelfile
 ```
 ollama run ollama_model_name
 ```
+<p id="fastllm"></p>
 
-**fastllm**
+#### fastllm
 1. [编译安装fastllm](https://github.com/ztxz16/fastllm)
 2. 模型推理
 ```python
@@ -248,8 +263,9 @@ llm.set_device_map("cpu")
 model = llm.from_hf(model, tokenizer, dtype = "float16") # dtype支持 "float16", "int8", "int4"
 print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高还是矮？差距多少？<AI>", top_p=0.8, temperature=0.5, repeat_penalty=1.02))
 ```
+<p id="mlx_lm"></p>
 
-**mlx_lm**
+#### mlx_lm
 1. 安装mlx_lm库
     ```shell
     pip install mlx_lm
@@ -259,9 +275,11 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     ```shell
     python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
     ```
-<p id="community"></p>
+<p id="quantize"></p>
 
 ## 模型量化
+<p id="gptq"></p>
+
 **gptq量化**
 1. 首先git获取[minicpm_gptqd代码](https://github.com/LDLINGLINGLING/AutoGPTQ/tree/minicpm_gptq)
 2. 进入minicpm_gptqd主目录./AutoGPTQ，命令行输入：
@@ -275,14 +293,37 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     ```
 5. 可以使用./AutoGPTQ/examples/quantization/inference.py进行推理，也可以参考前文使用vllm对量化后的模型，单卡4090下minicpm-1b-int4模型vllm推理在2000token/s左右。
 
+<p id="awq"></p>
+
 **awq量化**
-1. 在quantize/awq_quantize.py 文件中修改根据注释修改配置参数：model_path , quant_path, quant_data_path , quant_config, quant_samples, 如需自定数据集则需要修改 custom_data。
-2. 在quantize/quantize_data文件下已经提供了alpaca和wiki_text两个数据集作为量化校准集，如果需要自定义数据集，修改quantize/awq_quantize.py中的custom_data变量，如：
-    ```
+1. 在quantize/awq_quantize.py 文件中修改根据注释修改配置参数：
+  ```python
+  model_path = '/root/ld/ld_model_pretrained/MiniCPM-1B-sft-bf16' # model_path or model_id
+  quant_path = '/root/ld/ld_project/pull_request/MiniCPM/quantize/awq_cpm_1b_4bit' # quant_save_path
+  quant_data_path='/root/ld/ld_project/pull_request/MiniCPM/quantize/quantize_data/wikitext'# 写入自带量化数据集，data下的alpaca或者wikitext
+  quant_config = { "zero_point": True, "q_group_size": 128, "w_bit": 4, "version": "GEMM" } # "w_bit":4 or 8
+  quant_samples=512 # how many samples to use for calibration
+  custom_data=[{'question':'你叫什么名字。','answer':'我是openmbmb开源的小钢炮minicpm。'}, # 自定义数据集可用
+                 {'question':'你有什么特色。','answer':'我很小，但是我很强。'}]
+  ```
+2. 在quantize/quantize_data文件下已经提供了alpaca和wiki_text两个数据集作为量化校准集，修改上述quant_data_path为其中一个文件夹的路径
+3. 如果需要自定义数据集，修改quantize/awq_quantize.py中的custom_data变量，如：
+    ```python
     custom_data=[{'question':'过敏性鼻炎有什么症状？','answer':'过敏性鼻炎可能鼻塞，流鼻涕，头痛等症状反复发作，严重时建议及时就医。'},
                  {'question':'1+1等于多少？','answer':'等于2'}]
     ```
-3. 运行quantize/awq_quantize.py文件,在设置的quan_path目录下可得awq量化后的模型。
+4. 根据选择的数据集，选择以下某一行代码替换 quantize/awq_quantize.py 中第三十八行：
+  ```python
+    #使用wikitext进行量化
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_wikitext(quant_data_path=quant_data_path))
+    #使用alpaca进行量化
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_alpaca(quant_data_path=quant_data_path))
+    #使用自定义数据集进行量化
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_cust_data(quant_data_path=quant_data_path))
+    
+  ```
+5. 运行quantize/awq_quantize.py文件,在设置的quan_path目录下可得awq量化后的模型。
+<p id="quantize_test"></p>
 
 **量化测试**
 1. 命令行进入到 MiniCPM/quantize 目录下
@@ -750,6 +791,7 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
 <p id="4"></p>
 
 ## 手机部署
+<p id="MLC"></p>
 
 #### 部署步骤
 
@@ -821,14 +863,17 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 <p id="6"></p>
 
 ## 二次开发
+<p id="transformer_finetune"></p>
 
 * 高效参数微调
   * 一张1080/2080可实现高效参数微调
-  * [高效参数微调代码](https://github.com/OpenBMB/MiniCPM/tree/main/finetune)
-  
+  * [高效参数微调代码](https://github.com/OpenBMB/MiniCPM/tree/main/finetune) 
+<p id="BMTrain"></p>  
+
 * 全参数微调 or 持续训练
   * 使用[BMTrain](https://github.com/OpenBMB/BMTrain)，借助重计算和ZeRO-3，一张3090/4090可实现全参数微调，一台机器可实现持续训练
   * 相关代码也将陆续推出
+<p id="mlx"></p> 
 
 * mlx高效参数微调
   * 环境准备
@@ -842,7 +887,7 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
     # test
     python mlx_finetune.py --model MiniCPM-2B-sft-bf16-llama-format-mlx  --data data/AdvertiseGen  --test --seed 2024
     ```
-
+* [llama_factory微调](https://github.com/OpenBMB/MiniCPM/tree/main/finetune/llama_factory_example/README.md)
 
 <p id="9"></p>
 
