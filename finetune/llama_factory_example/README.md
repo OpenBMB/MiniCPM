@@ -9,14 +9,33 @@ git clone https://github.com/hiyouga/LLaMA-Factory
 cd LLaMA-Factory
 pip install -r requirements.txt
 ```
-2.将数据集处理成Minicpm/finetune/llama_factory_example/llama_factory_data文件夹中的格式,示例包括dpo,kto,sft三种微调方式并放置到llama_factory/data目录下.
-
+2.将数据集处理成Minicpm/finetune/llama_factory_example/llama_factory_data文件夹中的格式,示例包括dpo,kto,sft三种微调方式并放置到llama_factory/data目录下.以dpo为例：
+```json
+  [
+    {
+      "conversations": [
+        {
+          "from": "human",
+          "value": "Hi! I'd like to create a new language game simulating the first person perspective of a character named Angela."
+        }
+      ],
+      "chosen": {
+        "from": "gpt",
+        "value": "That sounds like a fun and engaging idea! Here are some tips to help you create the game:\n1. ......"
+      },
+      "rejected": {
+        "from": "gpt",
+        "value": "Hello! I'd be happy to help you create a language game simulating the first-person perspective ....."
+      }
+    }
+  ]
+```
 3.在llama_factory/data/dataset_info.json中添加数据集信息,保证dataset_info.json中能找到你的数据集，如下例：
 ``` json
   {"identity": {
     "file_name": "identity.json"
   },
-    "alpaca_zh_demo": {
+    "sft_zh_demo": {
       "file_name": "alpaca_zh_demo.json"
     },
     "kto_en_demo": {
@@ -46,7 +65,12 @@ pip install -r requirements.txt
   }
 ```
 4.将MiniCPM/finetune/llama_factory_example中文件复制到LLaMA-Factory/examples目录下。
-
+  ```bash
+    cd LLaMA-Factory/examples
+    mkdir minicpm
+    #以下代码中的/your/path要改成你的MiniCPM代码和LLaMA-Factory路径
+    cp -r /your/path/MiniCPM/finetune/llama_factory_example/*  /your/path/LLaMA-Factory/examples/minicpm
+  ```
 5.以dpo为例，首先修改minicpm_dpo.yaml,需要修改的：
 ```yaml
   model_name_or_path: openbmb/MiniCPM-2B-sft-bf16 #或者你本地保存的地址
