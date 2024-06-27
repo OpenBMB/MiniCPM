@@ -312,7 +312,7 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     custom_data=[{'question':'过敏性鼻炎有什么症状？','answer':'过敏性鼻炎可能鼻塞，流鼻涕，头痛等症状反复发作，严重时建议及时就医。'},
                  {'question':'1+1等于多少？','answer':'等于2'}]
     ```
-4. 根据选择的数据集，修改quantize/awq_quantize.py 中第三十八行为以下三行代码其中一行：
+4. 根据选择的数据集，选择以下某一行代码替换 quantize/awq_quantize.py 中第三十八行：
   ```python
     #使用wikitext进行量化
     model.quantize(tokenizer, quant_config=quant_config, calib_data=load_wikitext(quant_data_path=quant_data_path))
