@@ -64,7 +64,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 |-------------|------------|-----------|-----------|
 |[Transformers](#Huggingface模型)|[Transformers](#transformer_finetune)|[MLC部署](#MLC)|[GPTQ](#gptq)|
 |[vLLM](#vllm-推理)|[mlx_finetune](#mlx)|[llama.cpp](#llama.cpp)|[AWQ](#awq)|
-|[llama.cpp](#llama.cpp)|[llama_factory](https://github.com/OpenBMB/MiniCPM/tree/main/finetune/llama_factory_example/README.md)||[困惑度测试](#quantize_test)|
+|[llama.cpp](#llama.cpp)|[llama_factory](./finetune/llama_factory_example/README.md)||[困惑度测试](#quantize_test)|
 |[ollama](#ollama)||||
 |[fastllm](#fastllm)||||
 |[mlx_lm](#mlx_lm)||||
