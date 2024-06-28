@@ -1,10 +1,8 @@
 from typing import List
-
 import argparse
 import gradio as gr
 import torch
 from threading import Thread
-
 from PIL import Image
 from transformers import (
     AutoModelForCausalLM,
@@ -12,11 +10,12 @@ from transformers import (
     TextIteratorStreamer
 )
 import warnings
+
 warnings.filterwarnings('ignore', category=UserWarning, message='TypedStorage is deprecated')
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model_path", type=str, default="")
-parser.add_argument("--torch_dtype", type=str, default="bfloat16", choices=["float32", "bfloat16"])
+parser.add_argument("--model_path", type=str, default="openbmb/MiniCPM-2B-dpo-fp16")
+parser.add_argument("--torch_dtype", type=str, default="bfloat16", choices=["float32", "bfloat16", "float16"])
 parser.add_argument("--server_name", type=str, default="127.0.0.1")
 parser.add_argument("--server_port", type=int, default=7860)
 args = parser.parse_args()
@@ -27,6 +26,8 @@ if torch_dtype == "" or torch_dtype == "bfloat16":
     torch_dtype = torch.bfloat16
 elif torch_dtype == "float32":
     torch_dtype = torch.float32
+elif torch_dtype == "float16":
+    torch_dtype = torch.float16
 else:
     raise ValueError(f"Invalid torch dtype: {torch_dtype}")
 
@@ -47,7 +48,7 @@ def check_model_v(img_file_path: str = None):
     Returns:
         Ture if model is MiniCPMV else False
     '''
-    if model_architectures == "MiniCPMV":
+    if "MiniCPMV" in model_architectures:
         return True
     if isinstance(img_file_path, str):
         gr.Warning('Only MiniCPMV model can support Image')
@@ -62,7 +63,6 @@ if check_model_v():
 server_name = args.server_name
 server_port = args.server_port
 
-
 def hf_gen(dialog: List, top_p: float, temperature: float, repetition_penalty: float, max_dec_len: int):
     """generate model output with huggingface api
 
@@ -74,9 +74,9 @@ def hf_gen(dialog: List, top_p: float, temperature: float, repetition_penalty: f
 
     Yields:
         str: real-time generation results of hf model
-    """    
+    """
     inputs = tokenizer.apply_chat_template(dialog, tokenize=False, add_generation_prompt=False)
-    enc = tokenizer(inputs, return_tensors="pt").to("cuda")
+    enc = tokenizer(inputs, return_tensors="pt").to(next(model.parameters()).device)
     streamer = TextIteratorStreamer(tokenizer)
     generation_kwargs = dict(
         enc,
@@ -200,7 +200,7 @@ def clear_history():
 
     Returns:
         List: empty chat history
-    """    
+    """
     return []
 
 
@@ -212,7 +212,7 @@ def reverse_last_round(chat_history):
 
     Returns:
         List: [[q_1, a_1], [q_2, a_2], ..., [q_n-1, a_n-1]]. chat_history without last round.
-    """    
+    """
     assert len(chat_history) >= 1, "History is empty. Nothing to reverse!!"
     return chat_history[:-1]
 

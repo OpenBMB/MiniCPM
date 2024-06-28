@@ -2,3 +2,7 @@
 *.pyc
 finetune/output/*
 wip.*
+.idea
+venv
+.venv
+.env

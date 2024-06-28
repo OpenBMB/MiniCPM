@@ -1,0 +1,42 @@
+### model
+model_name_or_path: /root/ld/ld_project/LLaMA-Factory/saves/minicpm/full/sft/
+
+### method
+stage: dpo
+do_train: true
+finetuning_type: full
+
+### ddp
+ddp_timeout: 180000000
+deepspeed: examples/deepspeed/ds_z2_config.json
+
+### dataset
+dataset: dpo_en_demo
+template: cpm
+cutoff_len: 1200
+max_samples: 50000000
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+
+### output
+output_dir: saves/minicpm/dpo
+logging_steps: 10
+save_steps: 500
+plot_loss: true
+overwrite_output_dir: true
+save_strategy: epoch
+### train
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 4
+learning_rate: 0.00001
+num_train_epochs: 2.0
+lr_scheduler_type: cosine
+warmup_steps: 0.1
+bf16: true
+
+### eval
+val_size: 0.1
+per_device_eval_batch_size: 4
+evaluation_strategy: steps
+eval_steps: 500
