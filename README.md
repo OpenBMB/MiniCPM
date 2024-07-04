@@ -287,9 +287,10 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     pip install e .
     ```
 3. 前往[模型下载](#1)下载未量化的MiniCPM仓库下所有文件放至本地同一文件夹下,1b、2b模型均可,训练后模型亦可。
-4. 在./AutoGPTQ/examples/quantization路径下输入以下命令，其中no_quantized_path是第3步模型下载路径，save_path是量化模型保存路径，--bits 为量化位数可以选择输入4或者8
+4. 命令行输入以下命令，其中no_quantized_model_path是第3步模型下载路径，save_path是量化模型保存路径，--bits 为量化位数可以选择输入4或者8
     ```
-    python quant_with_alpaca.py --pretrained_model_dir no_quantized_path --quantized_model_dir save_path --bits 4
+    cd Minicpm/quantize
+    python gptq_quantize.py --pretrained_model_dir no_quant_model_path --quantized_model_dir quant_save_path --bits 4
     ```
 5. 可以使用./AutoGPTQ/examples/quantization/inference.py进行推理，也可以参考前文使用vllm对量化后的模型，单卡4090下minicpm-1b-int4模型vllm推理在2000token/s左右。
 
