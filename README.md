@@ -303,12 +303,12 @@ powerinfer目前仅针对MiniCPM-S-1B模型，其他版本暂不支持，敬请�
   cd PowerInfer
   pip install -r requirements.txt # install Python helpers' dependencies
 ```
-3. cpu版本powerinfer编译：
+3. cpu版本powerinfer编译,如果你的机器只有cpu，或者只想使用cpu进行推理，则运行以下命令：
 ```bash
   cmake -S . -B build
   cmake --build build --config Release
 ```
-4. gpu版本powerinfer编译：
+4. gpu版本powerinfer编译,如果你的机器有gpu，则可以运行以下命令：
 ```bash
   cmake -S . -B build -DLLAMA_CUBLAS=ON
   cmake --build build --config Release
