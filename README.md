@@ -68,6 +68,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 |[ollama](#ollama)||||
 |[fastllm](#fastllm)||||
 |[mlx_lm](#mlx_lm)||||
+|[powerinfer](#powerinfer)||||
 <p id="0"></p>
 
 ## 更新日志
@@ -275,6 +276,58 @@ print(model.response("<用户>山东省最高的山是哪座山, 它比黄山高
     ```shell
     python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
     ```
+
+<p id="powerinfer"></p>
+
+#### powerinfer
+powerinfer目前仅针对MiniCPM-S-1B模型，其他版本暂不支持，敬请期待。
+1. 保证cmake版本3.17以上，如果已经安装过，则跳过此步骤
+  ```bash
+    # 下载安装包
+    sudo wget https://cmake.org/files/v3.23/cmake-3.23.0.tar.gz
+    # 解压安装包
+    sudo tar -zxvf cmake-3.23.0.tar.gz
+    # 配置安装环境
+    sudo ./configure
+    sudo make -j8
+    # 编译安装
+    sudo make install
+    # 查看安装后版本
+    cmake --version
+    # 返回版本号则安装成功
+    #cmake version 3.23.0
+  ```
+2. 安装powerinfer：
+```bash
+  git clone https://github.com/SJTU-IPADS/PowerInfer
+  cd PowerInfer
+  pip install -r requirements.txt # install Python helpers' dependencies
+```
+3. cpu版本powerinfer编译：
+```bash
+  cmake -S . -B build
+  cmake --build build --config Release
+```
+4. gpu版本powerinfer编译：
+```bash
+  cmake -S . -B build -DLLAMA_CUBLAS=ON
+  cmake --build build --config Release
+```
+5. 获取稀疏模型
+```bash
+git clone https://huggingface.co/openbmb/MiniCPM-S-1B-sft-gguf/tree/main
+#or
+git clone https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft-gguf
+```
+6. 模型推理：
+```bash
+cd PowerInfer
+# 以下是命令模版，output_token_count为最大输出tokens，thread_num 为线程数，prompt为输入prompt字符
+#./build/bin/main -m /PATH/TO/MODEL -n $output_token_count -t $thread_num -p $prompt
+# 以下是示例
+./build/bin/main -m /root/ld/ld_model_pretrain/1b-s-minicpm/MiniCPM-S-1B-sft.gguf -n 2048 -t 8 -p '<用户>hello,tell me a story please.<AI>'
+```
+
 <p id="quantize"></p>
 
 ## 模型量化
