@@ -59,6 +59,16 @@ We release all model parameters for research and limited commercial use.
 - 
 <p id="0"></p>
 
+## Common Modules
+| [infer](#2) | [finetune](#6) | [deployment](#4) | [quantize](#quantize)
+|-------------|------------|-----------|-----------|
+|[Transformers](#Huggingface)|[Transformers](#6)|[MLC](#MLC)|[GPTQ](#gptq)|
+|[vLLM](#vLLM)|[mlx_finetune](#mlx_finetune)|[llama.cpp](#llama.cpp)|[AWQ](#awq)|
+|[llama.cpp](#llama.cpp)|[llama_factory](./finetune/llama_factory_example/README.md)||[bnb](#bnb)|
+|[ollama](#ollama)|||[quantize_test](#quantize_test)|
+|[fastllm](#fastllm)||||
+|[mlx_lm](#mlx)||||
+|[powerinfer](#powerinfer)||||
 ## Update Log
 - **2024/04/11 We release [MiniCPM-V 2.0](https://huggingface.co/openbmb/MiniCPM-V-2.0), [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k), [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) and [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)! Click [here](https://openbmb.vercel.app/) to read our technical blog.**
 - 2024/03/16 Intermediate checkpoints were released [here](https://huggingface.co/openbmb/MiniCPM-2B-history)!
@@ -100,6 +110,8 @@ We release all model parameters for research and limited commercial use.
 #### Online
 
 - [Colab](https://colab.research.google.com/drive/1tJcfPyWGWA5HezO7GKLeyeIso0HyOc0l?usp=sharing)
+
+<p id="Huggingface"></p>
 
 #### Huggingface 
 
@@ -169,6 +181,7 @@ res, context, _ = model.chat(
 )
 print(res)
 ```
+<p id="vLLM"></p>
 
 #### vLLM 
 
@@ -186,6 +199,7 @@ print(res)
 #### llama.cpp, Ollama, fastllm, mlx_lm Inference
 We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/), [ollama](https://github.com/ollama/ollama), [fastllm](https://github.com/ztxz16/fastllm), [mlx_lm](https://github.com/ml-explore/mlx-examples). Thanks to [@runfuture](https://github.com/runfuture) for the adaptation of llama.cpp and ollama.
 
+<p id="llama.cpp"></p>
 
 **llama.cpp**
 1. [install llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build)
@@ -196,11 +210,35 @@ We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.
 ```
 More parameters adjustment [see this](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/README.md)
 
-**ollama**
+<p id="ollama"></p>
+
+**ollama run MiniCPM-2B-dpo**
 1. [install ollama](https://github.com/ollama/ollama)
 2. In command line:
 ```
 ollama run modelbest/minicpm-2b-dpo 
+```
+
+**ollama other models**
+1. [Install ollama](https://github.com/ollama/ollama)
+2. Download models in gguf format. [Download link for 2b-fp16 format](https://huggingface.co/runfuture/MiniCPM-2B-dpo-fp16-gguf) [Download link for 2b-q4km format](https://huggingface.co/runfuture/MiniCPM-2B-dpo-q4km-gguf) [Download link for 1b-fp16 format](https://huggingface.co/linglingdan/MiniCPM-1b-fp16-gguf) [Download link for 1b-qr_1 format](https://huggingface.co/linglingdan/MiniCPM-1b-q4-1)
+3. Run the following command in the command line, `model_name` can be customized:：
+```
+touch model_name.Modelfile
+```
+4. Edit the content of `model_name.Modelfile` as follows, write the path of the gguf model after the FROM space:
+```shell
+FROM model_path/model_name.gguf
+TEMPLATE """<s><USER>{{ .Prompt }}<AI>{{ .Response }}"""
+PARAMETER stop "<\s>"
+```
+5. Run the following command in the command line to create an ollama model, `ollama_model_name` can be customized, `model_name.Modelfile` should follow the naming from step 3:
+```shell
+ollama create ollama_model_name -f model_name.Modelfile
+```
+6. Run the ollama model：
+```sehll
+ollama run ollama_model_name
 ```
 
 **fastllm**
@@ -217,8 +255,10 @@ llm.set_device_map("cpu")
 model = llm.from_hf(model, tokenizer, dtype = "float16") # dtype支持 "float16", "int8", "int4"
 print(model.response("<用户>Write an acrostic poem with the word MINICPM (One line per letter)<AI>", top_p=0.8, temperature=0.5, repeat_penalty=1.02))
 ```
+<p id="mlx"></p>
 
 **mlx_lm**
+
 1. install mlx_lm
     ```shell
     pip install mlx_lm
@@ -228,6 +268,150 @@ print(model.response("<用户>Write an acrostic poem with the word MINICPM (One 
     ```shell
     python -m mlx_lm.generate --model mlx-community/MiniCPM-2B-sft-bf16-llama-format-mlx --prompt "hello, tell me a joke." --trust-remote-code
     ```
+
+#### powerinfer
+Currently, PowerInfer is exclusively tailored for the MiniCPM-S-1B model; support for other versions is not yet available, stay tuned.
+1. Ensure your cmake version is 3.17 or above. If you have already installed it, you can skip this step.
+```bash
+    # Download the installation package
+    sudo wget https://cmake.org/files/v3.23/cmake-3.23.0.tar.gz
+    # Extract the installation package
+    sudo tar -zxvf cmake-3.23.0.tar.gz
+    # Configure the installation environment
+    sudo ./configure
+    sudo make -j8
+    # Compile and install
+    sudo make install
+    # Check the version after installation
+    cmake --version
+    # If the version number is returned, the installation was successful
+    # cmake version 3.23.0
+```
+2. Install PowerInfer:：
+```bash
+  git clone https://github.com/SJTU-IPADS/PowerInfer
+  cd PowerInfer
+  pip install -r requirements.txt # install Python helpers' dependencies
+```
+3. Compile the CPU version of PowerInfer. If your machine only has a CPU, or if you want to perform inference using the CPU, run the following commands:：
+```bash
+  cmake -S . -B build
+  cmake --build build --config Release
+```
+4. Compile the GPU version of PowerInfer. If your machine has a GPU, you can run the following commands:
+```bash
+  cmake -S . -B build -DLLAMA_CUBLAS=ON
+  cmake --build build --config Release
+```
+5. Retrieve the sparse model:
+```bash
+git clone https://huggingface.co/openbmb/MiniCPM-S-1B-sft-gguf/tree/main
+#or
+git clone https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft-gguf
+```
+6. Model Inference:
+```bash
+cd PowerInfer
+# Below is the command template. output_token_count refers to the maximum output tokens, thread_num is the number of threads, and prompt is the input prompt text.
+#./build/bin/main -m /PATH/TO/MODEL -n $output_token_count -t $thread_num -p $prompt
+# Below is an example
+./build/bin/main -m /root/ld/ld_model_pretrain/1b-s-minicpm/MiniCPM-S-1B-sft.gguf -n 2048 -t 8 -p '<User>hello,tell me a story please.<AI>'
+```
+
+<p id="quantize"></p>
+
+## Quantize
+<p id="gptq"></p>
+
+**gptq**
+1. Firstly, obtain the[minicpm_gptqd code](https://github.com/LDLINGLINGLING/AutoGPTQ/tree/minicpm_gptq)
+2. Navigate to the main directory of minicpm_gptqd ./AutoGPTQ, then in the command line, input:
+    ```
+    pip install e .
+    ```
+3. Proceed to [model download] (#1) to download all files from the unquantized MiniCPM repository to a local folder; both 1b and 2b models are acceptable, as well as post-training models.
+4. Input the following command in the command line, where `no_quantized_model_path` is the path to the model downloaded in step 3, `save_path` is the path to save the quantized model, and `--bits` is the quantization bit width which can be set to either 4 or 8.
+    ```
+    cd Minicpm/quantize
+    python gptq_quantize.py --pretrained_model_dir no_quant_model_path --quantized_model_dir quant_save_path --bits 4
+    ```
+5. You can perform inference using ./AutoGPTQ/examples/quantization/inference.py, or refer to the previous section on using vllm with the quantized model. For the minicpm-1b-int4 model, vllm inference on a single 4090 card operates at around 2000 tokens per second
+
+<p id="awq"></p>
+
+**awq**
+1. Modify the configuration parameters in the quantize/awq_quantize.py file according to the comments:
+```python
+  model_path = '/root/ld/ld_model_pretrained/MiniCPM-1B-sft-bf16' # model_path or model_id
+  quant_path = '/root/ld/ld_project/pull_request/MiniCPM/quantize/awq_cpm_1b_4bit' # quant_save_path
+  quant_data_path='/root/ld/ld_project/pull_request/MiniCPM/quantize/quantize_data/wikitext' # Input the provided quantization dataset, alpaca or wikitext under data
+  quant_config = { "zero_point": True, "q_group_size": 128, "w_bit": 4, "version": "GEMM" } # "w_bit":4 or 8
+  quant_samples=512 # Number of samples to use for calibration
+  custom_data=[{'question':'What is your name.','answer':'I am the open-source mini cannon MiniCPM from OpenMBMB.'}, # Custom dataset is available
+                 {'question':'What are your features.','answer':'I am small, but I am strong.'}]
+```
+2. Under the quantize/quantize_data folder, two datasets, alpaca and wiki_text, are provided as quantization calibration sets. Modify the aforementioned quant_data_path to the path of one of these folders.
+3. If you need a custom dataset, modify the custom_data variable in quantize/awq_quantize.py, such as:
+    ```python
+        custom_data=[{'question':'What symptoms does allergic rhinitis have?','answer':'Allergic rhinitis may cause nasal congestion, runny nose, headache, etc., which recur frequently. It is recommended to seek medical attention in severe cases.'},
+                 {'question':'What is 1+1 equal to?','answer':'It equals 2'}]
+    ```
+4. Based on the selected dataset, choose one of the following lines of code to replace line 38 in quantize/awq_quantize.py:：
+  ```python
+    # Quantize using wikitext
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_wikitext(quant_data_path=quant_data_path))
+    # Quantize using alpaca
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_alpaca(quant_data_path=quant_data_path))
+    # Quantize using a custom dataset
+    model.quantize(tokenizer, quant_config=quant_config, calib_data=load_cust_data(quant_data_path=quant_data_path))
+  ```
+5. Run the quantize/awq_quantize.py file; the AWQ quantized model will be available in the specified quan_path directory.
+
+
+<p id="bnb"></p>
+
+**bnb**
+1. Modify the configuration parameters in the quantize/bnb_quantize.py file according to the comments:
+```python
+model_path = "/root/ld/ld_model_pretrain/MiniCPM-1B-sft-bf16"  # Model path
+save_path = "/root/ld/ld_model_pretrain/MiniCPM-1B-sft-bf16_int4"  # Path to save the quantized model
+```
+2. Additional quantization parameters can be modified based on the comments and the llm.int8() algorithm (optional):
+```python
+quantization_config = BitsAndBytesConfig(
+    load_in_4bit=True,  # Whether to perform 4-bit quantization
+    load_in_8bit=False,  # Whether to perform 8-bit quantization
+    bnb_4bit_compute_dtype=torch.float16,  # Computation precision setting
+    bnb_4bit_quant_storage=torch.uint8,  # Storage format for quantized weights
+    bnb_4bit_quant_type="nf4",  # Quantization format, Gaussian-distributed int4 used here
+    bnb_4bit_use_double_quant=True,  # Whether to use double quantization, i.e., quantizing zeropoint and scaling parameters
+    llm_int8_enable_fp32_cpu_offload=False,  # Whether LLM uses int8, parameters saved on the CPU use fp32
+    llm_int8_has_fp16_weight=False,  # Whether mixed precision is enabled
+    #llm_int8_skip_modules=["out_proj", "kv_proj", "lm_head"],  # Modules that do not undergo quantization
+    llm_int8_threshold=6.0,  # Outlier value in the llm.int8() algorithm, determines whether quantization is performed based on this value
+)
+```
+3. Run the quantize/bnb_quantize.py script, and the BNB quantized model will be available in the directory specified by save_path.
+```python
+cd MiniCPM/quantize
+python bnb_quantize.py
+```
+<p id="quantize_test"></p>
+
+**quantize_test**
+1. In the command line, navigate to the MiniCPM/quantize directory.
+2. Modify the awq_path, gptq_path, and awq_path in the quantize_eval.sh file. Keep the types you don't want to test as empty strings. The following example indicates testing only the AWQ model:
+  ```
+    awq_path="/root/ld/ld_project/AutoAWQ/examples/awq_cpm_1b_4bit"
+    gptq_path=""
+    model_path=""
+    bnb_path=""
+  ```
+3. 3. In the MiniCPM/quantize directory, enter the following command in the command line:
+  ```
+    bash quantize_eval.sh
+  ```
+4. The window will display the memory usage and perplexity of the model.
 
 <p id="Community"></p>
 
@@ -680,6 +864,7 @@ MBPP, instead of the hand-verified set.
 ## Deployment on mobile phones
 
 #### Tutorial
+<p id="MLC"></p>
 
 * After INT4 quantization, MiniCPM only occupies 2GB of space, meeting the requirements of inference on end devices. 
 * We have made different adaptations for different operating systems.
@@ -757,6 +942,8 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 * Full-parameter Tuning
   * Using [BMTrain](https://github.com/OpenBMB/BMTrain)，as well as checkpointing and ZeRO-3 (zero redundancy optimizer)，we can tune all parameters of MiniCPM using one piece of NVIDIA GeForce GTX 3090/4090.
   * This code will be available soon.
+
+<p id="mlx_finetune"></p>
 
 * mlx Parameter-efficient Tuning
   * environment preparation
