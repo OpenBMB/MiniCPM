@@ -64,8 +64,8 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 |-------------|------------|-----------|-----------|
 |[Transformers](#Huggingface模型)|[Transformers](#transformer_finetune)|[MLC部署](#MLC)|[GPTQ](#gptq)|
 |[vLLM](#vllm-推理)|[mlx_finetune](#mlx)|[llama.cpp](#llama.cpp)|[AWQ](#awq)|
-|[llama.cpp](#llama.cpp)|[llama_factory](./finetune/llama_factory_example/README.md)||[困惑度测试](#quantize_test)|
-|[ollama](#ollama)||||
+|[llama.cpp](#llama.cpp)|[llama_factory](./finetune/llama_factory_example/README.md)||[bnb](#bnb)|
+|[ollama](#ollama)|||[量化测试](#quantize_test)|
 |[fastllm](#fastllm)||||
 |[mlx_lm](#mlx_lm)||||
 |[powerinfer](#powerinfer)||||
@@ -378,6 +378,35 @@ cd PowerInfer
   ```
 5. 运行quantize/awq_quantize.py文件,在设置的quan_path目录下可得awq量化后的模型。
 <p id="quantize_test"></p>
+
+<p id="bnb"></p>
+
+**bnb量化**
+1. 在quantize/bnb_quantize.py 文件中修改根据注释修改配置参数：
+```python
+model_path = "/root/ld/ld_model_pretrain/MiniCPM-1B-sft-bf16"  # 模型地址
+save_path = "/root/ld/ld_model_pretrain/MiniCPM-1B-sft-bf16_int4"  # 量化模型保存地址
+```
+2. 更多量化参数可根据注释以及llm.int8()算法进行修改(optional)：
+```python
+quantization_config = BitsAndBytesConfig(
+    load_in_4bit=True,  # 是否进行4bit量化
+    load_in_8bit=False,  # 是否进行8bit量化
+    bnb_4bit_compute_dtype=torch.float16,  # 计算精度设置
+    bnb_4bit_quant_storage=torch.uint8,  # 量化权重的储存格式
+    bnb_4bit_quant_type="nf4",  # 量化格式，这里用的是正太分布的int4
+    bnb_4bit_use_double_quant=True,  # 是否采用双量化，即对zeropoint和scaling参数进行量化
+    llm_int8_enable_fp32_cpu_offload=False,  # 是否llm使用int8，cpu上保存的参数使用fp32
+    llm_int8_has_fp16_weight=False,  # 是否启用混合精度
+    #llm_int8_skip_modules=["out_proj", "kv_proj", "lm_head"],  # 不进行量化的模块
+    llm_int8_threshold=6.0,  # llm.int8()算法中的离群值，根据这个值区分是否进行量化
+)
+```
+3. 运行quantize/bnb_quantize.py文件,在设置的save_path目录下可得bnb量化后的模型。
+```python
+cd MiniCPM/quantize
+python bnb_quantize.py
+```
 
 **量化测试**
 1. 命令行进入到 MiniCPM/quantize 目录下
