@@ -98,8 +98,8 @@ def load_data(data_path, tokenizer, n_samples):
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument("--pretrained_model_dir", type=str,default='/root/ld/ld_model_pretrained/MiniCPM-1B-sft-bf16')
-    parser.add_argument("--quantized_model_dir", type=str, default='/root/ld/ld_project/AutoGPTQ/examples/quantization/minicpm_1b_4bit')
+    parser.add_argument("--pretrained_model_dir", type=str,default='/root/ld/ld_model_pretrain/MiniCPM-1B-sft-bf16')
+    parser.add_argument("--quantized_model_dir", type=str, default='/root/ld/pull_request/MiniCPM/quantize/gptq_cpm_1b_4bit')
     parser.add_argument("--bits", type=int, default=4, choices=[2, 3, 4])#do not use 8 bit
     parser.add_argument(
         "--group_size",

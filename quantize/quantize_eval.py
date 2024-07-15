@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from tqdm import tqdm
 from datasets import load_dataset
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer,AutoConfig
 import GPUtil
 import argparse
 
@@ -12,6 +12,12 @@ parser.add_argument(
     type=str,  
     default='',  
     help="未量化前的模型路径。"  
+)
+parser.add_argument(
+    "--bnb_path",  
+    type=str,  
+    default='',  
+    help="bnb量化后的模型路径。"  
 )
 parser.add_argument(
     "--awq_path",  
@@ -83,9 +89,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.model_path != "":
+        print("pretrained model：",args.model_path.split('/')[-1])
         model = AutoModelForCausalLM.from_pretrained(args.model_path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
         tokenizer = AutoTokenizer.from_pretrained(args.model_path)
-        print("pretrained model：",args.model_path.split('/')[-1])
         gpu_usage = GPUtil.getGPUs()[0].memoryUsed 
         print(f"gpu usage: {round(gpu_usage/1024,2)}GB")
         evaluate_perplexity(model, tokenizer, args.data_path)
@@ -93,10 +99,9 @@ if __name__ == "__main__":
 
     if args.awq_path != "":
         from awq import AutoAWQForCausalLM
-
+        print("awq model：",args.awq_path.split('/')[-1])
         model = AutoAWQForCausalLM.from_quantized(args.awq_path, fuse_layers=True,device_map={"":'cuda:0'})
         tokenizer = AutoTokenizer.from_pretrained(args.awq_path)
-        print("awq model：",args.awq_path.split('/')[-1])
         gpu_usage = GPUtil.getGPUs()[0].memoryUsed 
         print(f"gpu usage: {round(gpu_usage/1024,2)}GB")
         evaluate_perplexity(model, tokenizer, args.data_path)
@@ -105,11 +110,23 @@ if __name__ == "__main__":
 #we will support the autogptq  later
     if args.gptq_path != "":
         from auto_gptq import AutoGPTQForCausalLM
-
+        print("gptq model：",args.gptq_path.split('/')[-1])
         tokenizer = AutoTokenizer.from_pretrained(args.gptq_path, use_fast=True)
         model = AutoGPTQForCausalLM.from_quantized(args.gptq_path, device="cuda:0",trust_remote_code=True)
-        print("gptq model：",args.gptq_path.split('/')[-1])
         gpu_usage = GPUtil.getGPUs()[0].memoryUsed 
         print(f"gpu usage: {round(gpu_usage/1024,2)}GB")
         evaluate_perplexity(model, tokenizer, args.data_path)
+        del model
     
+    if args.bnb_path != "":
+        from accelerate.utils import BnbQuantizationConfig
+        bnb_quantization_config = BnbQuantizationConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_use_double_quant=True, bnb_4bit_quant_type="nf4")
+        print("bnb model：",args.gptq_path.split('/')[-1])
+        # config=AutoConfig.from_pretrained(args.bnb_path,trust_remote_code=True)
+        # bnb_config=config.quantization_config
+        tokenizer = AutoTokenizer.from_pretrained(args.bnb_path, use_fast=True)
+        model = AutoModelForCausalLM.from_pretrained(args.bnb_path, trust_remote_code=True,)#quantization_config=bnb_config,)
+        gpu_usage = GPUtil.getGPUs()[0].memoryUsed 
+        print(f"gpu usage: {round(gpu_usage/1024,2)}GB")
+        evaluate_perplexity(model, tokenizer, args.data_path)
+        del model

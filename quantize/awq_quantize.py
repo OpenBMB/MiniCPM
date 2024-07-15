@@ -5,12 +5,12 @@ from awq import AutoAWQForCausalLM
 from transformers import AutoTokenizer
 import os
 
-model_path = '/root/ld/ld_model_pretrained/MiniCPM-1B-sft-bf16' # model_path or model_id
-quant_path = '/root/ld/ld_project/pull_request/MiniCPM/quantize/awq_cpm_1b_4bit' # quant_save_path
-quant_data_path='/root/ld/ld_project/pull_request/MiniCPM/quantize/quantize_data/wikitext'# 写入自带数据集地址
+model_path = '/root/ld/ld_model_pretrain/MiniCPM-1B-sft-bf16' # model_path or model_id
+quant_path = '/root/ld/pull_request/MiniCPM/quantize/awq_cpm_1b_4bit' # quant_save_path
+quant_data_path='/root/ld/pull_request/MiniCPM/quantize/quantize_data/wikitext'# 写入自带数据集地址
 quant_config = { "zero_point": True, "q_group_size": 128, "w_bit": 4, "version": "GEMM" } # "w_bit":4 or 8
 quant_samples=512 # how many samples to use for calibration
-custom_data=[{'question':'你叫什么名字。','answer':'我是openmbmb开源的小钢炮minicpm。'}, # 自定义数据集可用
+custom_data=[{'question':'鼻炎犯了怎么办','answer':'可以使用生理盐水进行清洗。'}, # 自定义数据集可用
                  {'question':'你有什么特色。','answer':'我很小，但是我很强。'}]
 # Load model
 model = AutoAWQForCausalLM.from_pretrained(model_path)
