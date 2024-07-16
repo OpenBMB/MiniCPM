@@ -1,4 +1,20 @@
 """
+my package: langchain_demo
+langchain                                0.2.6
+langchain-community                      0.2.1
+langchain-core                           0.2.19
+langchain-text-splitters                 0.2.0
+langchainplus-sdk                        0.0.20
+pypdf                                    4.3.0
+pydantic                                 2.8.2
+pydantic_core                            2.20.1
+transformers                             4.41.1
+triton                                   2.3.0
+trl                                      0.8.6
+vllm                                     0.5.0.post1+cu122
+vllm-flash-attn                          2.5.9
+vllm_nccl_cu12                           2.18.1.0.4.0
+
 你只需要最少6g显存(足够)的显卡就能在消费级显卡上体验流畅的rag。
 
 使用方法：
