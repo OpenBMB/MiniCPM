@@ -416,7 +416,7 @@ python bnb_quantize.py
 <p id="Community"></p>
 
 ## Community
-- [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory.git): [MiniCPM fine-tuning one-click solution](https://www.bilibili.com/video/BV1x1421t7cm/?spm_id_from=333.337.search-card.all.click&vd_source=2cab904f7c47d748c26d0dd8f747f77f)
+- [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory.git): [MiniCPM fine-tuning one-click solution](https://modelbest.feishu.cn/wiki/AIU3wbREcirOm9kkvd7cxujFnMb?from=from_copylink)
 - [ChatLLM](https://github.com/foldl/chatllm.cpp): [Run MiniCPM on CPU](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
 
 
