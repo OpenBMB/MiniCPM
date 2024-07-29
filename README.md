@@ -64,7 +64,7 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 |-------------|------------|-----------|-----------|
 |[Transformers](#Huggingface模型)|[Transformers](#transformer_finetune)|[MLC部署](#MLC)|[GPTQ](#gptq)|
 |[vLLM](#vllm-推理)|[mlx_finetune](#mlx)|[llama.cpp](#llama.cpp)|[AWQ](#awq)|
-|[llama.cpp](#llama.cpp)|[llama_factory](./finetune/llama_factory_example/README.md)||[bnb](#bnb)|
+|[llama.cpp](#llama.cpp)|[LLaMA-Factory](./finetune/llama_factory_example/README.md)||[bnb](#bnb)|
 |[ollama](#ollama)|||[量化测试](#quantize_test)|
 |[fastllm](#fastllm)||||
 |[mlx_lm](#mlx_lm)||||
@@ -424,7 +424,7 @@ python bnb_quantize.py
 <p id="community"></p>
 
 ## 开源社区
-
+- [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory.git)：[MiniCPM微调一键式解决方案](https://www.bilibili.com/video/BV1x1421t7cm/?spm_id_from=333.337.search-card.all.click&vd_source=2cab904f7c47d748c26d0dd8f747f77f)
 - [ChatLLM框架](https://github.com/foldl/chatllm.cpp)：[在CPU上跑MiniCPM](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/discussions/2#65c59c4f27b8c11e43fc8796)
 
 
