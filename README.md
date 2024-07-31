@@ -60,6 +60,8 @@ MiniCPM 是面壁智能与清华大学自然语言处理实验室共同开源的
 - [典型示例](#9)｜
 
 ## 常用模块导航
+以下表格可以让你快速访问常用的工程模块，如果你需要广泛而详细的教程请点击[教程](https://modelbest.feishu.cn/wiki/D2tFw8Pcsi5CIzkaHNacLK64npg?from=from_copylink)
+
 | [推理](#2) | [微调](#6) | [手机部署](#4) | [量化](#quantize)
 |-------------|------------|-----------|-----------|
 |[Transformers](#Huggingface模型)|[Transformers](#transformer_finetune)|[MLC部署](#MLC)|[GPTQ](#gptq)|

@@ -60,6 +60,8 @@ We release all model parameters for research and limited commercial use.
 <p id="0"></p>
 
 ## Common Modules
+The following table allows you quick access to commonly used engineering modules. If you need extensive and detailed tutorials, please click on [Tutorials]((https://modelbest.feishu.cn/wiki/D2tFw8Pcsi5CIzkaHNacLK64npg?from=from_copylink)).
+
 | [infer](#2) | [finetune](#6) | [deployment](#4) | [quantize](#quantize)
 |-------------|------------|-----------|-----------|
 |[Transformers](#Huggingface)|[Transformers](#6)|[MLC](#MLC)|[GPTQ](#gptq)|
