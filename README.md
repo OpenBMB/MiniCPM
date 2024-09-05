@@ -229,7 +229,7 @@ MiniCPM 3.0 是一个 4B 参数量的语言模型，相比 MiniCPM1.0/2.0，功�
         <td>63.2 </td>
     </tr>
     <tr>
-        <td>LiveCodeBench</td>
+        <td>LiveCodeBench v3</td>
         <td>22.2</td>
         <td>20.2</td>
         <td>19.2</td>
@@ -242,7 +242,7 @@ MiniCPM 3.0 是一个 4B 参数量的语言模型，相比 MiniCPM1.0/2.0，功�
         <td colspan="15" align="left"><strong>工具调用能力</strong></td>
     </tr>
     <tr>
-        <td>BFCL</td>
+        <td>BFCL v2</td>
         <td>71.6</td>
         <td>70.1</td>
         <td>19.2</td>

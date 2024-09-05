@@ -228,7 +228,7 @@ MiniCPM 3.0 is a language model with 4 billion parameters. Compared to MiniCPM 1
         <td>63.2 </td>
     </tr>
     <tr>
-        <td>LiveCodeBench</td>
+        <td>LiveCodeBench v3</td>
         <td>22.2</td>
         <td>20.2</td>
         <td>19.2</td>
@@ -241,7 +241,7 @@ MiniCPM 3.0 is a language model with 4 billion parameters. Compared to MiniCPM 1
         <td colspan="15" align="left"><strong>Tool Use</strong></td>
     </tr>
     <tr>
-        <td>BFCL</td>
+        <td>BFCL v2</td>
         <td>71.6</td>
         <td>70.1</td>
         <td>19.2</td>
