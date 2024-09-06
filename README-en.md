@@ -415,16 +415,47 @@ We have supported fine-tuning MiniCPM3 using [LLaMA-Factory](https://github.com/
 
 ### Advanced Features
 
+We recommend using [vLLM](#vllm) for the following advanced features.
+
 #### Function calling
 
-We provide example code for using function calls with MiniCPM3, see [`demo/function_call.py`](./demo/function_calling.py).
+We provide example code for using function calls with MiniCPM3:
 
+```bash
+cd demo/function_call
+python function_call.py
+```
+
+If you want to start a function call service, use the following commands:
+
+```bash
+cd demo/function_call
+pip install -r requirements.txt
+python openai_api_server.py \
+    --model openbmb/MiniCPM3-4B \
+    --served-model-name MiniCPM3-4B \
+    --chat-template chatml.jinja \
+    --dtype auto \
+    --api-key token-abc123 \
+    --tensor-parallel-size 1 \
+    --trust-remote-code
+```
+
+Below is a demo of using a search engine to answer the question:
+
+![function_call](./assets/function_call.gif)
 
 #### Code Interpreter
 
-We provide example code for using the code interpreter with MiniCPM3, see [`demo/code_interpreter.py`](./demo/code_interpreter.py).
+We provide example code for using the code interpreter with MiniCPM3:
 
-Below is a demo:
+```bash
+cd demo/code_interpreter
+pip install -r requirements.txt
+python code_interpreter.py openbmb/MiniCPM3-4B
+```
+
+Below is an example of using the code interpreter to generate a QR code:
 
 ![code_interpreter](./assets/code_interpreter.gif)
 

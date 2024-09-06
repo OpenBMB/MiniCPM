@@ -415,15 +415,48 @@ print(responds)
 目前模型微调支持 [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)，使用方法参考 [LLaMA-Factory 微调](https://modelbest.feishu.cn/docx/Z7USdW4lloZzkZxQ14icJ3senjb?from=from_copylink)。
 
 ### 进阶功能
+
+对于以下进阶功能，我们推荐使用 [vLLM](#vllm)。
+
 #### 工具调用
 
-我们提供了使用 MiniCPM3 调用工具的示例代码，见[`demo/function_calling.py`](./demo/function_calling.py)。
+我们提供了使用 MiniCPM3 调用工具的示例代码：
+
+```bash
+cd demo/function_call
+python function_call.py
+```
+
+如果你想启动一个能够调用工具的推理服务，使用以下代码：
+
+```bash
+cd demo/function_call
+pip install -r requirements.txt
+python openai_api_server.py \
+    --model openbmb/MiniCPM3-4B \
+    --served-model-name MiniCPM3-4B \
+    --chat-template chatml.jinja \
+    --dtype auto \
+    --api-key token-abc123 \
+    --tensor-parallel-size 1 \
+    --trust-remote-code
+```
+
+下面是一个调用搜索工具回答问题的演示：
+
+![function_call](./assets/function_call.gif)
 
 #### 代码解释器
 
-我们提供了一个 MiniCPM3 使用代码解释器的示例代码，见[`demo/code_interpreter.py`](./demo/code_interpreter.py)。
+我们提供了一个 MiniCPM3 使用代码解释器的示例代码：
 
-下面是一个 Demo：
+```bash
+cd demo/code_interpreter
+pip install -r requirements.txt
+python code_interpreter.py openbmb/MiniCPM3-4B
+```
+
+下面是一个使用代码解释器生成二维码的演示：
 
 ![code_interpreter](./assets/code_interpreter.gif)
 
