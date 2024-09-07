@@ -19,6 +19,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 ## Changelog🔥
 
 - [2024.09.05] We release [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)! This model outperforms Phi-3.5-mini-instruct and GPT-3.5-Turbo-0125 and is comparable to several models with 7B-9B parameters like Llama3.1-8B-Instruct, Qwen2-7B-Instruct, and GLM-4-9B-Chat.
+- [2024.07.09] MiniCPM-2B has been supported by [SGLang](#sglang-inference)!
 - [2024.07.05] Released [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)! This model achieves an average sparsity of 87.89% in the FFN layer, reducing FFN FLOPs by 84%, while maintaining downstream task performance.
 - [2024.04.11] Released [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k), [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) and [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)! Click [here](https://openbmb.vercel.app/) to read our technical blog.
 - [2024.03.16] Intermediate checkpoints of MiniCPM-2B were released [here](https://huggingface.co/openbmb/MiniCPM-2B-history)!
@@ -787,9 +788,10 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 ```
 
 #### Huggingface Inferene
+
 ##### MiniCPM-2B
 
-* Install `transformers>=4.36.0` and `accelerate`，run the following python code.
+Install `transformers>=4.36.0` and `accelerate`，run the following python code:
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -805,7 +807,9 @@ print(responds)
 ```
 
 ##### MiniCPM-2B (Llama Format)
+
 To facilitate ease of use, we have converted the model weights of MiniCPM to adapt to the structure of the LLaMA model:
+
 ```python
 import torch
 from transformers import LlamaTokenizerFast, LlamaForCausalLM
@@ -820,7 +824,8 @@ responses = tokenizer.decode(responses[0], skip_special_tokens=True)
 print(responses)
 ```
 
-#### vLLM 
+#### vLLM Inference
+
 Install [vLLM](https://github.com/vllm-project/vllm).
 
 ```shell
@@ -828,6 +833,35 @@ pip install "vllm>=0.4.1"
 ```
 
 See [here](#vllm) for the inference code.
+
+#### SGLang Inference
+
+Install [SGLang](https://github.com/sgl-project/sglang).
+
+* First, start a server:
+
+```bash
+python -m sglang.launch_server --model-path openbmb/MiniCPM-2B-dpo-fp16 --trust-remote-code --port 30000
+```
+
+* You can use it for inference as shown below:
+
+```python
+from sglang import function, gen, set_default_backend, RuntimeEndpoint
+
+@function
+def text_qa(s, question):
+    s += "<User>" + question + "<AI>"
+    s += gen("answer", max_tokens=1024, temperature=0.7, top_p=0.7)
+
+set_default_backend(RuntimeEndpoint("http://localhost:30000"))
+
+state = text_qa.run(
+    question="What is the capital of China?",
+)
+
+print(state["answer"])
+```
 
 #### llama.cpp, Ollama, fastllm, mlx_lm Inference
 We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/), [ollama](https://github.com/ollama/ollama), [fastllm](https://github.com/ztxz16/fastllm), [mlx_lm](https://github.com/ml-explore/mlx-examples). Thanks to [@runfuture](https://github.com/runfuture) for the adaptation of llama.cpp and ollama.

@@ -21,7 +21,7 @@
 ## 更新日志🔥
 
 - [2024.09.05] 发布 [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)！该模型的表现超越 Phi-3.5-mini-instruct 和 GPT-3.5-Turbo-0125，并且能够比肩 Llama3.1-8B-Instruct、Qwen2-7B-Instruct、GLM-4-9B-Chat 等多个 7B-9B 参数量的模型。
-- [2024.07.09] MiniCPM-2B 已经支持使用 [SGLang](https://github.com/sgl-project/sglang) 推理！
+- [2024.07.09] MiniCPM-2B 已经支持使用 [SGLang](#sglang-推理) 推理！
 - [2024.07.05] 发布 [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)！该模型在保持下游任务性能无损的前提下，FFN 层实现了 87.89% 的平均稀疏度，将 FFN FLOPs 降低了 84%。
 - [2024.04.11] 发布 [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k)、[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) 和 [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)！点击[这里](https://openbmb.vercel.app/?category=Chinese+Blog)查看技术博客。
 - [2024.03.16] MiniCPM-2B 的 30 余个中间检查点开放了！[HuggingFace链接](https://huggingface.co/openbmb/MiniCPM-2B-history)
@@ -793,7 +793,9 @@ python demo/hf_based_demo.py --model_path <hf_repo_path>
 #### HuggingFace 推理
 
 ##### MiniCPM-2B
-* 安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码
+
+安装`transformers>=4.36.0`以及`accelerate`后，运行以下代码：
+
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
@@ -808,7 +810,9 @@ print(responds)
 ```
 
 ##### MiniCPM-2B （Llama Format）
+
 我们将MiniCPM的模型权重转化成了Llama代码可以直接调用的[格式](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)，以便大家尝试:
+
 ```python
 import torch
 from transformers import LlamaTokenizerFast, LlamaForCausalLM
@@ -825,12 +829,42 @@ print(responds)
 
 #### vLLM 推理
 
-* 安装[vLLM](https://github.com/vllm-project/vllm)
+安装 [vLLM](https://github.com/vllm-project/vllm)。
+
 ```shell
 pip install "vllm>=0.4.1"
 ```
 
 具体推理代码见[这里](#vllm)。
+
+#### SGLang 推理
+
+安装 [SGLang](https://github.com/sgl-project/sglang)。
+
+* 首先需要启动一个服务:
+
+```bash
+python -m sglang.launch_server --model-path openbmb/MiniCPM-2B-dpo-fp16 --trust-remote-code --port 30000
+```
+
+* 下面是一个推理代码的样例:
+
+```python
+from sglang import function, gen, set_default_backend, RuntimeEndpoint
+
+@function
+def text_qa(s, question):
+    s += "<用户>" + question + "<AI>"
+    s += gen("answer", max_tokens=1024, temperature=0.7, top_p=0.7)
+
+set_default_backend(RuntimeEndpoint("http://localhost:30000"))
+
+state = text_qa.run(
+    question="What is the capital of China?",
+)
+
+print(state["answer"])
+```
 
 #### llama.cpp、Ollama、fastllm、mlx_lm推理
 MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm)、[mlx_lm](https://github.com/ml-explore/mlx-examples)推理。感谢[@runfuture](https://github.com/runfuture)对llama.cpp和ollama的适配。
