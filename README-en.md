@@ -803,11 +803,6 @@ model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, d
 responds, history = model.chat(tokenizer, "Which city is the capital of China?", temperature=0.8, top_p=0.8)
 print(responds)
 ```
-* Examples
-
-```shell
-The capital city of China is Beijing. Beijing is not only the political center of China but also a cultural and economic hub. It is known for its rich history and numerous landmarks, such as the Great Wall, the Forbidden City, and the Temple of Heaven. The city is also home to the National Stadium, also known as the "Bird's Nest," and the National Aquatics Center, or "Water Cube." Beijing is a significant city in China, with a population of over 21 million people.
-```
 
 ##### MiniCPM-2B (Llama Format)
 To facilitate ease of use, we have converted the model weights of MiniCPM to adapt to the structure of the LLaMA model:
@@ -826,15 +821,13 @@ print(responses)
 ```
 
 #### vLLM 
-* Install [vLLM](https://github.com/vllm-project/vllm)
-  ```shell
-  pip install "vllm>=0.4.1"
-  ```
+Install [vLLM](https://github.com/vllm-project/vllm).
 
-* Examples
-  ```shell
-  python inference/inference_vllm.py --model_path <hf_repo_path> --prompt_path prompts/prompt_demo.txt
-  ```
+```shell
+pip install "vllm>=0.4.1"
+```
+
+See [here](#vllm) for the inference code.
 
 #### llama.cpp, Ollama, fastllm, mlx_lm Inference
 We have supported inference with [llama.cpp](https://github.com/ggerganov/llama.cpp/), [ollama](https://github.com/ollama/ollama), [fastllm](https://github.com/ztxz16/fastllm), [mlx_lm](https://github.com/ml-explore/mlx-examples). Thanks to [@runfuture](https://github.com/runfuture) for the adaptation of llama.cpp and ollama.

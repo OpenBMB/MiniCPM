@@ -21,6 +21,7 @@
 ## 更新日志🔥
 
 - [2024.09.05] 发布 [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)！该模型的表现超越 Phi-3.5-mini-instruct 和 GPT-3.5-Turbo-0125，并且能够比肩 Llama3.1-8B-Instruct、Qwen2-7B-Instruct、GLM-4-9B-Chat 等多个 7B-9B 参数量的模型。
+- [2024.07.09] MiniCPM-2B 已经支持使用 [SGLang](https://github.com/sgl-project/sglang) 推理！
 - [2024.07.05] 发布 [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)！该模型在保持下游任务性能无损的前提下，FFN 层实现了 87.89% 的平均稀疏度，将 FFN FLOPs 降低了 84%。
 - [2024.04.11] 发布 [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k)、[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) 和 [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)！点击[这里](https://openbmb.vercel.app/?category=Chinese+Blog)查看技术博客。
 - [2024.03.16] MiniCPM-2B 的 30 余个中间检查点开放了！[HuggingFace链接](https://huggingface.co/openbmb/MiniCPM-2B-history)
@@ -806,13 +807,6 @@ responds, history = model.chat(tokenizer, "山东省最高的山是哪座山, �
 print(responds)
 ```
 
-* 期望输出
-```shell
-山东省最高的山是泰山，海拔1545米。
-
-相对于黄山（海拔1864米），泰山海拔较低，相差约319米。
-```
-
 ##### MiniCPM-2B （Llama Format）
 我们将MiniCPM的模型权重转化成了Llama代码可以直接调用的[格式](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16-llama-format)，以便大家尝试:
 ```python
@@ -836,17 +830,7 @@ print(responds)
 pip install "vllm>=0.4.1"
 ```
 
-* 测试样例
-```shell
-python inference/inference_vllm.py --model_path <hf_repo_path> --prompt_path prompts/prompt_demo.txt
-```
-
-* 期望输出
-```shell
-<用户>: Which city is the capital of China?
-<AI>:
- The capital city of China is Beijing. Beijing is a major political, cultural, and economic center in China, and it is known for its rich history, beautiful architecture, and vibrant nightlife. It is also home to many of China's most important cultural and historical sites, including the Forbidden City, the Great Wall of China, and the Temple of Heaven. Beijing is a popular destination for tourists from around the world, and it is an important hub for international business and trade.
-```
+具体推理代码见[这里](#vllm)。
 
 #### llama.cpp、Ollama、fastllm、mlx_lm推理
 MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](https://github.com/ollama/ollama)、[fastllm](https://github.com/ztxz16/fastllm)、[mlx_lm](https://github.com/ml-explore/mlx-examples)推理。感谢[@runfuture](https://github.com/runfuture)对llama.cpp和ollama的适配。
