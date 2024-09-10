@@ -1,15 +1,15 @@
 """	
-由于autogptq已经不更新很久了，使用gptq量化前，请先安装我们的autogptq分支,否则代码无法正常运行。	
+使用gptq量化前，请先安装我们的autogptq分支,否则代码无法正常运行。	
 ‘’‘bash	
 git clone https://github.com/LDLINGLINGLING/AutoGPTQ/tree/minicpm_gptq	
 cd Autogptq	
+# 如果量化minicpm3.0
+git checkout minicpm3
+# 如果量化minicpm2.0
+git checkout minicpm_autogptq
 pip install e .	
 ‘’‘	
 """	
-
-
-
-
 
 import json	
 import random	
@@ -53,16 +53,16 @@ def load_data(data_path, tokenizer, n_samples):
         for istr, inp, opt in zip(instructions, inputs, outputs):	
             if inp:
                 line = [
-                    {"Role": "user", "Content": istr},
-                    {"Role": "assistant", "Content": inp},
-                    {"Role": "user", "Content": opt},
+                    {"role": "system", "content": istr},
+                    {"role": "assistant", "content": inp},
+                    {"role": "user", "content": opt},
                 ]
                 prompt = tokenizer.decode(tokenizer.apply_chat_template(line[:2]))
                 text = tokenizer.decode(tokenizer.apply_chat_template(line))	
             else:	
                 line = [
-                    {"Role": "assistant", "Content": istr},
-                    {"Role": "user", "Content": opt},
+                    {"role": "assistant", "content": istr},
+                    {"role": "user", "content": opt},
                 ]
                 prompt = tokenizer.decode(tokenizer.apply_chat_template(line[:1]))
                 text = tokenizer.decode(tokenizer.apply_chat_template(line))		
@@ -105,8 +105,8 @@ def load_data(data_path, tokenizer, n_samples):
 
 def main():	
     parser = ArgumentParser()	
-    parser.add_argument("--pretrained_model_dir", type=str,default='/root/ld/ld_model_pretrain/MiniCPM-1B-sft-bf16')	
-    parser.add_argument("--quantized_model_dir", type=str, default='/root/ld/pull_request/MiniCPM/quantize/gptq_cpm_1b_4bit')	
+    parser.add_argument("--pretrained_model_dir", type=str,default='/root/ld/ld_model_pretrained/minicpm3')	
+    parser.add_argument("--quantized_model_dir", type=str, default='/root/ld/ld_model_pretrained/minicpm3_gptq_4bit')	
     parser.add_argument("--bits", type=int, default=4, choices=[2, 3, 4])#do not use 8 bit	
     parser.add_argument(	
         "--group_size",	
@@ -118,7 +118,7 @@ def main():
     parser.add_argument(	
         "--num_samples",	
         type=int,	
-        default=128,	
+        default=256,	
         help="how many samples will be used to quantize model",	
     )	
     parser.add_argument(	
