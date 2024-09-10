@@ -423,14 +423,14 @@ We recommend using [vLLM](#vllm) for the following advanced features.
 We provide example code for using function calls with MiniCPM3:
 
 ```bash
-cd demo/function_call
+cd demo/minicpm3/function_call
 python function_call.py
 ```
 
 If you want to start a function call service, use the following commands:
 
 ```bash
-cd demo/function_call
+cd demo/minicpm3/function_call
 pip install -r requirements.txt
 python openai_api_server.py \
     --model openbmb/MiniCPM3-4B \
@@ -451,7 +451,7 @@ Below is a demo of using a search engine to answer the question:
 We provide example code for using the code interpreter with MiniCPM3:
 
 ```bash
-cd demo/code_interpreter
+cd demo/minicpm3/code_interpreter
 pip install -r requirements.txt
 python code_interpreter.py openbmb/MiniCPM3-4B
 ```
@@ -782,9 +782,9 @@ Using the following command can launch the gradio-based demo.
 
 ```shell
 # generation powered by vllm
-python demo/vllm_based_demo.py --model_path <vllmcpm_repo_path>
+python demo/minicpm/vllm_based_demo.py --model_path <vllmcpm_repo_path>
 # generation powered by huggingface
-python demo/hf_based_demo.py --model_path <hf_repo_path>
+python demo/minicpm/hf_based_demo.py --model_path <hf_repo_path>
 ```
 
 #### Huggingface Inferene
@@ -838,7 +838,7 @@ See [here](#vllm) for the inference code.
 
 Install [SGLang](https://github.com/sgl-project/sglang).
 
-* First, start a server:
+* First, launch a server:
 
 ```bash
 python -m sglang.launch_server --model-path openbmb/MiniCPM-2B-dpo-fp16 --trust-remote-code --port 30000

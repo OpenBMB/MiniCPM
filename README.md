@@ -424,14 +424,14 @@ print(responds)
 我们提供了使用 MiniCPM3 调用工具的示例代码：
 
 ```bash
-cd demo/function_call
+cd demo/minicpm3/function_call
 python function_call.py
 ```
 
 如果你想启动一个能够调用工具的推理服务，使用以下代码：
 
 ```bash
-cd demo/function_call
+cd demo/minicpm3/function_call
 pip install -r requirements.txt
 python openai_api_server.py \
     --model openbmb/MiniCPM3-4B \
@@ -452,7 +452,7 @@ python openai_api_server.py \
 我们提供了一个 MiniCPM3 使用代码解释器的示例代码：
 
 ```bash
-cd demo/code_interpreter
+cd demo/minicpm3/code_interpreter
 pip install -r requirements.txt
 python code_interpreter.py openbmb/MiniCPM3-4B
 ```
@@ -785,9 +785,9 @@ MiniCPM-2B 语言模型有 24亿（2.4B）的非词嵌入参数量, 总计 2.7B 
 
 ```shell
 # generation powered by vllm
-python demo/vllm_based_demo.py --model_path <vllmcpm_repo_path>
+python demo/minicpm/vllm_based_demo.py --model_path <vllmcpm_repo_path>
 # generation powered by huggingface
-python demo/hf_based_demo.py --model_path <hf_repo_path>
+python demo/minicpm/hf_based_demo.py --model_path <hf_repo_path>
 ```
 
 #### HuggingFace 推理
