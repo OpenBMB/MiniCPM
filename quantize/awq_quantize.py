@@ -5,7 +5,7 @@ import os
 
 model_path = '/root/ld/ld_model_pretrained/minicpm3' # model_path or model_id	
 quant_path = '/root/ld/ld_model_pretrained/minicpm3_awq' # quant_save_path	
-quant_data_path='/root/ld/ld_project/pull_request/MiniCPM/quantize/quantize_data/alpaca'# 写入自带数据集地址	
+quant_data_path='/Users/liudan/ai/pull_request/MiniCPM/quantize/quantize_data/wikitext'# 写入自带数据集地址	
 quant_config = { "zero_point": True, "q_group_size": 128, "w_bit": 4, "version": "GEMM" } # "w_bit":4 or 8	
 quant_samples=512 # how many samples to use for calibration	
 custom_data=[ # first custom data
@@ -66,7 +66,7 @@ def load_cust_data(custom_data):
     quant_data=[tokenizer.decode(tokenizer.apply_chat_template(i)) for i in custom_data]	
     return quant_data[:quant_samples]	
 # Quantize	
-model.quantize(tokenizer, quant_config=quant_config, calib_data=load_alpaca(quant_data_path=quant_data_path))	
+model.quantize(tokenizer, quant_config=quant_config, calib_data=load_wikitext(quant_data_path=quant_data_path))	
 
 # Save quantized model	
 model.save_quantized(quant_path)	
