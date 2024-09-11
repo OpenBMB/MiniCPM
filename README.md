@@ -383,8 +383,8 @@ print(responds)
 * 安装 llama.cpp
   ```shell
     git clone https://github.com/OpenBMB/llama.cpp.git
-    git checkout minicpm3
     cd llama.cpp
+    git checkout minicpm3    
     make 
   ```
 * 创建模型目录
@@ -401,7 +401,7 @@ print(responds)
   ```python
   python3 -m pip install -r requirements.txt
   # 将pytorch模型转化为fp16的gguf
-  python3 convert-hf-to-gguf.py models/Minicpm3/ --outfile /your/path/llama.cpp/models/Minicpm3/CPM-4B-F16.gguf
+  python3 convert_hf_to_gguf.py models/Minicpm3/MiniCPM3-4B --outfile ./models/Minicpm3/CPM-4B-F16.gguf
   # 完成以上步骤，llama.cpp/models/Minicpm3目录下有一个CPM-4B-F16.gguf的模型文件
   ./llama-quantize ./models/Minicpm3/CPM-4B-F16.gguf ./models/Minicpm3/ggml-model-Q4_K_M.gguf Q4_K_M
   # 使用本行代码执行成功后，./models/Minicpm3下将存在ggml-model-Q4_K_M.gguf的4bit量化文件
