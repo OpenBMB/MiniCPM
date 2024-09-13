@@ -49,15 +49,11 @@ class SupervisedDataset(Dataset):
         data_path,
         tokenizer,
         model_max_length=4096,
-        user_tokens='<用户>',
-        assistant_tokens='<AI>',
     ):
         super(SupervisedDataset, self).__init__()
         self.data = json.load(open(data_path))
         self.tokenizer = tokenizer
         self.model_max_length = model_max_length
-        self.user_tokens = self.tokenizer.encode(user_tokens) #针对不同模型，都可以对应到<用户>的id
-        self.assistant_tokens = self.tokenizer.encode(assistant_tokens) #针对不同模型，都可以对应到<AI>的id
         self.ignore_index = -100
         item = self.preprocessing(self.data[0])
         print("input:", self.tokenizer.decode(item["input_ids"]))
@@ -78,19 +74,27 @@ class SupervisedDataset(Dataset):
         for message in example["messages"]:
             role = message["role"]
             content = message["content"]
-            content_ids = self.tokenizer.encode(content, add_special_tokens=False)
+            
+            content_ids = self.tokenizer.apply_chat_template([message])
 
             if role == "user":
-                input_ids += self.user_tokens + content_ids
-                label_ids += [self.ignore_index] * len(self.user_tokens) + [
-                    self.ignore_index
-                ] * len(content_ids)
-            else:
-                input_ids += self.assistant_tokens + content_ids
-                label_ids += (
-                    [self.ignore_index] * len(self.assistant_tokens)
-                    + content_ids
-                )
+                if self.tokenizer.eos_token_id == 73440: # minicpm3.0 is true
+                    input_ids += self.tokenizer.apply_chat_template([message],add_generation_prompt=True)
+                    label_ids += [self.ignore_index] * len(self.tokenizer.apply_chat_template([message],add_generation_prompt=True))
+                else:
+                    input_ids += content_ids
+                    label_ids += [self.ignore_index] * len(content_ids)
+            elif role == "system":
+                input_ids += content_ids
+                label_ids += [self.ignore_index] * len(content_ids)
+            elif role == "assistant":
+                if self.tokenizer.eos_token_id == 73440: # minicpm3.0 is true
+                    input_ids += tokenizer.encode(content,add_special_tokens=False)
+                    #content_ids = tokenizer.encode(content,add_special_tokens=False)
+                    label_ids += tokenizer.encode(content,add_special_tokens=False)
+                else:
+                    input_ids +=  content_ids
+                    label_ids +=  content_ids
 
         input_ids.append(self.tokenizer.eos_token_id)
         label_ids.append(self.tokenizer.eos_token_id)
@@ -116,7 +120,6 @@ class SupervisedDataset(Dataset):
 
     def __getitem__(self, idx) -> Dict[str, torch.Tensor]:
         return self.preprocessing(self.data[idx])
-
 
 def load_model_and_tokenizer(
     model_path: str,
@@ -170,8 +173,12 @@ def load_model_and_tokenizer(
         lora_config = LoraConfig(
             init_lora_weights="gaussian",
             task_type=TaskType.CAUSAL_LM,
-            target_modules=["q_proj", "v_proj"],
-            r=8,
+            target_modules=[
+                'q_a_proj', 'kv_a_proj_with_mqa', 'q_b_proj', 'kv_b_proj'
+            ] if model.config.architectures == ["MiniCPM3ForCausalLM"] else [
+                "q_proj", "v_proj"
+            ],
+            r=64,
             lora_alpha=32,
             lora_dropout=0.1,
             inference_mode=False,
