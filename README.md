@@ -20,6 +20,8 @@
 
 ## 更新日志🔥
 
+- [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) 已经支持 MiniCPM3-4B（推荐使用）！由于 SGLang v0.3 对 MiniCPM3 中使用的 MLA 结构进行了推理优化，吞吐量相比于 vLLM 大幅提高！**[[用法](#sglang推荐)]
+- [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) 已经官方支持 MiniCPM3-4B！[[GGUF模型](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)|[用法](#llamacpp)]
 - [2024.09.05] 发布 [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)！该模型的表现超越 Phi-3.5-mini-instruct 和 GPT-3.5-Turbo-0125，并且能够比肩 Llama3.1-8B-Instruct、Qwen2-7B-Instruct、GLM-4-9B-Chat 等多个 7B-9B 参数量的模型。
 - [2024.07.09] MiniCPM-2B 已经支持使用 [SGLang](#sglang-推理) 推理！
 - [2024.07.05] 发布 [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)！该模型在保持下游任务性能无损的前提下，FFN 层实现了 87.89% 的平均稀疏度，将 FFN FLOPs 降低了 84%。
@@ -352,6 +354,38 @@ responds, history = model.chat(tokenizer, "请写一篇关于人工智能的文�
 print(responds)
 ```
 
+#### SGLang（推荐）
+* 安装
+
+参考 SGLang [官方仓库](ttps://github.com/sgl-project/sglang)，通过*源码*安装最新版本。
+
+* 启动推理服务
+```shell
+python -m sglang.launch_server --model openbmb/MiniCPM3-4B --trust-remote-code --port 30000 --chat-template chatml
+```
+
+* 使用示例
+```python
+from sglang import function, system, user, assistant, gen, set_de
+
+@function
+def multi_turn_question(s, question_1, question_2):
+    s += user(question_1)
+    s += assistant(gen("answer_1", max_tokens=1024))
+    s += user(question_2)
+    s += assistant(gen("answer_2", max_tokens=1024))
+
+set_default_backend(RuntimeEndpoint("http://localhost:30000"))
+
+state = multi_turn_question.run(
+    question_1="介绍一下人工智能",
+    question_2="写一篇关于它的文章",
+)
+
+for m in state.messages():
+    print(m["role"], ":", m["content"])
+```
+
 #### vLLM
 * 安装 vllm
   ```shell
@@ -380,34 +414,18 @@ print(responds)
   ```
 
 #### llama.cpp
+
+我们提供了 MiniCPM3 的 [GGUF 版本](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)，可以直接使用 llama.cpp 推理。
+
 * 安装 llama.cpp
   ```shell
     git clone https://github.com/ggerganov/llama.cpp
     cd llama.cpp
     make 
   ```
-* 创建模型目录
-  ```shell
-    cd llama.cpp/models
-    mkdir Minicpm3
-  ```
-* 下载 MiniCPM3 模型所有文件到 `llama.cpp/models/Minicpm3`
-  ```shell
-    cd llama.cpp/models/Minicpm3
-    git clone https://huggingface.co/openbmb/MiniCPM3-4B
-  ```
-* 将模型转换为 gguf 格式，并且量化：
-  ```python
-  python3 -m pip install -r requirements.txt
-  # 将pytorch模型转化为fp16的gguf
-  python3 convert_hf_to_gguf.py models/Minicpm3/MiniCPM3-4B --outfile ./models/Minicpm3/CPM-4B-F16.gguf
-  # 完成以上步骤，llama.cpp/models/Minicpm3目录下有一个CPM-4B-F16.gguf的模型文件
-  ./llama-quantize ./models/Minicpm3/CPM-4B-F16.gguf ./models/Minicpm3/ggml-model-Q4_K_M.gguf Q4_K_M
-  # 使用本行代码执行成功后，./models/Minicpm3下将存在ggml-model-Q4_K_M.gguf的4bit量化文件
-  ```
 * 推理
   ```shell
-  ./llama-cli -c 1024 -m ./models/Minicpm/ggml-model-Q4_K_M.gguf -n 1024 --top-p 0.7 --temp 0.7 --prompt "<|im_start|>user\n请写一篇关于人工智能的文章，详细介绍人工智能的未来发展和隐患。<|im_end|>\n<|im_start|>assistant\n"
+  ./llama-cli -c 1024 -m minicpm3-4b-fp16.gguf -n 1024 --top-p 0.7 --temp 0.7 --prompt "<|im_start|>user\n请写一篇关于人工智能的文章，详细介绍人工智能的未来发展和隐患。<|im_end|>\n<|im_start|>assistant\n"
   ```
 
 ### 模型微调
@@ -416,7 +434,7 @@ print(responds)
 
 ### 进阶功能
 
-对于以下进阶功能，我们推荐使用 [vLLM](#vllm)。
+对于以下进阶功能，我们的样例代码中使用 [vLLM](#vllm) 进行推理。
 
 #### 工具调用
 

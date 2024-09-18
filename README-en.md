@@ -17,7 +17,8 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 </p>
 
 ## Changelog🔥
-
+- [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) now supports MiniCPM3-4B. Thanks to inference optimizations made to the MLA structure (used in MiniCPM3) in SGLang v0.3, throughput has significantly increased compared to vLLM!** [[Usage](#sglang-recommended)]
+- [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) now officially supports MiniCPM3-4B! [[GGUF Model](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF) | [Usage](#llamacpp)]
 - [2024.09.05] We release [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)! This model outperforms Phi-3.5-mini-instruct and GPT-3.5-Turbo-0125 and is comparable to several models with 7B-9B parameters like Llama3.1-8B-Instruct, Qwen2-7B-Instruct, and GLM-4-9B-Chat.
 - [2024.07.09] MiniCPM-2B has been supported by [SGLang](#sglang-inference)!
 - [2024.07.05] Released [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)! This model achieves an average sparsity of 87.89% in the FFN layer, reducing FFN FLOPs by 84%, while maintaining downstream task performance.
@@ -352,6 +353,39 @@ responds, history = model.chat(tokenizer, "Write an article about Artificial Int
 print(responds)
 ```
 
+#### SGLang (Recommended)
+* Installation
+
+Refer to SGLang [repo](https://github.com/sgl-project/sglang) to install the latest version *via source code*.
+
+* Launch a server
+```shell
+python -m sglang.launch_server --model openbmb/MiniCPM3-4B --trust-remote-code --port 30000 --chat-template chatml
+```
+
+* Example code
+```python
+from sglang import function, system, user, assistant, gen, set_de
+
+@function
+def multi_turn_question(s, question_1, question_2):
+    s += user(question_1)
+    s += assistant(gen("answer_1", max_tokens=1024))
+    s += user(question_2)
+    s += assistant(gen("answer_2", max_tokens=1024))
+
+set_default_backend(RuntimeEndpoint("http://localhost:30000"))
+
+state = multi_turn_question.run(
+    question_1="Introduce artificial intelligence",
+    question_2="Write an article about it",
+)
+
+for m in state.messages():
+    print(m["role"], ":", m["content"])
+```
+
+
 #### vLLM
 * Install vllm
   ```shell
@@ -380,31 +414,18 @@ print(responds)
   ```
 
 #### llama.cpp
+
+We have provided the [GGUF formats]((https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)) of MiniCPM3, which can be used in llama.cpp.
+
 * Install llama.cpp
   ```shell
     git clone https://github.com/ggerganov/llama.cpp
     cd llama.cpp
     make
   ```
-* Create model directory
-  ```shell
-    cd llama.cpp/models
-    mkdir Minicpm3
-  ```
-* Download MiniCPM3 into `llama.cpp/models/Minicpm3`
-  ```shell
-    cd llama.cpp/models/Minicpm3
-    git clone https://huggingface.co/openbmb/MiniCPM3-4B
-  ```
-* Convert the model to gguf format，and quantize it:
-  ```python
-  python3 -m pip install -r requirements.txt
-  python3 convert-hf-to-gguf.py models/Minicpm3/ --outfile /your/path/llama.cpp/models/Minicpm3/CPM-4B-F16.gguf
-  ./llama-quantize ./models/Minicpm3/CPM-4B-F16.gguf ./models/Minicpm3/ggml-model-Q4_K_M.gguf Q4_K_M
-  ```
 * Inference
   ```shell
-  ./llama-cli -c 1024 -m ./models/Minicpm/ggml-model-Q4_K_M.gguf -n 1024 --top-p 0.7 --temp 0.7 --prompt "<|im_start|>user\nWrite an article about Artificial Intelligence.<|im_end|>\n<|im_start|>assistant\n"
+  ./llama-cli -c 1024 -m minicpm3-4b-fp16.gguf -n 1024 --top-p 0.7 --temp 0.7 --prompt "<|im_start|>user\nWrite an article about Artificial Intelligence.<|im_end|>\n<|im_start|>assistant\n"
   ```
 
 ### Fine-Tuning
@@ -415,7 +436,7 @@ We have supported fine-tuning MiniCPM3 using [LLaMA-Factory](https://github.com/
 
 ### Advanced Features
 
-We recommend using [vLLM](#vllm) for the following advanced features.
+We use [vLLM](#vllm) in the example code for the following advanced features.
 
 #### Function calling
 
