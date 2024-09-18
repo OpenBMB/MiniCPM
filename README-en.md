@@ -382,10 +382,9 @@ print(responds)
 #### llama.cpp
 * Install llama.cpp
   ```shell
-    git clone https://github.com/OpenBMB/llama.cpp.git
-    git checkout minicpm3
+    git clone https://github.com/ggerganov/llama.cpp
     cd llama.cpp
-    make 
+    make
   ```
 * Create model directory
   ```shell

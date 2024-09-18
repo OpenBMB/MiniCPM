@@ -382,9 +382,8 @@ print(responds)
 #### llama.cpp
 * 安装 llama.cpp
   ```shell
-    git clone https://github.com/OpenBMB/llama.cpp.git
+    git clone https://github.com/ggerganov/llama.cpp
     cd llama.cpp
-    git checkout minicpm3    
     make 
   ```
 * 创建模型目录
