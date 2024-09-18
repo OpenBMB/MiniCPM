@@ -20,7 +20,7 @@
 
 ## 更新日志🔥
 
-- [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) 已经支持 MiniCPM3-4B（推荐使用）！由于 SGLang v0.3 对 MiniCPM3 中使用的 MLA 结构进行了推理优化，吞吐量相比于 vLLM 提高 70%！**[[用法](#sglang推荐)]
+- [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) 已经支持 MiniCPM3-4B (推荐使用)！由于 SGLang v0.3 对 MiniCPM3 中使用的 MLA 结构进行了推理优化，吞吐量相比于 vLLM 提高 70%！**[[用法](#sglang推荐)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) 已经官方支持 MiniCPM3-4B！[[GGUF模型](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)|[用法](#llamacpp)]
 - [2024.09.05] 发布 [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)！该模型的表现超越 Phi-3.5-mini-instruct 和 GPT-3.5-Turbo-0125，并且能够比肩 Llama3.1-8B-Instruct、Qwen2-7B-Instruct、GLM-4-9B-Chat 等多个 7B-9B 参数量的模型。
 - [2024.07.09] MiniCPM-2B 已经支持使用 [SGLang](#sglang-推理) 推理！
