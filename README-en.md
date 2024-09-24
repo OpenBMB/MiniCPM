@@ -365,7 +365,7 @@ python -m sglang.launch_server --model openbmb/MiniCPM3-4B --trust-remote-code -
 
 * Example code
 ```python
-from sglang import function, system, user, assistant, gen, set_de
+from sglang import function, system, user, assistant, gen, set_default_backend, RuntimeEndpoint
 
 @function
 def multi_turn_question(s, question_1, question_2):
