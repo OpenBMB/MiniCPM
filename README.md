@@ -389,7 +389,7 @@ for m in state.messages():
 #### vLLM
 * 安装 vllm
   ```shell
-  pip install git+https://github.com/OpenBMB/vllm.git@minicpm3
+  pip install "vllm>=0.6.2"
   ```
 * 推理
   ```python

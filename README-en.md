@@ -389,7 +389,7 @@ for m in state.messages():
 #### vLLM
 * Install vllm
   ```shell
-  pip install git+https://github.com/OpenBMB/vllm.git@minicpm3
+  pip install "vllm>=0.6.2"
   ```
 * Inference
   ```python
