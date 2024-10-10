@@ -6,8 +6,13 @@ from typing import Dict, Optional
 import torch
 import transformers
 from torch.utils.data import Dataset
-from transformers import (AutoModelForCausalLM, AutoTokenizer, Trainer,
-                          TrainingArguments,BitsAndBytesConfig)
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    Trainer,
+    TrainingArguments,
+    BitsAndBytesConfig,
+)
 
 
 @dataclass
@@ -43,21 +48,17 @@ class TrainingArguments(transformers.TrainingArguments):
 
 class SupervisedDataset(Dataset):
     """Dataset for supervised fine-tuning."""
-    
+
     def __init__(
         self,
         data_path,
         tokenizer,
         model_max_length=4096,
-        user_tokens='<用户>',
-        assistant_tokens='<AI>',
     ):
         super(SupervisedDataset, self).__init__()
         self.data = json.load(open(data_path))
         self.tokenizer = tokenizer
         self.model_max_length = model_max_length
-        self.user_tokens = self.tokenizer.encode(user_tokens) #针对不同模型，都可以对应到<用户>的id
-        self.assistant_tokens = self.tokenizer.encode(assistant_tokens) #针对不同模型，都可以对应到<AI>的id
         self.ignore_index = -100
         item = self.preprocessing(self.data[0])
         print("input:", self.tokenizer.decode(item["input_ids"]))
@@ -78,19 +79,32 @@ class SupervisedDataset(Dataset):
         for message in example["messages"]:
             role = message["role"]
             content = message["content"]
-            content_ids = self.tokenizer.encode(content, add_special_tokens=False)
+
+            content_ids = self.tokenizer.apply_chat_template([message])
 
             if role == "user":
-                input_ids += self.user_tokens + content_ids
-                label_ids += [self.ignore_index] * len(self.user_tokens) + [
-                    self.ignore_index
-                ] * len(content_ids)
-            else:
-                input_ids += self.assistant_tokens + content_ids
-                label_ids += (
-                    [self.ignore_index] * len(self.assistant_tokens)
-                    + content_ids
-                )
+                if self.tokenizer.eos_token_id == 73440:  # minicpm3.0 is true
+                    input_ids += self.tokenizer.apply_chat_template(
+                        [message], add_generation_prompt=True
+                    )
+                    label_ids += [self.ignore_index] * len(
+                        self.tokenizer.apply_chat_template(
+                            [message], add_generation_prompt=True
+                        )
+                    )
+                else:
+                    input_ids += content_ids
+                    label_ids += [self.ignore_index] * len(content_ids)
+            elif role == "system":
+                input_ids += content_ids
+                label_ids += [self.ignore_index] * len(content_ids)
+            elif role == "assistant":
+                if self.tokenizer.eos_token_id == 73440:  # minicpm3.0 is true
+                    input_ids += tokenizer.encode(content, add_special_tokens=False)
+                    label_ids += tokenizer.encode(content, add_special_tokens=False)
+                else:
+                    input_ids += content_ids
+                    label_ids += content_ids
 
         input_ids.append(self.tokenizer.eos_token_id)
         label_ids.append(self.tokenizer.eos_token_id)
@@ -148,7 +162,7 @@ def load_model_and_tokenizer(
             bnb_4bit_use_double_quant=True,  # 是否采用双量化，即对zeropoint和scaling参数进行量化
             llm_int8_enable_fp32_cpu_offload=False,  # 是否llm使用int8，cpu上保存的参数使用fp32
             llm_int8_has_fp16_weight=False,  # 是否启用混合精度
-            #llm_int8_skip_modules=["out_proj", "kv_proj", "lm_head"],  # 不进行量化的模块
+            # llm_int8_skip_modules=["out_proj", "kv_proj", "lm_head"],  # 不进行量化的模块
             llm_int8_threshold=6.0,  # llm.int8()算法中的离群值，根据这个值区分是否进行量化
         )
         model = AutoModelForCausalLM.from_pretrained(
@@ -156,7 +170,6 @@ def load_model_and_tokenizer(
             torch_dtype=dtype,
             trust_remote_code=True,
             quantization_config=quantization_config,
-
         )
     else:
         model = AutoModelForCausalLM.from_pretrained(
@@ -170,8 +183,12 @@ def load_model_and_tokenizer(
         lora_config = LoraConfig(
             init_lora_weights="gaussian",
             task_type=TaskType.CAUSAL_LM,
-            target_modules=["q_proj", "v_proj"],
-            r=8,
+            target_modules=(
+                ["q_a_proj", "kv_a_proj_with_mqa", "q_b_proj", "kv_b_proj"]
+                if model.config.architectures == ["MiniCPM3ForCausalLM"]
+                else ["q_proj", "v_proj"]
+            ),
+            r=64,
             lora_alpha=32,
             lora_dropout=0.1,
             inference_mode=False,
@@ -196,7 +213,7 @@ if __name__ == "__main__":
         use_lora=training_args.use_lora,
         qlora=training_args.qlora,
         bf16=training_args.bf16,
-        fp16=training_args.fp16
+        fp16=training_args.fp16,
     )
 
     train_dataset = SupervisedDataset(
@@ -220,4 +237,4 @@ if __name__ == "__main__":
 
     trainer.train()
     # save the incremental PEFT weights, more details can be found in https://huggingface.co/blog/peft
-    # model.save_pretrained("output_dir") 
+    # model.save_pretrained("output_dir")
