@@ -2,6 +2,7 @@
 # encoding: utf-8
 from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
+from minicpm_tool_parser import fc2dict
 import json
 
 model_path = "openbmb/MiniCPM3-4B"
@@ -97,7 +98,7 @@ while True:
     )
     outputs = llm.generate([prompt], sampling_params)
     response = outputs[0].outputs[0].text
-    msg = tokenizer.decode_function_call(response)
+    msg = fc2dict(response)
     if (
         "tool_calls" in msg
         and msg["tool_calls"] is not None
