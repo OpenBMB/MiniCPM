@@ -47,7 +47,10 @@ class TrainingArguments(transformers.TrainingArguments):
 
 
 class SupervisedDataset(Dataset):
-    """Dataset for supervised fine-tuning."""
+    """Dataset for supervised fine-tuning.
+    Loads the dataset from a json file and preprocesses it.example:
+    /data/AdvertiseGenChatML/train.json
+    """
 
     def __init__(
         self,
@@ -83,7 +86,7 @@ class SupervisedDataset(Dataset):
             content_ids = self.tokenizer.apply_chat_template([message])
 
             if role == "user":
-                if self.tokenizer.eos_token_id == 73440:  # minicpm3.0 is true
+                if self.tokenizer.eos_token_id == 73440:  # minicpm3.0 and minicpm4.0
                     input_ids += self.tokenizer.apply_chat_template(
                         [message], add_generation_prompt=True
                     )
@@ -92,17 +95,17 @@ class SupervisedDataset(Dataset):
                             [message], add_generation_prompt=True
                         )
                     )
-                else:
+                else: # minicpm2.0
                     input_ids += content_ids
                     label_ids += [self.ignore_index] * len(content_ids)
             elif role == "system":
                 input_ids += content_ids
                 label_ids += [self.ignore_index] * len(content_ids)
             elif role == "assistant":
-                if self.tokenizer.eos_token_id == 73440:  # minicpm3.0 is true
+                if self.tokenizer.eos_token_id == 73440:  # minicpm3.0 and minicpm4.0
                     input_ids += tokenizer.encode(content, add_special_tokens=False)
                     label_ids += tokenizer.encode(content, add_special_tokens=False)
-                else:
+                else: # minicpm2.0
                     input_ids += content_ids
                     label_ids += content_ids
 

@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /root/ld/ld_model_pretrained/miniCPM-bf16/
+model_name_or_path: /root/ld/ld_model_pretrained/MiniCPM4/
 
 ### method
 stage: sft
@@ -12,7 +12,7 @@ deepspeed: examples/deepspeed/ds_z2_config.json
 
 ### dataset
 dataset: glaive_toolcall_en,glaive_toolcall_zh
-template: cpm
+template: cpm3
 cutoff_len: 1800
 max_samples: 500000
 overwrite_cache: true
