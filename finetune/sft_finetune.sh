@@ -9,9 +9,9 @@ deepspeed --include localhost:0,1 finetune.py \
     --model_name_or_path MiniCPM-2B-sft-bf16 \
     # 输出目录（包含时间戳）
     --output_dir output/AdvertiseGenSFT/$formatted_time/ \
-    # 训练数据路径
+    # 训练数据路径，修改成chatml格式的json地址
     --train_data_path data/AdvertiseGenChatML/train.json \
-    # 验证数据路径
+    # 验证数据路径，修改成chatml格式的json地址
     --eval_data_path data/AdvertiseGenChatML/dev.json \
     # 学习率设置
     --learning_rate 5e-5 \
