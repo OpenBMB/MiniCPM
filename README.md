@@ -124,28 +124,33 @@
 
 ## MiniCPM 4.0
 MiniCPM 4 是一个极致高效的端侧大模型，从模型架构、学习算法、训练数据与推理系统四个层面进行了高效优化，实现了极致的效率提升。
-- 高效模型架构：
-  - InfLLM v2 -- 可训练的稀疏注意力机制：采用可训练的稀疏注意力机制架构，在128K长文本下，每个词元仅需要与不足5%的词元进行相关性计算，极大降低长文本的计算开销。
-- 高效学习算法：
-  - 模型风洞2.0 -- 高效Predictable Scaling：引入了下游任务的Scaling预测方法，更精准地搜索模型训练配置
-  - BitCPM -- 极致的三值量化：将模型参数位宽降低至3值，为模型瘦身90%
-  - 高效训练工程优化：采用了FP8低精度计算，使用了多词元预测（Multi-token Prediction）进行模型训练
-- 高知识密度训练数据：
-  - UltraClean -- 高质量预训练数据的清洗与合成：构建了基于高效验证的迭代式数据清洗策略，开源了高质量中英文预训练数据 [Ultra-Finweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
-  - UltraChat v2 -- 高质量有监督微调数据合成：构建了大规模的高质量有监督微调数据，包括知识密集型数据、推理密集型数据、指令遵循数据、长文本理解数据、工具调用数据等
-- 高效推理系统：
-  - FRSpec -- 轻量级投机采样：对草稿模型的词表进行裁剪，实现草稿模型的生成加速
-  - ArkInfer -- 跨平台部署系统：支持多后端一键部署
+- 🏗️ 高效模型架构：
+  - InfLLM v2 -- 可训练的稀疏注意力机制：采用可训练的稀疏注意力机制架构，在128K长文本处理中，每个词元仅需与不足5%的词元进行相关性计算，显著降低长文本的计算开销
+- 🧠 高效学习算法：
+  - 模型风洞2.0 -- 高效Predictable Scaling：引入下游任务的Scaling预测方法，实现更精准的模型训练配置搜索
+  - BitCPM -- 极致的三值量化：将模型参数位宽压缩至3值，实现模型体积90%的极致瘦身
+  - 高效训练工程优化：采用FP8低精度计算技术，结合多词元预测（Multi-token Prediction）训练策略
+- 📚 高知识密度训练数据：
+  - UltraClean -- 高质量预训练数据的清洗与合成：构建基于高效验证的迭代式数据清洗策略，开源高质量中英文预训练数据集 [UltraFinweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
+  - UltraChat v2 -- 高质量有监督微调数据合成：构建大规模高质量有监督微调数据集，涵盖知识密集型数据、推理密集型数据、指令遵循数据、长文本理解数据、工具调用数据等多个维度
+- ⚡ 高效推理系统：
+  - FRSpec -- 轻量级投机采样：通过对草稿模型词表的智能裁剪，实现草稿模型的生成加速优化
+  - ArkInfer -- 跨平台部署系统：支持多后端环境的一键部署，提供灵活的跨平台适配能力
 
 ### 评测结果
 #### 效率评测
-![benchmark](./assets/minicpm4/efficiency.pdf)
+在Jetson AGX Orin和RTX 4090两款典型端侧芯片上，MiniCPM4在长文本处理任务中展现出大幅领先同尺寸模型的处理速度。随着文本长度的增加，MiniCPM4的性能优势愈发显著。在Jetson AGX Orin平台上，相较于Qwen3-8B，MiniCPM4实现了约7倍的生成速度提升。
+
+![benchmark](./assets/minicpm4/efficiency.png)
 
 #### 综合评测
+MiniCPM4推出端侧8B、0.5B两种参数规模版本，均在同级别模型中实现了最佳性能表现。
 ![benchmark](./assets/minicpm4/benchmark.png)
 
 #### 长文本评测
-![long-niah](./assets/minicpm4/128k-niah.pdf)
+MiniCPM4基于32K长文本进行预训练，并通过YaRN技术实现长度扩展。在128K长文本的大海捞针任务中，MiniCPM4展现出卓越的性能表现。
+
+![long-niah](./assets/minicpm4/128k-niah.png)
 
 ### BitCPM4: 模型量化
 #### BitCPM4评测
@@ -604,6 +609,7 @@ python code_interpreter.py openbmb/MiniCPM3-4B
 下面是一个使用代码解释器生成二维码的演示：
 
 ![code_interpreter](./assets/minicpm3/code_interpreter.gif)
+</details>
 
 ## MiniCPM 2.0
 
