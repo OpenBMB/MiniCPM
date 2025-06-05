@@ -31,8 +31,8 @@ MiniCPM4-Survey是由[THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民�
 ## 使用
 
 ### 下载模型
-从 Hugging Face 下载MiniCPM4-Survey并将其放在model/MiniCPM4-Survey中。
-我们建议使用MiniCPM-Embedding-Light作为表征模型，放在model/MiniCPM-Embedding-Light中。
+从 Hugging Face 下载[MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey)并将其放在model/MiniCPM4-Survey中。
+我们建议使用[MiniCPM-Embedding-Light](https://huggingface.co/openbmb/MiniCPM-Embedding-Light)作为表征模型，放在model/MiniCPM-Embedding-Light中。
 
 
 ### 准备环境
