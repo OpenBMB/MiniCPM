@@ -178,6 +178,86 @@ See [here](./demo/minicpm4/SurveyGeneration/README.md)
 
 #### HuggingFace
 
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+torch.manual_seed(0)
+
+path = 'openbmb/MiniCPM4-8B'
+tokenizer = AutoTokenizer.from_pretrained(path)
+model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
+
+responds, history = model.chat(tokenizer, "Write an article about Artificial Intelligence.", temperature=0.7, top_p=0.7)
+print(responds)
+```
+
+This model supports InfLLM v2, a sparse attention mechanism designed for efficient long-sequence inference. It requires the [infllmv2_cuda_impl](https://github.com/suhmily10/infllmv2_cuda_impl) library.
+
+You can install it by running the following command:
+
+```bash
+# 1. Clone the feature_infer branch of the repository
+git clone -b feature_infer https://github.com/suhmily10/infllmv2_cuda_impl.git
+
+# 2. Navigate into the project directory
+cd infllmv2_cuda_impl
+
+# 3. Recursively initialize submodules (Crucial step!)
+git submodule update --init --recursive
+
+# 4. Install the library (choose one of the following methods as per project requirements)
+pip install -e . # or python setup.py install
+
+```
+
+To enable InfLLM v2, you need to add the `sparse_config` field in `config.json`:
+
+
+```json
+{
+    ...,
+    "sparse_config": {
+        "kernel_size": 32,
+        "kernel_stride": 16,
+        "init_blocks": 1,
+        "block_size": 64,
+        "window_size": 2048,
+        "topk": 64,
+        "use_nope": false,
+        "dense_len": 8192
+    }
+}
+```
+
+These parameters control the behavior of InfLLM v2:
+
+* `kernel_size` (default: 32): size of semantic kernels.
+* `kernel_stride` (default: 16): stride between adjacent kernels.
+* `init_blocks` (default: 1): The number of initial blocks that every query token attends to. This ensures attention to the beginning of the sequence.
+* `block_size` (default: 64): block size for key-value blocks.
+* `window_size` (default: 2048): The size of the local sliding window. Each query token attends to blocks within this local window.
+* `topk` (default: 64): Specifies that each token computes attention with only the top-k most relevant key-value blocks.
+* `use_nope` (default: false): whether to use the NOPE technique in block selection for improved performance.
+* `dense_len` (default: 8192): Since Sparse Attention offers limited benefits for short sequences, the model can use standard (dense) attention for shorter texts. The model will use dense attention for sequences with a token length below `dense_len` and switch to sparse attention for sequences exceeding this length. Set this to `-1` to always use sparse attention regardless of sequence length.
+
+Minicpm4 natively supports context lengths of up to 32,768 tokens. For conversations where the total length (including both input and output) significantly exceeds this limit, we recommend using RoPE scaling techniques for effective handling of long texts. We have validated the model's performance on context lengths of up to 131,072 tokens by modifying the LongRoPE factor.
+
+You can apply the LongRoPE factor modification by modifying the model files. Specifically, in the `config.json` file, adjust the `rope_scaling` fields.
+
+```json
+{
+    ...,
+    "rope_scaling": {
+        "rope_type": "longrope", 
+        "long_factor": [0.9977997200264581, 1.014658295992452, 1.0349680404997148, 1.059429246056193, 1.0888815016813513, 1.1243301355211495, 1.166977103606075, 1.2182568066927284, 1.2798772354275727, 1.3538666751582975, 1.4426259039919596, 1.5489853358570191, 1.6762658237220625, 1.8283407612492941, 2.0096956085876183, 2.225478927469756, 2.481536379650452, 2.784415934557119, 3.1413289096347365, 3.560047844772632, 4.048719380066383, 4.752651957515948, 5.590913044973868, 6.584005926629993, 7.7532214876576155, 9.119754865903639, 10.704443927019176, 12.524994176518703, 14.59739595363613, 16.93214476166354, 19.53823297353041, 22.417131025031697, 25.568260840911098, 28.991144156566317, 32.68408069090375, 36.65174474170465, 40.90396065611201, 45.4664008671033, 50.37147343433591, 55.6804490772103, 61.470816952306556, 67.8622707390618, 75.00516023410414, 83.11898235973767, 92.50044360202462, 103.57086856690864, 116.9492274587385, 118.16074567836519, 119.18497548708795, 120.04810876261652, 120.77352815196981, 121.38182790207875, 121.89094985353891, 122.31638758099915, 122.6714244963338, 122.9673822552567, 123.21386397019609, 123.41898278254268, 123.58957065488238, 123.73136519024158, 123.84917421274221, 123.94701903496814, 124.02825801299717, 124.09569231686116],
+        "short_factor": [0.9977997200264581, 1.014658295992452, 1.0349680404997148, 1.059429246056193, 1.0888815016813513, 1.1243301355211495, 1.166977103606075, 1.2182568066927284, 1.2798772354275727, 1.3538666751582975, 1.4426259039919596, 1.5489853358570191, 1.6762658237220625, 1.8283407612492941, 2.0096956085876183, 2.225478927469756, 2.481536379650452, 2.784415934557119, 3.1413289096347365, 3.560047844772632, 4.048719380066383, 4.752651957515948, 5.590913044973868, 6.584005926629993, 7.7532214876576155, 9.119754865903639, 10.704443927019176, 12.524994176518703, 14.59739595363613, 16.93214476166354, 19.53823297353041, 22.417131025031697, 25.568260840911098, 28.991144156566317, 32.68408069090375, 36.65174474170465, 40.90396065611201, 45.4664008671033, 50.37147343433591, 55.6804490772103, 61.470816952306556, 67.8622707390618, 75.00516023410414, 83.11898235973767, 92.50044360202462, 103.57086856690864, 116.9492274587385, 118.16074567836519, 119.18497548708795, 120.04810876261652, 120.77352815196981, 121.38182790207875, 121.89094985353891, 122.31638758099915, 122.6714244963338, 122.9673822552567, 123.21386397019609, 123.41898278254268, 123.58957065488238, 123.73136519024158, 123.84917421274221, 123.94701903496814, 124.02825801299717, 124.09569231686116],
+        "original_max_position_embeddings": 32768
+    }
+}
+
+```
+
 #### vLLM
 
 #### SGLang
