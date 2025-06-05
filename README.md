@@ -19,8 +19,8 @@
 </p>
 
 ## 更新日志🔥
-- [2025.06.06] 发布[**MiniCPM4**]([https:/](https://huggingface.co/openbmb/MiniCPM4-8B))！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现5倍以上生成加速！
-- [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce)** 开源，支持MiniCPM3-4B，理论上支持无限长文本输入！
+- [2025.06.06] 发布 [**MiniCPM4**]([https:/](https://huggingface.co/openbmb/MiniCPM4-8B))！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！
+- [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce)** 开源，支持 MiniCPM3-4B，理论上支持无限长文本输入！
 - [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) 已经支持 MiniCPM3-4B (推荐使用)！由于 SGLang v0.3 对 MiniCPM3 中使用的 MLA 结构进行了推理优化，吞吐量相比于 vLLM 提高 70%！**[[用法](#sglang推荐)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) 已经官方支持 MiniCPM3-4B！[[GGUF模型](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)|[用法](#llamacpp)]
 - [2024.09.05] 发布 [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)！该模型的表现超越 Phi-3.5-mini-instruct 和 GPT-3.5-Turbo-0125，并且能够比肩 Llama3.1-8B-Instruct、Qwen2-7B-Instruct、GLM-4-9B-Chat 等多个 7B-9B 参数量的模型。
@@ -71,6 +71,8 @@
   | [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
   | [BitCPM4-1B](https://huggingface.co/openbmb/BitCPM4-1B)        | [BitCPM4-1B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-1B) |
   | [BitCPM4-0.5B](https://huggingface.co/openbmb/BitCPM4-0.5B)    | [BitCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-0.5B) |
+  | [MiniCPM4-8B-Eagle-FRSpec](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec) | [MiniCPM4-8B-Eagle-FRSpec](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec) |
+  | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec-QAT) | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec-QAT) |
   | [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) | [MiniCPM4-Survey](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-Survey) |
   | [MiniCPM4-MCP](https://huggingface.co/openbmb/MiniCPM4-MCP)  | [MiniCPM4-MCP](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-MCP) |
   |[MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B)|[MiniCPM3-4B](https://www.modelscope.cn/models/OpenBMB/MiniCPM3-4B)|
@@ -86,11 +88,11 @@
 ## MiniCPM 4.0
 MiniCPM 4 是一个极致高效的端侧大模型，从模型架构、学习算法、训练数据与推理系统四个层面进行了高效优化，实现了极致的效率提升。
 - 🏗️ 高效模型架构：
-  - InfLLM v2 -- 可训练的稀疏注意力机制：采用可训练的稀疏注意力机制架构，在128K长文本处理中，每个词元仅需与不足5%的词元进行相关性计算，显著降低长文本的计算开销
+  - InfLLM v2 -- 可训练的稀疏注意力机制：采用可训练的稀疏注意力机制架构，在 128K 长文本处理中，每个词元仅需与不足 5% 的词元进行相关性计算，显著降低长文本的计算开销
 - 🧠 高效学习算法：
-  - 模型风洞2.0 -- 高效Predictable Scaling：引入下游任务的Scaling预测方法，实现更精准的模型训练配置搜索
-  - BitCPM -- 极致的三值量化：将模型参数位宽压缩至3值，实现模型位宽90%的极致瘦身
-  - 高效训练工程优化：采用FP8低精度计算技术，结合多词元预测（Multi-token Prediction）训练策略
+  - 模型风洞 2.0 -- 高效 Predictable Scaling：引入下游任务的 Scaling 预测方法，实现更精准的模型训练配置搜索
+  - BitCPM -- 极致的三值量化：将模型参数位宽压缩至 3 值，实现模型位宽 90% 的极致瘦身
+  - 高效训练工程优化：采用 FP8 低精度计算技术，结合多词元预测（Multi-token Prediction）训练策略
 - 📚 高知识密度训练数据：
   - UltraClean -- 高质量预训练数据的清洗与合成：构建基于高效验证的迭代式数据清洗策略，开源高质量中英文预训练数据集 [UltraFineweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
   - UltraChat v2 -- 高质量有监督微调数据合成：构建大规模高质量有监督微调数据集，涵盖知识密集型数据、推理密集型数据、指令遵循数据、长文本理解数据、工具调用数据等多个维度
@@ -100,38 +102,38 @@ MiniCPM 4 是一个极致高效的端侧大模型，从模型架构、学习算�
 
 ### 评测结果
 #### 效率评测
-在Jetson AGX Orin和RTX 4090两款典型端侧芯片上，MiniCPM4在长文本处理任务中展现出大幅领先同尺寸模型的处理速度。随着文本长度的增加，MiniCPM4的性能优势愈发显著。在Jetson AGX Orin平台上，相较于Qwen3-8B，MiniCPM4实现了约7倍的生成速度提升。
+在 Jetson AGX Orin 和 RTX 4090 两款典型端侧芯片上，MiniCPM4 在长文本处理任务中展现出大幅领先同尺寸模型的处理速度。随着文本长度的增加，MiniCPM4 的性能优势愈发显著。在 Jetson AGX Orin 平台上，相较于 Qwen3-8B，MiniCPM4 实现了约 7 倍的生成速度提升。
 
 ![benchmark](./assets/minicpm4/efficiency.png)
 
 #### 综合评测
-MiniCPM4推出端侧8B、0.5B两种参数规模版本，均在同级别模型中实现了最佳性能表现。
+MiniCPM4 推出端侧 8B、0.5B 两种参数规模版本，均在同级别模型中实现了最佳性能表现。
 ![benchmark](./assets/minicpm4/benchmark.png)
 
 #### 长文本评测
-MiniCPM4基于32K长文本进行预训练，并通过YaRN技术实现长度扩展。在128K长文本的大海捞针任务中，MiniCPM4展现出卓越的性能表现。
+MiniCPM4 基于 32K 长文本进行预训练，并通过 YaRN 技术实现长度扩展。在 128K 长文本的大海捞针任务中，MiniCPM4 展现出卓越的性能表现。
 
 ![long-niah](./assets/minicpm4/128k-niah.png)
 
 ### BitCPM4: 模型量化
-BitCPM4是基于MiniCPM系列模型进行量化感知训练（QAT）后得到的三值量化模型，在训练效率和模型参数效率实现了有效的提升。
+BitCPM4 是基于 MiniCPM 系列模型进行量化感知训练（QAT）后得到的三值量化模型，在训练效率和模型参数效率实现了有效的提升。
 - 训练方法改进
   - 在小规模模型上进行风洞实验，搜索训练所需的训练超参。
-  - 通过使用一阶段高精训练+二阶段QAT的方法，充分利用已经完成或部分完成训练的高精度模型，极大地压缩了QAT阶段所需要的算力。
+  - 通过使用一阶段高精训练+二阶段 QAT 的方法，充分利用已经完成或部分完成训练的高精度模型，极大地压缩了 QAT 阶段所需要的算力。
 - 高效参数效率
-  - 模型使用1.58Bit的位宽达到的性能对标与同参数量级别的全精度模型，模型参数效率高。
+  - 模型使用 1.58Bit 的位宽达到的性能对标与同参数量级别的全精度模型，模型参数效率高。
 
-#### BitCPM4评测
-BitCPM4在测试中的表现可以对标同级别的业界主流全精度模型。
+#### BitCPM4 评测
+BitCPM4 在测试中的表现可以对标同级别的业界主流全精度模型。
 ![bitcpm-benchmark](./assets/minicpm4/bitcpm4-benchmark.png)
 
-#### BitCPM4模型推理
-BitCPM4开源的模型参数为伪量化形式，可以直接使用Huggingface框架进行推理。
+#### BitCPM4 模型推理
+BitCPM4 开源的模型参数为伪量化形式，可以直接使用 Huggingface 框架进行推理。
 
 ### 模型应用
 
 #### MiniCPM4-Survey: 综述生成
-MiniCPM4-Survey是由[THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和[ModelBest](https://modelbest.cn/en)联合开发的开源大语言模型智能体。它基于[MiniCPM4](https://github.com/OpenBMB/MiniCPM4) 80亿参数基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
+MiniCPM4-Survey 是由 [THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和 [ModelBest](https://modelbest.cn/en) 联合开发的开源大语言模型智能体。它基于 [MiniCPM4](https://github.com/OpenBMB/MiniCPM4) 80 亿参数（8B）基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
 主要特性包括：
 - 计划-检索-写作生成框架 — 我们提出了一个多智能体生成框架，包含三个核心阶段：计划（定义综述的整体结构）、检索（生成合适的检索关键词）和写作（利用检索到的信息，生成连贯的段落）。
 - 高质量数据集构建——我们收集并处理大量人类专家写作的综述论文，构建高质量训练集。同时，我们收集大量研究论文，构建检索数据库。
@@ -153,7 +155,7 @@ MiniCPM4-Survey是由[THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民�
 | MiniCPM4-Survey                            | 3.45      | 3.70     | **3.85** | 3.00    | **3.50**  | **68.73**  |
 | &nbsp;&nbsp;&nbsp;*w/o* RL                  | **3.55**  | 3.35     | 3.30  | 2.25    | 3.11  | 50.24      |
 
-*GPT-4o对综述生成系统的性能比较。“G2FT”代表Gemini-2.0-Flash-Thinking，“WTR1-7B”代表Webthinker-R1-7B。由于Webthinker不包括引用功能，OpenAI Deep Research在导出结果时不提供引用，因此省略了对它们的FactScore评估。我们的技术报告中包含评测的详细信息。*
+*GPT-4o 对综述生成系统的性能比较。“G2FT” 代表 Gemini-2.0-Flash-Thinking，“WTR1-7B” 代表 Webthinker-R1-7B。由于 Webthinker 不包括引用功能，OpenAI Deep Research 在导出结果时不提供引用，因此省略了对它们的 FactScore 评估。我们的技术报告中包含评测的详细信息。*
 
 #### MiniCPM4-MCP: MCP增强的工具调用
 
@@ -254,7 +256,7 @@ output_token_ids = [
 responses = tokenizer.batch_decode(output_token_ids, skip_special_tokens=True)[0]
 print(responses)
 ```
-本模型支持稀疏注意力机制 InfLLM v2，可高效处理长序列推理。如需启用该功能，请先安装依赖库[infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl)
+本模型支持稀疏注意力机制 InfLLM v2，可高效处理长序列推理。如需启用该功能，请先安装依赖库 [infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl)
 
 
 运行以下命令即可安装：
@@ -264,11 +266,9 @@ git clone -b feature_infer https://github.com/OpenBMB/infllmv2_cuda_impl.git
 cd infllmv2_cuda_impl
 git submodule update --init --recursive
 pip install -e . # or python setup.py install 
-
 ```
 
-
-启用 InfLLM v2 需在`config.json`配置文件中添加`sparse_config`字段：
+启用 InfLLM v2 需在 `config.json` 配置文件中添加 `sparse_config` 字段：
 
 ```json
 {
@@ -289,25 +289,18 @@ pip install -e . # or python setup.py install
 这些参数控制 InfLLM v2 的行为:
 
 * `kernel_size`（默认值：32）：语义核的大小。  
-
 * `kernel_stride`（默认值：16）：相邻语义核的步长。  
-
-* `init_blocks`（默认值：1）：每个query token关注的初始的块数量，用于确保关注序列开头部分。  
-
+* `init_blocks`（默认值：1）：每个 query token 关注的初始的块数量，用于确保关注序列开头部分。  
 * `block_size`（默认值：64）：key-value blocks 的块大小。  
-
 * `window_size`（默认值：2048）：局部滑动窗口大小。  
-
-* `topk`（默认值：64）：每个token仅与最相关的top-k个 key-value blocks 计算注意力。  
-
+* `topk`（默认值：64）：每个 token 仅与最相关的 top-k 个 key-value blocks 计算注意力。  
 * `use_nope`（默认值：false）：是否在块选择中使用NOPE技术以提升性能。  
+* `dense_len`（默认值：8192）：稀疏注意力对短序列收益有限，当 token 长度低于此阈值时自动切换为标准注意力。设为 `-1` 则强制始终使用稀疏注意力。
 
-* `dense_len`（默认值：8192）：稀疏注意力对短序列收益有限，当token长度低于此阈值时自动切换为标准注意力。设为`-1`则强制始终使用稀疏注意力。
 
+Minicpm4 原生支持 32,768 tokens 的上下文长度。若对话总长度（输入 + 输出）远超此限制，建议通过 RoPE 缩放技术扩展上下文。我们已验证通过调整 LongRoPE 因子，模型可稳定支持 131,072 tokens 的超长上下文。
 
-Minicpm4原生支持32,768 tokens的上下文长度。若对话总长度（输入+输出）远超此限制，建议通过RoPE缩放技术扩展上下文。我们已验证通过调整LongRoPE因子，模型可稳定支持131,072 tokens的超长上下文。
-
-修改方法：在`config.json`文件中调整`rope_scaling`字段参数即可。
+修改方法：在 `config.json` 文件中调整 `rope_scaling` 字段参数即可。
 
 ```json
 {
@@ -319,7 +312,6 @@ Minicpm4原生支持32,768 tokens的上下文长度。若对话总长度（输�
         "original_max_position_embeddings": 32768
     }
 }
-
 ```
 
 #### vLLM
@@ -329,7 +321,7 @@ Minicpm4原生支持32,768 tokens的上下文长度。若对话总长度（输�
 
 参考 SGLang [官方仓库](ttps://github.com/sgl-project/sglang)，通过*源码*安装最新版本。
 ```
-git clone -b openbmb https://github.com/yhyang201/sglang.git
+git clone -b openbmb https://github.com/sgl-project/sglang.git
 cd sglang
 
 pip install --upgrade pip
@@ -349,16 +341,6 @@ python3 -m sglang.launch_server --model-path [model] \
     --speculative-algorithm EAGLE --speculative-num-steps 1 --speculative-eagle-topk 1 --speculative-num-draft-tokens 2 \
     --mem-fraction 0.5
 ```
-
-#### llama.cpp
-
-### 模型微调
-#### LLaMA-Factory
-
-#### XTuner
-
-
-
 
 ## MiniCPM 3.0
 <details>
