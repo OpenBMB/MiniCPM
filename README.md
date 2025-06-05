@@ -92,7 +92,7 @@ MiniCPM 4 是一个极致高效的端侧大模型，从模型架构、学习算�
   - BitCPM -- 极致的三值量化：将模型参数位宽压缩至3值，实现模型体积90%的极致瘦身
   - 高效训练工程优化：采用FP8低精度计算技术，结合多词元预测（Multi-token Prediction）训练策略
 - 📚 高知识密度训练数据：
-  - UltraClean -- 高质量预训练数据的清洗与合成：构建基于高效验证的迭代式数据清洗策略，开源高质量中英文预训练数据集 [UltraFinweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
+  - UltraClean -- 高质量预训练数据的清洗与合成：构建基于高效验证的迭代式数据清洗策略，开源高质量中英文预训练数据集 [UltraFineweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
   - UltraChat v2 -- 高质量有监督微调数据合成：构建大规模高质量有监督微调数据集，涵盖知识密集型数据、推理密集型数据、指令遵循数据、长文本理解数据、工具调用数据等多个维度
 - ⚡ 高效推理系统：
   - FRSpec -- 轻量级投机采样：通过对草稿模型词表的智能裁剪，实现草稿模型的生成加速优化
