@@ -2,23 +2,21 @@
   <img src="./assets/main.png" alt="MiniCPM4-Survey MAIN" width="400em"></img>
 </div>
 <p align="center">
-    【English | <a href="README_zh.md">中文</a>】
+    【<a href="README-en.md">English | 中文】
 </p>
 
 <p align="center">
-  <a href="#overview">Overview</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="https://huggingface.co/openbmb/MiniCPM4-Survey">Model</a> •
-  <a href="https://arxiv.org/abs/????">Technical Report</a>
+  <a href="https://huggingface.co/openbmb/MiniCPM4-Survey">模型</a> •
+  <a href="https://arxiv.org/abs/????">技术报告</a>
 </p>
 
 ## News
 
 * [2025-06-05] 🚀🚀🚀我们开源了基于MiniCPM4-8B构建的MiniCPM4-Survey，能够生成可信的长篇调查报告，性能比肩更大模型。
 
-## Overview
+## 概览
 
-MiniCPM4-Survey是由[THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和[ModelBest](https://modelbest.cn/en)联合开发的开源大语言模型智能体。它基于[MiniCPM4](https://github.com/OpenBMB/MiniCPM4) 80亿参数基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
+MiniCPM4-Survey是由[THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和[ModelBest](https://modelbest.cn)联合开发的开源大语言模型智能体。它基于[MiniCPM4](https://github.com/OpenBMB/MiniCPM4) 80亿参数基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
 
 主要特性包括：
 - 计划-检索-写作生成框架 — 我们提出了一个多智能体生成框架，包含三个核心阶段：计划（定义综述的整体结构）、检索（生成合适的检索关键词）和写作（利用检索到的信息，生成连贯的段落）。
@@ -30,7 +28,7 @@ MiniCPM4-Survey是由[THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民�
 
 
 
-## Quick Start
+## 使用
 
 ### 下载模型
 从 Hugging Face 下载MiniCPM4-Survey并将其放在model/MiniCPM4-Survey中。
