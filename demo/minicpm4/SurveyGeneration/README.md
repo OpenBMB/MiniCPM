@@ -2,7 +2,7 @@
   <img src="./assets/main.png" alt="MiniCPM4-Survey MAIN" width="400em"></img>
 </div>
 <p align="center">
-    【<a href="README-en.md">English | 中文】
+    【<a href="README-en.md">English</a> | 中文】
 </p>
 
 <p align="center">
