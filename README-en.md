@@ -206,7 +206,7 @@ After modification, you can run the following command to reproduce the long-cont
 python3 tests/test_generate.py
 ```
 
-For more details about CPM.cu, please refer to [CPM.cu](https://github.com/OpenBMB/cpm.cu).
+For more details about CPM.cu, please refer to [the repo CPM.cu](https://github.com/OpenBMB/cpm.cu).
 
 #### HuggingFace
 

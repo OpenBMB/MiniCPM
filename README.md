@@ -191,7 +191,7 @@ MiniCPM4 原生支持 32,768 tokens 的上下文长度。为了复现论文中�
 python3 tests/test_generate.py
 ```
 
-更多关于 CPM.cu 的细节，请参考 [CPM.cu](https://github.com/OpenBMB/cpm.cu)。
+更多关于 CPM.cu 的细节，请参考 [CPM.cu 仓库](https://github.com/OpenBMB/cpm.cu)。
 
 #### HuggingFace
 
