@@ -69,6 +69,8 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   | [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
   | [BitCPM4-1B](https://huggingface.co/openbmb/BitCPM4-1B)        | [BitCPM4-1B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-1B) |
   | [BitCPM4-0.5B](https://huggingface.co/openbmb/BitCPM4-0.5B)    | [BitCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-0.5B) |
+  | [MiniCPM4-8B-Eagle-FRSpec](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec) | [MiniCPM4-8B-Eagle-FRSpec](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec) |
+  | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec-QAT) | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec-QAT) |
   | [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) | [MiniCPM4-Survey](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-Survey) |
   | [MiniCPM4-MCP](https://huggingface.co/openbmb/MiniCPM4-MCP)  | [MiniCPM4-MCP](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-MCP) |
   |[MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B)|[MiniCPM3-4B](https://www.modelscope.cn/models/OpenBMB/MiniCPM3-4B)|
@@ -210,7 +212,6 @@ For more details about CPM.cu, please refer to [the repo CPM.cu](https://github.
 
 #### HuggingFace
 
-
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
@@ -236,7 +237,6 @@ pip install -e . # or python setup.py install
 ```
 
 To enable InfLLM v2, you need to add the `sparse_config` field in `config.json`:
-
 
 ```json
 {
@@ -279,21 +279,35 @@ You can apply the LongRoPE factor modification by modifying the model files. Spe
         "original_max_position_embeddings": 32768
     }
 }
-
 ```
 
 #### vLLM
 
 #### SGLang
+- Install SGLang
 
-#### llama.cpp
+Reference SGLang [official repository](https://github.com/sgl-project/sglang), install the latest version through *source code*.
+```
+git clone -b openbmb https://github.com/sgl-project/sglang.git
+cd sglang
 
-### Finetuning
-#### LLaMA-Factory
+pip install --upgrade pip
+pip install -e "python[all]"
+```
 
-#### XTuner
+- Start inference service
+```shell
+python -m sglang.launch_server --model openbmb/MiniCPM4-8B --trust-remote-code --port 30000 --chat-template chatml
+```
 
-
+- Use speculative acceleration
+```shell
+python3 -m sglang.launch_server --model-path [model] \ 
+    --speculative_draft_model_path [draft_model] \
+    --host 0.0.0.0 --trust-remote-code \
+    --speculative-algorithm EAGLE --speculative-num-steps 1 --speculative-eagle-topk 1 --speculative-num-draft-tokens 2 \
+    --mem-fraction 0.5
+```
 
 ## MiniCPM 3.0
 <details>
