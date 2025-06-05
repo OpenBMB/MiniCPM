@@ -265,6 +265,30 @@ Minicpm4原生支持32,768 tokens的上下文长度。若对话总长度（输�
 #### vLLM
 
 #### SGLang
+* 安装
+
+参考 SGLang [官方仓库](ttps://github.com/sgl-project/sglang)，通过*源码*安装最新版本。
+```
+git clone -b openbmb https://github.com/yhyang201/sglang.git
+cd sglang
+
+pip install --upgrade pip
+pip install -e "python[all]"
+```
+
+* 启动推理服务
+```shell
+python -m sglang.launch_server --model openbmb/MiniCPM4-8B --trust-remote-code --port 30000 --chat-template chatml
+```
+
+* 使用投机加速
+```shell
+python3 -m sglang.launch_server --model-path [model] \ 
+    --speculative_draft_model_path [draft_model] \
+    --host 0.0.0.0 --trust-remote-code \
+    --speculative-algorithm EAGLE --speculative-num-steps 1 --speculative-eagle-topk 1 --speculative-num-draft-tokens 2 \
+    --mem-fraction 0.5
+```
 
 #### llama.cpp
 
