@@ -26,7 +26,7 @@ MiniCPM4-Survey是由[THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民�
 
 **Demo**:
 
-
+https://github.com/user-attachments/assets/b47b1567-8af1-4be0-bec4-8f86f2207d60
 
 ## 使用
 
