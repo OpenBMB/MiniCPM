@@ -119,8 +119,22 @@ MiniCPM4 is pre-trained on 32K long texts and achieves length extension through 
 
 
 ### BitCPM4: Quantization
+
+BitCPM4 are ternary quantized models derived from the MiniCPM series models through quantization-aware training (QAT), achieving significant improvements in both training efficiency and model parameter efficiency.
+- Improvements of the training method
+  - Searching hyperparameters with a wind-tunnel on a small model.
+  - Using a two-stage training method: training in high-precision first and then QAT, making the best of the trained high-precision models and significantly reducing the computational resources required for the QAT phase.
+- High parameter efficiency
+  - Achieving comparable performance to full-precision models of similar parameter models with a bit width of only 1.58 bits, demonstrating high parameter efficiency. 
+
 #### BitCPM4 Evaluation
+
+BitCPM4's performance is comparable with other full-precision models in same model size.
+![bitcpm-benchmark](./assets/minicpm4/bitcpm4-benchmark.png)
+
 #### BitCPM4 Inference
+
+BitCPM4's parameters are stored in a fake-quantized format, which supports direct inference within the Huggingface framework.
 
 ### MiniCPM4 Application
 
