@@ -305,7 +305,7 @@ You can apply the LongRoPE factor modification by modifying the model files. Spe
 
 ## MiniCPM 3.0
 <details>
-<summary>Click to view details about MiniCPM2.0</summary>
+<summary>Click to view details about MiniCPM3.0</summary>
 
 MiniCPM 3.0 is a language model with 4 billion parameters. Compared to MiniCPM 1.0/2.0, it offers more comprehensive features and a significant improvement in overall capabilities. Its performance on most evaluation benchmarks rivals or even surpasses many models with 7B-9B parameters.
 
