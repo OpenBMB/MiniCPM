@@ -32,29 +32,86 @@
 
 ## 目录
 
+- [更新日志🔥](#更新日志)
+- [目录](#目录)
 - [模型下载](#模型下载)
-- [MiniCPM 3.0](#minicpm-30)
+- [MiniCPM 4.0](#minicpm-40)
   - [评测结果](#评测结果)
+    - [效率评测](#效率评测)
     - [综合评测](#综合评测)
-    - [工具调用能力](#工具调用能力)
-    - [长文本能力](#长文本能力)
+    - [长文本评测](#长文本评测)
+  - [BitCPM4: 模型量化](#bitcpm4-模型量化)
+    - [BitCPM4评测](#bitcpm4评测)
+    - [BitCPM4模型推理](#bitcpm4模型推理)
+  - [模型应用](#模型应用)
+    - [MiniCPM4-Survey: 综述生成](#minicpm4-survey-综述生成)
+    - [MiniCPM4-MCP: MCP增强的工具调用](#minicpm4-mcp-mcp增强的工具调用)
   - [模型推理](#模型推理)
+    - [CPM.cu](#cpmcu)
     - [HuggingFace](#huggingface)
     - [vLLM](#vllm)
+    - [SGLang](#sglang)
     - [llama.cpp](#llamacpp)
   - [模型微调](#模型微调)
     - [LLaMA-Factory](#llama-factory)
+    - [XTuner](#xtuner)
+- [MiniCPM 3.0](#minicpm-30)
+  - [评测结果](#评测结果-1)
+    - [综合评测](#综合评测-1)
+    - [工具调用能力](#工具调用能力)
+    - [长文本能力](#长文本能力)
+  - [模型推理](#模型推理-1)
+    - [Huggingface](#huggingface-1)
+    - [SGLang（推荐）](#sglang推荐)
+    - [vLLM](#vllm-1)
+    - [llama.cpp](#llamacpp-1)
+  - [模型微调](#模型微调-1)
+    - [LLaMA-Factory](#llama-factory-1)
   - [进阶功能](#进阶功能)
     - [工具调用](#工具调用)
     - [代码解释器](#代码解释器)
 - [MiniCPM 2.0](#minicpm-20)
+  - [评测结果](#评测结果-2)
+    - [MiniCPM-2B-128k 模型评测](#minicpm-2b-128k-模型评测)
+    - [MiniCPM-MoE-8x2B 模型评测](#minicpm-moe-8x2b-模型评测)
+    - [MiniCPM-S-1B 评测结果](#minicpm-s-1b-评测结果)
+  - [模型推理](#模型推理-2)
+    - [HuggingFace、vLLM推理](#huggingfacevllm推理)
+    - [Powerinfer 推理](#powerinfer-推理)
 - [MiniCPM 1.0](#minicpm-10)
+  - [评测结果](#评测结果-3)
+    - [评测设置](#评测设置)
+    - [部署模式](#部署模式)
+    - [评测度量](#评测度量)
+    - [文本模型评测](#文本模型评测)
+  - [快速上手](#快速上手)
+    - [在线体验](#在线体验)
+    - [基于Gradio的网页版Demo](#基于gradio的网页版demo)
+    - [HuggingFace 推理](#huggingface-推理)
+      - [MiniCPM-2B](#minicpm-2b)
+      - [MiniCPM-2B （Llama Format）](#minicpm-2b-llama-format)
+    - [vLLM 推理](#vllm-推理)
+    - [SGLang 推理](#sglang-推理)
+    - [llama.cpp、Ollama、fastllm、mlx\_lm推理](#llamacppollamafastllmmlx_lm推理)
+    - [模型量化](#模型量化)
+    - [模型微调](#模型微调-2)
+- [开源协议](#开源协议)
+    - [模型协议](#模型协议)
+    - [声明](#声明)
+- [开发机构](#开发机构)
+- [工作引用](#工作引用)
 
 
 ## 模型下载
  
   | HuggingFace | ModelScope |
   |-------------|------------|
+  | [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B)    | [MiniCPM4-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B) |
+  | [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
+  | [BitCPM4-1B](https://huggingface.co/openbmb/BitCPM4-1B)        | [BitCPM4-1B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-1B) |
+  | [BitCPM4-0.5B](https://huggingface.co/openbmb/BitCPM4-0.5B)    | [BitCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-0.5B) |
+  | [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) | [MiniCPM4-Survey](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-Survey) |
+  | [MiniCPM4-MCP](https://huggingface.co/openbmb/MiniCPM4-MCP)  | [MiniCPM4-MCP](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-MCP) |
   |[MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B)|[MiniCPM3-4B](https://www.modelscope.cn/models/OpenBMB/MiniCPM3-4B)|
   |[MiniCPM-2B-sft](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|
   |[MiniCPM-2B-dpo](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|
@@ -65,8 +122,60 @@
 
   注: 更多模型版本见[这里](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f)。
 
+## MiniCPM 4.0
+MiniCPM 4 是一个极致高效的端侧大模型，从模型架构、学习算法、训练数据与推理系统四个层面进行了高效优化，实现了极致的效率提升。
+- 高效模型架构：
+  - InfLLM v2 -- 可训练的稀疏注意力机制：采用可训练的稀疏注意力机制架构，在128K长文本下，每个词元仅需要与不足5%的词元进行相关性计算，极大降低长文本的计算开销。
+- 高效学习算法：
+  - 模型风洞2.0 -- 高效Predictable Scaling：引入了下游任务的Scaling预测方法，更精准地搜索模型训练配置
+  - BitCPM -- 极致的三值量化：将模型参数位宽降低至3值，为模型瘦身90%
+  - 高效训练工程优化：采用了FP8低精度计算，使用了多词元预测（Multi-token Prediction）进行模型训练
+- 高知识密度训练数据：
+  - UltraClean -- 高质量预训练数据的清洗与合成：构建了基于高效验证的迭代式数据清洗策略，开源了高质量中英文预训练数据 [Ultra-Finweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
+  - UltraChat v2 -- 高质量有监督微调数据合成：构建了大规模的高质量有监督微调数据，包括知识密集型数据、推理密集型数据、指令遵循数据、长文本理解数据、工具调用数据等
+- 高效推理系统：
+  - FRSpec -- 轻量级投机采样：对草稿模型的词表进行裁剪，实现草稿模型的生成加速
+  - ArkInfer -- 跨平台部署系统：支持多后端一键部署
+
+### 评测结果
+#### 效率评测
+![benchmark](./assets/minicpm4/efficiency.pdf)
+
+#### 综合评测
+![benchmark](./assets/minicpm4/benchmark.png)
+
+#### 长文本评测
+![long-niah](./assets/minicpm4/128k-niah.pdf)
+
+### BitCPM4: 模型量化
+#### BitCPM4评测
+#### BitCPM4模型推理
+
+### 模型应用
+
+#### MiniCPM4-Survey: 综述生成
+#### MiniCPM4-MCP: MCP增强的工具调用
+  
+### 模型推理
+
+#### CPM.cu
+
+#### HuggingFace
+
+#### vLLM
+
+#### SGLang
+
+#### llama.cpp
+
+### 模型微调
+#### LLaMA-Factory
+
+#### XTuner
 
 ## MiniCPM 3.0
+<details>
+<summary>查看 MiniCPM 3.0 的详细信息</summary>
 
 MiniCPM 3.0 是一个 4B 参数量的语言模型，相比 MiniCPM1.0/2.0，功能更加全面，综合能力大幅提升，多数评测集上的效果比肩甚至超越众多 7B-9B 模型。
 * **支持工具调用🛠️（Function Calling）和代码解释器💻（Code Interpreter）**：[Berkeley Function Calling Leaderboard (BFCL)](https://gorilla.cs.berkeley.edu/leaderboard.html) 上取得 9B 规模以下 SOTA，超越 GLM-4-9B-Chat、Qwen2-7B-Instruct。
@@ -337,7 +446,7 @@ MiniCPM 3.0 是一个 4B 参数量的语言模型，相比 MiniCPM1.0/2.0，功�
 
 在 32k 的上下文长度进行[大海捞针](https://github.com/gkamradt/LLMTest_NeedleInAHaystack)测试，结果如下图：
 
-![needle](assets/eval_needle.jpeg)
+![needle](assets/minicpm3/eval_needle.jpeg)
 
 同时我们提出[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce)，利用分治的策略，理论上可以处理无限长度的文本。我们在[InfiniteBench](https://github.com/OpenBMB/InfiniteBench)上测试了模型的长文本处理能力，在LLMxMapReduce框架的加持下，MiniCPM3-4B在这个榜单的平均得分能够超越 GPT-4、KimiChat 等标杆模型。
 
@@ -480,7 +589,7 @@ python openai_api_server.py \
 
 下面是一个调用搜索工具回答问题的演示：
 
-![function_call](./assets/function_call.gif)
+![function_call](./assets/minicpm3/function_call.gif)
 
 #### 代码解释器
 
@@ -494,7 +603,7 @@ python code_interpreter.py openbmb/MiniCPM3-4B
 
 下面是一个使用代码解释器生成二维码的演示：
 
-![code_interpreter](./assets/code_interpreter.gif)
+![code_interpreter](./assets/minicpm3/code_interpreter.gif)
 
 ## MiniCPM 2.0
 
@@ -946,6 +1055,12 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 * 如果觉得MiniCPM有助于您的工作，请引用我们的[论文](https://arxiv.org/abs/2404.06395)
 
 ```
+@article{minicpm4,
+  title={MiniCPM4: Ultra-Efficient LLMs on End Devices},
+  author={MiniCPM},
+  year={2025}
+}
+
 @article{hu2024minicpm,
   title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies},
   author={Hu, Shengding and Tu, Yuge and Han, Xu and He, Chaoqun and Cui, Ganqu and Long, Xiang and Zheng, Zhi and Fang, Yewei and Huang, Yuxiang and Zhao, Weilin and others},
