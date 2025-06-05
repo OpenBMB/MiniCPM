@@ -19,8 +19,8 @@
 </p>
 
 ## 更新日志🔥
-
-- [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) 开源，支持MiniCPM3-4B，理论上支持无限长文本输入！**
+- [2025.06.06] 发布[**MiniCPM4**]([https:/](https://huggingface.co/openbmb/MiniCPM4-8B))！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现5倍以上生成加速！
+- [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce)** 开源，支持MiniCPM3-4B，理论上支持无限长文本输入！
 - [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) 已经支持 MiniCPM3-4B (推荐使用)！由于 SGLang v0.3 对 MiniCPM3 中使用的 MLA 结构进行了推理优化，吞吐量相比于 vLLM 提高 70%！**[[用法](#sglang推荐)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) 已经官方支持 MiniCPM3-4B！[[GGUF模型](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)|[用法](#llamacpp)]
 - [2024.09.05] 发布 [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)！该模型的表现超越 Phi-3.5-mini-instruct 和 GPT-3.5-Turbo-0125，并且能够比肩 Llama3.1-8B-Instruct、Qwen2-7B-Instruct、GLM-4-9B-Chat 等多个 7B-9B 参数量的模型。
@@ -56,48 +56,9 @@
     - [LLaMA-Factory](#llama-factory)
     - [XTuner](#xtuner)
 - [MiniCPM 3.0](#minicpm-30)
-  - [评测结果](#评测结果-1)
-    - [综合评测](#综合评测-1)
-    - [工具调用能力](#工具调用能力)
-    - [长文本能力](#长文本能力)
-  - [模型推理](#模型推理-1)
-    - [Huggingface](#huggingface-1)
-    - [SGLang（推荐）](#sglang推荐)
-    - [vLLM](#vllm-1)
-    - [llama.cpp](#llamacpp-1)
-  - [模型微调](#模型微调-1)
-    - [LLaMA-Factory](#llama-factory-1)
-  - [进阶功能](#进阶功能)
-    - [工具调用](#工具调用)
-    - [代码解释器](#代码解释器)
 - [MiniCPM 2.0](#minicpm-20)
-  - [评测结果](#评测结果-2)
-    - [MiniCPM-2B-128k 模型评测](#minicpm-2b-128k-模型评测)
-    - [MiniCPM-MoE-8x2B 模型评测](#minicpm-moe-8x2b-模型评测)
-    - [MiniCPM-S-1B 评测结果](#minicpm-s-1b-评测结果)
-  - [模型推理](#模型推理-2)
-    - [HuggingFace、vLLM推理](#huggingfacevllm推理)
-    - [Powerinfer 推理](#powerinfer-推理)
 - [MiniCPM 1.0](#minicpm-10)
-  - [评测结果](#评测结果-3)
-    - [评测设置](#评测设置)
-    - [部署模式](#部署模式)
-    - [评测度量](#评测度量)
-    - [文本模型评测](#文本模型评测)
-  - [快速上手](#快速上手)
-    - [在线体验](#在线体验)
-    - [基于Gradio的网页版Demo](#基于gradio的网页版demo)
-    - [HuggingFace 推理](#huggingface-推理)
-      - [MiniCPM-2B](#minicpm-2b)
-      - [MiniCPM-2B （Llama Format）](#minicpm-2b-llama-format)
-    - [vLLM 推理](#vllm-推理)
-    - [SGLang 推理](#sglang-推理)
-    - [llama.cpp、Ollama、fastllm、mlx\_lm推理](#llamacppollamafastllmmlx_lm推理)
-    - [模型量化](#模型量化)
-    - [模型微调](#模型微调-2)
 - [开源协议](#开源协议)
-    - [模型协议](#模型协议)
-    - [声明](#声明)
 - [开发机构](#开发机构)
 - [工作引用](#工作引用)
 
@@ -177,6 +138,9 @@ MiniCPM4基于32K长文本进行预训练，并通过YaRN技术实现长度扩�
 #### LLaMA-Factory
 
 #### XTuner
+
+
+
 
 ## MiniCPM 3.0
 <details>

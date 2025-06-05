@@ -17,7 +17,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 </p>
 
 ## Changelog🔥
-
+- [2025.06.06] Released [**MiniCPM4**](https://huggingface.co/openbmb/MiniCPM4-8B)! This model achieves ultimate efficiency improvements while maintaining optimal performance at the same scale! It can achieve over 5x generation acceleration on typical end-side chips!
 - [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) is open source and enables MiniCPM3-4B to process text of any length.** 
 - [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) now supports MiniCPM3-4B. Thanks to inference optimizations made to the MLA structure (used in MiniCPM3) in SGLang v0.3, throughput has improved by 70% compared to vLLM!** [[Usage](#sglang-recommended)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) now officially supports MiniCPM3-4B! [[GGUF Model](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF) | [Usage](#llamacpp)]
@@ -30,29 +30,47 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 ## Quick Links
 
+- [Changelog🔥](#changelog)
+- [Quick Links](#quick-links)
 - [Model Downloads](#model-downloads)
-- [MiniCPM 3.0](#minicpm-30)
+- [MiniCPM 4.0](#minicpm-40)
   - [Evaluation Results](#evaluation-results)
+    - [Efficiency Evaluation](#efficiency-evaluation)
     - [Comprehensive Evaluation](#comprehensive-evaluation)
-    - [Function Calling](#function-calling)
-    - [Long Context](#long-context)
+    - [Long Text Evaluation](#long-text-evaluation)
+  - [BitCPM4: Quantization](#bitcpm4-quantization)
+    - [BitCPM4 Evaluation](#bitcpm4-evaluation)
+    - [BitCPM4 Inference](#bitcpm4-inference)
+  - [MiniCPM4 Application](#minicpm4-application)
+    - [MiniCPM4-Survey: Trustworthy Survey Generation](#minicpm4-survey-trustworthy-survey-generation)
+    - [MiniCPM4-MCP: Tool Use with Model Context Pr](#minicpm4-mcp-tool-use-with-model-context-pr)
   - [Inference](#inference)
+    - [CPM.cu](#cpmcu)
     - [HuggingFace](#huggingface)
     - [vLLM](#vllm)
+    - [SGLang](#sglang)
     - [llama.cpp](#llamacpp)
-  - [Fine-Tuning](#fine-tuning)
+  - [Finetuning](#finetuning)
     - [LLaMA-Factory](#llama-factory)
-  - [Advanced Features](#advanced-features)
-    - [Function Calling](#function-calling-1)
-    - [Code Interpreter](#code-interpreter)
+    - [XTuner](#xtuner)
+- [MiniCPM 3.0](#minicpm-30)
 - [MiniCPM 2.0](#minicpm-20)
 - [MiniCPM 1.0](#minicpm-10)
+- [LICENSE](#license)
+- [Institutions](#institutions)
+- [Citation](#citation)
 
 
 ## Model Downloads
 
   | HuggingFace | ModelScope |
   |-------------|------------|
+  | [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B)    | [MiniCPM4-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B) |
+  | [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
+  | [BitCPM4-1B](https://huggingface.co/openbmb/BitCPM4-1B)        | [BitCPM4-1B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-1B) |
+  | [BitCPM4-0.5B](https://huggingface.co/openbmb/BitCPM4-0.5B)    | [BitCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-0.5B) |
+  | [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) | [MiniCPM4-Survey](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-Survey) |
+  | [MiniCPM4-MCP](https://huggingface.co/openbmb/MiniCPM4-MCP)  | [MiniCPM4-MCP](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-MCP) |
   |[MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B)|[MiniCPM3-4B](https://www.modelscope.cn/models/OpenBMB/MiniCPM3-4B)|
   |[MiniCPM-2B-sft](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|
   |[MiniCPM-2B-dpo](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|
@@ -63,8 +81,74 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 Note: More model versions can be found [here](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f).
 
+## MiniCPM 4.0
+MiniCPM 4 is an extremely efficient edge-side large model that has undergone efficient optimization across four dimensions: model architecture, learning algorithms, training data, and inference systems, achieving ultimate efficiency improvements.
+
+- 🏗️ **Efficient Model Architecture:**
+  - InfLLM v2 -- Trainable Sparse Attention Mechanism: Adopts a trainable sparse attention mechanism architecture where each token only needs to compute relevance with less than 5% of tokens in 128K long text processing, significantly reducing computational overhead for long texts
+
+- 🧠 **Efficient Learning Algorithms:**
+  - Model Wind Tunnel 2.0 -- Efficient Predictable Scaling: Introduces scaling prediction methods for performance of downstream tasks, enabling more precise model training configuration search
+  - BitCPM -- Ultimate Ternary Quantization: Compresses model parameter bit-width to 3 values, achieving 90% extreme model bit-width reduction
+  - Efficient Training Engineering Optimization: Adopts FP8 low-precision computing technology combined with Multi-token Prediction training strategy
+
+- 📚 **High-Quality Training Data:**
+  - UltraClean -- High-quality Pre-training Data Filtering and Generation: Builds iterative data cleaning strategies based on efficient data verification, open-sourcing high-quality Chinese and English pre-training dataset [UltraFinweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
+  - UltraChat v2 -- High-quality Supervised Fine-tuning Data Generation: Constructs large-scale high-quality supervised fine-tuning datasets covering multiple dimensions including knowledge-intensive data, reasoning-intensive data, instruction-following data, long text understanding data, and tool calling data
+
+- ⚡ **Efficient Inference System:**
+  - FRSpec -- Lightweight Speculative Sampling: Achieves draft model acceleration through vocabulary pruning of draft model
+  - ArkInfer -- Cross-platform Deployment System: Supports efficient deployment across multiple backend environments, providing flexible cross-platform adaptation capabilities
+
+### Evaluation Results
+
+#### Efficiency Evaluation
+On two typical end-side chips, Jetson AGX Orin and RTX 4090, MiniCPM4 demonstrates significantly faster processing speed compared to similar-size models in long text processing tasks. As text length increases, MiniCPM4's efficiency advantage becomes more pronounced. On the Jetson AGX Orin platform, compared to Qwen3-8B, MiniCPM4 achieves approximately 7x decoding speed improvement.
+
+![benchmark](./assets/minicpm4/efficiency.png)
+
+#### Comprehensive Evaluation
+MiniCPM4 launches end-side versions with 8B and 0.5B parameter scales, both achieving best-in-class performance in their respective categories.
+
+![benchmark](./assets/minicpm4/benchmark.png)
+
+#### Long Text Evaluation
+MiniCPM4 is pre-trained on 32K long texts and achieves length extension through YaRN technology. In the 128K long text needle-in-a-haystack task, MiniCPM4 demonstrates outstanding performance.
+
+![long-niah](./assets/minicpm4/128k-niah.png)
+
+
+### BitCPM4: Quantization
+#### BitCPM4 Evaluation
+#### BitCPM4 Inference
+
+### MiniCPM4 Application
+
+#### MiniCPM4-Survey: Trustworthy Survey Generation
+#### MiniCPM4-MCP: Tool Use with Model Context Pr
+  
+### Inference
+
+#### CPM.cu
+
+#### HuggingFace
+
+#### vLLM
+
+#### SGLang
+
+#### llama.cpp
+
+### Finetuning
+#### LLaMA-Factory
+
+#### XTuner
+
+
 
 ## MiniCPM 3.0
+<details>
+<summary>Click to view details about MiniCPM2.0</summary>
 
 MiniCPM 3.0 is a language model with 4 billion parameters. Compared to MiniCPM 1.0/2.0, it offers more comprehensive features and a significant improvement in overall capabilities. Its performance on most evaluation benchmarks rivals or even surpasses many models with 7B-9B parameters.
 
@@ -74,9 +158,9 @@ MiniCPM 3.0 is a language model with 4 billion parameters. Compared to MiniCPM 1
 * **Long Context Capability**: Natively supports 32k context length, with flawless performance. We introduce the [LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) framework, theoretically enabling processing of context lengths up to infinity. Enhanced by LLMxMapReduce, MiniCPM3-4B achieves performance comparable to GPT-4 and KimiChat on InfiniteBench.
 * **RAG Capability**：We release [MiniCPM RAG Suite](https://huggingface.co/collections/openbmb/minicpm-rag-suite-66d976b4204cd0a4f8beaabb). Based on the MiniCPM series models, [MiniCPM-Embedding](https://huggingface.co/openbmb/MiniCPM-Embedding) and [MiniCPM-Reranker](https://huggingface.co/openbmb/MiniCPM-Reranker) achieve SOTA performance on Chinese and Chinese-English cross-lingual retrieval tests. Specifically designed for the RAG scenario, [MiniCPM3-RAG-LoRA](https://huggingface.co/openbmb/MiniCPM3-RAG-LoRA) outperforms models like Llama3-8B and Baichuan2-13B on multiple tasks, such as open-domain question answering.
 
-## Evaluation Results
+### Evaluation Results
 
-### Comprehensive Evaluation
+#### Comprehensive Evaluation
 
 <table>
     <tr>
@@ -498,7 +582,7 @@ python code_interpreter.py openbmb/MiniCPM3-4B
 Below is an example of using the code interpreter to generate a QR code:
 
 ![code_interpreter](./assets/code_interpreter.gif)
-
+</details>
 
 ## MiniCPM 2.0
 <details>
