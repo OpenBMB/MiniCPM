@@ -114,12 +114,47 @@ MiniCPM4基于32K长文本进行预训练，并通过YaRN技术实现长度扩�
 ![long-niah](./assets/minicpm4/128k-niah.png)
 
 ### BitCPM4: 模型量化
+BitCPM4是基于MiniCPM系列模型进行量化感知训练（QAT）后得到的三值量化模型，在训练效率和模型参数效率实现了有效的提升。
+- 训练方法改进
+  - 在小规模模型上进行风洞实验，搜索训练所需的训练超参。
+  - 通过使用一阶段高精训练+二阶段QAT的方法，充分利用已经完成或部分完成训练的高精度模型，极大地压缩了QAT阶段所需要的算力。
+- 高效参数效率
+  - 模型使用1.58Bit的位宽达到的性能对标与同参数量级别的全精度模型，模型参数效率高。
+
 #### BitCPM4评测
+BitCPM4在测试中的表现可以对标同级别的业界主流全精度模型。
+![bitcpm-benchmark](./assets/minicpm4/bitcpm4-benchmark.png)
+
 #### BitCPM4模型推理
+BitCPM4开源的模型参数为伪量化形式，可以直接使用Huggingface框架进行推理。
 
 ### 模型应用
 
 #### MiniCPM4-Survey: 综述生成
+MiniCPM4-Survey是由[THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和[ModelBest](https://modelbest.cn/en)联合开发的开源大语言模型智能体。它基于[MiniCPM4](https://github.com/OpenBMB/MiniCPM4) 80亿参数基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
+主要特性包括：
+- 计划-检索-写作生成框架 — 我们提出了一个多智能体生成框架，包含三个核心阶段：计划（定义综述的整体结构）、检索（生成合适的检索关键词）和写作（利用检索到的信息，生成连贯的段落）。
+- 高质量数据集构建——我们收集并处理大量人类专家写作的综述论文，构建高质量训练集。同时，我们收集大量研究论文，构建检索数据库。
+- 多方面奖励设计 — 我们精心设计了包含结构、内容和引用的奖励，用于评估综述的质量，在强化学习训练阶段作奖励函数。
+- 多步强化学习训练策略 — 我们提出了一个上下文管理器，以确保在促进有效推理的同时保留必要的信息，并构建了并行环境，维持强化学习训练高效。
+##### 使用与演示案例
+
+详见[此处](./demo/minicpm4/SurveyGeneration/README.md)
+
+##### 评估
+
+| Method                                      | Relevance | Coverage | Depth | Novelty | Avg.  | Fact Score |
+|---------------------------------------------|-----------|----------|-------|---------|-------|------------|
+| Naive RAG (driven by G2FT)                  | 3.25      | 2.95     | 3.35  | 2.60    | 3.04  | 43.68      |
+| AutoSurvey (driven by G2FT)                 | 3.10      | 3.25     | 3.15  | **3.15**| 3.16  | 46.56      |
+| Webthinker (driven by WTR1-7B)              | 3.30      | 3.00     | 2.75  | 2.50    | 2.89  | --         |
+| Webthinker (driven by QwQ-32B)              | 3.40      | 3.30     | 3.30  | 2.50    | 3.13  | --         |
+| OpenAI Deep Research (driven by GPT-4o)     | 3.50      |**3.95**  | 3.55  | 3.00    | **3.50**  | --         |
+| MiniCPM4-Survey                            | 3.45      | 3.70     | **3.85** | 3.00    | **3.50**  | **68.73**  |
+| &nbsp;&nbsp;&nbsp;*w/o* RL                  | **3.55**  | 3.35     | 3.30  | 2.25    | 3.11  | 50.24      |
+
+*GPT-4o对综述生成系统的性能比较。“G2FT”代表Gemini-2.0-Flash-Thinking，“WTR1-7B”代表Webthinker-R1-7B。由于Webthinker不包括引用功能，OpenAI Deep Research在导出结果时不提供引用，因此省略了对它们的FactScore评估。我们的技术报告中包含评测的详细信息。*
+
 #### MiniCPM4-MCP: MCP增强的工具调用
   
 ### 模型推理
