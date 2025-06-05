@@ -49,7 +49,7 @@ For the data file, the example uses the following format
         "role": "assistant",
         "content": "<assistant response text>"
       },
-      // ... Muti Turn
+      // ... Multi Turn
       {
         "role": "user",
         "content": "<user prompt text>"

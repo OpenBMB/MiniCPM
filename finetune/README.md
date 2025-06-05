@@ -48,7 +48,7 @@ pip install -r requirements.txt
         "role": "assistant",
         "content": "<assistant response text>"
       },
-      // ... Muti Turn
+      // ... Multi Turn
       {
         "role": "user",
         "content": "<user prompt text>"
