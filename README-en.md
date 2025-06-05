@@ -224,12 +224,12 @@ responds, history = model.chat(tokenizer, "Write an article about Artificial Int
 print(responds)
 ```
 
-This model supports InfLLM v2, a sparse attention mechanism designed for efficient long-sequence inference. It requires the [infllmv2_cuda_impl](https://github.com/suhmily10/infllmv2_cuda_impl) library.
+This model supports InfLLM v2, a sparse attention mechanism designed for efficient long-sequence inference. It requires the [infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl) library.
 
 You can install it by running the following command:
 
 ```bash
-git clone -b feature_infer https://github.com/suhmily10/infllmv2_cuda_impl.git
+git clone -b feature_infer https://github.com/OpenBMB/infllmv2_cuda_impl.git
 cd infllmv2_cuda_impl
 git submodule update --init --recursive
 pip install -e . # or python setup.py install 
