@@ -224,17 +224,9 @@ print(responses)
 运行以下命令即可安装：
 
 ```bash
-
-# 1. 克隆仓库的 feature_infer 分支
 git clone -b feature_infer https://github.com/suhmily10/infllmv2_cuda_impl.git
-
-# 2. 进入项目目录
 cd infllmv2_cuda_impl
-
-# 3. 递归初始化子模块（关键步骤！）
 git submodule update --init --recursive
-
-# 4. 安装依赖库（根据项目要求选择以下任一方式）
 pip install -e . # or python setup.py install 
 
 ```

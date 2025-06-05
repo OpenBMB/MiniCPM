@@ -229,18 +229,10 @@ This model supports InfLLM v2, a sparse attention mechanism designed for efficie
 You can install it by running the following command:
 
 ```bash
-# 1. Clone the feature_infer branch of the repository
 git clone -b feature_infer https://github.com/suhmily10/infllmv2_cuda_impl.git
-
-# 2. Navigate into the project directory
 cd infllmv2_cuda_impl
-
-# 3. Recursively initialize submodules (Crucial step!)
 git submodule update --init --recursive
-
-# 4. Install the library (choose one of the following methods as per project requirements)
-pip install -e . # or python setup.py install
-
+pip install -e . # or python setup.py install 
 ```
 
 To enable InfLLM v2, you need to add the `sparse_config` field in `config.json`:
