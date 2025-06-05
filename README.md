@@ -264,17 +264,17 @@ pip install -e . # or python setup.py install
 
 * `kernel_stride`（默认值：16）：相邻语义核的步长。  
 
-* `init_blocks`（默认值：1）：每个查询token初始关注的块数量，用于确保关注序列开头部分。  
+* `init_blocks`（默认值：1）：每个query token关注的初始的块数量，用于确保关注序列开头部分。  
 
-* `block_size`（默认值：64）：键值块的块大小。  
+* `block_size`（默认值：64）：key-value blocks 的块大小。  
 
-* `window_size`（默认值：2048）：局部滑动窗口大小。每个查询token仅关注该窗口内的键值块。  
+* `window_size`（默认值：2048）：局部滑动窗口大小。  
 
-* `topk`（默认值：64）：每个token仅与最相关的top-k个键值块计算注意力。  
+* `topk`（默认值：64）：每个token仅与最相关的top-k个 key-value blocks 计算注意力。  
 
 * `use_nope`（默认值：false）：是否在块选择中使用NOPE技术以提升性能。  
 
-* `dense_len`（默认值：8192）：稀疏注意力对短序列收益有限，当token长度低于此阈值时自动切换为标准密集注意力。设为-1则强制始终使用稀疏注意力。
+* `dense_len`（默认值：8192）：稀疏注意力对短序列收益有限，当token长度低于此阈值时自动切换为标准注意力。设为`-1`则强制始终使用稀疏注意力。
 
 
 Minicpm4原生支持32,768 tokens的上下文长度。若对话总长度（输入+输出）远超此限制，建议通过RoPE缩放技术扩展上下文。我们已验证通过调整LongRoPE因子，模型可稳定支持131,072 tokens的超长上下文。
