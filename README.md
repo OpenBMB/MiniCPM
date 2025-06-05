@@ -254,13 +254,13 @@ output_token_ids = [
 responses = tokenizer.batch_decode(output_token_ids, skip_special_tokens=True)[0]
 print(responses)
 ```
-本模型支持稀疏注意力机制 InfLLM v2，可高效处理长序列推理。如需启用该功能，请先安装依赖库[infllmv2_cuda_impl](https://github.com/suhmily10/infllmv2_cuda_impl)
+本模型支持稀疏注意力机制 InfLLM v2，可高效处理长序列推理。如需启用该功能，请先安装依赖库[infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl)
 
 
 运行以下命令即可安装：
 
 ```bash
-git clone -b feature_infer https://github.com/suhmily10/infllmv2_cuda_impl.git
+git clone -b feature_infer https://github.com/OpenBMB/infllmv2_cuda_impl.git
 cd infllmv2_cuda_impl
 git submodule update --init --recursive
 pip install -e . # or python setup.py install 
