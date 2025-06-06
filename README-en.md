@@ -317,6 +317,84 @@ You can apply the LongRoPE factor modification by modifying the model files. Spe
 ```
 
 #### vLLM
+- Install vLLM
+
+Reference SGLang [official repository]([https://github.com/sgl-project/sglang](https://github.com/vllm-project/vllm)), install the latest version through *source code*.
+```
+pip install -U vllm \
+    --pre \
+    --extra-index-url https://wheels.vllm.ai/nightly
+```
+
+- Inference MiniCPM4-8B with vLLM:
+```python
+from transformers import AutoTokenizer
+from vllm import LLM, SamplingParams
+
+model_name = "openbmb/MiniCPM4-8B"
+prompt = [{"role": "user", "content": "Please recommend 5 tourist attractions in Beijing. "}]
+
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+input_text = tokenizer.apply_chat_template(prompt, tokenize=False, add_generation_prompt=True)
+
+llm = LLM(
+    model=model_name,
+    trust_remote_code=True,
+    max_num_batched_tokens=32768, 
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+)
+sampling_params = SamplingParams(top_p=0.7, temperature=0.7, max_tokens=1024, repetition_penalty=1.02)
+
+outputs = llm.generate(prompts=input_text, sampling_params=sampling_params)
+
+print(outputs[0].outputs[0].text)
+```
+
+- Use Eagle Speculative Decoding in vLLM: initialize the inference engine as follows.
+```python
+llm = LLM(
+    model=model_name,
+    trust_remote_code=True,
+    max_num_batched_tokens=32768, 
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+    speculative_config={
+        "method": "eagle",
+        "model": "openbmb/MiniCPM4-8B-Eagle-vLLM",
+        "num_speculative_tokens": 2,
+        "max_model_len": 32768,
+    },
+)
+```
+
+- Inference quantized MiniCPM4-8B: initialize the inference engine as follows.
+```python
+llm = LLM(
+    model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
+    trust_remote_code=True,
+    max_num_batched_tokens=32768, 
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+)
+```
+
+- Use Eagle Speculative Decoding for quantized MiniCPM4-8B: initialize the inference engine as follows.
+```python
+llm = LLM(
+    model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
+    trust_remote_code=True,
+    max_num_batched_tokens=32768, 
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+    speculative_config={
+        "method": "eagle",
+        "model": "openbmb/MiniCPM4-8B-marlin-vLLM",
+        "num_speculative_tokens": 2,
+        "max_model_len": 32768,
+    },
+)
+```
 
 #### SGLang
 - Install SGLang
