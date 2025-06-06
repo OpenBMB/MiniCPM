@@ -18,6 +18,8 @@
  
 </p>
 
+https://github.com/user-attachments/assets/89f6de52-d071-40e8-b2e9-abd165284d52
+
 ## 更新日志🔥
 - [2025.06.06] **发布 [MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！**
 - [2024.09.28] [LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) 开源，支持 MiniCPM3-4B，理论上支持无限长文本输入！
