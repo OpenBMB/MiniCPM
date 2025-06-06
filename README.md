@@ -19,7 +19,7 @@
 </p>
 
 ## 更新日志🔥
-- [2025.06.06] 发布 [**MiniCPM4**](https://huggingface.co/openbmb/MiniCPM4-8B)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！
+- [2025.06.06] 发布 [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！
 - [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce)** 开源，支持 MiniCPM3-4B，理论上支持无限长文本输入！
 - [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) 已经支持 MiniCPM3-4B (推荐使用)！由于 SGLang v0.3 对 MiniCPM3 中使用的 MLA 结构进行了推理优化，吞吐量相比于 vLLM 提高 70%！**[[用法](#sglang推荐)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) 已经官方支持 MiniCPM3-4B！[[GGUF模型](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)|[用法](#llamacpp)]
@@ -133,7 +133,7 @@ BitCPM4 开源的模型参数为伪量化形式，可以直接使用 Huggingface
 ### 模型应用
 
 #### MiniCPM4-Survey: 综述生成
-MiniCPM4-Survey 是由 [THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和 [ModelBest](https://modelbest.cn/en) 联合开发的开源大语言模型智能体。它基于 [MiniCPM4](https://github.com/OpenBMB/MiniCPM4) 80 亿参数（8B）基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
+MiniCPM4-Survey 是由 [THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和 [ModelBest](https://modelbest.cn/en) 联合开发的开源大语言模型智能体。它基于 MiniCPM4-8B 基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
 主要特性包括：
 - 计划-检索-写作生成框架 — 我们提出了一个多智能体生成框架，包含三个核心阶段：计划（定义综述的整体结构）、检索（生成合适的检索关键词）和写作（利用检索到的信息，生成连贯的段落）。
 - 高质量数据集构建——我们收集并处理大量人类专家写作的综述论文，构建高质量训练集。同时，我们收集大量研究论文，构建检索数据库。
@@ -159,7 +159,7 @@ MiniCPM4-Survey 是由 [THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民
 
 #### MiniCPM4-MCP: MCP增强的工具调用
 
-MiniCPM4-MCP 是由[清华大学自然语言处理实验室（THUNLP）](https://nlp.csai.tsinghua.edu.cn)、中国人民大学与 [ModelBest](https://modelbest.cn/en) 联合开发的开源本地大语言模型代理，它基于 [MiniCPM-4](https://huggingface.co/openbmb/MiniCPM4-8B)，拥有 80 亿参数。它能够通过 MCP 协议与各种工具和数据资源交互，解决多种真实世界任务。截至目前，MiniCPM4-MCP 已支持：
+MiniCPM4-MCP 是由[清华大学自然语言处理实验室（THUNLP）](https://nlp.csai.tsinghua.edu.cn)、中国人民大学与 [ModelBest](https://modelbest.cn/en) 联合开发的开源本地大语言模型代理，它基于 MiniCPM-4-8B，拥有 80 亿参数。它能够通过 MCP 协议与各种工具和数据资源交互，解决多种真实世界任务。截至目前，MiniCPM4-MCP 已支持：
 
 - 涵盖 16 个 MCP 服务器（servers）中工具的使用：这些服务器所包含的工具横跨了办公类、生活类、通讯类、资讯类、工作管理类等.
 
