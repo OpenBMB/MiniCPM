@@ -21,7 +21,7 @@
 
 ## 概述
 
-**MiniCPM-4-MCP** 是由[清华大学自然语言处理实验室（THUNLP）](https://nlp.csai.tsinghua.edu.cn)、中国人民大学与 [ModelBest](https://modelbest.cn/en) 联合开发的开源本地大语言模型代理，基于 [MiniCPM-4](https://huggingface.co/openbmb/MiniCPM4-8B)，拥有 80 亿参数。它能够通过 MCP 与各种工具和数据资源交互，解决多种真实世界任务。截至目前，MiniCPM4-MCP 已支持：
+**MiniCPM-4-MCP** 是由[清华大学自然语言处理实验室（THUNLP）](https://nlp.csai.tsinghua.edu.cn)、中国人民大学与 [ModelBest](https://modelbest.cn/en) 联合开发的开源本地大语言模型智能体，基于 [MiniCPM-4](https://huggingface.co/openbmb/MiniCPM4-8B)，拥有 80 亿参数。它能够通过 MCP 与各种工具和数据资源交互，解决多种真实世界任务。截至目前，MiniCPM4-MCP 已支持：
 
 - 涵盖 16 个 MCP Servers 中工具的使用：这些servers横跨了办公类、生活类、通讯类、资讯类、工作管理类等.
 
@@ -128,7 +128,7 @@ llamafactory-cli train /path/to/config.yaml
 ```bash
 python generate_example.py \
 --tokenizer_path {minicpm4 tokenizer的路径} \
---base_url {vllm部署对url} \
+--base_url {vllm部署的url} \
 --model {vllm部署时的模型名} \
 --output_path {结果保存路径}
 ```
