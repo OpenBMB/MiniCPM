@@ -1221,6 +1221,7 @@ This project is developed by the following institutions:
 
 - <img src="assets/modelbest.png" width="28px"> [Modelbest Inc.](https://modelbest.cn/)
 - <img src="assets/thunlp.png" width="28px"> [THUNLP](https://nlp.csai.tsinghua.edu.cn/)
+- <img src="assets/RUC.png" width="28px"> [Gaoling School of Artificial Intelligence of RUC](https://linyankai.github.io/)
 
 ## Citation
 

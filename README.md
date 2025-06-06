@@ -1217,6 +1217,7 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 
 - <img src="assets/modelbest.png" width="28px"> [面壁智能](https://modelbest.cn/)
 - <img src="assets/thunlp.png" width="28px"> [清华大学自然语言处理实验室](https://nlp.csai.tsinghua.edu.cn/)
+- <img src="assets/RUC.png" width="28px"> [人大高瓴人工智能学院](https://linyankai.github.io/)
 
 ## 工作引用
 
