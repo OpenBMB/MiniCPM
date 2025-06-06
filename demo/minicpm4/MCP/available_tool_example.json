@@ -1,0 +1,78 @@
+{
+    "available_tools": [
+        {
+          "function": {
+            "description": "",
+            "name": "searchPOI",
+            "parameters": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "additionalProperties": false,
+              "properties": {
+                "city": {
+                  "description": "搜索的城市名称",
+                  "type": "string"
+                },
+                "extensions": {
+                  "description": "返回结果控制，base返回基本信息，all返回详细信息",
+                  "enum": [
+                    "base",
+                    "all"
+                  ],
+                  "type": "string"
+                },
+                "keywords": {
+                  "description": "要搜索的关键词",
+                  "type": "string"
+                },
+                "offset": {
+                  "description": "每页记录数，默认为20",
+                  "type": "number"
+                },
+                "page": {
+                  "description": "页码，默认为1",
+                  "type": "number"
+                },
+                "types": {
+                  "description": "POI类型",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "keywords"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "function"
+        },
+        {
+          "function": {
+            "description": "",
+            "name": "getWeather",
+            "parameters": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "additionalProperties": false,
+              "properties": {
+                "city": {
+                  "description": "城市编码",
+                  "type": "string"
+                },
+                "extensions": {
+                  "description": "气象类型：base(实况天气)、all(预报天气)",
+                  "enum": [
+                    "base",
+                    "all"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "city"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "function"
+        }
+      ]
+}
