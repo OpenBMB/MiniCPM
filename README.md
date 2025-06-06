@@ -18,7 +18,7 @@
  
 </p>
 
-https://github.com/user-attachments/assets/89f6de52-d071-40e8-b2e9-abd165284d52
+https://github.com/user-attachments/assets/876e1c75-a92f-442c-ab60-d28bfba9e5f0
 
 ## 更新日志🔥
 - [2025.06.06] **发布 [MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！**
