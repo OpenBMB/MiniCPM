@@ -394,7 +394,7 @@ llm = LLM(
 - Inference quantized MiniCPM4-8B: initialize the inference engine as follows.
 ```python
 llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
+    model="openbmb/MiniCPM4-8B-marlin-vLLM",
     trust_remote_code=True,
     max_num_batched_tokens=32768, 
     dtype="bfloat16", 
@@ -405,14 +405,14 @@ llm = LLM(
 - Use Eagle Speculative Decoding for quantized MiniCPM4-8B: initialize the inference engine as follows.
 ```python
 llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
+    model="openbmb/MiniCPM4-8B-marlin-vLLM",
     trust_remote_code=True,
-    max_num_batched_tokens=32768, 
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
+    max_num_batched_tokens=32768,
+    dtype="bfloat16",
+    gpu_memory_utilization=0.8,
     speculative_config={
         "method": "eagle",
-        "model": "openbmb/MiniCPM4-8B-marlin-vLLM",
+        "model": "openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
         "num_speculative_tokens": 2,
         "max_model_len": 32768,
     },
