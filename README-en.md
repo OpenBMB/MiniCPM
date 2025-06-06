@@ -1171,9 +1171,7 @@ Please refer to [Quantization Tutorial](https://modelbest.feishu.cn/wiki/EatbwdL
 
 #### Model LICENSE
 
-* This repository is released under the [Apache-2.0](https://github.com/OpenBMB/MiniCPM/blob/main/LICENSE) License. 
-* The usage of MiniCPM model weights must strictly follow [MiniCPM Model License](https://github.com/OpenBMB/MiniCPM/blob/main/MiniCPM%20Model%20License.md).
-* The models and weights of MiniCPM are completely free for academic research. after filling out a [questionnaire](https://modelbest.feishu.cn/share/base/form/shrcnpV5ZT9EJ6xYjh3Kx0J6v8g) for registration, are also available for free commercial use.
+* This repository and MiniCPM models are released under the [Apache-2.0](https://github.com/OpenBMB/MiniCPM/blob/main/LICENSE) License. 
 
 #### Statement
 
