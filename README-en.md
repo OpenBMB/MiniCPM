@@ -253,11 +253,32 @@ import torch
 torch.manual_seed(0)
 
 path = 'openbmb/MiniCPM4-8B'
+device = "cuda"
 tokenizer = AutoTokenizer.from_pretrained(path)
-model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map='cuda', trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map=device, trust_remote_code=True)
 
-responds, history = model.chat(tokenizer, "Write an article about Artificial Intelligence.", temperature=0.7, top_p=0.7)
-print(responds)
+# User can directly use the chat interface
+# responds, history = model.chat(tokenizer, "Write an article about Artificial Intelligence.", temperature=0.7, top_p=0.7)
+# print(responds)
+
+# User can also use the generate interface
+messages = [
+    {"role": "user", "content": "Write an article about Artificial Intelligence."},
+]
+model_inputs = tokenizer.apply_chat_template(messages, return_tensors="pt", add_generation_prompt=True).to(device)
+
+model_outputs = model.generate(
+    model_inputs,
+    max_new_tokens=1024,
+    top_p=0.7,
+    temperature=0.7
+)
+output_token_ids = [
+    model_outputs[i][len(model_inputs[i]):] for i in range(len(model_inputs))
+]
+
+responses = tokenizer.batch_decode(output_token_ids, skip_special_tokens=True)[0]
+print(responses)
 ```
 
 This model supports InfLLM v2, a sparse attention mechanism designed for efficient long-sequence inference. It requires the [infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl) library.
@@ -319,7 +340,7 @@ You can apply the LongRoPE factor modification by modifying the model files. Spe
 #### vLLM
 - Install vLLM
 
-Reference SGLang [official repository]([https://github.com/sgl-project/sglang](https://github.com/vllm-project/vllm)), install the latest version through *source code*.
+Reference vLLM [official repository](https://github.com/vllm-project/vllm), install the latest version through *source code*.
 ```
 pip install -U vllm \
     --pre \
@@ -399,7 +420,7 @@ llm = LLM(
 #### SGLang
 - Install SGLang
 
-Reference SGLang [official repository](https://github.com/sgl-project/sglang), install the latest version through *source code*.
+Reference SGLang [official repository](https://github.com/sgl-project/sglang), install through *source code*.
 ```
 git clone -b openbmb https://github.com/sgl-project/sglang.git
 cd sglang
@@ -411,6 +432,24 @@ pip install -e "python[all]"
 - Start inference service
 ```shell
 python -m sglang.launch_server --model openbmb/MiniCPM4-8B --trust-remote-code --port 30000 --chat-template chatml
+```
+
+- Then, users can use the chat interface by running the following command:
+```python
+import openai
+
+client = openai.Client(base_url=f"http://localhost:30000/v1", api_key="None")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+
+print(response.choices[0].message.content)
 ```
 
 - Use speculative acceleration

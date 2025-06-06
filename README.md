@@ -236,14 +236,23 @@ python3 tests/test_generate.py
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
-path = "openbmb/MiniCPM4-8B"
+torch.manual_seed(0)
+
+path = 'openbmb/MiniCPM4-8B'
 device = "cuda"
-tokenizer = AutoTokenizer.from_pretrained(path, trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained(path)
 model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map=device, trust_remote_code=True)
+
+# User can directly use the chat interface
+# responds, history = model.chat(tokenizer, "Write an article about Artificial Intelligence.", temperature=0.7, top_p=0.7)
+# print(responds)
+
+# User can also use the generate interface
 messages = [
-    {"role": "user", "content": "推荐5个北京的景点。"},
+    {"role": "user", "content": "Write an article about Artificial Intelligence."},
 ]
 model_inputs = tokenizer.apply_chat_template(messages, return_tensors="pt", add_generation_prompt=True).to(device)
+
 model_outputs = model.generate(
     model_inputs,
     max_new_tokens=1024,
@@ -253,9 +262,11 @@ model_outputs = model.generate(
 output_token_ids = [
     model_outputs[i][len(model_inputs[i]):] for i in range(len(model_inputs))
 ]
+
 responses = tokenizer.batch_decode(output_token_ids, skip_special_tokens=True)[0]
 print(responses)
 ```
+
 本模型支持稀疏注意力机制 InfLLM v2，可高效处理长序列推理。如需启用该功能，请先安装依赖库 [infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl)
 
 
@@ -397,9 +408,9 @@ llm = LLM(
 #### SGLang
 * 安装
 
-参考 SGLang [官方仓库](ttps://github.com/sgl-project/sglang)，通过*源码*安装最新版本。
+参考 SGLang [官方仓库](ttps://github.com/sgl-project/sglang)，通过*源码*安装。
 ```
-git clone -b openbmb https://github.com/sgl-project/sglang.git
+git clone -b openbmb https://github.com/OpenBMB/sglang.git
 cd sglang
 
 pip install --upgrade pip
@@ -409,6 +420,23 @@ pip install -e "python[all]"
 * 启动推理服务
 ```shell
 python -m sglang.launch_server --model openbmb/MiniCPM4-8B --trust-remote-code --port 30000 --chat-template chatml
+```
+
+* 然后用户可以通过运行以下命令来使用聊天界面：
+```python
+import openai
+
+client = openai.Client(base_url=f"http://localhost:30000/v1", api_key="None")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+print(response.choices[0].message.content)
 ```
 
 * 使用投机加速
