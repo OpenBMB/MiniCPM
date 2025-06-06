@@ -1,0 +1,158 @@
+[
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 一月份跟二月份肯定有一个月份有.\n句子2：肯定有一个月份有\n"
+            },
+            {
+                "role": "assistant",
+                "content": "entailment"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 一月份跟二月份肯定有一个月份有.\n句子2：一月份有\n"
+            },
+            {
+                "role": "assistant",
+                "content": "neutral"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 一月份跟二月份肯定有一个月份有.\n句子2：一月二月都没有\n"
+            },
+            {
+                "role": "assistant",
+                "content": "contradiction"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 一点来钟时,张永红却来了\n句子2：一点多钟,张永红来了\n"
+            },
+            {
+                "role": "assistant",
+                "content": "entailment"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 不讲社会效果,信口开河,对任何事情都随意发议论,甚至信谣传谣,以讹传讹,那是会涣散队伍、贻误事业的\n句子2：以讹传讹是有害的\n"
+            },
+            {
+                "role": "assistant",
+                "content": "entailment"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 不讲社会效果,信口开河,对任何事情都随意发议论,甚至信谣传谣,以讹传讹,那是会涣散队伍、贻误事业的\n句子2：以讹传讹会被处罚\n"
+            },
+            {
+                "role": "assistant",
+                "content": "neutral"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 不讲社会效果,信口开河,对任何事情都随意发议论,甚至信谣传谣,以讹传讹,那是会涣散队伍、贻误事业的\n句子2：信口开河不会贻误事业\n"
+            },
+            {
+                "role": "assistant",
+                "content": "contradiction"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 严师母又哼了一声:你保证你没有别的心,却不能保证旁人没有\n句子2：你保证过你没有别的心\n"
+            },
+            {
+                "role": "assistant",
+                "content": "entailment"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 严师母又哼了一声:你保证你没有别的心,却不能保证旁人没有\n句子2：旁人有别的心\n"
+            },
+            {
+                "role": "assistant",
+                "content": "neutral"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 严师母又哼了一声:你保证你没有别的心,却不能保证旁人没有\n句子2：你一定能够保证旁人没有别的心\n"
+            },
+            {
+                "role": "assistant",
+                "content": "contradiction"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 中国人民勤劳智慧,具有无限的创新创造潜能,只要充分释放出来,中国的发展就一定会有更为广阔空间\n句子2：中国人民的创造潜能完全没有被释放出来\n"
+            },
+            {
+                "role": "assistant",
+                "content": "neutral"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 中国人民勤劳智慧,具有无限的创新创造潜能,只要充分释放出来,中国的发展就一定会有更为广阔空间\n句子2：中国人民没有创造潜能\n"
+            },
+            {
+                "role": "assistant",
+                "content": "contradiction"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": "请判断下边两个句子的关系属于 [entailment, neutral, contradiction]中的哪一种？\n句子1: 事实表明,美国侵犯别国国权威性,遑论侵犯人权了\n句子2：美国侵犯了别国国权威性\n"
+            },
+            {
+                "role": "assistant",
+                "content": "entailment"
+            }
+        ]
+    }
+]

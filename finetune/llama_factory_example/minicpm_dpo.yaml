@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /root/ld/ld_project/LLaMA-Factory/saves/minicpm/full/sft/
+model_name_or_path: /root/ld/ld_model_pretrained/MiniCPM4/
 
 ### method
 stage: dpo
@@ -12,7 +12,7 @@ deepspeed: examples/deepspeed/ds_z2_config.json
 
 ### dataset
 dataset: dpo_en_demo
-template: cpm
+template: cpm3
 cutoff_len: 1200
 max_samples: 50000000
 overwrite_cache: true

@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /root/ld/ld_model_pretrain/MiniCPM-1B-sft-bf16/
+model_name_or_path: /root/ld/ld_model_pretrained/MiniCPM4/
 
 ### method
 stage: kto
@@ -13,7 +13,7 @@ deepspeed: examples/deepspeed/ds_z2_config.json
 
 ### dataset
 dataset: kto_harmless
-template: cpm
+template: cpm3
 cutoff_len: 1200
 max_samples: 500000
 overwrite_cache: true
