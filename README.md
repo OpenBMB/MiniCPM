@@ -377,7 +377,7 @@ llm = LLM(
 * 在 vLLM 中推理量化后的 MiniCPM4-8B：只需如下初始化推理引擎
 ```python
 llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
+    model="openbmb/MiniCPM4-8B-marlin-vLLM",
     trust_remote_code=True,
     max_num_batched_tokens=32768, 
     dtype="bfloat16", 
@@ -388,14 +388,14 @@ llm = LLM(
 * 在 vLLM 中使用 Eagle 投机解码推理量化后的 MiniCPM4-8B：只需如下初始化推理引擎
 ```python
 llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
+    model="openbmb/MiniCPM4-8B-marlin-vLLM",
     trust_remote_code=True,
     max_num_batched_tokens=32768,
     dtype="bfloat16",
     gpu_memory_utilization=0.8,
     speculative_config={
         "method": "eagle",
-        "model": "openbmb/MiniCPM4-8B-marlin-vLLM",
+        "model": "openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
         "num_speculative_tokens": 2,
         "max_model_len": 32768,
     },
