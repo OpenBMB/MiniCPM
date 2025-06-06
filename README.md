@@ -315,6 +315,84 @@ Minicpm4 原生支持 32,768 tokens 的上下文长度。若对话总长度（�
 ```
 
 #### vLLM
+* 安装
+  
+参照 vLLM [官方仓库](https://github.com/vllm-project/vllm)，通过*源码*安装最新版本。
+```
+pip install -U vllm \
+    --pre \
+    --extra-index-url https://wheels.vllm.ai/nightly
+```
+
+* 使用 vLLM 推理 MiniCPM4-8B 模型：
+```python
+from transformers import AutoTokenizer
+from vllm import LLM, SamplingParams
+
+model_name = "openbmb/MiniCPM4-8B"
+prompt = [{"role": "user", "content": "推荐5个北京的景点。"}]
+
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+input_text = tokenizer.apply_chat_template(prompt, tokenize=False, add_generation_prompt=True)
+
+llm = LLM(
+    model=model_name,
+    trust_remote_code=True,
+    max_num_batched_tokens=32768, 
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+)
+sampling_params = SamplingParams(top_p=0.7, temperature=0.7, max_tokens=1024, repetition_penalty=1.02)
+
+outputs = llm.generate(prompts=input_text, sampling_params=sampling_params)
+
+print(outputs[0].outputs[0].text)
+```
+
+* 在 vLLM 中使用 Eagle 投机解码：只需如下初始化推理引擎
+```python
+llm = LLM(
+    model=model_name,
+    trust_remote_code=True,
+    max_num_batched_tokens=32768, 
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+    speculative_config={
+        "method": "eagle",
+        "model": "openbmb/MiniCPM4-8B-Eagle-vLLM",
+        "num_speculative_tokens": 2,
+        "max_model_len": 32768,
+    },
+)
+```
+
+* 在 vLLM 中推理量化后的 MiniCPM4-8B：只需如下初始化推理引擎
+```python
+llm = LLM(
+    model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
+    trust_remote_code=True,
+    max_num_batched_tokens=32768, 
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+)
+```
+
+* 在 vLLM 中使用 Eagle 投机解码推理量化后的 MiniCPM4-8B：只需如下初始化推理引擎
+```python
+llm = LLM(
+    model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
+    trust_remote_code=True,
+    max_num_batched_tokens=32768, 
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+    speculative_config={
+        "method": "eagle",
+        "model": "openbmb/MiniCPM4-8B-marlin-vLLM",
+        "num_speculative_tokens": 2,
+        "max_model_len": 32768,
+    },
+)
+```
 
 #### SGLang
 * 安装
