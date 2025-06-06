@@ -394,9 +394,9 @@ llm = LLM(
 llm = LLM(
     model="openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
     trust_remote_code=True,
-    max_num_batched_tokens=32768, 
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
+    max_num_batched_tokens=32768,
+    dtype="bfloat16",
+    gpu_memory_utilization=0.8,
     speculative_config={
         "method": "eagle",
         "model": "openbmb/MiniCPM4-8B-marlin-vLLM",

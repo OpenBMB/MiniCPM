@@ -314,13 +314,13 @@ To enable InfLLM v2, you need to add the `sparse_config` field in `config.json`:
 
 These parameters control the behavior of InfLLM v2:
 
-* `kernel_size` (default: 32): size of semantic kernels.
-* `kernel_stride` (default: 16): stride between adjacent kernels.
+* `kernel_size` (default: 32): The size of semantic kernels.
+* `kernel_stride` (default: 16): The stride between adjacent kernels.
 * `init_blocks` (default: 1): The number of initial blocks that every query token attends to. This ensures attention to the beginning of the sequence.
-* `block_size` (default: 64): block size for key-value blocks.
+* `block_size` (default: 64): The block size for key-value blocks.
 * `window_size` (default: 2048): The size of the local sliding window. 
-* `topk` (default: 64): Specifies that each token computes attention with only the top-k most relevant key-value blocks.
-* `use_nope` (default: false): whether to use the NOPE technique in block selection for improved performance.
+* `topk` (default: 64): The specifies that each token computes attention with only the top-k most relevant key-value blocks.
+* `use_nope` (default: false): Whether to use the NOPE technique in block selection for improved performance.
 * `dense_len` (default: 8192): Since Sparse Attention offers limited benefits for short sequences, the model can use standard (dense) attention for shorter texts. The model will use dense attention for sequences with a token length below `dense_len` and switch to sparse attention for sequences exceeding this length. Set this to `-1` to always use sparse attention regardless of sequence length.
 
 Minicpm4 natively supports context lengths of up to 32,768 tokens. For conversations where the total length (including both input and output) significantly exceeds this limit, we recommend using RoPE scaling techniques for effective handling of long texts. We have validated the model's performance on context lengths of up to 131,072 tokens by modifying the LongRoPE factor.
