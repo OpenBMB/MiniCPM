@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://huggingface.co/openbmb/MiniCPM4-Survey">模型</a> •
-  <a href="https://arxiv.org/abs/????">技术报告</a>
+  <a href="https://github.com/OpenBMB/MiniCPM/tree/main/report/MiniCPM_4_Technical_Report.pdf">技术报告</a>
 </p>
 
 ## News
