@@ -19,7 +19,7 @@
 </p>
 
 ## 更新日志🔥
-- [2025.06.06] 发布 [**MiniCPM4**]([https:/](https://huggingface.co/openbmb/MiniCPM4-8B))！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！
+- [2025.06.06] 发布 [**MiniCPM4**](https://huggingface.co/openbmb/MiniCPM4-8B)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！
 - [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce)** 开源，支持 MiniCPM3-4B，理论上支持无限长文本输入！
 - [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) 已经支持 MiniCPM3-4B (推荐使用)！由于 SGLang v0.3 对 MiniCPM3 中使用的 MLA 结构进行了推理优化，吞吐量相比于 vLLM 提高 70%！**[[用法](#sglang推荐)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) 已经官方支持 MiniCPM3-4B！[[GGUF模型](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)|[用法](#llamacpp)]
@@ -1220,7 +1220,7 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 
 ## 工作引用
 
-* 如果觉得MiniCPM有助于您的工作，请引用我们的[论文](https://arxiv.org/abs/2404.06395)
+* 如果觉得MiniCPM有助于您的工作，请引用我们的论文：[MiniCPM1](https://arxiv.org/abs/2404.06395)，[MiniCPM4](https://github.com/OpenBMB/MiniCPM/blob/main/report/MiniCPM_4_Technical_Report.pdf)
 
 ```
 @article{minicpm4,
@@ -1229,10 +1229,10 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
   year={2025}
 }
 
-@article{hu2024minicpm,
+@inproceedings{huminicpm,
   title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies},
-  author={Hu, Shengding and Tu, Yuge and Han, Xu and He, Chaoqun and Cui, Ganqu and Long, Xiang and Zheng, Zhi and Fang, Yewei and Huang, Yuxiang and Zhao, Weilin and others},
-  journal={arXiv preprint arXiv:2404.06395},
+  author={Hu, Shengding and Tu, Yuge and Han, Xu and Cui, Ganqu and He, Chaoqun and Zhao, Weilin and Long, Xiang and Zheng, Zhi and Fang, Yewei and Huang, Yuxiang and others},
+  booktitle={First Conference on Language Modeling},
   year={2024}
 }
 ```

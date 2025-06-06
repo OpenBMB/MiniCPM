@@ -1224,15 +1224,19 @@ This project is developed by the following institutions:
 
 ## Citation
 
-* Please cite our [paper](https://arxiv.org/abs/2404.06395) if you find our work valuable.
+* Please cite our paper: [MiniCPM1](https://arxiv.org/abs/2404.06395) and [MiniCPM4](https://github.com/OpenBMB/MiniCPM/blob/main/report/MiniCPM_4_Technical_Report.pdf) if you find our work valuable.
 
 ```
-@misc{hu2024minicpm,
-      title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies}, 
-      author={Shengding Hu and Yuge Tu and Xu Han and Chaoqun He and Ganqu Cui and Xiang Long and Zhi Zheng and Yewei Fang and Yuxiang Huang and Weilin Zhao and Xinrong Zhang and Zheng Leng Thai and Kaihuo Zhang and Chongyi Wang and Yuan Yao and Chenyang Zhao and Jie Zhou and Jie Cai and Zhongwu Zhai and Ning Ding and Chao Jia and Guoyang Zeng and Dahai Li and Zhiyuan Liu and Maosong Sun},
-      year={2024},
-      eprint={2404.06395},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@article{minicpm4,
+  title={MiniCPM4: Ultra-Efficient LLMs on End Devices},
+  author={MiniCPM},
+  year={2025}
+}
+
+@inproceedings{huminicpm,
+  title={MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies},
+  author={Hu, Shengding and Tu, Yuge and Han, Xu and Cui, Ganqu and He, Chaoqun and Zhao, Weilin and Long, Xiang and Zheng, Zhi and Fang, Yewei and Huang, Yuxiang and others},
+  booktitle={First Conference on Language Modeling},
+  year={2024}
 }
 ```
