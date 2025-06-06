@@ -100,8 +100,8 @@ MiniCPM 4 is an extremely efficient edge-side large model that has undergone eff
   - UltraClean -- High-quality Pre-training Data Filtering and Generation: Builds iterative data cleaning strategies based on efficient data verification, open-sourcing high-quality Chinese and English pre-training dataset [UltraFinweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
   - UltraChat v2 -- High-quality Supervised Fine-tuning Data Generation: Constructs large-scale high-quality supervised fine-tuning datasets covering multiple dimensions including knowledge-intensive data, reasoning-intensive data, instruction-following data, long text understanding data, and tool calling data
 
-- ⚡ **Efficient Inference System:**
-  - FRSpec -- Lightweight Speculative Sampling: Achieves draft model acceleration through vocabulary pruning of draft model
+- ⚡ **Efficient Inference and Deployment System:**
+  - CPM.cu -- Lightweight and Efficient CUDA Inference Framework: Integrates sparse attention, model quantization, and speculative sampling to achieve efficient prefilling and decoding.
   - ArkInfer -- Cross-platform Deployment System: Supports efficient deployment across multiple backend environments, providing flexible cross-platform adaptation capabilities
 
 ### Evaluation Results
