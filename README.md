@@ -310,7 +310,6 @@ pip install -e . # or python setup.py install
 * `use_nope`（默认值：false）：是否在块选择中使用NOPE技术以提升性能。  
 * `dense_len`（默认值：8192）：稀疏注意力对短序列收益有限，当 token 长度低于此阈值时自动切换为标准注意力。设为 `-1` 则强制始终使用稀疏注意力。
 
-
 Minicpm4 原生支持 32,768 tokens 的上下文长度。若对话总长度（输入 + 输出）远超此限制，建议通过 RoPE 缩放技术扩展上下文。我们已验证通过调整 LongRoPE 因子，模型可稳定支持 131,072 tokens 的超长上下文。
 
 修改方法：在 `config.json` 文件中调整 `rope_scaling` 字段参数即可。
@@ -1311,7 +1310,7 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 
 #### 模型协议
 
-* 本仓库中代码与MiniCPM 模型权重依照 [Apache-2.0](https://github.com/OpenBMB/MiniCPM/blob/main/LICENSE) 协议开源
+* 本仓库中代码与 MiniCPM 模型权重依照 [Apache-2.0](https://github.com/OpenBMB/MiniCPM/blob/main/LICENSE) 协议开源
 
 #### 声明
 
@@ -1329,12 +1328,12 @@ MiniCPM支持[llama.cpp](https://github.com/ggerganov/llama.cpp/) 、[ollama](ht
 
 ## 工作引用
 
-* 如果觉得MiniCPM有助于您的工作，请引用我们的论文：[MiniCPM1](https://arxiv.org/abs/2404.06395)，[MiniCPM4](https://github.com/OpenBMB/MiniCPM/blob/main/report/MiniCPM_4_Technical_Report.pdf)
+* 如果觉得 MiniCPM 有助于您的工作，请引用我们的论文：[MiniCPM1](https://arxiv.org/abs/2404.06395)，[MiniCPM4](https://github.com/OpenBMB/MiniCPM/blob/main/report/MiniCPM_4_Technical_Report.pdf)
 
 ```
 @article{minicpm4,
   title={MiniCPM4: Ultra-Efficient LLMs on End Devices},
-  author={MiniCPM},
+  author={MiniCPM Team},
   year={2025}
 }
 

@@ -1349,7 +1349,7 @@ This project is developed by the following institutions:
 ```
 @article{minicpm4,
   title={MiniCPM4: Ultra-Efficient LLMs on End Devices},
-  author={MiniCPM},
+  author={MiniCPM Team},
   year={2025}
 }
 
