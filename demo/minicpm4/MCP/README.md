@@ -123,7 +123,28 @@ llamafactory-cli train /path/to/config.yaml
 
 ## 推理
 
-运行以下脚本以使用指定模型生成结果：
+### MCP Servers 部署
+MiniCPM4-MCP 所支持的 MCP Servers 具体包含
+[Airbnb](https://github.com/openbnb-org/mcp-server-airbnb), 
+[Amap-Maps](https://github.com/zxypro1/amap-maps-mcp-server),
+[Arxiv-MCP-Server](https://github.com/blazickjp/arxiv-mcp-server),
+[Calculator](https://github.com/githejie/mcp-server-calculator),
+[Computer-Control-MCP](https://github.com/AB498/computer-control-mcp),
+[Desktop-commander](https://github.com/wonderwhy-er/DesktopCommanderMCP),
+[Filesystem](https://github.com/mark3labs/mcp-filesystem-server),
+[Github](https://github.com/modelcontextprotocol/servers/tree/main/src/github),
+[Gaode](https://github.com/perMAIN/gaode),
+[MCP-Code-Executor](https://github.com/bazinga012/mcp_code_executor),
+[MCP-DOCx](https://github.com/MeterLong/MCP-Doc),
+[PPT](https://github.com/GongRzhe/Office-PowerPoint-MCP-Server),
+[PPTx](https://github.com/supercurses/powerpoint),
+[Simple-Time-Server](https://github.com/andybrandt/mcp-simple-timeserver),
+[Slack](https://github.com/modelcontextprotocol/servers/tree/main/src/slack),
+[Whisper](https://github.com/arcaputo3/mcp-server-whisper)。
+根据这些servers的仓库指引即可成功部署。需要注意的是，这些servers中包含的工具并非全部都可以在环境中顺利跑通，有一些工具的波动性较大，会返回例如timeout、http error等报错。在训练数据构造的过程中，失败率过高的工具（例如LLM在上百次尝试后仍无法为该工具构建出一条能将其成功调用的query）会被过滤掉。
+
+### MCP Client 搭建
+我们基于 [mcp-cli](https://github.com/chrishayuk/mcp-cli) 仓库已经实现的 MCP Client 进行修改，由此实现 MiniCPM 和 MCP Server 的交互。MCP Client与 Server 进行握手后所获得的server工具列表内容样例如`available_tool_example.json`所示。获取到available tools以及用户query之后，可按照以下脚本中的逻辑使用指定模型生成结果：
 
 ```bash
 python generate_example.py \
@@ -133,10 +154,7 @@ python generate_example.py \
 --output_path {结果保存路径}
 ```
 
-
-### 工具调用解析规则
-
-MiniCPM4 以如下格式生成工具调用：
+其中，MiniCPM4 以如下格式生成工具调用：
 
 ```
     <|tool_call_start|>
@@ -146,9 +164,10 @@ MiniCPM4 以如下格式生成工具调用：
     <|tool_call_end|>
 ```
 
-由于 vLLM 当前不支持上述格式，我们为 MiniCPM4 工具调用实现了自定义解析器。
+可依据此逻辑为 MiniCPM4 工具调用实现自定义解析器，解析逻辑相关代码位于：`generate_example.py`。
 
-解析逻辑文件位于：`generate_example.py`
+由于 [mcp-cli](https://github.com/chrishayuk/mcp-cli) 仓库支持 vllm 推理框架，因此也可以通过修改vllm从而令MiniCPM4-MCP直接适配mcp-cli的运行逻辑。具体而言，可按照[此链接](https://github.com/OpenBMB/MiniCPM/tree/main/demo/minicpm3/function_call)所述方式修改vllm从而实现搭载着MiniCPM4-MCP模型的client与server的交互通信。
+
 
 ## 模型评估
 
@@ -159,7 +178,7 @@ python eval_scripts.py \
 --input_path {generate生成结果的保存路径}
 ```
 
-该脚本用于评估模型在单轮工具调用中函数名预测的表现。
+该脚本用于评估模型在单轮工具调用中函数名预测的表现。多轮调用情况下，给定之前步骤的ground-truth信息即可评测模型在当前步骤生成的工具调用指令的准确性，每个步骤的评测逻辑与单轮相同。
 
 ### 评估结果
 
