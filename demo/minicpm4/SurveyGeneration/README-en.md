@@ -40,14 +40,14 @@ Download [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) from 
 We recommend using [MiniCPM-Embedding-Light](https://huggingface.co/openbmb/MiniCPM-Embedding-Light) as the embedding model, which can be downloaded from Hugging Face and placed in `model/MiniCPM-Embedding-Light`.
 ### Perpare the environment
 
-You can download the [paper data](https://www.kaggle.com/datasets/Cornell-University/arxiv) from Kaggle, then extract it. You can run `python dataset_process.py` to process the data and generate the retrieval database. Then you can run `python build_index.py` to build the retrieval database.
+You can download the [paper data](https://www.kaggle.com/datasets/Cornell-University/arxiv) from Kaggle, then extract it. You can run `python data_process.py` to process the data and generate the retrieval database. Then you can run `python build_index.py` to build the retrieval database.
 
 ```
 curl -L -o ~/Downloads/arxiv.zip\
    https://www.kaggle.com/api/v1/datasets/download/Cornell-University/arxiv
 unzip ~/Downloads/arxiv.zip -d .
 mkdir data
-python ./src/preprocess/dataset_process.py
+python ./src/preprocess/data_process.py
 mkdir index
 python ./src/preprocess/build_index.py
 ```

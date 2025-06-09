@@ -36,13 +36,13 @@ https://github.com/user-attachments/assets/b47b1567-8af1-4be0-bec4-8f86f2207d60
 
 
 ### 准备环境
-从 Kaggle 下载论文数据，然后解压。运行`python dataset_process.py`，处理数据并生成检索数据库。然后运行`python build_index.py`，构建检索数据库。
+从 Kaggle 下载论文数据，然后解压。运行`python data_process.py`，处理数据并生成检索数据库。然后运行`python build_index.py`，构建检索数据库。
 ``` bash
 curl -L -o ~/Downloads/arxiv.zip\
    https://www.kaggle.com/api/v1/datasets/download/Cornell-University/arxiv
 unzip ~/Downloads/arxiv.zip -d .
 mkdir data
-python ./src/preprocess/dataset_process.py
+python ./src/preprocess/data_process.py
 mkdir index
 python ./src/preprocess/build_index.py
 ```
