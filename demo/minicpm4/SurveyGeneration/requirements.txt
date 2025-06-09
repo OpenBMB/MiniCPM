@@ -1,11 +1,8 @@
-torch==2.6.0
-transformers==4.49.0
-accelerate==1.2.1
-numpy
-pandas
-scikit-learn
-tqdm
 openai
-flash_attn==2.7.4.post1
+vllm
+jsonlines
 faiss-cpu
 # faiss-gpu
+fastapi
+uvicorn
+yarl
