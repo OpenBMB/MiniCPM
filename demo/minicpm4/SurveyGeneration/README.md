@@ -42,7 +42,7 @@ curl -L -o ~/Downloads/arxiv.zip\
    https://www.kaggle.com/api/v1/datasets/download/Cornell-University/arxiv
 unzip ~/Downloads/arxiv.zip -d .
 mkdir data
-python ./src/preprocess/dataset_process.py
+python ./src/preprocess/data_process.py
 mkdir index
 python ./src/preprocess/build_index.py
 ```
