@@ -53,6 +53,8 @@ https://github.com/user-attachments/assets/ab36fd7a-485b-4707-b72f-b80b5c43d024
     - [HuggingFace](#huggingface)
     - [vLLM](#vllm)
     - [SGLang](#sglang)
+  - [模型微调](#模型微调)
+    - [LLaMA-Factory](#llamA-factory)
 - [MiniCPM 3.0](#minicpm-30)
 - [MiniCPM 2.0](#minicpm-20)
 - [MiniCPM 1.0](#minicpm-10)
@@ -433,6 +435,10 @@ python3 -m sglang.launch_server --model-path [model] \
     --speculative-algorithm EAGLE --speculative-num-steps 1 --speculative-eagle-topk 1 --speculative-num-draft-tokens 2 \
     --mem-fraction 0.5
 ```
+
+### 模型微调
+#### LLaMA-Factory
+目前模型微调支持 [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)，使用方法参考 [LLaMA-Factory 微调](https://t0mvtyikswc.feishu.cn/docx/Gv6ld1yCTodckBxysKgcpepJnKg?from=from_copylink)
 
 ## MiniCPM 3.0
 <details>
