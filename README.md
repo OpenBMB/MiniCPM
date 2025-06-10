@@ -240,16 +240,21 @@ model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, d
 messages = [
     {"role": "user", "content": "Write an article about Artificial Intelligence."},
 ]
-model_inputs = tokenizer.apply_chat_template(messages, return_tensors="pt", add_generation_prompt=True).to(device)
+prompt_text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+)
+model_inputs = tokenizer([prompt_text], return_tensors="pt").to(device)
 
 model_outputs = model.generate(
-    model_inputs,
+    **model_inputs,
     max_new_tokens=1024,
     top_p=0.7,
     temperature=0.7
 )
 output_token_ids = [
-    model_outputs[i][len(model_inputs[i]):] for i in range(len(model_inputs))
+    model_outputs[i][len(model_inputs[i]):] for i in range(len(model_inputs['input_ids']))
 ]
 
 responses = tokenizer.batch_decode(output_token_ids, skip_special_tokens=True)[0]
@@ -391,6 +396,26 @@ llm = LLM(
         "max_model_len": 32768,
     },
 )
+```
+
+> **注意**：如果你使用 vLLM 中的 OpenAI 兼容的服务端，`chat` API 默认会将 `add_special_tokens` 设置为 `False`。这会导致缺失一些特殊标记（例如，BOS），而这些标记对 **MiniCPM4** 模型至关重要。为确保模型行为正常，你需要在 API 调用中显式设置 `extra_body={"add_special_tokens": True}`，如下所示：
+
+```python
+import openai
+
+client = openai.Client(base_url="http://localhost:8000/v1", api_key="EMPTY")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+    extra_body={"add_special_tokens": True},  # 确保添加了诸如 BOS 等特殊标记
+)
+
+print(response.choices[0].message.content)
 ```
 
 #### SGLang

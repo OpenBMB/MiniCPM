@@ -250,16 +250,21 @@ model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, d
 messages = [
     {"role": "user", "content": "Write an article about Artificial Intelligence."},
 ]
-model_inputs = tokenizer.apply_chat_template(messages, return_tensors="pt", add_generation_prompt=True).to(device)
+prompt_text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+)
+model_inputs = tokenizer([prompt_text], return_tensors="pt").to(device)
 
 model_outputs = model.generate(
-    model_inputs,
+    **model_inputs,
     max_new_tokens=1024,
     top_p=0.7,
     temperature=0.7
 )
 output_token_ids = [
-    model_outputs[i][len(model_inputs[i]):] for i in range(len(model_inputs))
+    model_outputs[i][len(model_inputs[i]):] for i in range(len(model_inputs['input_ids']))
 ]
 
 responses = tokenizer.batch_decode(output_token_ids, skip_special_tokens=True)[0]
@@ -400,6 +405,27 @@ llm = LLM(
         "max_model_len": 32768,
     },
 )
+```
+
+> **Note**: If you're using an OpenAI-compatible server in vLLM, the `chat` API sets `add_special_tokens=False` by default. This will result in missing special tokens—such as the beginning-of-sequence (BOS) token—which are required for proper prompt formatting in **MiniCPM4**. To ensure correct behavior, you must explicitly set `extra_body={"add_special_tokens": True}` in your API call, like below:
+
+
+```python
+import openai
+
+client = openai.Client(base_url="http://localhost:8000/v1", api_key="EMPTY")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+    extra_body={"add_special_tokens": True},  # Ensures special tokens like BOS are added
+)
+
+print(response.choices[0].message.content)
 ```
 
 #### SGLang
