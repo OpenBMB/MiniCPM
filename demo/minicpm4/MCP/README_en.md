@@ -123,14 +123,14 @@ The MCP Servers supported by MiniCPM4-MCP include
 [Computer-Control-MCP](https://github.com/AB498/computer-control-mcp),
 [Desktop-commander](https://github.com/wonderwhy-er/DesktopCommanderMCP),
 [Filesystem](https://github.com/mark3labs/mcp-filesystem-server),
-[Github](https://github.com/modelcontextprotocol/servers/tree/main/src/github),
+[Github](https://github.com/modelcontextprotocol/servers-archived/tree/main/src/github),
 [Gaode](https://github.com/perMAIN/gaode),
 [MCP-Code-Executor](https://github.com/bazinga012/mcp_code_executor),
 [MCP-DOCx](https://github.com/MeterLong/MCP-Doc),
 [PPT](https://github.com/GongRzhe/Office-PowerPoint-MCP-Server),
 [PPTx](https://github.com/supercurses/powerpoint),
 [Simple-Time-Server](https://github.com/andybrandt/mcp-simple-timeserver),
-[Slack](https://github.com/modelcontextprotocol/servers/tree/main/src/slack), and
+[Slack](https://github.com/modelcontextprotocol/servers-archived/tree/main/src/slack), and
 [Whisper](https://github.com/arcaputo3/mcp-server-whisper). Follow the instructions provided in each server's repository for successful deployment. Note that not all tools in these servers will function properly in every environment. Some tools are unstable and may return errors such as timeouts or HTTP errors. During training data construction, tools with consistently high failure rates (e.g., those for which the LLM fails to produce a successful query even after hundreds of attempts) are filtered out.
 
 ### MCP Client Setup
