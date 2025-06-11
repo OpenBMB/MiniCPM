@@ -132,14 +132,14 @@ MiniCPM4-MCP 所支持的 MCP Servers 具体包含
 [Computer-Control-MCP](https://github.com/AB498/computer-control-mcp),
 [Desktop-commander](https://github.com/wonderwhy-er/DesktopCommanderMCP),
 [Filesystem](https://github.com/mark3labs/mcp-filesystem-server),
-[Github](https://github.com/modelcontextprotocol/servers/tree/main/src/github),
+[Github](https://github.com/modelcontextprotocol/servers-archived/tree/main/src/github),
 [Gaode](https://github.com/perMAIN/gaode),
 [MCP-Code-Executor](https://github.com/bazinga012/mcp_code_executor),
 [MCP-DOCx](https://github.com/MeterLong/MCP-Doc),
 [PPT](https://github.com/GongRzhe/Office-PowerPoint-MCP-Server),
 [PPTx](https://github.com/supercurses/powerpoint),
 [Simple-Time-Server](https://github.com/andybrandt/mcp-simple-timeserver),
-[Slack](https://github.com/modelcontextprotocol/servers/tree/main/src/slack),
+[Slack](https://github.com/modelcontextprotocol/servers-archived/tree/main/src/slack),
 [Whisper](https://github.com/arcaputo3/mcp-server-whisper)。
 根据这些servers的仓库指引即可成功部署。需要注意的是，这些servers中包含的工具并非全部都可以在环境中顺利跑通，有一些工具的波动性较大，会返回例如timeout、http error等报错。在训练数据构造的过程中，失败率过高的工具（例如LLM在上百次尝试后仍无法为该工具构建出一条能将其成功调用的query）会被过滤掉。
 
