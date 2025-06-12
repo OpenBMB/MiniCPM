@@ -31,7 +31,11 @@
 Demo Case (1 x speed):
 
 
-https://github.com/user-attachments/assets/9cdfb814-3758-4866-ad97-3e9e1319bb34
+
+
+https://github.com/user-attachments/assets/e5aa0780-0c18-42f2-a787-8171110a7706
+
+
 
 
 ## 🛠️ Installation
