@@ -7,3 +7,4 @@ wip.*
 venv
 .venv
 .env
+/minicpm_project
