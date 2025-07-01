@@ -48,6 +48,7 @@ https://github.com/user-attachments/assets/ab36fd7a-485b-4707-b72f-b80b5c43d024
   - [模型应用](#模型应用)
     - [MiniCPM4-Survey: 综述生成](#minicpm4-survey-综述生成)
     - [MiniCPM4-MCP: MCP增强的工具调用](#minicpm4-mcp-mcp增强的工具调用)
+    - [MiniCPM Intel AIPC Client: 端侧大模型客户端](#minicpm-intel-aipc-client-端侧大模型客户端)
   - [模型推理](#模型推理)
     - [CPM.cu](#cpmcu)
     - [HuggingFace](#huggingface)
@@ -199,6 +200,24 @@ MiniCPM4-MCP 是由[清华大学自然语言处理实验室（THUNLP）](https:/
 | Whisper               | 90.0           | 90.0         | 90.0         | 90.0          | 90.0         | 90.0         | 90.0           | 90.0         | 30.0         |
 | **平均值**              | **80.2**       | **70.2**     | **49.1**     | **83.5**      | **67.7**     | **43.8**     | **88.3**       | **76.1**     | **51.2**     |
   
+#### MiniCPM Intel AIPC Client: 端侧大模型客户端
+
+MiniCPM Intel AIPC Client 是面壁智能和 Intel 合作推出的端侧大模型客户端，专为搭载 Intel Core Ultra 系列处理器的设备设计，旨在为开发者、研究人员与 AI 爱好者带来低延迟、高效率、高隐私的本地大模型使用体验。其核心特性如下：
+
+- 深度适配 Intel 硬件：全面支持 Intel Core Ultra 系列处理器，实现与硬件的深度融合，充分释放硬件性能，让用户无需依赖云端，在本地设备上就能流畅运行大模型。
+- 基于 OpenVINO 的极致优化：基于 OpenVINO 推理框架进行深度优化，大幅提升推理效率，推理速度最高可达每秒 80 tokens，确保模型响应迅速，无论是快速问答还是复杂任务处理，都能高效完成。
+- 隐私安全保障：采用本地部署方式，所有数据处理均在本地设备完成，避免数据上传至云端带来的隐私风险，让用户使用更安心，尤其适合对数据隐私要求较高的场景。
+- 面向多元用户群体：无论是追求前沿技术的开发者，专注学术研究的科研人员，还是热衷于探索 AI 应用的爱好者，都能通过 MiniCPM Intel AIPC Client，轻松体验本地大模型的强大功能，开启个性化的 AI 探索之旅 。
+
+配置要求：
+
+- 建议使用英特尔酷睿 ultra7 及以上移动端处理器
+- 建议运行内存 32GB 及以上  
+
+应用下载：
+
+[下载地址](https://github.com/OpenBMB/MiniCPM/releases/tag/2.4.2)
+
 ### 模型推理
 
 #### CPM.cu
