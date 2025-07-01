@@ -45,6 +45,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   - [MiniCPM4 Application](#minicpm4-application)
     - [MiniCPM4-Survey: Trustworthy Survey Generation](#minicpm4-survey-trustworthy-survey-generation)
     - [MiniCPM4-MCP: Tool Use with Model Context Pr](#minicpm4-mcp-tool-use-with-model-context-pr)
+    - [MiniCPM Intel AIPC Client: A New Edge Large Model Powerhouse](#minicpm-intel-aipc-client-a-new-edge-large-model-powerhouse)
   - [Inference](#inference)
     - [CPM.cu](#cpmcu)
     - [HuggingFace](#huggingface)
@@ -207,6 +208,31 @@ Demo is available in this [link](./demo/minicpm4/MCP/README_en.md).
 | Slack                 | 100.0          | 90.0         | 70.0         | 100.0         | 100.0        | 65.0         | 100.0          | 100.0        | 100.0        |
 | Whisper               | 90.0           | 90.0         | 90.0         | 90.0          | 90.0         | 90.0         | 90.0           | 90.0         | 30.0         |
 | **Average**              | **80.2**       | **70.2**     | **49.1**     | **83.5**      | **67.7**     | **43.8**     | **88.3**       | **76.1**     | **51.2**     |
+
+#### MiniCPM Intel AIPC Client: A New Edge Large Model Powerhouse  
+
+Developed in collaboration between Mianbi Intelligence and Intel, the MiniCPM Intel AIPC Client is an edge large model client specially designed for devices equipped with Intel Core Ultra series processors. It delivers a low-latency, high-efficiency, and privacy-preserving local large model experience for developers, researchers, and AI enthusiasts. Its core features include:  
+
+### Key Features  
+- Deep Intel Hardware Adaptation  
+Fully compatible with Intel Core Ultra series processors, enabling deep integration with hardware to unleash peak performance. Users can run large models smoothly on local devices without relying on cloud services.  
+
+- Extreme Optimization Based on OpenVINO  
+Deeply optimized with the OpenVINO inference framework, it significantly boosts inference efficiency, reaching up to **80 tokens per second**. This ensures rapid model response for both quick queries and complex task processing.  
+
+- Privacy and Security Assurance  
+Adopting local deployment, all data processing is completed on the device, eliminating privacy risks from cloud uploads. This provides users with peace of mind, especially for scenarios with high data privacy requirements.  
+
+- Catering to Diverse User Groups  
+Whether for developers chasing cutting-edge technologies, researchers focused on academic studies, or enthusiasts eager to explore AI applications, the MiniCPM Intel AIPC Client enables easy access to the power of local large models, opening the door to personalized AI exploration.  
+
+### System Requirements  
+- Recommended processor: Intel Core Ultra 7 or higher (mobile version)  
+- Recommended RAM: 32GB or above
+
+### Download
+
+[download](https://github.com/OpenBMB/MiniCPM/releases/tag/2.4.2)
 
 ### Inference
 
