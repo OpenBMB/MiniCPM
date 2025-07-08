@@ -214,7 +214,7 @@ Demo is available in this [link](./demo/minicpm4/MCP/README_en.md).
 
 Developed in collaboration between Mianbi Intelligence and Intel, the MiniCPM Intel AIPC Client is an edge large model client specially designed for devices equipped with Intel Core Ultra series processors. It delivers a low-latency, high-efficiency, and privacy-preserving local large model experience for developers, researchers, and AI enthusiasts. Its core features include:  
 
-### Key Features  
+##### Key Features  
 - Deep Intel Hardware Adaptation  
 Fully compatible with Intel Core Ultra series processors, enabling deep integration with hardware to unleash peak performance. Users can run large models smoothly on local devices without relying on cloud services.  
 
@@ -227,11 +227,11 @@ Adopting local deployment, all data processing is completed on the device, elimi
 - Catering to Diverse User Groups  
 Whether for developers chasing cutting-edge technologies, researchers focused on academic studies, or enthusiasts eager to explore AI applications, the MiniCPM Intel AIPC Client enables easy access to the power of local large models, opening the door to personalized AI exploration.  
 
-### System Requirements  
+##### System Requirements  
 - Recommended processor: Intel Core Ultra 7 or higher (mobile version)  
 - Recommended RAM: 32GB or above
 
-### Download
+##### Download
 
 [download](https://github.com/OpenBMB/MiniCPM/releases/tag/2.4.2)
 
