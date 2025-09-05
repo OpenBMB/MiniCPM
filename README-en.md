@@ -18,10 +18,11 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 </p>
 
 ## Changelog🔥
+- [2025.09.05] **MiniCPM4.1 series are released! This series is a hybrid reasoning model, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥**
 - [2025.07.01] Release: [MiniCPM Intel AIPC Client: Edge-side Large Model Client](https://github.com/OpenBMB/MiniCPM/blob/main/README-en.md#minicpm-intel-aipc-client-a-new-edge-large-model-powerhouse)  Designed specifically for devices powered by Intel Core Ultra series processors! Fully supports Intel Core Ultra series processors, enabling deep integration with hardware
 - [2025.06.06] Released [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)! This model achieves ultimate efficiency improvements while maintaining optimal performance at the same scale! It can achieve over 5x generation acceleration on typical end-side chips!
-- [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) is open source and enables MiniCPM3-4B to process text of any length.** 
-- [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) now supports MiniCPM3-4B. Thanks to inference optimizations made to the MLA structure (used in MiniCPM3) in SGLang v0.3, throughput has improved by 70% compared to vLLM!** [[Usage](#sglang-recommended)]
+- [2024.09.28] [LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) is open source and enables MiniCPM3-4B to process text of any length.
+- [2024.09.18] [SGLang](https://github.com/sgl-project/sglang) now supports MiniCPM3-4B. Thanks to inference optimizations made to the MLA structure (used in MiniCPM3) in SGLang v0.3, throughput has improved by 70% compared to vLLM! [[Usage](#sglang-recommended)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) now officially supports MiniCPM3-4B! [[GGUF Model](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF) | [Usage](#llamacpp)]
 - [2024.09.05] We release [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)! This model outperforms Phi-3.5-mini-instruct and GPT-3.5-Turbo-0125 and is comparable to several models with 7B-9B parameters like Llama3.1-8B-Instruct, Qwen2-7B-Instruct, and GLM-4-9B-Chat.
 - [2024.07.09] MiniCPM-2B has been supported by [SGLang](#sglang-inference)!
@@ -64,28 +65,42 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
   | HuggingFace | ModelScope |
   |-------------|------------|
+  | [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
+  | [MiniCPM4.1-8B-GPTQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-GPTQ) | [MiniCPM4.1-8B-GPTQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GPTQ) | 
+  | [MiniCPM4.1-8B-AutoAWQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-AutoAWQ) | [MiniCPM4.1-8B-AutoAWQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-AutoAWQ) | 
+  | [MiniCPM-4.1-8B-Marlin](https://huggingface.co/openbmb/MiniCPM-4.1-8B-Marlin) | [MiniCPM-4.1-8B-Marlin](https://www.modelscope.cn/openbmb/MiniCPM-4.1-8B-Marlin) | 
+  | [MiniCPM4.1-8B-GGUF](https://huggingface.co/openbmb/MiniCPM4.1-8B-GGUF) | [MiniCPM4.1-8B-GGUF](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GGUF) | 
+  | [MiniCPM4.1-8B-MLX](https://huggingface.co/openbmb/MiniCPM4.1-8B-MLX) | [MiniCPM4.1-8B-MLX](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-MLX) | 
+  | [MiniCPM4.1-8B-Eagle3](https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3) | [MiniCPM4.1-8B-Eagle3](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-Eagle3) | 
   | [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B)    | [MiniCPM4-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B) |
   | [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
   | [BitCPM4-1B](https://huggingface.co/openbmb/BitCPM4-1B)        | [BitCPM4-1B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-1B) |
   | [BitCPM4-0.5B](https://huggingface.co/openbmb/BitCPM4-0.5B)    | [BitCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-0.5B) |
+  | [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) | [MiniCPM4-Survey](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-Survey) |
+  | [MiniCPM4-MCP](https://huggingface.co/openbmb/MiniCPM4-MCP)  | [MiniCPM4-MCP](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-MCP) |
+  | [MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B) | [MiniCPM3-4B](https://www.modelscope.cn/models/OpenBMB/MiniCPM3-4B) |
+
+<details>
+<summary>📋 Click to view all MiniCPM series models</summary>
+
+  | HuggingFace | ModelScope |
+  |-------------|------------|
   | [MiniCPM4-8B-Eagle-FRSpec](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec) | [MiniCPM4-8B-Eagle-FRSpec](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec) |
   | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec-QAT) | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec-QAT) |
   | [MiniCPM4-8B-Eagle-vLLM](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-vLLM) | [MiniCPM4-8B-Eagle-vLLM](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-vLLM) |
   | [MiniCPM4-8B-marlin-Eagle-vLLM](https://huggingface.co/openbmb/MiniCPM4-8B-marlin-Eagle-vLLM) | [MiniCPM4-8B-marlin-Eagle-vLLM](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-marlin-Eagle-vLLM) |
-  | [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) | [MiniCPM4-Survey](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-Survey) |
-  | [MiniCPM4-MCP](https://huggingface.co/openbmb/MiniCPM4-MCP)  | [MiniCPM4-MCP](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-MCP) |
-  |[MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B)|[MiniCPM3-4B](https://www.modelscope.cn/models/OpenBMB/MiniCPM3-4B)|
-  |[MiniCPM-2B-sft](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)|[MiniCPM-2B-sft](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|
-  |[MiniCPM-2B-dpo](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16)|[MiniCPM-2B-dpo](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary)|
-  |[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) |[MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary)| 
-  |[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) |[MiniCPM-MoE-8x2B](https://modelscope.cn/models/OpenBMB/MiniCPM-MoE-8x2B)| 
-  |[MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
-  |[MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)|[MiniCPM-S-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft)|
+  | [MiniCPM4-0.5B-QAT-Int4-unquantized](https://huggingface.co/openbmb/MiniCPM4-0.5B-QAT-Int4-unquantized) | [MiniCPM4-0.5B-QAT-Int4-unquantized](https://modelscope.cn/models/OpenBMB/MiniCPM4-0.5B-QAT-Int4-unquantized) |
+  | [MiniCPM4-0.5B-QAT-Int4-GPTQ-format](https://huggingface.co/openbmb/MiniCPM4-0.5B-QAT-Int4-GPTQ-format) | [MiniCPM4-0.5B-QAT-Int4-GPTQ-format](https://modelscope.cn/models/OpenBMB/MiniCPM4-0.5B-QAT-Int4-GPTQ-format) |
+  | [MiniCPM-2B-sft](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16) | [MiniCPM-2B-sft](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|
+  | [MiniCPM-2B-dpo](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16) | [MiniCPM-2B-dpo](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary) |
+  | [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) | [MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary) |
+  | [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) | [MiniCPM-MoE-8x2B](https://modelscope.cn/models/OpenBMB/MiniCPM-MoE-8x2B) |
+  | [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
+  | [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft) | [MiniCPM-S-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft) |
+</details>
 
-Note: More model versions can be found [here](https://huggingface.co/collections/openbmb/minicpm-2b-65d48bf958302b9fd25b698f).
-
-## MiniCPM 4.0
-MiniCPM 4 is an extremely efficient edge-side large model that has undergone efficient optimization across four dimensions: model architecture, learning algorithms, training data, and inference systems, achieving ultimate efficiency improvements.
+## MiniCPM4 and MiniCPM4.1 Series
+MiniCPM4 and MiniCPM4.1 series are highly efficient large language models (LLMs) designed explicitly for end-side devices, which achieves this efficiency through systematic innovation in four key dimensions: model architecture, training data, training algorithms, and inference systems.
 
 - 🏗️ **Efficient Model Architecture:**
   - InfLLM v2 -- Trainable Sparse Attention Mechanism: Adopts a trainable sparse attention mechanism architecture where each token only needs to compute relevance with less than 5% of tokens in 128K long text processing, significantly reducing computational overhead for long texts
@@ -106,20 +121,27 @@ MiniCPM 4 is an extremely efficient edge-side large model that has undergone eff
 ### Evaluation Results
 
 #### Efficiency Evaluation
-On two typical end-side chips, Jetson AGX Orin and RTX 4090, MiniCPM4 demonstrates significantly faster processing speed compared to similar-size models in long text processing tasks. As text length increases, MiniCPM4's efficiency advantage becomes more pronounced. On the Jetson AGX Orin platform, compared to Qwen3-8B, MiniCPM4 achieves approximately 7x decoding speed improvement.
+On two typical end-side chips, Jetson AGX Orin and RTX 4090, MiniCPM4 and MiniCPM4.1 demonstrate significantly faster processing speed compared to similar-size models in long text processing tasks. As text length increases, MiniCPM4 and MiniCPM4.1's efficiency advantage becomes more pronounced. On the Jetson AGX Orin platform, compared to Qwen3-8B, MiniCPM4 and MiniCPM4.1 achieves approximately 7x decoding speed improvement.
 
 ![benchmark](./assets/minicpm4/efficiency.png)
+
+MiniCPM4.1 achieves 3x decoding speed improvement in reasoning.
+
+![benchmark](./assets/minicpm4/minicpm4.1_speed.png)
 
 #### Comprehensive Evaluation
 MiniCPM4 launches end-side versions with 8B and 0.5B parameter scales, both achieving best-in-class performance in their respective categories.
 
 ![benchmark](./assets/minicpm4/benchmark.png)
 
+MiniCPM4.1 launches end-side versions with 8B parameter scale, achieving best-in-class performance in deep reasoning mode.
+
+![benchmark](./assets/minicpm4/benchmark4.1.png)
+
 #### Long Text Evaluation
-MiniCPM4 is pre-trained on 32K long texts and achieves length extension through YaRN technology. In the 128K long text needle-in-a-haystack task, MiniCPM4 demonstrates outstanding performance.
+MiniCPM4 is pre-trained on 32K long texts and achieves length extension through YaRN technology. In the 128K long text needle-in-a-haystack task, MiniCPM4 demonstrates outstanding performance. MiniCPM4.1 is pre-trained on 64K long texts and achieves length extension through YaRN technology. In the 128K long text needle-in-a-haystack task, MiniCPM4.1 demonstrates outstanding performance.
 
 ![long-niah](./assets/minicpm4/128k-niah.png)
-
 
 ### BitCPM4: Quantization
 
@@ -239,7 +261,7 @@ Whether for developers chasing cutting-edge technologies, researchers focused on
 
 #### CPM.cu
 
-We **recommend** using [CPM.cu](https://github.com/OpenBMB/CPM.cu) for the inference of MiniCPM4. CPM.cu is a CUDA inference framework developed by OpenBMB, which integrates efficient sparse, speculative sampling, and quantization techniques, fully leveraging the efficiency advantages of MiniCPM4.
+We **recommend** using [CPM.cu](https://github.com/OpenBMB/CPM.cu) for the inference of MiniCPM4 and MiniCPM4.1. CPM.cu is a CUDA inference framework developed by OpenBMB, which integrates efficient sparse, speculative sampling, and quantization techniques, fully leveraging the efficiency advantages of MiniCPM4 and MiniCPM4.1.
 
 You can install CPM.cu by running the following command:
 
@@ -256,7 +278,38 @@ python3 tests/long_prompt_gen.py # generate prompt.txt
 python3 tests/test_generate.py --prompt-file prompt.txt
 ```
 
+You can run the following command to infer with EAGLE3 speculative decoding algorithm.
+
+```bash
+python3 -m cpmcu.cli \
+    --model-path $BASE_MODEL_PATH \
+    --draft-model-path $EAGLE3_DRAFT_MODEL_PATH \
+    --prompt-text "Tell me about Tsinghua University" \
+    --use-eagle3 true
+```
+
 For more details about CPM.cu, please refer to the repo of [CPM.cu](https://github.com/OpenBMB/CPM.cu).
+
+#### Hybird Reasoning Mode
+
+MiniCPM4.1 supports hybrid reasoning mode, which can be used in both deep reasoning mode and non-reasoning mode. To enable hybrid reasoning mode. User can set `enable_thinking=True` in `tokenizer.apply_chat_template` to enable hybrid reasoning mode, and set `enable_thinking=False` to enable non-reasoning mode. Similarly, user can directly add `/no_think` at the end of the query to enable non-reasoning mode. If not add any special token or add `/think` at the end of the query, the model will enable reasoning mode.
+
+```python
+# Enable reasoning mode
+prompt_text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+    enable_thinking=True
+)
+# Enable non-reasoning mode
+prompt_text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+    enable_thinking=False
+)
+```
 
 #### HuggingFace
 
@@ -265,7 +318,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 torch.manual_seed(0)
 
-path = 'openbmb/MiniCPM4-8B'
+path = 'openbmb/MiniCPM4.1-8B'
 device = "cuda"
 tokenizer = AutoTokenizer.from_pretrained(path)
 model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, device_map=device, trust_remote_code=True)
@@ -287,9 +340,9 @@ model_inputs = tokenizer([prompt_text], return_tensors="pt").to(device)
 
 model_outputs = model.generate(
     **model_inputs,
-    max_new_tokens=1024,
-    top_p=0.7,
-    temperature=0.7
+    max_new_tokens=32768,
+    top_p=0.95,
+    temperature=0.6
 )
 output_token_ids = [
     model_outputs[i][len(model_inputs[i]):] for i in range(len(model_inputs['input_ids']))
@@ -339,7 +392,7 @@ These parameters control the behavior of InfLLM v2:
 * `use_nope` (default: false): Whether to use the NOPE technique in block selection for improved performance.
 * `dense_len` (default: 8192): Since Sparse Attention offers limited benefits for short sequences, the model can use standard (dense) attention for shorter texts. The model will use dense attention for sequences with a token length below `dense_len` and switch to sparse attention for sequences exceeding this length. Set this to `-1` to always use sparse attention regardless of sequence length.
 
-Minicpm4 natively supports context lengths of up to 32,768 tokens. For conversations where the total length (including both input and output) significantly exceeds this limit, we recommend using RoPE scaling techniques for effective handling of long texts. We have validated the model's performance on context lengths of up to 131,072 tokens by modifying the LongRoPE factor.
+MiniCPM4.1 natively supports context lengths of up to 65,536(64k) tokens. For conversations where the total length (including both input and output) significantly exceeds this limit, we recommend using RoPE scaling techniques for effective handling of long texts. We have validated the model's performance on context lengths of up to 131,072 tokens by modifying the LongRoPE factor.
 
 You can apply the LongRoPE factor modification by modifying the model files. Specifically, in the `config.json` file, adjust the `rope_scaling` fields.
 
@@ -348,95 +401,58 @@ You can apply the LongRoPE factor modification by modifying the model files. Spe
     ...,
     "rope_scaling": {
         "rope_type": "longrope", 
-        "long_factor": [0.9977997200264581, 1.014658295992452, 1.0349680404997148, 1.059429246056193, 1.0888815016813513, 1.1243301355211495, 1.166977103606075, 1.2182568066927284, 1.2798772354275727, 1.3538666751582975, 1.4426259039919596, 1.5489853358570191, 1.6762658237220625, 1.8283407612492941, 2.0096956085876183, 2.225478927469756, 2.481536379650452, 2.784415934557119, 3.1413289096347365, 3.560047844772632, 4.048719380066383, 4.752651957515948, 5.590913044973868, 6.584005926629993, 7.7532214876576155, 9.119754865903639, 10.704443927019176, 12.524994176518703, 14.59739595363613, 16.93214476166354, 19.53823297353041, 22.417131025031697, 25.568260840911098, 28.991144156566317, 32.68408069090375, 36.65174474170465, 40.90396065611201, 45.4664008671033, 50.37147343433591, 55.6804490772103, 61.470816952306556, 67.8622707390618, 75.00516023410414, 83.11898235973767, 92.50044360202462, 103.57086856690864, 116.9492274587385, 118.16074567836519, 119.18497548708795, 120.04810876261652, 120.77352815196981, 121.38182790207875, 121.89094985353891, 122.31638758099915, 122.6714244963338, 122.9673822552567, 123.21386397019609, 123.41898278254268, 123.58957065488238, 123.73136519024158, 123.84917421274221, 123.94701903496814, 124.02825801299717, 124.09569231686116],
-        "short_factor": [0.9977997200264581, 1.014658295992452, 1.0349680404997148, 1.059429246056193, 1.0888815016813513, 1.1243301355211495, 1.166977103606075, 1.2182568066927284, 1.2798772354275727, 1.3538666751582975, 1.4426259039919596, 1.5489853358570191, 1.6762658237220625, 1.8283407612492941, 2.0096956085876183, 2.225478927469756, 2.481536379650452, 2.784415934557119, 3.1413289096347365, 3.560047844772632, 4.048719380066383, 4.752651957515948, 5.590913044973868, 6.584005926629993, 7.7532214876576155, 9.119754865903639, 10.704443927019176, 12.524994176518703, 14.59739595363613, 16.93214476166354, 19.53823297353041, 22.417131025031697, 25.568260840911098, 28.991144156566317, 32.68408069090375, 36.65174474170465, 40.90396065611201, 45.4664008671033, 50.37147343433591, 55.6804490772103, 61.470816952306556, 67.8622707390618, 75.00516023410414, 83.11898235973767, 92.50044360202462, 103.57086856690864, 116.9492274587385, 118.16074567836519, 119.18497548708795, 120.04810876261652, 120.77352815196981, 121.38182790207875, 121.89094985353891, 122.31638758099915, 122.6714244963338, 122.9673822552567, 123.21386397019609, 123.41898278254268, 123.58957065488238, 123.73136519024158, 123.84917421274221, 123.94701903496814, 124.02825801299717, 124.09569231686116],
-        "original_max_position_embeddings": 32768
+        "long_factor": [0.9982316082870437, 1.033048153422584, 1.0749920956484724, 1.1255096879436193, 1.1863348602111476, 1.259543828902579, 1.3476188888731149, 1.4535223827776373, 1.5807816745852985, 1.7335856049489526, 1.9168922912975785, 2.1365471404135326, 2.3994084200118646, 2.713475511863602, 3.0880118452194134, 3.533650295140154, 4.062463396503134, 4.687974098908333, 5.425075306704039, 6.289818967956352, 7.29902962722721, 8.6357018163639, 10.210822723989212, 12.053807765671676, 14.193944598909404, 16.65780676784363, 19.463620727694074, 22.628311203524586, 26.150106147261315, 30.02526691405111, 34.23183327975347, 38.73811934094828, 43.502489489729555, 48.47627117965394, 53.61139491762471, 58.857366522037935, 64.16798299215064, 69.51359464319125, 74.86555458220285, 80.21497790341579, 85.55322183307433, 90.89611806932027, 96.26245306514224, 101.68269304046481, 107.18619510219668, 112.82253283014026, 118.63764063163615, 119.88866203644656, 120.9462882391725, 121.837565139014, 122.58663780572562, 123.2147719894291, 123.74049454862576, 124.17980424685767, 124.54641761955492, 124.85202548028222, 125.10654406389756, 125.31835105170659, 125.49450117164764, 125.64091910903052, 125.76256945356558, 125.86360463815589, 125.94749252260765, 126.01712561287873],
+        "short_factor": [0.9982316082870437, 1.033048153422584, 1.0749920956484724, 1.1255096879436193, 1.1863348602111476, 1.259543828902579, 1.3476188888731149, 1.4535223827776373, 1.5807816745852985, 1.7335856049489526, 1.9168922912975785, 2.1365471404135326, 2.3994084200118646, 2.713475511863602, 3.0880118452194134, 3.533650295140154, 4.062463396503134, 4.687974098908333, 5.425075306704039, 6.289818967956352, 7.29902962722721, 8.6357018163639, 10.210822723989212, 12.053807765671676, 14.193944598909404, 16.65780676784363, 19.463620727694074, 22.628311203524586, 26.150106147261315, 30.02526691405111, 34.23183327975347, 38.73811934094828, 43.502489489729555, 48.47627117965394, 53.61139491762471, 58.857366522037935, 64.16798299215064, 69.51359464319125, 74.86555458220285, 80.21497790341579, 85.55322183307433, 90.89611806932027, 96.26245306514224, 101.68269304046481, 107.18619510219668, 112.82253283014026, 118.63764063163615, 119.88866203644656, 120.9462882391725, 121.837565139014, 122.58663780572562, 123.2147719894291, 123.74049454862576, 124.17980424685767, 124.54641761955492, 124.85202548028222, 125.10654406389756, 125.31835105170659, 125.49450117164764, 125.64091910903052, 125.76256945356558, 125.86360463815589, 125.94749252260765, 126.01712561287873],
+        "original_max_position_embeddings": 65536
     }
 }
 ```
 
 #### vLLM
-- Install vLLM
 
-Reference vLLM [official repository](https://github.com/vllm-project/vllm), install the latest version through *source code*.
-```
-pip install -U vllm \
-    --pre \
-    --extra-index-url https://wheels.vllm.ai/nightly
-```
+##### Speculative Decoding
 
-- Inference MiniCPM4-8B with vLLM:
-```python
-from transformers import AutoTokenizer
-from vllm import LLM, SamplingParams
+For accelerated inference with speculative decoding using vLLM, follow these steps:
 
-model_name = "openbmb/MiniCPM4-8B"
-prompt = [{"role": "user", "content": "Please recommend 5 tourist attractions in Beijing. "}]
+###### 1. Download MiniCPM4.1 Draft Model
 
-tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-input_text = tokenizer.apply_chat_template(prompt, tokenize=False, add_generation_prompt=True)
+First, download the MiniCPM4.1 draft model:
 
-llm = LLM(
-    model=model_name,
-    trust_remote_code=True,
-    max_num_batched_tokens=32768, 
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
-)
-sampling_params = SamplingParams(top_p=0.7, temperature=0.7, max_tokens=1024, repetition_penalty=1.02)
-
-outputs = llm.generate(prompts=input_text, sampling_params=sampling_params)
-
-print(outputs[0].outputs[0].text)
+```bash
+cd /your_path
+git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
 ```
 
-- Use Eagle Speculative Decoding in vLLM: initialize the inference engine as follows.
-```python
-llm = LLM(
-    model=model_name,
-    trust_remote_code=True,
-    max_num_batched_tokens=32768, 
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
-    speculative_config={
-        "method": "eagle",
-        "model": "openbmb/MiniCPM4-8B-Eagle-vLLM",
-        "num_speculative_tokens": 2,
-        "max_model_len": 32768,
-    },
-)
+###### 2. Install EAGLE3-Compatible vLLM
+
+The EAGLE3 vLLM PR has been submitted. For now, use our repository for installation:
+
+```bash
+git clone https://github.com/LDLINGLINGLING/vllm.git
+cd vllm 
+pip install -e .
 ```
 
-- Inference quantized MiniCPM4-8B: initialize the inference engine as follows.
-```python
-llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-vLLM",
-    trust_remote_code=True,
-    max_num_batched_tokens=32768, 
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
-)
+###### 3. Launch vLLM Server with Speculative Decoding
+
+Start the vLLM inference server with speculative decoding enabled. Make sure to update the model path in the speculative-config to point to your downloaded MiniCPM4_1-8B-Eagle3-bf16 folder:
+
+```bash
+VLLM_USE_V1=1 \
+vllm serve openbmb/MiniCPM4.1-8B \
+--seed 42 \
+--trust-remote-code \
+--speculative-config '{
+  "model": "your/path/MiniCPM4_1-8B-Eagle3-bf16",
+  "num_speculative_tokens": 3,
+  "method": "eagle3",
+  "draft_tensor_parallel_size": 1
+}'
 ```
 
-- Use Eagle Speculative Decoding for quantized MiniCPM4-8B: initialize the inference engine as follows.
-```python
-llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-vLLM",
-    trust_remote_code=True,
-    max_num_batched_tokens=32768,
-    dtype="bfloat16",
-    gpu_memory_utilization=0.8,
-    speculative_config={
-        "method": "eagle",
-        "model": "openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
-        "num_speculative_tokens": 2,
-        "max_model_len": 32768,
-    },
-)
-```
+###### 4. Client Usage Example
 
-> **Note**: If you're using an OpenAI-compatible server in vLLM, the `chat` API sets `add_special_tokens=False` by default. This will result in missing special tokens—such as the beginning-of-sequence (BOS) token—which are required for proper prompt formatting in **MiniCPM4**. To ensure correct behavior, you must explicitly set `extra_body={"add_special_tokens": True}` in your API call, like below:
-
+The client usage remains the same for both standard and speculative decoding:
 
 ```python
 import openai
@@ -444,60 +460,202 @@ import openai
 client = openai.Client(base_url="http://localhost:8000/v1", api_key="EMPTY")
 
 response = client.chat.completions.create(
-    model="openbmb/MiniCPM4-8B",
+    model="openbmb/MiniCPM4.1-8B",
     messages=[
         {"role": "user", "content": "Write an article about Artificial Intelligence."},
     ],
-    temperature=0.7,
-    max_tokens=1024,
-    extra_body={"add_special_tokens": True},  # Ensures special tokens like BOS are added
+    temperature=0.6,
+    max_tokens=32768,
+    extra_body=dict(add_special_tokens=True),  # Ensures special tokens are added for chat template
+    
+)
+
+print(response.choices[0].message.content)
+```
+
+###### vLLM Configuration Parameters
+
+- `VLLM_USE_V1=1`: Enables vLLM v1 API
+- `--speculative-config`: JSON configuration for speculative decoding
+  - `model`: Path to the draft model for speculation
+  - `num_speculative_tokens`: Number of speculative tokens (default: 3)
+  - `method`: Speculative decoding method (eagle3)
+  - `draft_tensor_parallel_size`: Tensor parallel size for draft model (default: 1)
+- `--seed`: Random seed for reproducibility
+- `--trust-remote-code`: Allow execution of remote code for custom models
+
+##### Standard Inference (Without Speculative Decoding)
+
+For now, you need to install the latest version of vLLM.
+
+```bash
+pip install -U vllm \
+    --pre \
+    --extra-index-url https://wheels.vllm.ai/nightly
+```
+
+Then you can inference MiniCPM4.1-8B with vLLM:
+```python
+from transformers import AutoTokenizer
+from vllm import LLM, SamplingParams
+
+model_name = "openbmb/MiniCPM4.1-8B"
+prompt = [{"role": "user", "content": "Write an article about Artificial Intelligence."}]
+
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+input_text = tokenizer.apply_chat_template(prompt, tokenize=False, add_generation_prompt=True)
+
+llm = LLM(
+    model=model_name,
+    trust_remote_code=True,
+    max_num_batched_tokens=65536,
+    dtype="bfloat16", 
+    gpu_memory_utilization=0.8, 
+)
+sampling_params = SamplingParams(top_p=0.95, temperature=0.6, max_tokens=32768)
+
+outputs = llm.generate(prompts=input_text, sampling_params=sampling_params)
+
+print(outputs[0].outputs[0].text)
+```
+
+Also, you can start the inference server by running the following command:
+> **Note**: In vLLM's chat API, `add_special_tokens` is `False` by default. This means important special tokens—such as the beginning-of-sequence (BOS) token—will not be added automatically. To ensure the input prompt is correctly formatted for the model, you should explicitly set `extra_body={"add_special_tokens": True}`.
+
+```bash
+vllm serve openbmb/MiniCPM4.1-8B 
+```
+
+Then you can use the chat interface by running the following code:
+
+```python
+import openai
+
+client = openai.Client(base_url="http://localhost:8000/v1", api_key="EMPTY")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4.1-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.6,
+    max_tokens=32768,
+    extra_body=dict(add_special_tokens=True),  # Ensures special tokens are added for chat template
 )
 
 print(response.choices[0].message.content)
 ```
 
 #### SGLang
-- Install SGLang
 
-Reference SGLang [official repository](https://github.com/sgl-project/sglang), install through *source code*.
+##### Speculative Decoding
+
+For accelerated inference with speculative decoding, follow these steps:
+
+###### 1. Download MiniCPM4.1 Draft Model
+
+First, download the MiniCPM4.1 draft model:
+
+```bash
+cd /your_path
+git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
 ```
-git clone -b openbmb https://github.com/sgl-project/sglang.git
+
+###### 2. Install EAGLE3-Compatible SGLang
+
+The EAGLE3 adaptation PR has been submitted. For now, use our repository for installation:
+
+```bash
+git clone https://github.com/LDLINGLINGLING/sglang.git
+cd sglang
+pip install -e .
+```
+
+###### 3. Launch SGLang Server with Speculative Decoding
+
+Start the SGLang server with speculative decoding enabled:
+
+```bash
+python -m sglang.launch_server \
+  --model-path "openbmb/MiniCPM4.1-8B" \
+  --host "127.0.0.1" \
+  --port 30002 \
+  --mem-fraction-static 0.9 \
+  --speculative-algorithm EAGLE3 \
+  --speculative-draft-model-path "your/path/MiniCPM4_1-8B-Eagle3-bf16" \
+  --speculative-num-steps 3 \
+  --speculative-eagle-topk 1 \
+  --speculative-num-draft-tokens 32 \
+  --temperature 0.7
+```
+
+###### 4. Client Usage
+
+The client usage remains the same for both standard and speculative decoding:
+
+```python
+import openai
+
+client = openai.Client(base_url=f"http://localhost:30002/v1", api_key="None")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4.1-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.6,
+    max_tokens=32768,
+)
+
+print(response.choices[0].message.content)
+```
+
+Note: Make sure to update the port number in the client code to match the server port (30002 in the speculative decoding example).
+
+###### Configuration Parameters
+
+- `--speculative-algorithm EAGLE3`: Enables EAGLE3 speculative decoding
+- `--speculative-draft-model-path`: Path to the draft model for speculation
+- `--speculative-num-steps`: Number of speculative steps (default: 3)
+- `--speculative-eagle-topk`: Top-k parameter for EAGLE (default: 1)
+- `--speculative-num-draft-tokens`: Number of draft tokens (default: 32)
+- `--mem-fraction-static`: Memory fraction for static allocation (default: 0.9)
+
+##### Standard Inference (Without Speculative Decoding)
+
+For now, you need to install our forked version of SGLang.
+
+```bash
+git clone -b openbmb https://github.com/OpenBMB/sglang.git
 cd sglang
 
 pip install --upgrade pip
 pip install -e "python[all]"
 ```
 
-- Start inference service
-```shell
-python -m sglang.launch_server --model openbmb/MiniCPM4-8B --trust-remote-code --port 30000 --chat-template chatml
+You can start the inference server by running the following command:
+
+```bash
+python -m sglang.launch_server --model openbmb/MiniCPM4.1-8B --trust-remote-code --port 30000 --chat-template chatml
 ```
 
-- Then, users can use the chat interface by running the following command:
+Then you can use the chat interface by running the following command:
+
 ```python
 import openai
 
 client = openai.Client(base_url=f"http://localhost:30000/v1", api_key="None")
 
 response = client.chat.completions.create(
-    model="openbmb/MiniCPM4-8B",
+    model="openbmb/MiniCPM4.1-8B",
     messages=[
         {"role": "user", "content": "Write an article about Artificial Intelligence."},
     ],
-    temperature=0.7,
-    max_tokens=1024,
+    temperature=0.6,
+    max_tokens=32768,
 )
 
 print(response.choices[0].message.content)
-```
-
-- Use speculative acceleration
-```shell
-python3 -m sglang.launch_server --model-path [model] \ 
-    --speculative_draft_model_path [draft_model] \
-    --host 0.0.0.0 --trust-remote-code \
-    --speculative-algorithm EAGLE --speculative-num-steps 1 --speculative-eagle-topk 1 --speculative-num-draft-tokens 2 \
-    --mem-fraction 0.5
 ```
 
 ## MiniCPM 3.0
