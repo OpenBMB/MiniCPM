@@ -274,6 +274,16 @@ python3 tests/long_prompt_gen.py # generate prompt.txt
 python3 tests/test_generate.py --prompt-file prompt.txt
 ```
 
+You can run the following command to infer with EAGLE3 speculative decoding algorithm.
+
+```bash
+python3 -m cpmcu.cli \
+    --model-path $BASE_MODEL_PATH \
+    --draft-model-path $EAGLE3_DRAFT_MODEL_PATH \
+    --prompt-text "Tell me about Tsinghua University" \
+    --use-eagle3 true
+```
+
 For more details about CPM.cu, please refer to the repo of [CPM.cu](https://github.com/OpenBMB/CPM.cu).
 
 #### Hybird Reasoning Mode
