@@ -269,6 +269,27 @@ python3 tests/test_generate.py --prompt-file prompt.txt
 
 For more details about CPM.cu, please refer to the repo of [CPM.cu](https://github.com/OpenBMB/CPM.cu).
 
+#### Hybird Reasoning Mode
+
+MiniCPM4.1 supports hybrid reasoning mode, which can be used in both deep reasoning mode and non-reasoning mode. To enable hybrid reasoning mode. User can set `enable_thinking=True` in `tokenizer.apply_chat_template` to enable hybrid reasoning mode, and set `enable_thinking=False` to enable non-reasoning mode. Similarly, user can directly add `/no_think` at the end of the query to enable non-reasoning mode. If not add any special token or add `/think` at the end of the query, the model will enable reasoning mode.
+
+```python
+# Enable reasoning mode
+prompt_text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+    enable_thinking=True
+)
+# Enable non-reasoning mode
+prompt_text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+    enable_thinking=False
+)
+```
+
 #### HuggingFace
 
 ```python
@@ -366,38 +387,93 @@ You can apply the LongRoPE factor modification by modifying the model files. Spe
 }
 ```
 
-#### Hybird Reasoning Mode
+#### vLLM
 
-MiniCPM4.1 supports hybrid reasoning mode, which can be used in both deep reasoning mode and non-reasoning mode. To enable hybrid reasoning mode. User can set `enable_thinking=True` in `tokenizer.apply_chat_template` to enable hybrid reasoning mode, and set `enable_thinking=False` to enable non-reasoning mode. Similarly, user can directly add `\no_think` at the end of the query to enable non-reasoning mode. If not add any special token or add `\think` at the end of the query, the model will enable reasoning mode.
+##### Speculative Decoding
+
+For accelerated inference with speculative decoding using vLLM, follow these steps:
+
+###### 1. Download MiniCPM4.1 Draft Model
+
+First, download the MiniCPM4.1 draft model:
+
+```bash
+cd /your_path
+git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
+```
+
+###### 2. Install EAGLE3-Compatible vLLM
+
+The EAGLE3 vLLM PR has been submitted. For now, use our repository for installation:
+
+```bash
+git clone https://github.com/LDLINGLINGLING/vllm.git
+cd vllm 
+pip install -e .
+```
+
+###### 3. Launch vLLM Server with Speculative Decoding
+
+Start the vLLM inference server with speculative decoding enabled. Make sure to update the model path in the speculative-config to point to your downloaded MiniCPM4_1-8B-Eagle3-bf16 folder:
+
+```bash
+VLLM_USE_V1=1 \
+vllm serve openbmb/MiniCPM4.1-8B \
+--seed 42 \
+--trust-remote-code \
+--speculative-config '{
+  "model": "your/path/MiniCPM4_1-8B-Eagle3-bf16",
+  "num_speculative_tokens": 3,
+  "method": "eagle3",
+  "draft_tensor_parallel_size": 1
+}'
+```
+
+###### 4. Client Usage Example
+
+The client usage remains the same for both standard and speculative decoding:
 
 ```python
-# Enable reasoning mode
-prompt_text = tokenizer.apply_chat_template(
-    messages,
-    tokenize=False,
-    add_generation_prompt=True,
-    enable_thinking=True
+import openai
+
+client = openai.Client(base_url="http://localhost:8000/v1", api_key="EMPTY")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4.1-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.6,
+    max_tokens=32768,
+    extra_body=dict(add_special_tokens=True),  # Ensures special tokens are added for chat template
+    
 )
-# Enable non-reasoning mode
-prompt_text = tokenizer.apply_chat_template(
-    messages,
-    tokenize=False,
-    add_generation_prompt=True,
-    enable_thinking=False
-)
+
+print(response.choices[0].message.content)
 ```
 
-#### vLLM
-- Install vLLM
+###### vLLM Configuration Parameters
 
-Reference vLLM [official repository](https://github.com/vllm-project/vllm), install the latest version through *source code*.
-```
+- `VLLM_USE_V1=1`: Enables vLLM v1 API
+- `--speculative-config`: JSON configuration for speculative decoding
+  - `model`: Path to the draft model for speculation
+  - `num_speculative_tokens`: Number of speculative tokens (default: 3)
+  - `method`: Speculative decoding method (eagle3)
+  - `draft_tensor_parallel_size`: Tensor parallel size for draft model (default: 1)
+- `--seed`: Random seed for reproducibility
+- `--trust-remote-code`: Allow execution of remote code for custom models
+
+##### Standard Inference (Without Speculative Decoding)
+
+For now, you need to install the latest version of vLLM.
+
+```bash
 pip install -U vllm \
     --pre \
     --extra-index-url https://wheels.vllm.ai/nightly
 ```
 
-- Inference MiniCPM4-8B with vLLM:
+Then you can inference MiniCPM4.1-8B with vLLM:
 ```python
 from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
@@ -422,53 +498,14 @@ outputs = llm.generate(prompts=input_text, sampling_params=sampling_params)
 print(outputs[0].outputs[0].text)
 ```
 
-- Use Eagle Speculative Decoding in vLLM: initialize the inference engine as follows.
-```python
-llm = LLM(
-    model=model_name,
-    trust_remote_code=True,
-    max_num_batched_tokens=32768,
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
-    speculative_config={
-        "method": "eagle",
-        "model": "openbmb/MiniCPM4-8B-Eagle-vLLM",
-        "num_speculative_tokens": 2,
-        "max_model_len": 32768,
-    },
-)
+Also, you can start the inference server by running the following command:
+> **Note**: In vLLM's chat API, `add_special_tokens` is `False` by default. This means important special tokens—such as the beginning-of-sequence (BOS) token—will not be added automatically. To ensure the input prompt is correctly formatted for the model, you should explicitly set `extra_body={"add_special_tokens": True}`.
+
+```bash
+vllm serve openbmb/MiniCPM4.1-8B 
 ```
 
-- Inference quantized MiniCPM4-8B: initialize the inference engine as follows.
-```python
-llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-vLLM",
-    trust_remote_code=True,
-    max_num_batched_tokens=32768, 
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
-)
-```
-
-- Use Eagle Speculative Decoding for quantized MiniCPM4-8B: initialize the inference engine as follows.
-```python
-llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-vLLM",
-    trust_remote_code=True,
-    max_num_batched_tokens=32768,
-    dtype="bfloat16",
-    gpu_memory_utilization=0.8,
-    speculative_config={
-        "method": "eagle",
-        "model": "openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
-        "num_speculative_tokens": 2,
-        "max_model_len": 32768,
-    },
-)
-```
-
-> **Note**: If you're using an OpenAI-compatible server in vLLM, the `chat` API sets `add_special_tokens=False` by default. This will result in missing special tokens—such as the beginning-of-sequence (BOS) token—which are required for proper prompt formatting in **MiniCPM4**. To ensure correct behavior, you must explicitly set `extra_body={"add_special_tokens": True}` in your API call, like below:
-
+Then you can use the chat interface by running the following code:
 
 ```python
 import openai
@@ -482,30 +519,107 @@ response = client.chat.completions.create(
     ],
     temperature=0.6,
     max_tokens=32768,
-    extra_body={"add_special_tokens": True},  # Ensures special tokens like BOS are added
+    extra_body=dict(add_special_tokens=True),  # Ensures special tokens are added for chat template
 )
 
 print(response.choices[0].message.content)
 ```
 
 #### SGLang
-- Install SGLang
 
-Reference SGLang [official repository](https://github.com/sgl-project/sglang), install through *source code*.
+##### Speculative Decoding
+
+For accelerated inference with speculative decoding, follow these steps:
+
+###### 1. Download MiniCPM4.1 Draft Model
+
+First, download the MiniCPM4.1 draft model:
+
+```bash
+cd /your_path
+git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
 ```
-git clone -b openbmb https://github.com/sgl-project/sglang.git
+
+###### 2. Install EAGLE3-Compatible SGLang
+
+The EAGLE3 adaptation PR has been submitted. For now, use our repository for installation:
+
+```bash
+git clone https://github.com/LDLINGLINGLING/sglang.git
+cd sglang
+pip install -e .
+```
+
+###### 3. Launch SGLang Server with Speculative Decoding
+
+Start the SGLang server with speculative decoding enabled:
+
+```bash
+python -m sglang.launch_server \
+  --model-path "openbmb/MiniCPM4.1-8B" \
+  --host "127.0.0.1" \
+  --port 30002 \
+  --mem-fraction-static 0.9 \
+  --speculative-algorithm EAGLE3 \
+  --speculative-draft-model-path "your/path/MiniCPM4_1-8B-Eagle3-bf16" \
+  --speculative-num-steps 3 \
+  --speculative-eagle-topk 1 \
+  --speculative-num-draft-tokens 32 \
+  --temperature 0.7
+```
+
+###### 4. Client Usage
+
+The client usage remains the same for both standard and speculative decoding:
+
+```python
+import openai
+
+client = openai.Client(base_url=f"http://localhost:30002/v1", api_key="None")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4.1-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.6,
+    max_tokens=32768,
+)
+
+print(response.choices[0].message.content)
+```
+
+Note: Make sure to update the port number in the client code to match the server port (30002 in the speculative decoding example).
+
+###### Configuration Parameters
+
+- `--speculative-algorithm EAGLE3`: Enables EAGLE3 speculative decoding
+- `--speculative-draft-model-path`: Path to the draft model for speculation
+- `--speculative-num-steps`: Number of speculative steps (default: 3)
+- `--speculative-eagle-topk`: Top-k parameter for EAGLE (default: 1)
+- `--speculative-num-draft-tokens`: Number of draft tokens (default: 32)
+- `--mem-fraction-static`: Memory fraction for static allocation (default: 0.9)
+
+##### Standard Inference (Without Speculative Decoding)
+
+For now, you need to install our forked version of SGLang.
+
+```bash
+git clone -b openbmb https://github.com/OpenBMB/sglang.git
 cd sglang
 
 pip install --upgrade pip
 pip install -e "python[all]"
 ```
 
-- Launch inference service
-```shell
-python -m sglang.launch_server --model openbmb/MiniCPM4.1-8B --trust-remote-code --port 30000
+You can start the inference server by running the following command:
+
+```bash
+python -m sglang.launch_server --model openbmb/MiniCPM4.1-8B --trust-remote-code --port 30000 --chat-template chatml
 ```
 
-- Then, users can use the chat interface by running the following command:
+Then you can use the chat interface by running the following command:
+
 ```python
 import openai
 
@@ -521,27 +635,6 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
-```
-
-- inference acceleration via speculative decoding
-```shell
-# download eagle3 ckpt
-git lfs install
-git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
-
-# launch sglang server
-python3 -m sglang.launch_server \
-    --model-path openbmb/MiniCPM4.1-8B \ 
-    --speculative_draft_model_path ./MiniCPM4.1-8B-Eagle3/MiniCPM4_1-8B-Eagle3-bf16/ \
-    --speculative-algorithm EAGLE3 \
-    --speculative-num-steps 8 \
-    --speculative-eagle-topk 8 \
-    --speculative-num-draft-tokens 64 \
-    --cuda-graph-max-bs 16 \
-    --mem-fraction 0.8 \
-    --dtype bfloat16 \
-    --host 0.0.0.0 \
-    --trust-remote-code
 ```
 
 ## MiniCPM 3.0

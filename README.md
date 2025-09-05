@@ -252,6 +252,28 @@ python3 tests/test_generate.py --prompt-file prompt.txt
 
 更多关于 CPM.cu 的细节，请参考 [CPM.cu 仓库](https://github.com/OpenBMB/CPM.cu)。
 
+#### 混合思考
+
+MiniCPM4.1 支持混合思考模式，可以用于深度思考和非思考模式。用户可以通过设置 `enable_thinking=True` 来启用混合思考模式，设置 `enable_thinking=False` 来启用非思考模式。同样，用户可以直接在查询末尾添加 `/no_think` 来启用非思考模式。如果未添加任何特殊标记或在查询末尾添加 `/think`，模型将启用思考模式。
+
+```python
+# Enable reasoning mode
+prompt_text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+    enable_thinking=True
+)
+# Enable non-reasoning mode
+prompt_text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+    enable_thinking=False
+)
+```
+
+
 #### HuggingFace
 
 ```python
@@ -350,46 +372,102 @@ Minicpm4.1 原生支持 65,536 tokens 的上下文长度。若对话总长度（
 }
 ```
 
-#### 混合思考
+#### vLLM
 
-MiniCPM4.1 supports hybrid reasoning mode, which can be used in both deep reasoning mode and non-reasoning mode. To enable hybrid reasoning mode. User can set `enable_thinking=True` in `tokenizer.apply_chat_template` to enable hybrid reasoning mode, and set `enable_thinking=False` to enable non-reasoning mode. Similarly, user can directly add `\no_think` at the end of the query to enable non-reasoning mode. If not add any special token or add `\think` at the end of the query, the model will enable reasoning mode.
+##### 投机采样
 
-MiniCPM4.1 支持混合思考模式，可以用于深度思考和非思考模式。用户可以通过设置 `enable_thinking=True` 来启用混合思考模式，设置 `enable_thinking=False` 来启用非思考模式。同样，用户可以直接在查询末尾添加 `\no_think` 来启用非思考模式。如果未添加任何特殊标记或在查询末尾添加 `\think`，模型将启用思考模式。
+使用 vLLM 进行加速推理的投机采样步骤如下：
+
+###### 1. 下载 MiniCPM4.1 草稿模型
+
+首先，下载 MiniCPM4.1 草稿模型：
+
+```bash
+cd /your_path
+git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
+```
+
+###### 2. 安装 EAGLE3 兼容的 vLLM
+
+EAGLE3 的 vLLM PR 已经提交。目前请使用我们的仓库进行安装：
+
+```bash
+git clone https://github.com/LDLINGLINGLING/vllm.git
+cd vllm 
+pip install -e .
+```
+
+###### 3. 启动带有投机采样的 vLLM 服务
+
+启动启用了投机采样的 vLLM 推理服务。请确保在 speculative-config 中将模型路径更新为下载的 MiniCPM4_1-8B-Eagle3-bf16 文件夹：
+
+```bash
+VLLM_USE_V1=1 \
+vllm serve openbmb/MiniCPM4.1-8B \
+--seed 42 \
+--trust-remote-code \
+--speculative-config '{
+  "model": "your/path/MiniCPM4_1-8B-Eagle3-bf16",
+  "num_speculative_tokens": 3,
+  "method": "eagle3",
+  "draft_tensor_parallel_size": 1
+}'
+```
+
+###### 4. 客户端使用示例
+
+客户端使用方式在标准解码和投机采样下保持一致：
 
 ```python
-# Enable reasoning mode
-prompt_text = tokenizer.apply_chat_template(
-    messages,
-    tokenize=False,
-    add_generation_prompt=True,
-    enable_thinking=True
+import openai
+
+client = openai.Client(base_url="http://localhost:8000/v1", api_key="EMPTY")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4.1-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.6,
+    max_tokens=32768,
+    extra_body=dict(add_special_tokens=True),  # 确保在聊天模板中加入特殊符号
+    
 )
-# Enable non-reasoning mode
-prompt_text = tokenizer.apply_chat_template(
-    messages,
-    tokenize=False,
-    add_generation_prompt=True,
-    enable_thinking=False
-)
+
+print(response.choices[0].message.content)
 ```
 
-#### vLLM
-* 安装
-  
-参照 vLLM [官方仓库](https://github.com/vllm-project/vllm)，通过*源码*安装最新版本。
+###### vLLM 配置参数说明
+
 ```
+	•	VLLM_USE_V1=1: 启用 vLLM v1 API
+	•	--speculative-config: 投机采样的 JSON 配置
+	•	model: 草稿模型的路径
+	•	num_speculative_tokens: 推测的 token 数量（默认：3）
+	•	method: 投机采样方法（eagle3）
+	•	draft_tensor_parallel_size: 草稿模型的张量并行大小（默认：1）
+	•	--seed: 随机种子，用于可复现性
+	•	--trust-remote-code: 允许执行远程代码以支持自定义模型
+```
+
+##### 标准推理（不使用投机采样）
+
+目前你需要安装最新版本的 vLLM。
+
+```bash
 pip install -U vllm \
     --pre \
     --extra-index-url https://wheels.vllm.ai/nightly
 ```
 
-* 使用 vLLM 推理 MiniCPM4-8B 模型：
+然后可以用 vLLM 推理 MiniCPM4.1-8B：
+
 ```python
 from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
 
 model_name = "openbmb/MiniCPM4.1-8B"
-prompt = [{"role": "user", "content": "推荐5个北京的景点。"}]
+prompt = [{"role": "user", "content": "Write an article about Artificial Intelligence."}]
 
 tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 input_text = tokenizer.apply_chat_template(prompt, tokenize=False, add_generation_prompt=True)
@@ -397,7 +475,7 @@ input_text = tokenizer.apply_chat_template(prompt, tokenize=False, add_generatio
 llm = LLM(
     model=model_name,
     trust_remote_code=True,
-    max_num_batched_tokens=65536, 
+    max_num_batched_tokens=65536,
     dtype="bfloat16", 
     gpu_memory_utilization=0.8, 
 )
@@ -408,52 +486,15 @@ outputs = llm.generate(prompts=input_text, sampling_params=sampling_params)
 print(outputs[0].outputs[0].text)
 ```
 
-* 在 vLLM 中使用 Eagle 投机解码：只需如下初始化推理引擎
-```python
-llm = LLM(
-    model=model_name,
-    trust_remote_code=True,
-    max_num_batched_tokens=32768,
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
-    speculative_config={
-        "method": "eagle",
-        "model": "openbmb/MiniCPM4-8B-Eagle-vLLM",
-        "num_speculative_tokens": 2,
-        "max_model_len": 32768,
-    },
-)
+你也可以通过以下命令启动推理服务：
+
+> 注意: 在 vLLM 的 chat API 中，add_special_tokens 默认是 False。这意味着重要的特殊符号——比如序列开始符（BOS token）——不会被自动加入。为了确保输入提示对模型格式正确，建议显式设置 extra_body={"add_special_tokens": True}。
+
+```bash
+vllm serve openbmb/MiniCPM4.1-8B 
 ```
 
-* 在 vLLM 中推理量化后的 MiniCPM4-8B：只需如下初始化推理引擎
-```python
-llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-vLLM",
-    trust_remote_code=True,
-    max_num_batched_tokens=32768, 
-    dtype="bfloat16", 
-    gpu_memory_utilization=0.8, 
-)
-```
-
-* 在 vLLM 中使用 Eagle 投机解码推理量化后的 MiniCPM4-8B：只需如下初始化推理引擎
-```python
-llm = LLM(
-    model="openbmb/MiniCPM4-8B-marlin-vLLM",
-    trust_remote_code=True,
-    max_num_batched_tokens=32768,
-    dtype="bfloat16",
-    gpu_memory_utilization=0.8,
-    speculative_config={
-        "method": "eagle",
-        "model": "openbmb/MiniCPM4-8B-marlin-Eagle-vLLM",
-        "num_speculative_tokens": 2,
-        "max_model_len": 32768,
-    },
-)
-```
-
-> **注意**：如果你使用 vLLM 中的 OpenAI 兼容的服务端，`chat` API 默认会将 `add_special_tokens` 设置为 `False`。这会导致缺失一些特殊标记（例如，BOS），而这些标记对 **MiniCPM4** 模型至关重要。为确保模型行为正常，你需要在 API 调用中显式设置 `extra_body={"add_special_tokens": True}`，如下所示：
+然后可以通过以下代码使用聊天接口：
 
 ```python
 import openai
@@ -461,33 +502,112 @@ import openai
 client = openai.Client(base_url="http://localhost:8000/v1", api_key="EMPTY")
 
 response = client.chat.completions.create(
-    model="openbmb/MiniCPM4-8B",
+    model="openbmb/MiniCPM4.1-8B",
     messages=[
         {"role": "user", "content": "Write an article about Artificial Intelligence."},
     ],
-    temperature=0.7,
-    max_tokens=1024,
-    enable_thinking=False,
-    extra_body={"add_special_tokens": True},  # 确保添加了诸如 BOS 等特殊标记
+    temperature=0.6,
+    max_tokens=32768,
+    extra_body=dict(add_special_tokens=True),  # 确保在聊天模板中加入特殊符号
 )
 
 print(response.choices[0].message.content)
 ```
 
 #### SGLang
-* 安装（参考 SGLang [官方仓库](https://github.com/sgl-project/sglang/tree/main)）
+
+##### 投机采样
+
+使用投机采样进行加速推理的步骤如下：
+
+###### 1. 下载 MiniCPM4.1 草稿模型
+
+首先，下载 MiniCPM4.1 草稿模型：
+
+```bash
+cd /your_path
+git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
 ```
+
+###### 2. 安装 EAGLE3 兼容的 SGLang
+
+EAGLE3 的适配 PR 已经提交。目前请使用我们的仓库进行安装：
+
+```bash
+git clone https://github.com/LDLINGLINGLING/sglang.git
+cd sglang
+pip install -e .
+```
+
+###### 3. 启动带有投机采样的 SGLang 服务
+
+启动启用了投机采样的 SGLang 服务：
+
+```bash
+python -m sglang.launch_server \
+  --model-path "openbmb/MiniCPM4.1-8B" \
+  --host "127.0.0.1" \
+  --port 30002 \
+  --mem-fraction-static 0.9 \
+  --speculative-algorithm EAGLE3 \
+  --speculative-draft-model-path "your/path/MiniCPM4_1-8B-Eagle3-bf16" \
+  --speculative-num-steps 3 \
+  --speculative-eagle-topk 1 \
+  --speculative-num-draft-tokens 32 \
+  --temperature 0.7
+```
+
+###### 4. 客户端使用
+
+客户端使用方式在标准解码和投机采样下保持一致：
+
+```python
+import openai
+
+client = openai.Client(base_url=f"http://localhost:30002/v1", api_key="None")
+
+response = client.chat.completions.create(
+    model="openbmb/MiniCPM4.1-8B",
+    messages=[
+        {"role": "user", "content": "Write an article about Artificial Intelligence."},
+    ],
+    temperature=0.6,
+    max_tokens=32768,
+)
+
+print(response.choices[0].message.content)
+```
+
+> 注意：请确保在客户端代码中更新端口号，以匹配服务端端口（在投机采样示例中为 30002）。
+
+###### 配置参数说明
+	•	--speculative-algorithm EAGLE3: 启用 EAGLE3 投机采样
+	•	--speculative-draft-model-path: 草稿模型路径
+	•	--speculative-num-steps: 推测步数（默认：3）
+	•	--speculative-eagle-topk: EAGLE 的 top-k 参数（默认：1）
+	•	--speculative-num-draft-tokens: 草稿 token 数量（默认：32）
+	•	--mem-fraction-static: 静态分配的显存比例（默认：0.9）
+
+##### 标准推理（不使用投机采样）
+
+目前你需要安装我们 fork 的 SGLang 版本。
+
+```bash
+git clone -b openbmb https://github.com/OpenBMB/sglang.git
+cd sglang
+
 pip install --upgrade pip
-pip install uv
-uv pip install "sglang[all]>=0.5.2rc2"
+pip install -e "python[all]"
 ```
 
-* 启动推理服务
-```shell
-python -m sglang.launch_server --model openbmb/MiniCPM4.1-8B --trust-remote-code --port 30000
+你可以通过以下命令启动推理服务：
+
+```bash
+python -m sglang.launch_server --model openbmb/MiniCPM4.1-8B --trust-remote-code --port 30000 --chat-template chatml
 ```
 
-* 然后用户可以通过运行以下命令来使用聊天界面：
+然后可以通过以下代码使用聊天接口：
+
 ```python
 import openai
 
@@ -501,28 +621,8 @@ response = client.chat.completions.create(
     temperature=0.6,
     max_tokens=32768,
 )
+
 print(response.choices[0].message.content)
-```
-
-* 基于投机采样的推理加速
-```shell
-# download eagle3 ckpt
-git lfs install
-git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
-
-# launch sglang server
-python3 -m sglang.launch_server \
-    --model-path openbmb/MiniCPM4.1-8B \ 
-    --speculative_draft_model_path ./MiniCPM4.1-8B-Eagle3/MiniCPM4_1-8B-Eagle3-bf16/ \
-    --speculative-algorithm EAGLE3 \
-    --speculative-num-steps 8 \
-    --speculative-eagle-topk 8 \
-    --speculative-num-draft-tokens 64 \
-    --cuda-graph-max-bs 16 \
-    --mem-fraction 0.8 \
-    --dtype bfloat16 \
-    --host 0.0.0.0 \
-    --trust-remote-code
 ```
 
 ### 模型微调
