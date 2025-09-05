@@ -18,8 +18,6 @@
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">加入我们</a>
 </p>
 
-https://github.com/user-attachments/assets/ab36fd7a-485b-4707-b72f-b80b5c43d024
-
 [![Efficient Generation](https://img.youtube.com/vi/VouXjLHKDUY/0.jpg)](https://www.youtube.com/watch?v=VouXjLHKDUY)
 
 ## 更新日志🔥
