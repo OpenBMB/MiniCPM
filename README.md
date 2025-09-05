@@ -434,6 +434,7 @@ response = client.chat.completions.create(
     ],
     temperature=0.7,
     max_tokens=1024,
+    enable_thinking=False,
     extra_body={"add_special_tokens": True},  # 确保添加了诸如 BOS 等特殊标记
 )
 
@@ -441,20 +442,16 @@ print(response.choices[0].message.content)
 ```
 
 #### SGLang
-* 安装
-
-参考 SGLang [官方仓库](ttps://github.com/sgl-project/sglang)，通过*源码*安装。
+* 安装（参考 SGLang [官方仓库](https://github.com/sgl-project/sglang/tree/main)）
 ```
-git clone -b openbmb https://github.com/OpenBMB/sglang.git
-cd sglang
-
 pip install --upgrade pip
-pip install -e "python[all]"
+pip install uv
+uv pip install "sglang[all]>=0.5.2rc2"
 ```
 
 * 启动推理服务
 ```shell
-python -m sglang.launch_server --model openbmb/MiniCPM4-8B --trust-remote-code --port 30000 --chat-template chatml
+python -m sglang.launch_server --model openbmb/MiniCPM4.1-8B --trust-remote-code --port 30000
 ```
 
 * 然后用户可以通过运行以下命令来使用聊天界面：
@@ -464,23 +461,35 @@ import openai
 client = openai.Client(base_url=f"http://localhost:30000/v1", api_key="None")
 
 response = client.chat.completions.create(
-    model="openbmb/MiniCPM4-8B",
+    model="openbmb/MiniCPM4.1-8B",
     messages=[
         {"role": "user", "content": "Write an article about Artificial Intelligence."},
     ],
     temperature=0.7,
-    max_tokens=1024,
+    max_tokens=32768,
 )
 print(response.choices[0].message.content)
 ```
 
 * 使用投机加速
 ```shell
-python3 -m sglang.launch_server --model-path [model] \ 
-    --speculative_draft_model_path [draft_model] \
-    --host 0.0.0.0 --trust-remote-code \
-    --speculative-algorithm EAGLE --speculative-num-steps 1 --speculative-eagle-topk 1 --speculative-num-draft-tokens 2 \
-    --mem-fraction 0.5
+# download eagle3 ckpt
+git lfs install
+git clone https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3
+
+# launch sglang server
+python3 -m sglang.launch_server \
+    --model-path openbmb/MiniCPM4.1-8B \ 
+    --speculative_draft_model_path ./MiniCPM4.1-8B-Eagle3/MiniCPM4_1-8B-Eagle3-bf16/ \
+    --speculative-algorithm EAGLE3 \
+    --speculative-num-steps 8 \
+    --speculative-eagle-topk 8 \
+    --speculative-num-draft-tokens 64 \
+    --cuda-graph-max-bs 16 \
+    --mem-fraction 0.8 \
+    --dtype bfloat16 \
+    --host 0.0.0.0 \
+    --trust-remote-code
 ```
 
 ### 模型微调
