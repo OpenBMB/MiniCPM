@@ -18,11 +18,11 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 </p>
 
 ## Changelog🔥
-- [2025.09.05] **MiniCPM4.1** series are released! This series is a hybrid reasoning model, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥
+- [2025.09.05] **MiniCPM4.1 series are released! This series is a hybrid reasoning model, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥**
 - [2025.07.01] Release: [MiniCPM Intel AIPC Client: Edge-side Large Model Client](https://github.com/OpenBMB/MiniCPM/blob/main/README-en.md#minicpm-intel-aipc-client-a-new-edge-large-model-powerhouse)  Designed specifically for devices powered by Intel Core Ultra series processors! Fully supports Intel Core Ultra series processors, enabling deep integration with hardware
 - [2025.06.06] Released [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)! This model achieves ultimate efficiency improvements while maintaining optimal performance at the same scale! It can achieve over 5x generation acceleration on typical end-side chips!
-- [2024.09.28] **[LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) is open source and enables MiniCPM3-4B to process text of any length.** 
-- [2024.09.18] **[SGLang](https://github.com/sgl-project/sglang) now supports MiniCPM3-4B. Thanks to inference optimizations made to the MLA structure (used in MiniCPM3) in SGLang v0.3, throughput has improved by 70% compared to vLLM!** [[Usage](#sglang-recommended)]
+- [2024.09.28] [LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) is open source and enables MiniCPM3-4B to process text of any length.
+- [2024.09.18] [SGLang](https://github.com/sgl-project/sglang) now supports MiniCPM3-4B. Thanks to inference optimizations made to the MLA structure (used in MiniCPM3) in SGLang v0.3, throughput has improved by 70% compared to vLLM! [[Usage](#sglang-recommended)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) now officially supports MiniCPM3-4B! [[GGUF Model](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF) | [Usage](#llamacpp)]
 - [2024.09.05] We release [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)! This model outperforms Phi-3.5-mini-instruct and GPT-3.5-Turbo-0125 and is comparable to several models with 7B-9B parameters like Llama3.1-8B-Instruct, Qwen2-7B-Instruct, and GLM-4-9B-Chat.
 - [2024.07.09] MiniCPM-2B has been supported by [SGLang](#sglang-inference)!

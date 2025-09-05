@@ -21,9 +21,9 @@
 https://github.com/user-attachments/assets/ab36fd7a-485b-4707-b72f-b80b5c43d024
 
 ## 更新日志🔥
-- [2025.09.05] **发布 [MiniCPM4.1](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该系列模型支持混合思考，可以用于深度思考和非思考模式。🔥🔥🔥
+- [2025.09.05] **发布 [MiniCPM4.1](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该系列模型支持混合思考，可以用于深度思考和非思考模式。🔥🔥🔥**
 - [2025.07.01] 发布 ：[MiniCPM Intel AIPC Client: 端侧大模型客户端](https://github.com/OpenBMB/MiniCPM#minicpm-intel-aipc-client-%E7%AB%AF%E4%BE%A7%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%A2%E6%88%B7%E7%AB%AF) 专为搭载 Intel Core Ultra 系列处理器的设备设计！全面支持 Intel Core Ultra 系列处理器，实现与硬件的深度融合
-- [2025.06.06] **发布 [MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！**
+- [2025.06.06] 发布 [MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！
 - [2024.09.28] [LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) 开源，支持 MiniCPM3-4B，理论上支持无限长文本输入！
 - [2024.09.18] [SGLang](https://github.com/sgl-project/sglang) 已经支持 MiniCPM3-4B (推荐使用)！由于 SGLang v0.3 对 MiniCPM3 中使用的 MLA 结构进行了推理优化，吞吐量相比于 vLLM 提高 70%！[[用法](#sglang推荐)]
 - [2024.09.16] [llama.cpp](https://github.com/ggerganov/llama.cpp/releases/tag/b3765) 已经官方支持 MiniCPM3-4B！[[GGUF模型](https://huggingface.co/openbmb/MiniCPM3-4B-GGUF)|[用法](#llamacpp)]
@@ -439,16 +439,14 @@ print(response.choices[0].message.content)
 
 ###### vLLM 配置参数说明
 
-```
-	•	VLLM_USE_V1=1: 启用 vLLM v1 API
-	•	--speculative-config: 投机采样的 JSON 配置
-	•	model: 草稿模型的路径
-	•	num_speculative_tokens: 推测的 token 数量（默认：3）
-	•	method: 投机采样方法（eagle3）
-	•	draft_tensor_parallel_size: 草稿模型的张量并行大小（默认：1）
-	•	--seed: 随机种子，用于可复现性
-	•	--trust-remote-code: 允许执行远程代码以支持自定义模型
-```
+-	`VLLM_USE_V1=1`: 启用 vLLM v1 API
+-	`--speculative-config`: 投机采样的 JSON 配置
+-	`model`: 草稿模型的路径
+-	`num_speculative_tokens`: 推测的 token 数量（默认：3）
+-	`method`: 投机采样方法（eagle3）
+-	`draft_tensor_parallel_size`: 草稿模型的张量并行大小（默认：1）
+-	`--seed`: 随机种子，用于可复现性
+-	`--trust-remote-code`: 允许执行远程代码以支持自定义模型
 
 ##### 标准推理（不使用投机采样）
 
@@ -581,12 +579,12 @@ print(response.choices[0].message.content)
 > 注意：请确保在客户端代码中更新端口号，以匹配服务端端口（在投机采样示例中为 30002）。
 
 ###### 配置参数说明
-	•	--speculative-algorithm EAGLE3: 启用 EAGLE3 投机采样
-	•	--speculative-draft-model-path: 草稿模型路径
-	•	--speculative-num-steps: 推测步数（默认：3）
-	•	--speculative-eagle-topk: EAGLE 的 top-k 参数（默认：1）
-	•	--speculative-num-draft-tokens: 草稿 token 数量（默认：32）
-	•	--mem-fraction-static: 静态分配的显存比例（默认：0.9）
+-	`--speculative-algorithm EAGLE3`: 启用 EAGLE3 投机采样
+-	`--speculative-draft-model-path`: 草稿模型路径
+-	`--speculative-num-steps`: 推测步数（默认：3）
+-	`--speculative-eagle-topk`: EAGLE 的 top-k 参数（默认：1）
+-	`--speculative-num-draft-tokens`: 草稿 token 数量（默认：32）
+-	`--mem-fraction-static`: 静态分配的显存比例（默认：0.9）
 
 ##### 标准推理（不使用投机采样）
 
