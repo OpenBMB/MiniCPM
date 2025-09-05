@@ -19,6 +19,7 @@
 </p>
 
 https://github.com/user-attachments/assets/ab36fd7a-485b-4707-b72f-b80b5c43d024
+[![Efficient Generation](https://img.youtube.com/vi/VouXjLHKDUY/0.jpg)](https://www.youtube.com/watch?v=VouXjLHKDUY)
 
 ## 更新日志🔥
 - [2025.09.05] **发布 [MiniCPM4.1](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该系列模型支持混合思考，可以用于深度思考和非思考模式。🔥🔥🔥**
