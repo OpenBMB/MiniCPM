@@ -371,6 +371,7 @@ prompt_text = tokenizer.apply_chat_template(
     add_generation_prompt=True,
     enable_thinking=False
 )
+```
 
 #### vLLM
 * 安装
