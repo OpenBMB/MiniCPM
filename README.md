@@ -471,7 +471,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-* 使用投机加速
+* 基于投机采样的推理加速
 ```shell
 # download eagle3 ckpt
 git lfs install
