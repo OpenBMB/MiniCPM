@@ -19,6 +19,7 @@
 </p>
 
 https://github.com/user-attachments/assets/ab36fd7a-485b-4707-b72f-b80b5c43d024
+
 [![Efficient Generation](https://img.youtube.com/vi/VouXjLHKDUY/0.jpg)](https://www.youtube.com/watch?v=VouXjLHKDUY)
 
 ## 更新日志🔥
