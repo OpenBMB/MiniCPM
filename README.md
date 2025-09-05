@@ -441,10 +441,10 @@ print(response.choices[0].message.content)
 
 -	`VLLM_USE_V1=1`: 启用 vLLM v1 API
 -	`--speculative-config`: 投机采样的 JSON 配置
--	`model`: 草稿模型的路径
--	`num_speculative_tokens`: 推测的 token 数量（默认：3）
--	`method`: 投机采样方法（eagle3）
--	`draft_tensor_parallel_size`: 草稿模型的张量并行大小（默认：1）
+  -	`model`: 草稿模型的路径
+  -	`num_speculative_tokens`: 推测的 token 数量（默认：3）
+  -	`method`: 投机采样方法（eagle3）
+  -	`draft_tensor_parallel_size`: 草稿模型的张量并行大小（默认：1）
 -	`--seed`: 随机种子，用于可复现性
 -	`--trust-remote-code`: 允许执行远程代码以支持自定义模型
 
