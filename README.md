@@ -256,6 +256,16 @@ python3 tests/long_prompt_gen.py # 生成 prompt.txt
 python3 tests/test_generate.py --prompt-file prompt.txt
 ```
 
+你可以通过一下命令使用EAGLE3进行投机推理。
+
+```bash
+python3 -m cpmcu.cli \
+    --model-path $BASE_MODEL_PATH \
+    --draft-model-path $EAGLE3_DRAFT_MODEL_PATH \
+    --prompt-text "Tell me about Tsinghua University" \
+    --use-eagle3 true
+```
+
 更多关于 CPM.cu 的细节，请参考 [CPM.cu 仓库](https://github.com/OpenBMB/CPM.cu)。
 
 #### 混合思考
