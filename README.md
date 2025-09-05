@@ -125,6 +125,10 @@ MiniCPM4 和 MiniCPM4.1 系列是一个极致高效的端侧大模型，从模�
 
 ![benchmark](./assets/minicpm4/efficiency.png)
 
+MiniCPM4.1 在推理速度上实现了 3 倍的生成速度提升。
+
+![benchmark](./assets/minicpm4/minicpm4.1_speed.png)
+
 #### 综合评测
 MiniCPM4 推出端侧 8B、0.5B 两种参数规模版本，均在同级别模型中实现了最佳性能表现。
 ![benchmark](./assets/minicpm4/benchmark.png)
@@ -256,7 +260,7 @@ python3 tests/long_prompt_gen.py # 生成 prompt.txt
 python3 tests/test_generate.py --prompt-file prompt.txt
 ```
 
-你可以通过一下命令使用EAGLE3进行投机推理。
+你可以通过一下命令使用 EAGLE3 进行投机推理。
 
 ```bash
 python3 -m cpmcu.cli \

@@ -125,6 +125,10 @@ On two typical end-side chips, Jetson AGX Orin and RTX 4090, MiniCPM4 and MiniCP
 
 ![benchmark](./assets/minicpm4/efficiency.png)
 
+MiniCPM4.1 achieves 3x decoding speed improvement in reasoning.
+
+![benchmark](./assets/minicpm4/minicpm4.1_speed.png)
+
 #### Comprehensive Evaluation
 MiniCPM4 launches end-side versions with 8B and 0.5B parameter scales, both achieving best-in-class performance in their respective categories.
 
