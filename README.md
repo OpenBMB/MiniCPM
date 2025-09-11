@@ -509,7 +509,7 @@ print(outputs[0].outputs[0].text)
 > 注意: 在 vLLM 的 chat API 中，add_special_tokens 默认是 False。这意味着重要的特殊符号——比如序列开始符（BOS token）——不会被自动加入。为了确保输入提示对模型格式正确，建议显式设置 extra_body={"add_special_tokens": True}。
 
 ```bash
-vllm serve openbmb/MiniCPM4.1-8B 
+vllm serve openbmb/MiniCPM4.1-8B --trust-remote-code
 ```
 
 然后可以通过以下代码使用聊天接口：
