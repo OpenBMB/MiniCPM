@@ -18,7 +18,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 </p>
 
 ## Changelog🔥
-- [2025.09.05] **MiniCPM4.1 series are released! This series is a hybrid reasoning model, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥**
+- [2025.09.05] **MiniCPM4.1 series are released! This series is a hybrid reasoning model with trainable sparse attention, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥**
 - [2025.07.01] Release: [MiniCPM Intel AIPC Client: Edge-side Large Model Client](https://github.com/OpenBMB/MiniCPM/blob/main/README-en.md#minicpm-intel-aipc-client-a-new-edge-large-model-powerhouse)  Designed specifically for devices powered by Intel Core Ultra series processors! Fully supports Intel Core Ultra series processors, enabling deep integration with hardware
 - [2025.06.06] Released [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)! This model achieves ultimate efficiency improvements while maintaining optimal performance at the same scale! It can achieve over 5x generation acceleration on typical end-side chips!
 - [2024.09.28] [LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) is open source and enables MiniCPM3-4B to process text of any length.
@@ -36,7 +36,9 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 - [Changelog🔥](#changelog)
 - [Quick Links](#quick-links)
 - [Model Downloads](#model-downloads)
-- [MiniCPM 4.0](#minicpm-40)
+- [MiniCPM4 and MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
+    - [Highlights](#highlights)
+    - [Introduction](#introduction)
   - [Evaluation Results](#evaluation-results)
     - [Efficiency Evaluation](#efficiency-evaluation)
     - [Comprehensive Evaluation](#comprehensive-evaluation)
@@ -46,17 +48,81 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
     - [BitCPM4 Inference](#bitcpm4-inference)
   - [MiniCPM4 Application](#minicpm4-application)
     - [MiniCPM4-Survey: Trustworthy Survey Generation](#minicpm4-survey-trustworthy-survey-generation)
-    - [MiniCPM4-MCP: Tool Use with Model Context Pr](#minicpm4-mcp-tool-use-with-model-context-pr)
+      - [Demo and Quick Start](#demo-and-quick-start)
+      - [Performance Evaluation](#performance-evaluation)
+    - [MiniCPM4-MCP: Tool Use with Model Context Protocol](#minicpm4-mcp-tool-use-with-model-context-protocol)
+      - [Demo](#demo)
+      - [Performance Evaluation](#performance-evaluation-1)
     - [MiniCPM Intel AIPC Client: A New Edge Large Model Powerhouse](#minicpm-intel-aipc-client-a-new-edge-large-model-powerhouse)
+      - [Key Features](#key-features)
+      - [System Requirements](#system-requirements)
+      - [Download](#download)
   - [Inference](#inference)
-    - [CPM.cu](#cpmcu)
+    - [Hybird Reasoning Mode](#hybird-reasoning-mode)
     - [HuggingFace](#huggingface)
     - [vLLM](#vllm)
+      - [Speculative Decoding](#speculative-decoding)
+        - [1. Download MiniCPM4.1 Draft Model](#1-download-minicpm41-draft-model)
+        - [2. Install EAGLE3-Compatible vLLM](#2-install-eagle3-compatible-vllm)
+        - [3. Launch vLLM Server with Speculative Decoding](#3-launch-vllm-server-with-speculative-decoding)
+        - [4. Client Usage Example](#4-client-usage-example)
+        - [vLLM Configuration Parameters](#vllm-configuration-parameters)
+      - [Standard Inference (Without Speculative Decoding)](#standard-inference-without-speculative-decoding)
     - [SGLang](#sglang)
+      - [Speculative Decoding](#speculative-decoding-1)
+        - [1. Download MiniCPM4.1 Draft Model](#1-download-minicpm41-draft-model-1)
+        - [2. Install EAGLE3-Compatible SGLang](#2-install-eagle3-compatible-sglang)
+        - [3. Launch SGLang Server with Speculative Decoding](#3-launch-sglang-server-with-speculative-decoding)
+        - [4. Client Usage](#4-client-usage)
+        - [Configuration Parameters](#configuration-parameters)
+      - [Standard Inference (Without Speculative Decoding)](#standard-inference-without-speculative-decoding-1)
+    - [CPM.cu](#cpmcu)
 - [MiniCPM 3.0](#minicpm-30)
+  - [Evaluation Results](#evaluation-results-1)
+    - [Comprehensive Evaluation](#comprehensive-evaluation-1)
+    - [Function Calling](#function-calling)
+    - [Long Context Capability](#long-context-capability)
+  - [Inference](#inference-1)
+    - [Huggingface](#huggingface-1)
+    - [SGLang (Recommended)](#sglang-recommended)
+    - [vLLM](#vllm-1)
+    - [llama.cpp](#llamacpp)
+  - [Fine-Tuning](#fine-tuning)
+    - [LLaMA-Factory](#llama-factory)
+  - [Advanced Features](#advanced-features)
+    - [Function calling](#function-calling-1)
+    - [Code Interpreter](#code-interpreter)
 - [MiniCPM 2.0](#minicpm-20)
+  - [Introdution](#introdution)
+  - [Evaluation Results](#evaluation-results-2)
+    - [MiniCPM-2B-128k](#minicpm-2b-128k)
+    - [MiniCPM-MoE-8x2B](#minicpm-moe-8x2b)
+    - [MiniCPM-S-1B](#minicpm-s-1b)
+  - [Inference](#inference-2)
+    - [HuggingFace, vLLM](#huggingface-vllm)
+    - [PowerInfer](#powerinfer)
 - [MiniCPM 1.0](#minicpm-10)
+  - [Introduction](#introduction-1)
+  - [Evaluation Results](#evaluation-results-3)
+    - [Evaluation Settings](#evaluation-settings)
+    - [Deployment mode](#deployment-mode)
+    - [Evaluation method](#evaluation-method)
+    - [Text evaluation](#text-evaluation)
+    - [DPO evaluation](#dpo-evaluation)
+  - [Quick Start](#quick-start)
+    - [Online](#online)
+    - [Web-demo based on Gradio](#web-demo-based-on-gradio)
+    - [Huggingface Inferene](#huggingface-inferene)
+      - [MiniCPM-2B](#minicpm-2b)
+      - [MiniCPM-2B (Llama Format)](#minicpm-2b-llama-format)
+    - [vLLM Inference](#vllm-inference)
+    - [SGLang Inference](#sglang-inference)
+    - [llama.cpp, Ollama, fastllm, mlx\_lm Inference](#llamacpp-ollama-fastllm-mlx_lm-inference)
+    - [Quantization](#quantization)
+    - [Fine-Tuning](#fine-tuning-1)
 - [LICENSE](#license)
+    - [Model LICENSE](#model-license)
+    - [Statement](#statement)
 - [Institutions](#institutions)
 - [Citation](#citation)
 
@@ -100,6 +166,14 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 </details>
 
 ## MiniCPM4 and MiniCPM4.1 Series
+#### Highlights
+MiniCPM 4.1-8B is the first open-source reasoning LLM with trainable sparse attention:
+
+✅ Strong Reasoning Capability: Surpasses similar-sized models on 15 tasks!
+✅ Fast Generation: 3x decoding speedup for reasoning
+✅ Efficient Architecture: Trainable sparse attention, frequency-ranked speculative decoding
+
+#### Introduction
 MiniCPM4 and MiniCPM4.1 series are highly efficient large language models (LLMs) designed explicitly for end-side devices, which achieves this efficiency through systematic innovation in four key dimensions: model architecture, training data, training algorithms, and inference systems.
 
 - 🏗️ **Efficient Model Architecture:**
@@ -162,6 +236,8 @@ BitCPM4's performance is comparable with other full-precision models in same mod
 BitCPM4's parameters are stored in a fake-quantized format, which supports direct inference within the Huggingface framework.
 
 ### MiniCPM4 Application
+<details>
+<summary>Click to view details about MiniCPM4 Application</summary>
 
 #### MiniCPM4-Survey: Trustworthy Survey Generation
 
@@ -257,38 +333,10 @@ Whether for developers chasing cutting-edge technologies, researchers focused on
 
 [download](https://github.com/OpenBMB/MiniCPM/releases/tag/2.4.2)
 
+</details>
+
 ### Inference
-
-#### CPM.cu
-
-We **recommend** using [CPM.cu](https://github.com/OpenBMB/CPM.cu) for the inference of MiniCPM4 and MiniCPM4.1. CPM.cu is a CUDA inference framework developed by OpenBMB, which integrates efficient sparse, speculative sampling, and quantization techniques, fully leveraging the efficiency advantages of MiniCPM4 and MiniCPM4.1.
-
-You can install CPM.cu by running the following command:
-
-```bash
-git clone https://github.com/OpenBMB/CPM.cu.git --recursive
-cd CPM.cu
-python3 setup.py install
-```
-
-You can run the following command to test the speed of the model.
-
-```bash
-python3 tests/long_prompt_gen.py # generate prompt.txt
-python3 tests/test_generate.py --prompt-file prompt.txt
-```
-
-You can run the following command to infer with EAGLE3 speculative decoding algorithm.
-
-```bash
-python3 -m cpmcu.cli \
-    --model-path $BASE_MODEL_PATH \
-    --draft-model-path $EAGLE3_DRAFT_MODEL_PATH \
-    --prompt-text "Tell me about Tsinghua University" \
-    --use-eagle3 true
-```
-
-For more details about CPM.cu, please refer to the repo of [CPM.cu](https://github.com/OpenBMB/CPM.cu).
+MiniCPM 4.1 can be used with following frameworks: Huggingface Transformers, SGLang, vLLM, and CPM.cu. For the ultimate inference speed, we highly recommend CPM.cu.
 
 #### Hybird Reasoning Mode
 
@@ -523,7 +571,7 @@ Also, you can start the inference server by running the following command:
 > **Note**: In vLLM's chat API, `add_special_tokens` is `False` by default. This means important special tokens—such as the beginning-of-sequence (BOS) token—will not be added automatically. To ensure the input prompt is correctly formatted for the model, you should explicitly set `extra_body={"add_special_tokens": True}`.
 
 ```bash
-vllm serve openbmb/MiniCPM4.1-8B 
+vllm serve openbmb/MiniCPM4.1-8B --trust-remote-code
 ```
 
 Then you can use the chat interface by running the following code:
@@ -657,6 +705,39 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.content)
 ```
+
+
+#### CPM.cu
+
+We **recommend** using [CPM.cu](https://github.com/OpenBMB/CPM.cu) for the inference of MiniCPM4 and MiniCPM4.1. CPM.cu is a CUDA inference framework developed by OpenBMB, which integrates efficient sparse, speculative sampling, and quantization techniques, fully leveraging the efficiency advantages of MiniCPM4 and MiniCPM4.1.
+
+You can install CPM.cu by running the following command:
+
+```bash
+git clone https://github.com/OpenBMB/CPM.cu.git --recursive
+cd CPM.cu
+python3 setup.py install
+```
+
+You can run the following command to test the speed of the model.
+
+```bash
+python3 tests/long_prompt_gen.py # generate prompt.txt
+python3 tests/test_generate.py --prompt-file prompt.txt
+```
+
+You can run the following command to infer with EAGLE3 speculative decoding algorithm.
+
+```bash
+python3 -m cpmcu.cli \
+    --model-path $BASE_MODEL_PATH \
+    --draft-model-path $EAGLE3_DRAFT_MODEL_PATH \
+    --prompt-text "Tell me about Tsinghua University" \
+    --use-eagle3 true
+```
+
+For more details about CPM.cu, please refer to the repo of [CPM.cu](https://github.com/OpenBMB/CPM.cu).
+
 
 ## MiniCPM 3.0
 <details>

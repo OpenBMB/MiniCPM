@@ -21,7 +21,7 @@
 [![Efficient Generation](https://img.youtube.com/vi/VouXjLHKDUY/0.jpg)](https://www.youtube.com/watch?v=VouXjLHKDUY)
 
 ## 更新日志🔥
-- [2025.09.05] **发布 [MiniCPM4.1](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该系列模型支持混合思考，可以用于深度思考和非思考模式。🔥🔥🔥**
+- [2025.09.05] **发布 [MiniCPM4.1](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型基于原生稀疏注意力架构（InfLLM v2），支持混合思考。🔥🔥🔥**
 - [2025.07.01] 发布 ：[MiniCPM Intel AIPC Client: 端侧大模型客户端](https://github.com/OpenBMB/MiniCPM#minicpm-intel-aipc-client-%E7%AB%AF%E4%BE%A7%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%A2%E6%88%B7%E7%AB%AF) 专为搭载 Intel Core Ultra 系列处理器的设备设计！全面支持 Intel Core Ultra 系列处理器，实现与硬件的深度融合
 - [2025.06.06] 发布 [MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！
 - [2024.09.28] [LLMxMapReduce](https://github.com/thunlp/LLMxMapReduce) 开源，支持 MiniCPM3-4B，理论上支持无限长文本输入！
@@ -39,29 +39,89 @@
 - [更新日志🔥](#更新日志)
 - [目录](#目录)
 - [模型下载](#模型下载)
-- [MiniCPM 4.0](#minicpm-40)
+- [MiniCPM4 和 MiniCPM4.1 系列](#minicpm4-和-minicpm41-系列)
+    - [亮点](#亮点)
+    - [简介](#简介)
   - [评测结果](#评测结果)
     - [效率评测](#效率评测)
     - [综合评测](#综合评测)
     - [长文本评测](#长文本评测)
   - [BitCPM4: 模型量化](#bitcpm4-模型量化)
-    - [BitCPM4评测](#bitcpm4评测)
-    - [BitCPM4模型推理](#bitcpm4模型推理)
+    - [BitCPM4 评测](#bitcpm4-评测)
+    - [BitCPM4 模型推理](#bitcpm4-模型推理)
   - [模型应用](#模型应用)
     - [MiniCPM4-Survey: 综述生成](#minicpm4-survey-综述生成)
+      - [使用与演示案例](#使用与演示案例)
+      - [评估](#评估)
     - [MiniCPM4-MCP: MCP增强的工具调用](#minicpm4-mcp-mcp增强的工具调用)
+      - [使用与演示案例](#使用与演示案例-1)
+      - [评估](#评估-1)
     - [MiniCPM Intel AIPC Client: 端侧大模型客户端](#minicpm-intel-aipc-client-端侧大模型客户端)
   - [模型推理](#模型推理)
-    - [CPM.cu](#cpmcu)
+    - [混合思考](#混合思考)
     - [HuggingFace](#huggingface)
     - [vLLM](#vllm)
+      - [投机采样](#投机采样)
+        - [1. 下载 MiniCPM4.1 草稿模型](#1-下载-minicpm41-草稿模型)
+        - [2. 安装 EAGLE3 兼容的 vLLM](#2-安装-eagle3-兼容的-vllm)
+        - [3. 启动带有投机采样的 vLLM 服务](#3-启动带有投机采样的-vllm-服务)
+        - [4. 客户端使用示例](#4-客户端使用示例)
+        - [vLLM 配置参数说明](#vllm-配置参数说明)
+      - [标准推理（不使用投机采样）](#标准推理不使用投机采样)
     - [SGLang](#sglang)
+      - [投机采样](#投机采样-1)
+        - [1. 下载 MiniCPM4.1 草稿模型](#1-下载-minicpm41-草稿模型-1)
+        - [2. 安装 EAGLE3 兼容的 SGLang](#2-安装-eagle3-兼容的-sglang)
+        - [3. 启动带有投机采样的 SGLang 服务](#3-启动带有投机采样的-sglang-服务)
+        - [4. 客户端使用](#4-客户端使用)
+        - [配置参数说明](#配置参数说明)
+      - [标准推理（不使用投机采样）](#标准推理不使用投机采样-1)
+    - [CPM.cu](#cpmcu)
   - [模型微调](#模型微调)
-    - [LLaMA-Factory](#llamA-factory)
+    - [LLaMA-Factory](#llama-factory)
 - [MiniCPM 3.0](#minicpm-30)
+  - [评测结果](#评测结果-1)
+    - [综合评测](#综合评测-1)
+    - [工具调用能力](#工具调用能力)
+    - [长文本能力](#长文本能力)
+  - [模型推理](#模型推理-1)
+    - [Huggingface](#huggingface-1)
+    - [SGLang（推荐）](#sglang推荐)
+    - [vLLM](#vllm-1)
+    - [llama.cpp](#llamacpp)
+  - [模型微调](#模型微调-1)
+    - [LLaMA-Factory](#llama-factory-1)
+  - [进阶功能](#进阶功能)
+    - [工具调用](#工具调用)
+    - [代码解释器](#代码解释器)
 - [MiniCPM 2.0](#minicpm-20)
+  - [评测结果](#评测结果-2)
+    - [MiniCPM-2B-128k 模型评测](#minicpm-2b-128k-模型评测)
+    - [MiniCPM-MoE-8x2B 模型评测](#minicpm-moe-8x2b-模型评测)
+    - [MiniCPM-S-1B 评测结果](#minicpm-s-1b-评测结果)
+  - [模型推理](#模型推理-2)
+    - [HuggingFace、vLLM推理](#huggingfacevllm推理)
+    - [Powerinfer 推理](#powerinfer-推理)
 - [MiniCPM 1.0](#minicpm-10)
+  - [评测结果](#评测结果-3)
+    - [评测设置](#评测设置)
+    - [部署模式](#部署模式)
+    - [评测度量](#评测度量)
+    - [文本模型评测](#文本模型评测)
+  - [快速上手](#快速上手)
+    - [在线体验](#在线体验)
+    - [基于Gradio的网页版Demo](#基于gradio的网页版demo)
+    - [HuggingFace 推理](#huggingface-推理)
+      - [MiniCPM-2B](#minicpm-2b)
+      - [MiniCPM-2B （Llama Format）](#minicpm-2b-llama-format)
+    - [vLLM 推理](#vllm-推理)
+    - [SGLang 推理](#sglang-推理)
+    - [llama.cpp、Ollama、fastllm、mlx\_lm推理](#llamacppollamafastllmmlx_lm推理)
+    - [模型量化](#模型量化)
+    - [模型微调](#模型微调-2)
 - [开源协议](#开源协议)
+    - [模型协议](#模型协议)
+    - [声明](#声明)
 - [开发机构](#开发机构)
 - [工作引用](#工作引用)
 
@@ -105,6 +165,13 @@
 </details>
 
 ## MiniCPM4 和 MiniCPM4.1 系列
+#### 亮点
+MiniCPM4.1具有如下亮点：
+✅ 强大的推理能力：在15项任务中超越同等规模模型！
+✅ 快速生成：相比同等规模模型，推理解码速度提升3倍！
+✅ 高效架构：使用可训练的稀疏注意力机制、高效投机解码加速生成！
+
+#### 简介
 MiniCPM4 和 MiniCPM4.1 系列是一个极致高效的端侧大模型，从模型架构、学习算法、训练数据与推理系统四个层面进行了高效优化，实现了极致的效率提升。
 - 🏗️ 高效模型架构：
   - InfLLM v2 -- 可训练的稀疏注意力机制：采用可训练的稀疏注意力机制架构，在 128K 长文本处理中，每个词元仅需与不足 5% 的词元进行相关性计算，显著降低长文本的计算开销
@@ -157,7 +224,8 @@ BitCPM4 在测试中的表现可以对标同级别的业界主流全精度模型
 BitCPM4 开源的模型参数为伪量化形式，可以直接使用 Huggingface 框架进行推理。
 
 ### 模型应用
-
+<details>
+<summary>查看 MiniCPM4 的应用</summary>
 #### MiniCPM4-Survey: 综述生成
 MiniCPM4-Survey 是由 [THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和 [ModelBest](https://modelbest.cn/en) 联合开发的开源大语言模型智能体。它基于 MiniCPM4-8B 基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
 主要特性包括：
@@ -238,39 +306,11 @@ MiniCPM Intel AIPC Client 是面壁智能和 Intel 合作推出的端侧大模�
 应用下载：
 
 [下载地址](https://github.com/OpenBMB/MiniCPM/releases/tag/2.4.2)
+</details>
 
 ### 模型推理
+你可以使用Huggingface Transformers、vLLM、SGLang、CPM.cu对模型进行推理。如果想要体验极致的效率优化，我们推荐使用CPM.cu。
 
-#### CPM.cu
-
-我们**推荐**使用 [CPM.cu](https://github.com/OpenBMB/CPM.cu) 对 MiniCPM4 和 MiniCPM4.1 模型进行推理。CPM.cu 是面壁开发的一个集合了高效稀疏、投机采样、量化等技术的 CUDA 推理框架，能够完全发挥 MiniCPM4 和 MiniCPM4.1 的效率优势。
-
-你可以通过以下脚本安装 CPM.cu 并进行推理：
-
-```bash
-git clone https://github.com/OpenBMB/CPM.cu.git --recursive
-cd CPM.cu
-python3 setup.py install
-```
-
-你可以通过以下命令进行推理并查看模型的运行速度。
-
-```bash
-python3 tests/long_prompt_gen.py # 生成 prompt.txt
-python3 tests/test_generate.py --prompt-file prompt.txt
-```
-
-你可以通过一下命令使用 EAGLE3 进行投机推理。
-
-```bash
-python3 -m cpmcu.cli \
-    --model-path $BASE_MODEL_PATH \
-    --draft-model-path $EAGLE3_DRAFT_MODEL_PATH \
-    --prompt-text "Tell me about Tsinghua University" \
-    --use-eagle3 true
-```
-
-更多关于 CPM.cu 的细节，请参考 [CPM.cu 仓库](https://github.com/OpenBMB/CPM.cu)。
 
 #### 混合思考
 
@@ -292,6 +332,7 @@ prompt_text = tokenizer.apply_chat_template(
     enable_thinking=False
 )
 ```
+
 
 
 #### HuggingFace
@@ -394,6 +435,7 @@ Minicpm4.1 原生支持 65,536 tokens 的上下文长度。若对话总长度（
 
 #### vLLM
 
+你可以使用投机采样加速模型生成，也可以使用标准模式部署模型。
 ##### 投机采样
 
 使用 vLLM 进行加速推理的投机采样步骤如下：
@@ -534,6 +576,8 @@ print(response.choices[0].message.content)
 
 #### SGLang
 
+你可以使用投机采样加速模型生成，也可以使用标准模式部署模型。
+
 ##### 投机采样
 
 使用投机采样进行加速推理的步骤如下：
@@ -642,6 +686,39 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.content)
 ```
+
+
+#### CPM.cu
+
+我们**推荐**使用 [CPM.cu](https://github.com/OpenBMB/CPM.cu) 对 MiniCPM4 和 MiniCPM4.1 模型进行推理。CPM.cu 是面壁开发的一个集合了高效稀疏、投机采样、量化等技术的 CUDA 推理框架，能够完全发挥 MiniCPM4 和 MiniCPM4.1 的效率优势。
+
+你可以通过以下脚本安装 CPM.cu 并进行推理：
+
+```bash
+git clone https://github.com/OpenBMB/CPM.cu.git --recursive
+cd CPM.cu
+python3 setup.py install
+```
+
+你可以通过以下命令进行推理并查看模型的运行速度。
+
+```bash
+python3 tests/long_prompt_gen.py # 生成 prompt.txt
+python3 tests/test_generate.py --prompt-file prompt.txt
+```
+
+你可以通过一下命令使用 EAGLE3 进行投机推理。
+
+```bash
+python3 -m cpmcu.cli \
+    --model-path $BASE_MODEL_PATH \
+    --draft-model-path $EAGLE3_DRAFT_MODEL_PATH \
+    --prompt-text "Tell me about Tsinghua University" \
+    --use-eagle3 true
+```
+
+更多关于 CPM.cu 的细节，请参考 [CPM.cu 仓库](https://github.com/OpenBMB/CPM.cu)。
+
 
 ### 模型微调
 #### LLaMA-Factory
