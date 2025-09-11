@@ -170,7 +170,9 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 MiniCPM 4.1-8B is the first open-source reasoning LLM with trainable sparse attention:
 
 ✅ Strong Reasoning Capability: Surpasses similar-sized models on 15 tasks!
+
 ✅ Fast Generation: 3x decoding speedup for reasoning
+
 ✅ Efficient Architecture: Trainable sparse attention, frequency-ranked speculative decoding
 
 #### Introduction
