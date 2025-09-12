@@ -462,7 +462,17 @@ cd vllm
 pip install -e .
 ```
 
-###### 3. 启动带有投机采样的 vLLM 服务
+###### 3. 修改模型的draft model的config文件
+
+由于vllm和sglang在eagle3适配时的模型名冲突问题，vllm现在需要修改cofig文件，具体操作如下：
+
+ ```bash
+ cd your/path/MiniCPM4_1-8B-Eagle3-bf16
+sed -i 's/"LlamaForCausalLMEagle3"/"LlamaForCausalLM"/g' config.json
+ ```
+ 其中your/path为下载的 MiniCPM4_1-8B-Eagle3-bf16 文件夹地址
+
+###### 4. 启动带有投机采样的 vLLM 服务
 
 启动启用了投机采样的 vLLM 推理服务。请确保在 speculative-config 中将模型路径更新为下载的 MiniCPM4_1-8B-Eagle3-bf16 文件夹：
 
@@ -479,7 +489,7 @@ vllm serve openbmb/MiniCPM4.1-8B \
 }'
 ```
 
-###### 4. 客户端使用示例
+###### 5. 客户端使用示例
 
 客户端使用方式在标准解码和投机采样下保持一致：
 
@@ -601,7 +611,8 @@ EAGLE3 的适配 PR 已经提交。目前请使用我们的仓库进行安装：
 ```bash
 git clone https://github.com/LDLINGLINGLING/sglang.git
 cd sglang
-pip install -e .
+pip install --upgrade pip
+pip install -e "python[all]"
 ```
 
 ###### 3. 启动带有投机采样的 SGLang 服务
