@@ -186,7 +186,7 @@ MiniCPM4 和 MiniCPM4.1 系列是一个极致高效的端侧大模型，从模�
   - UltraClean -- 高质量预训练数据的清洗与合成：构建基于高效验证的迭代式数据清洗策略，开源高质量中英文预训练数据集 [UltraFineweb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)
   - UltraChat v2 -- 高质量有监督微调数据合成：构建大规模高质量有监督微调数据集，涵盖知识密集型数据、推理密集型数据、指令遵循数据、长文本理解数据、工具调用数据等多个维度
 - ⚡ 高效推理系统：
-  - CPM.cu -- 轻量级的高效CUDA推理框架：融合了稀疏注意力机制、模型量化与投机采样，充分体现MiniCPM4的效率优势 （[推理算子与框架](https://github.com/OpenBMB/infllmv2_cuda_impl)）
+  - CPM.cu -- 轻量级的高效CUDA推理框架：融合了稀疏注意力机制、模型量化与投机采样，充分体现MiniCPM4的效率优势 （[推理算子与框架](https://github.com/openbmb/cpm.cu)）
   - ArkInfer -- 跨平台部署系统：支持多后端环境的一键部署，提供灵活的跨平台适配能力
 
 ### 评测结果
