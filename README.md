@@ -314,6 +314,11 @@ MiniCPM Intel AIPC Client 是面壁智能和 Intel 合作推出的端侧大模�
 ### 模型推理
 你可以使用Huggingface Transformers、vLLM、SGLang、CPM.cu对模型进行推理。如果想要体验极致的效率优化，我们推荐使用CPM.cu。
 
+MiniCPM4/MiniCPM4.1 支持稠密推理与稀疏推理两种模式，其中vLLM与SGLang目前只支持了稠密推理模式。如果想要使用稀疏推理模式，请使用Huggingface Transformers及CPM.cu。
+
+- 稠密注意力推理：vLLM、SGLang、Huggingface Transformers
+- 稀疏注意力推理：Huggingface Transformers、CPM.cu
+
 
 #### 混合思考
 
@@ -340,6 +345,7 @@ prompt_text = tokenizer.apply_chat_template(
 
 #### HuggingFace
 
+- **稠密注意力推理**
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
@@ -379,6 +385,7 @@ responses = tokenizer.batch_decode(output_token_ids, skip_special_tokens=True)[0
 print(responses)
 ```
 
+- **稀疏注意力推理**
 本模型支持稀疏注意力机制 InfLLM v2，可高效处理长序列推理。如需启用该功能，请先安装依赖库 [infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl)
 
 
@@ -420,6 +427,7 @@ pip install -e . # or python setup.py install
 * `use_nope`（默认值：false）：是否在块选择中使用NOPE技术以提升性能。  
 * `dense_len`（默认值：8192）：稀疏注意力对短序列收益有限，当 token 长度低于此阈值时自动切换为标准注意力。设为 `-1` 则强制始终使用稀疏注意力。
 
+- **长度扩展**
 Minicpm4.1 原生支持 65,536 tokens 的上下文长度。若对话总长度（输入 + 输出）远超此限制，建议通过 RoPE 缩放技术扩展上下文。我们已验证通过调整 LongRoPE 因子，模型可稳定支持 131,072 tokens 的超长上下文。
 
 修改方法：在 `config.json` 文件中调整 `rope_scaling` 字段参数即可。

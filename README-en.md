@@ -179,7 +179,7 @@ MiniCPM 4.1-8B is the first open-source reasoning LLM with trainable sparse atte
 MiniCPM4 and MiniCPM4.1 series are highly efficient large language models (LLMs) designed explicitly for end-side devices, which achieves this efficiency through systematic innovation in four key dimensions: model architecture, training data, training algorithms, and inference systems.
 
 - 🏗️ **Efficient Model Architecture:**
-  - InfLLM v2 -- Trainable Sparse Attention Mechanism: Adopts a trainable sparse attention mechanism architecture where each token only needs to compute relevance with less than 5% of tokens in 128K long text processing, significantly reducing computational overhead for long texts
+  - InfLLM-V2 -- Trainable Sparse Attention Mechanism: Adopts a trainable sparse attention mechanism architecture where each token only needs to compute relevance with less than 5% of tokens in 128K long text processing, significantly reducing computational overhead for long texts ([InfLLM-V2 Kernels](https://github.com/OpenBMB/infllmv2_cuda_impl))
 
 - 🧠 **Efficient Learning Algorithms:**
   - Model Wind Tunnel 2.0 -- Efficient Predictable Scaling: Introduces scaling prediction methods for performance of downstream tasks, enabling more precise model training configuration search
@@ -340,6 +340,11 @@ Whether for developers chasing cutting-edge technologies, researchers focused on
 ### Inference
 MiniCPM 4.1 can be used with following frameworks: Huggingface Transformers, SGLang, vLLM, and CPM.cu. For the ultimate inference speed, we highly recommend CPM.cu.
 
+MiniCPM4/MiniCPM4.1 supports both dense attention inference and sparse attention inference modes, where vLLM and SGLang currently only support dense inference mode. If you want to use sparse inference mode, please use Huggingface Transformers and CPM.cu.
+
+- Dense attention inference: vLLM, SGLang, Huggingface Transformers
+- Sparse attention inference: Huggingface Transformers, CPM.cu
+
 #### Hybird Reasoning Mode
 
 MiniCPM4.1 supports hybrid reasoning mode, which can be used in both deep reasoning mode and non-reasoning mode. To enable hybrid reasoning mode. User can set `enable_thinking=True` in `tokenizer.apply_chat_template` to enable hybrid reasoning mode, and set `enable_thinking=False` to enable non-reasoning mode. Similarly, user can directly add `/no_think` at the end of the query to enable non-reasoning mode. If not add any special token or add `/think` at the end of the query, the model will enable reasoning mode.
@@ -363,6 +368,7 @@ prompt_text = tokenizer.apply_chat_template(
 
 #### HuggingFace
 
+- **Inference with Dense Attention**
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
@@ -402,6 +408,7 @@ responses = tokenizer.batch_decode(output_token_ids, skip_special_tokens=True)[0
 print(responses)
 ```
 
+- **Inference with Sparse Attention**
 This model supports InfLLM v2, a sparse attention mechanism designed for efficient long-sequence inference. It requires the [infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl) library.
 
 You can install it by running the following command:
@@ -442,6 +449,7 @@ These parameters control the behavior of InfLLM v2:
 * `use_nope` (default: false): Whether to use the NOPE technique in block selection for improved performance.
 * `dense_len` (default: 8192): Since Sparse Attention offers limited benefits for short sequences, the model can use standard (dense) attention for shorter texts. The model will use dense attention for sequences with a token length below `dense_len` and switch to sparse attention for sequences exceeding this length. Set this to `-1` to always use sparse attention regardless of sequence length.
 
+- **Long Context Extension**
 MiniCPM4.1 natively supports context lengths of up to 65,536(64k) tokens. For conversations where the total length (including both input and output) significantly exceeds this limit, we recommend using RoPE scaling techniques for effective handling of long texts. We have validated the model's performance on context lengths of up to 131,072 tokens by modifying the LongRoPE factor.
 
 You can apply the LongRoPE factor modification by modifying the model files. Specifically, in the `config.json` file, adjust the `rope_scaling` fields.
