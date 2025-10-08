@@ -59,6 +59,9 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
         - [Configuration Parameters](#configuration-parameters)
       - [Standard Inference (Without Speculative Decoding)](#standard-inference-without-speculative-decoding-1)
     - [CPM.cu](#cpmcu)
+    - [llama.cpp and Ollama](#llamacpp-and-ollama)
+      - [llama.cpp](#llamacpp)
+      - [Ollama](#ollama)
   - [BitCPM4: Quantization](#bitcpm4-quantization)
     - [BitCPM4 Evaluation](#bitcpm4-evaluation)
     - [BitCPM4 Inference](#bitcpm4-inference)
@@ -584,6 +587,37 @@ python3 -m cpmcu.cli \
 
 For more details about CPM.cu, please refer to the repo of [CPM.cu](https://github.com/OpenBMB/CPM.cu).
 
+
+#### llama.cpp and Ollama
+
+We also support inference with [llama.cpp](https://github.com/ggml-org/llama.cpp) and [Ollama](https://ollama.com/).
+
+##### llama.cpp
+
+You can download the GGUF format of MiniCPM4.1-8B model from [huggingface](https://huggingface.co/openbmb/MiniCPM4.1-8B-GGUF) and run it with llama.cpp for efficient CPU or GPU inference.
+```
+# case 1: main-cli
+./build/bin/llama-cli -m MiniCPM4.1-8B-Q4_K_M.gguf -p "Write an article about Artificial Intelligence." -n 1500
+
+# case 2: server
+## launch server
+./build/bin/llama-server -m MiniCPM4.1-8B-Q4_K_M.gguf --host 127.0.0.1 --port 8080 -c 4096 -fa on &
+
+## send request
+curl -X POST http://127.0.0.1:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [{"role": "user", "content": "Write an article about Artificial Intelligence."}],
+    "max_tokens": 1500
+  }'
+```
+
+##### Ollama
+Please refer to [model hub](https://ollama.com/openbmb/minicpm4.1) for model download. After installing ollama package, you can use MiniCPM4.1 with following commands:
+```
+ollama run openbmb/minicpm4.1
+```
 
 ### BitCPM4: Quantization
 

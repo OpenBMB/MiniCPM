@@ -60,6 +60,9 @@
         - [配置参数说明](#配置参数说明)
       - [标准推理（不使用投机采样）](#标准推理不使用投机采样-1)
     - [CPM.cu](#cpmcu)
+    - [llama.cpp and Ollama](#llamacpp-and-ollama)
+    - [llama.cpp](#llamacpp)
+    - [Ollama](#ollama)
   - [模型微调](#模型微调)
     - [LLaMA-Factory](#llama-factory)
   - [BitCPM4: 模型量化](#bitcpm4-模型量化)
@@ -587,6 +590,40 @@ python3 -m cpmcu.cli \
 
 更多关于 CPM.cu 的细节，请参考 [CPM.cu 仓库](https://github.com/OpenBMB/CPM.cu)。
 
+
+#### llama.cpp and Ollama
+
+我们同样支持使用 [llama.cpp](https://github.com/ggml-org/llama.cpp) 和 [Ollama](https://ollama.com/) 进行模型推理。
+
+#### llama.cpp
+
+你可以从 [huggingface](https://huggingface.co/openbmb/MiniCPM4.1-8B-GGUF) 下载 MiniCPM4.1-8B 的 GGUF 格式模型，并使用 llama.cpp 进行推理。
+```
+# case 1: main-cli
+./build/bin/llama-cli -m MiniCPM4.1-8B-Q4_K_M.gguf -p "Write an article about Artificial 
+Intelligence." -n 1500
+
+# case 2: server
+## launch server
+./build/bin/llama-server -m MiniCPM4.1-8B-Q4_K_M.gguf --host 127.0.0.1 --port 8080 -c 
+4096 -fa on &
+
+## send request
+curl -X POST http://127.0.0.1:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [{"role": "user", "content": "Write an article about Artificial 
+    Intelligence."}],
+    "max_tokens": 1500
+  }'
+```
+
+#### Ollama
+请前往 [模型库](https://ollama.com/openbmb/minicpm4.1) 下载模型。安装好 Ollama 后，可以通过以下命令使用 MiniCPM4.1：
+```
+ollama run openbmb/minicpm4.1
+```
 
 ### 模型微调
 #### LLaMA-Factory
