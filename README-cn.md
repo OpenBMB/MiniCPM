@@ -17,7 +17,9 @@
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">加入我们</a>
 </p>
 
-[![Efficient Generation](https://img.youtube.com/vi/VouXjLHKDUY/0.jpg)](https://www.youtube.com/watch?v=VouXjLHKDUY)
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=VouXjLHKDUY"><img src="https://img.youtube.com/vi/VouXjLHKDUY/0.jpg", width=70%></a>
+</div>
 
 ## 更新日志🔥
 - [2025.09.29] **发布 [InfLLM-V2详细技术论文](https://arxiv.org/abs/2509.24663)!**仅需5B长文本词元，即可完成稀疏注意力能力的训练🔥🔥🔥

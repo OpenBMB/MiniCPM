@@ -16,7 +16,10 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">Join Us</a>
 </p>
 
-[![Efficient Generation](https://img.youtube.com/vi/VouXjLHKDUY/0.jpg)](https://www.youtube.com/watch?v=VouXjLHKDUY)
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=VouXjLHKDUY"><img src="https://img.youtube.com/vi/VouXjLHKDUY/0.jpg", width=70%></a>
+</div>
+
 
 ## Changelog🔥
 - [2025.09.29] **[InfLLM-V2 paper](https://arxiv.org/abs/2509.24663) is released!** We can train a sparse attention model with only 5B long-text tokens. 🔥🔥🔥
