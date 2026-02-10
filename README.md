@@ -22,6 +22,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 
 ## Changelog🔥
+- [] **[MiniCPM-SALA]()** is released! TODO
 - [2025.09.29] **[InfLLM-V2 paper](https://arxiv.org/abs/2509.24663) is released!** We can train a sparse attention model with only 5B long-text tokens. 🔥🔥🔥
 - [2025.09.05] **MiniCPM4.1 series are released! This series is a hybrid reasoning model with trainable sparse attention, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥**
 - [2025.06.06] Released [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)! This model achieves ultimate efficiency improvements while maintaining optimal performance at the same scale! It can achieve over 5x generation acceleration on typical end-side chips!
@@ -124,6 +125,27 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   | [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
   | [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft) | [MiniCPM-S-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft) |
 </details>
+
+## MiniCPM-SALA
+#### Highlights
+
+#### Introduction
+
+### Evaluation Results
+
+#### Efficiency Evaluation
+
+#### Comprehensive Evaluation
+
+#### Long Text Evaluation
+
+### Inference
+
+#### HuggingFace
+
+#### vLLM
+
+#### SGLang
 
 ## MiniCPM4 and MiniCPM4.1 Series
 #### Highlights
