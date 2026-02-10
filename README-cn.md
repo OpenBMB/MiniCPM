@@ -124,6 +124,25 @@
   | [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft) | [MiniCPM-S-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft) |
 </details>
 
+## MiniCPM-SALA
+#### Highlights
+
+#### Introduction
+
+### Evaluation Results
+
+#### Efficiency Evaluation
+
+#### Comprehensive Evaluation
+
+#### Long Text Evaluation
+
+### Inference
+
+#### HuggingFace
+
+#### SGLang
+
 ## MiniCPM4 和 MiniCPM4.1 系列
 #### 亮点
 MiniCPM4.1具有如下亮点：

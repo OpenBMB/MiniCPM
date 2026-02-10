@@ -143,8 +143,6 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 #### HuggingFace
 
-#### vLLM
-
 #### SGLang
 
 ## MiniCPM4 and MiniCPM4.1 Series
