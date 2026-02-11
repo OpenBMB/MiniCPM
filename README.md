@@ -128,29 +128,29 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 MiniCPM-SALA (Sparse Attention and Linear Attention) is the first large-scale hybrid model effectively integrating sparse and linear attention for million-token context modeling
 
-✅ Innovative Hybrid Architecture: Synergizes 25% Sparse Attention (InfLLM-v2) for high-fidelity local focus with 75% Linear Attention (Lightning Attention) for global efficiency.
+✅ Innovative Hybrid Architecture: Synergizes 25% Sparse Attention (InfLLM-v2) for high-fidelity long context modeling with 75% Linear Attention (Lightning Attention) for global efficiency.
 
-✅ Shattering Efficiency Walls: Breaks the quadratic  "Compute Wall" and the "Memory Wall," achieving 3.5× inference speedup and significantly lower KV-cache overhead compared to dense baselines. 
+✅ Shattering Efficiency Walls: Breaks the "Compute Wall" and the "Memory Wall," achieving 3.5× inference speed and significantly lower KV-cache overhead compared to dense baselines. 
 
-✅ Million-Token Context: Empowered by HyPE (long-context-aware positional encoding), it scales to 1M+ tokens while maintaining strong length generalization. 
+✅ Million-Token Context: Empowered by HyPE (Hybrid Positional Embedding), it scales to 1M+ tokens while maintaining strong length generalization. 
 
 ✅ HALO Adaptation: Utilizes Hybrid Attention via Layer Optimization (HALO), a novel distillation recipe that effectively transfers dense attention capabilities to the hybrid architecture, avoiding the severe performance degradation typical of pure linear models.
 
 #### Introduction
 
-MiniCPM-SALA is an efficient hybrid model in which 25% of the layers adopt [InfLLM-V2](https://arxiv.org/abs/2509.24663) and the remaining 75% utilize Lightning Attention[Lightning Attention](https://arxiv.org/abs/2405.17381). This architecture enables inference of one million tokens on consumer GPUs such as the NVIDIA RTX 5090.
+MiniCPM-SALA is an efficient hybrid model in which 25% of the layers adopt [InfLLM-V2](https://arxiv.org/abs/2509.24663) and the remaining 75% utilize Lightning Attention. This architecture enables inference of one million tokens on consumer GPUs such as the NVIDIA RTX 5090.
 
 - **SALA Hybrid Attention Mechanism**
-  - Integrates 25\% InfLLM-V2 and 75\% Lightning Attention, effectively leveraging the granular focus of sparse attention for local details and the high efficiency of linear attention for broad context.
+  - Integrates 25% InfLLM-V2 and 75% Lightning Attention, effectively leveraging the granular focus of sparse attention for local details and the high efficiency of linear attention for broad context.
 
 - **Transformer-to-Hybrid Continue Training**
-  - Circumvents the inefficiencies of cold-start training by performing an architectural transformation on the pre-trained weights, thereby reducing the total training budget to approximately 25\% relative to training a comparable model from scratch.
+  - Circumvents the inefficiencies of cold-start training by performing an architectural transformation on the pre-trained weights, thereby reducing the total training budget to approximately 25% relative to training a comparable model from scratch.
 
 - **[HyPE](https://arxiv.org/abs/2601.22156) (Hybrid Positional Encoding)**
   - Harmonizes the performance across both short and long contexts, which can maintain general capabilities (e.g., knowledge, mathematics, and coding) comparable to modern full-attention models like Qwen3-8B and achieve substantial advantages across multiple long-context benchmarks.
 
 - **Efficient Inference on Long Sequences**
-  - Achieves up to 3.5$\times$ the inference speed of Qwen3-8B at a sequence length of 256K tokens on A6000D, supports inference at context lengths of up to 1M tokens on both NVIDIA A6000D and 5090 GPUs, whereas Qwen3-8B fails at this length due to out-of-memory (OOM) errors.
+  - Achieves up to 3.5x the inference speed of Qwen3-8B at a sequence length of 256K tokens on A6000D, supports inference at context lengths of up to 1M tokens on both NVIDIA A6000D and 5090 GPUs, whereas Qwen3-8B fails at this length due to out-of-memory (OOM) errors.
 
 ### Evaluation Results
 
@@ -161,12 +161,6 @@ We benchmarked MiniCPM-SALA (9B) against Qwen3-8B on NVIDIA A6000D and RTX 5090 
 ![inference_speed_a6000d](./assets/minicpm_sala/inference_speed_a600d.png)
 
 ![inference_speed_5090](./assets/minicpm_sala/inference_speed_5090.png)
-
-#### Standard Evaluation
-
-MiniCPM-SALA achieves an average score of 76.53 across standard benchmarks, outperforming comparable models such as Qwen3-8B and Falcon-H1R-7B. The architecture maintains robust performance in Knowledge, Code, and Math.
-
-![benchmark](./assets/minicpm_sala/benchmark.png)
 
 #### Long-Context Evaluation
 
@@ -180,7 +174,15 @@ The evaluation demonstrates that MiniCPM-SALA exhibits effective length extrapol
 
 ![ultra_long_text_evaluation](./assets/minicpm_sala/ultra_long_text_evaluation.png)
 
+#### Standard Evaluation
+
+MiniCPM-SALA achieves an average score of 76.53 across standard benchmarks, outperforming comparable models such as Qwen3-8B and Falcon-H1R-7B. The architecture maintains robust performance in Knowledge, Code, and Math.
+
+![benchmark](./assets/minicpm_sala/benchmark.png)
+
 ### Inference
+
+To achieve optimal performance, we recommend using the `Temperature=0.9`.
 
 #### HuggingFace
 

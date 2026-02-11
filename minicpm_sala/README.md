@@ -6,9 +6,9 @@
 
 **MiniCPM-SALA (Sparse Attention and Linear Attention)** introduces the first large-scale hybrid architecture that systematically integrates **25% sparse attention** (InfLLM-v2) with **75% linear attention** (Lightning Attention) for efficient ultra-long context modeling.
 
-By combining high-fidelity local modeling with globally efficient recurrent computation—and further empowered by **HyPE**, a long-context-aware positional encoding scheme—the model scales to million-token context windows while preserving strong length generalization.
+By combining high-fidelity long context modeling with globally efficient recurrent computation—and further empowered by **HyPE**, a hybrid positional embedding scheme—the model scales to million-token context windows while preserving strong length generalization.
 
-- **Performance:** Compared to dense Transformer baselines (e.g., Qwen3-8B), MiniCPM-SALA achieves up to **3.5× inference speedup** under long-context settings, significantly reducing both compute and KV-cache overhead.
+- **Performance:** Compared to dense Transformer baselines (e.g., Qwen3-8B), MiniCPM-SALA achieves up to **3.5× inference speed** under long-context settings, significantly reducing both compute and KV-cache overhead.
 - **Methodology:** To ensure performance retention, we propose a novel Transformer-to-hybrid distillation recipe, initializing from MiniCPM-4 and applying structured decay and post-training adaptation to effectively transfer dense attention capabilities into the hybrid architecture.
 
 ------
@@ -33,7 +33,7 @@ We support a wide range of users, from individuals to enterprises and researcher
 
 ### Fine-tuning recipes
 
-Customize your model with your own ingredients. For more detailed instructions for fine-tuning, check out the `finetune` subdirectory and its corresponding [`README.md`](.finetune/README.md).
+Customize your model with your own ingredients. For more detailed instructions for fine-tuning, check out the `finetune` subdirectory and its corresponding [`README.md`](./finetune/README.md).
 
 ### Training
 
@@ -75,5 +75,9 @@ This cookbook is served under the [Apache-2.0 License](../LICENSE) - cook freely
 If you find our model, code, or paper helpful, please consider citing our papers 📝 and starring us ⭐️!
 
 ```bibtex
-Comming Soon
+@article{minicpm4,
+  title={{MiniCPM-SALA}: Hybridizing Sparse and Linear Attention for Efficient Long-Context Modeling},
+  author={MiniCPM Team},
+  year={2026}
+}
 ```
