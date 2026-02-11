@@ -4,7 +4,7 @@
 
 ## What is MiniCPM-SALA?
 
-**MiniCPM-SALA (Sparse-and-Linear Attention)** introduces the first large-scale hybrid architecture that systematically integrates **25% sparse attention** (InfLLM-v2) with **75% linear attention** (Lightning Attention) for efficient ultra-long context modeling.
+**MiniCPM-SALA (Sparse Attention and Linear Attention)** introduces the first large-scale hybrid architecture that systematically integrates **25% sparse attention** (InfLLM-v2) with **75% linear attention** (Lightning Attention) for efficient ultra-long context modeling.
 
 By combining high-fidelity local modeling with globally efficient recurrent computation—and further empowered by **HyPE**, a long-context-aware positional encoding scheme—the model scales to million-token context windows while preserving strong length generalization.
 

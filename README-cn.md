@@ -127,6 +127,16 @@
 ## MiniCPM-SALA
 #### Highlights
 
+MiniCPM-SALA（稀疏注意力与线性注意力）是首个高效融合稀疏与线性注意力机制、支持百万令牌上下文建模的大规模混合模型
+
+✅ 创新混合架构：融合25%稀疏注意力（InfLLM-v2）实现高精度局部聚焦，搭配75%线性注意力（Lightning Attention）保障全局处理效率。
+
+✅ 突破效率壁垒：打破二次方“计算墙”与“内存墙”限制，相比密集注意力基线实现3.5倍推理加速，并显著降低KV缓存开销。
+
+✅ 百万令牌上下文：依托长上下文感知位置编码技术HyPE，可扩展至100万+令牌容量，同时保持优异的长文本泛化能力。
+
+✅ HALO适应机制：采用HALO分层优化混合注意力技术，通过创新的蒸馏方案将密集注意力能力有效迁移至混合架构，规避纯线性模型常见的严重性能衰减问题。
+
 #### Introduction
 
 ### Evaluation Results
@@ -140,6 +150,25 @@
 ### Inference
 
 #### HuggingFace
+
+我们的模型与 🤗 Hugging Face transformers 完全兼容。你可以通过以下代码进行推理：
+
+```python
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_path = "openbmb/MiniCPM-SALA"
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+model = AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True, device_map="auto")
+model.eval()
+
+prompts = ["My name is", "The capital of China is"]
+with torch.no_grad():
+    inputs = tokenizer(prompts, return_tensors="pt").to(model.device)
+    outputs = model.generate(**inputs)
+output_texts = tokenizer.batch_decode(outputs)
+print(output_texts)
+```
 
 #### SGLang
 
@@ -730,7 +759,7 @@ MiniCPM4-MCP 是由[清华大学自然语言处理实验室（THUNLP）](https:/
 | Slack                 | 100.0          | 90.0         | 70.0         | 100.0         | 100.0        | 65.0         | 100.0          | 100.0        | 100.0        |
 | Whisper               | 90.0           | 90.0         | 90.0         | 90.0          | 90.0         | 90.0         | 90.0           | 90.0         | 30.0         |
 | **平均值**              | **80.2**       | **70.2**     | **49.1**     | **83.5**      | **67.7**     | **43.8**     | **88.3**       | **76.1**     | **51.2**     |
-  
+
 #### MiniCPM Intel AIPC Client: 端侧大模型客户端
 
 MiniCPM Intel AIPC Client 是面壁智能和 Intel 合作推出的端侧大模型客户端，专为搭载 Intel Core Ultra 系列处理器的设备设计，旨在为开发者、研究人员与 AI 爱好者带来低延迟、高效率、高隐私的本地大模型使用体验。其核心特性如下：

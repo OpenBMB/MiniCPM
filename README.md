@@ -129,6 +129,16 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 ## MiniCPM-SALA
 #### Highlights
 
+MiniCPM-SALA (Sparse Attention and Linear Attention) is the first large-scale hybrid model effectively integrating sparse and linear attention for million-token context modeling
+
+✅ Innovative Hybrid Architecture: Synergizes 25% Sparse Attention (InfLLM-v2) for high-fidelity local focus with 75% Linear Attention (Lightning Attention) for global efficiency.
+
+✅ Shattering Efficiency Walls: Breaks the quadratic  "Compute Wall" and the "Memory Wall," achieving 3.5× inference speedup and significantly lower KV-cache overhead compared to dense baselines. 
+
+✅ Million-Token Context: Empowered by HyPE (long-context-aware positional encoding), it scales to 1M+ tokens while maintaining strong length generalization. 
+
+✅ HALO Adaptation: Utilizes Hybrid Attention via Layer Optimization (HALO), a novel distillation recipe that effectively transfers dense attention capabilities to the hybrid architecture, avoiding the severe performance degradation typical of pure linear models.
+
 #### Introduction
 
 ### Evaluation Results
@@ -142,6 +152,25 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 ### Inference
 
 #### HuggingFace
+
+Our model is readily compatible with 🤗 Hugging Face transformers. You can perform inference with our model as follows:
+
+```python
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_path = "openbmb/MiniCPM-SALA"
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+model = AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True, device_map="auto")
+model.eval()
+
+prompts = ["My name is", "The capital of China is"]
+with torch.no_grad():
+    inputs = tokenizer(prompts, return_tensors="pt").to(model.device)
+    outputs = model.generate(**inputs)
+output_texts = tokenizer.batch_decode(outputs)
+print(output_texts)
+```
 
 #### SGLang
 
