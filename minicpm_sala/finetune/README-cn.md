@@ -2,9 +2,9 @@
 
 我们通过 [**Hugging Face Transformers Trainer**](https://huggingface.co/docs/transformers/en/main_classes/trainer) 和 [**LLaMA-Factory**](https://github.com/hiyouga/LlamaFactory) 支持灵活的微调工作流。无论您是在单个本地 GPU 上工作，还是在庞大的计算集群上，我们的设置都能满足您的需求：
 
-*   **单 GPU 训练：** 针对快速原型设计和较小模型进行了优化。
-*   **单节点多 GPU：** 使用 DeepSpeed ZeRO、Accelerate 多 GPU 或 FSDP 实现可扩展的性能。
-*   **多节点训练：** 由 Accelerate FSDP 驱动的大规模分布式训练。
+* **单 GPU 训练：** 针对快速原型设计和较小模型进行了优化。
+* **单节点多 GPU：** 使用 DeepSpeed ZeRO、Accelerate 多 GPU 或 FSDP 实现可扩展的性能。
+* **多节点训练：** 由 Accelerate FSDP 驱动的大规模分布式训练。
 
 ---
 
@@ -12,8 +12,8 @@
 
 我们提供官方脚本，以便在微调下游任务时轻松调整预训练的 **MiniCPM-SALA**。我们的微调脚本默认使用 `transformers.Trainer` 和 DeepSpeed。我们支持全参数微调和 LoRA 微调。
 
-*   **全参数微调**：全参数微调需要在整个训练过程中更新 LLM 的所有参数。
-*   **LoRA 微调**：LoRA 允许仅更新一小部分参数，实现轻量级的模型调优。我们提供了基于 peft 的 LoRA 实现。
+* **全参数微调**：全参数微调需要在整个训练过程中更新 LLM 的所有参数。
+* **LoRA 微调**：LoRA 允许仅更新一小部分参数，实现轻量级的模型调优。我们提供了基于 `peft` 的 LoRA 实现。
 
 ### 前置要求
 

@@ -262,4 +262,3 @@ accelerate launch \
 ```bash
 llamafactory-cli train examples/minicpm_config/minicpm_sala_lora_sft.yaml
 ```
-

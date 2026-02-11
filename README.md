@@ -36,6 +36,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 - [Changelog🔥](#changelog)
 - [Quick Links](#quick-links)
 - [Model Downloads](#model-downloads)
+- [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 and MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
     - [Highlights](#highlights)
     - [Introduction](#introduction)
@@ -91,6 +92,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
   | HuggingFace | ModelScope |
   |-------------|------------|
+  | [MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA) | [MiniCPM-SALA](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA) |
   | [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
   | [MiniCPM4.1-8B-GPTQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-GPTQ) | [MiniCPM4.1-8B-GPTQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GPTQ) | 
   | [MiniCPM4.1-8B-AutoAWQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-AutoAWQ) | [MiniCPM4.1-8B-AutoAWQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-AutoAWQ) | 
@@ -141,6 +143,20 @@ MiniCPM-SALA (Sparse Attention and Linear Attention) is the first large-scale hy
 
 #### Introduction
 
+MiniCPM-SALA is an efficient hybrid model in which 25% of the layers adopt [InfLLM-V2](https://arxiv.org/abs/2509.24663) and the remaining 75% utilize Lightning Attention[Lightning Attention](https://arxiv.org/abs/2405.17381). This architecture enables inference of one million tokens on consumer GPUs such as the NVIDIA RTX 5090.
+
+- **SALA Hybrid Attention Mechanism**
+  - Integrates 25\% InfLLM-V2 and 75\% Lightning Attention, effectively leveraging the granular focus of sparse attention for local details and the high efficiency of linear attention for broad context.
+
+- **Transformer-to-Hybrid Continue Training**
+  - Circumvents the inefficiencies of cold-start training by performing an architectural transformation on the pre-trained weights, thereby reducing the total training budget to approximately 25\% relative to training a comparable model from scratch.
+
+- **[HyPE](https://arxiv.org/abs/2601.22156) (Hybrid Positional Encoding)**
+  - Harmonizes the performance across both short and long contexts, which can maintain general capabilities (e.g., knowledge, mathematics, and coding) comparable to modern full-attention models like Qwen3-8B and achieve substantial advantages across multiple long-context benchmarks.
+
+- **Efficient Inference on Long Sequences**
+  - Achieves up to 3.5$\times$ the inference speed of Qwen3-8B at a sequence length of 256K tokens on A6000D, supports inference at context lengths of up to 1M tokens on both NVIDIA A6000D and 5090 GPUs, whereas Qwen3-8B fails at this length due to out-of-memory (OOM) errors.
+
 ### Evaluation Results
 
 #### Efficiency Evaluation
@@ -173,6 +189,100 @@ print(output_texts)
 ```
 
 #### SGLang
+
+##### Requirements
+
+- CUDA 12.x or higher
+- `gcc` / `g++` compiler
+- `uv` package manager (script will check)
+
+##### Installation
+
+```bash
+# Clone repository
+git clone -b minicpm_sala https://github.com/OpenBMB/sglang.git
+cd sglang
+
+# One-click installation (creates venv and compiles all dependencies)
+bash install_minicpm_sala.sh
+
+# Or specify PyPI mirror
+bash install_minicpm_sala.sh https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+```
+
+The installation script performs the following steps:
+
+1. Creates `sglang_minicpm_sala_env` virtual environment (Python 3.12)
+2. Clones dependencies to `3rdparty/` (infllmv2) and initializes submodules (sparse_kernel)
+3. Installs MiniCPM-SALA (current repo)
+4. Compiles and installs `infllmv2_cuda_impl`
+5. Compiles and installs `sparse_kernel`
+6. Installs `tilelang` & `flash-linear-attention`
+
+##### Usage
+
+```bash
+# Activate environment
+source sglang_minicpm_sala_env/bin/activate
+
+# Launch Inference Server (Replace MODEL_PATH with actual path)
+MODEL_PATH=/path/to/your/MiniCPM-SALA
+
+python3 -m sglang.launch_server \
+    --model ${MODEL_PATH} \
+    --trust-remote-code \
+    --disable-radix-cache \
+    --attention-backend minicpm_flashinfer \
+    --chunked-prefill-size 8192 \
+    --max-running-requests 32 \
+    --skip-server-warmup \
+    --port 31111 \
+    --dense-as-sparse
+```
+
+| Parameter | Description |
+|-----------|-------------|
+| `--trust-remote-code` | Allow custom code in model |
+| `--disable-radix-cache` | Disable RadixAttention prefix cache |
+| `--attention-backend minicpm_flashinfer` | Use MiniCPM FlashInfer backend |
+| `--chunked-prefill-size 8192` | Chunked prefill size |
+| `--max-running-requests 32` | Max concurrent requests |
+| `--skip-server-warmup` | Skip server warmup |
+| `--port 31111` | Server port |
+| `--dense-as-sparse` | Use dense-as-sparse mode |
+
+##### Manual Installation
+
+If the script doesn't work for you, follow these steps:
+
+```bash
+# 0. Ensure uv is installed
+pip install uv
+
+# 1. Create venv
+uv venv --python 3.12 sglang_minicpm_sala_env
+source sglang_minicpm_sala_env/bin/activate
+
+# 2. Install SGLang
+uv pip install --upgrade pip setuptools wheel
+uv pip install -e ./python[all]
+
+# 3. Compile CUDA Extensions
+# (Ensure dependencies are cloned to 3rdparty/)
+cd 3rdparty/infllmv2_cuda_impl && python setup.py install && cd ../..
+cd 3rdparty/sparse_kernel && python setup.py install && cd ../..
+
+# 4. Install extra deps
+uv pip install tilelang flash-linear-attention
+```
+
+##### Q&A
+
+**Q: CUDA extension compilation failed?**
+
+- Ensure CUDA 12+ is installed (`nvcc --version`).
+- Ensure `gcc` / `g++` are available.
+- If `CXX` is set to `clang++ -pthread`, manually `export CXX=g++`.
 
 ## MiniCPM4 and MiniCPM4.1 Series
 #### Highlights

@@ -29,11 +29,11 @@ We support a wide range of users, from individuals to enterprises and researcher
 
 - **Individuals:** Enjoy effortless inference using HuggingFace with minimal setup.
 - **Enterprises:** Achieve high-throughput, scalable performance with vLLM or SGLang.
-- **Researchers:** Leverage advanced frameworks, including Transformers Trainer and LLaMA-Factory, to enable flexible model development and cutting-edge experimentation.
+- **Researchers:** Leverage advanced frameworks, including [Transformers Trainer](https://huggingface.co/docs/transformers/en/main_classes/trainer) and [LLaMA-Factory](https://github.com/hiyouga/LlamaFactory), to enable flexible model development and cutting-edge experimentation.
 
 ### Fine-tuning recipes
 
-Customize your model with your own ingredients. For more detailed instructions for fine-tuning, check out the `finetune`subdirectory and its corresponding [`README.md`](.finetune/README.md).
+Customize your model with your own ingredients. For more detailed instructions for fine-tuning, check out the `finetune` subdirectory and its corresponding [`README.md`](.finetune/README.md).
 
 ### Training
 
@@ -41,8 +41,8 @@ We provide training methods serving different needs as follows:
 
 | **Framework**                                    | **Description**                            |
 | ------------------------------------------------ | ------------------------------------------ |
-| [**Transformers Trainer**](./finetune/README.md) | Most flexible for low-level customization. |
-| [**LLaMA-Factory**](./finetune/README.md)        | Modular fine-tuning toolkit.               |
+| [**Transformers Trainer**](./finetune/README.md#hugging-face-transformers-trainer) | Most flexible for low-level customization. |
+| [**LLaMA-Factory**](./finetune/README.md#llama-factory)        | Modular fine-tuning toolkit.               |
 
 ------
 
@@ -58,12 +58,11 @@ We love new recipes! Please share your creative dishes:
 
 ### Issues & Support
 
-- Found a bug? [Open an issue](https://www.google.com/search?q=%23&authuser=2)
+- Found a bug? [Open an issue](https://github.com/OpenBMB/MiniCPM/issues)
 - Need help? Join our Discord and WeChat group.
 
 For more information, please visit our:
 
-- [GitHub]()
 - [Hugging Face]()
 - [Technical Blog]()
 
@@ -75,8 +74,12 @@ This cookbook is developed by [**OpenBMB**](https://github.com/OpenBMB).
 
 ## 📜 License
 
-This cookbook is served under the [Apache-2.0 License](TODO: fill in license link) - cook freely, share generously! 🍳
+This cookbook is served under the [Apache-2.0 License](../LICENSE) - cook freely, share generously! 🍳
 
 ## Citation
 
 If you find our model, code, or paper helpful, please consider citing our papers 📝 and starring us ⭐️!
+
+```bibtex
+Comming Soon
+```
