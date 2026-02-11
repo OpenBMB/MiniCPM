@@ -4,7 +4,7 @@
 
 <h4 align="center">
     <p>
-        <a href="https://github.com/OpenBMB/MiniCPM/blob/main/README.md">中文</a> | <b>English</b>
+        <a href="https://github.com/OpenBMB/MiniCPM/blob/main/README-cn.md">中文</a> | <b>English</b>
     <p>
 </h4>
 
