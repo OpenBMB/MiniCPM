@@ -1,0 +1,1 @@
+llamafactory-cli train configs/minicpm_kto.yaml

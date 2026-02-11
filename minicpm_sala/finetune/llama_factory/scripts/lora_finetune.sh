@@ -1,0 +1,1 @@
+llamafactory-cli train configs/minicpm_lora_sft.yaml
