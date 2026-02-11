@@ -16,15 +16,10 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">Join Us</a>
 </p>
 
-<div align="center">
-  <a href="https://www.youtube.com/watch?v=VouXjLHKDUY"><img src="https://img.youtube.com/vi/VouXjLHKDUY/0.jpg", width=70%></a>
-</div>
-
-
 ## Changelog🔥
-- [] **[MiniCPM-SALA]()** is released! TODO
+- [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** is released! This is the first large-scale hybrid model effectively integrating sparse and linear attention for million-token context modeling. 🔥🔥🔥
 - [2025.09.29] **[InfLLM-V2 paper](https://arxiv.org/abs/2509.24663) is released!** We can train a sparse attention model with only 5B long-text tokens. 🔥🔥🔥
-- [2025.09.05] **MiniCPM4.1 series are released! This series is a hybrid reasoning model with trainable sparse attention, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥**
+- [2025.09.05] **[MiniCPM4.1 series](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** are released! This series is a hybrid reasoning model with trainable sparse attention, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥
 - [2025.06.06] Released [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)! This model achieves ultimate efficiency improvements while maintaining optimal performance at the same scale! It can achieve over 5x generation acceleration on typical end-side chips!
 - [2024.09.05] We release [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)! This model outperforms Phi-3.5-mini-instruct and GPT-3.5-Turbo-0125 and is comparable to several models with 7B-9B parameters like Llama3.1-8B-Instruct, Qwen2-7B-Instruct, and GLM-4-9B-Chat.
 - [2024.07.05] Released [**MiniCPM-S-1B**](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)! This model achieves an average sparsity of 87.89% in the FFN layer, reducing FFN FLOPs by 84%, while maintaining downstream task performance.
@@ -161,9 +156,29 @@ MiniCPM-SALA is an efficient hybrid model in which 25% of the layers adopt [InfL
 
 #### Efficiency Evaluation
 
-#### Comprehensive Evaluation
+We benchmarked MiniCPM-SALA (9B) against Qwen3-8B on NVIDIA A6000D and RTX 5090 GPUs to evaluate inference speed and memory efficiency. The results demonstrate a significant performance leap: MiniCPM-SALA not only achieves up to a 2.5x speedup in time-to-first-token (TTFT) but also overcomes the memory bottlenecks of full-attention architectures. While Qwen3-8B suffers from OOM errors at extended lengths, MiniCPM-SALA successfully scales to 1M-token contexts on a single consumer-grade RTX 5090, effectively democratizing ultra-long context inference on edge hardware.
 
-#### Long Text Evaluation
+![inference_speed_a6000d](./assets/minicpm_sala/inference_speed_a600d.png)
+
+![inference_speed_5090](./assets/minicpm_sala/inference_speed_5090.png)
+
+#### Standard Evaluation
+
+MiniCPM-SALA achieves an average score of 76.53 across standard benchmarks, outperforming comparable models such as Qwen3-8B and Falcon-H1R-7B. The architecture maintains robust performance in Knowledge, Code, and Math.
+
+![benchmark](./assets/minicpm_sala/benchmark.png)
+
+#### Long-Context Evaluation
+
+MiniCPM-SALA consistently outperforms other open-source LLMs of similar scale across most involved long-context benchmarks. Specifically, it achieves the highest scores in the RULER and NoLiMa tests at all context lengths (up to 128K) and maintains the highest overall average score of 38.97, suggesting superior performance in handling long-context information processing.
+
+![long_text_evaluation](./assets/minicpm_sala/long_text_evaluation.png)
+
+#### Ultra-long Context Evaluation
+
+The evaluation demonstrates that MiniCPM-SALA exhibits effective length extrapolation capabilities, maintaining a score of 81.6 at a 2048K context length despite being trained on only 520K tokens. The model achieves this without auxiliary techniques like YaRN, likely due to its NoPE configuration in sparse attention layers.
+
+![ultra_long_text_evaluation](./assets/minicpm_sala/ultra_long_text_evaluation.png)
 
 ### Inference
 
@@ -285,6 +300,11 @@ uv pip install tilelang flash-linear-attention
 - If `CXX` is set to `clang++ -pthread`, manually `export CXX=g++`.
 
 ## MiniCPM4 and MiniCPM4.1 Series
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=VouXjLHKDUY"><img src="https://img.youtube.com/vi/VouXjLHKDUY/0.jpg", width=70%></a>
+</div>
+
 #### Highlights
 MiniCPM 4.1-8B is the first open-source reasoning LLM with trainable sparse attention:
 

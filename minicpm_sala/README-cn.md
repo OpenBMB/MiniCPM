@@ -1,6 +1,6 @@
 # MiniCPM-SALA
 
-[🤗 Huggingface]() | [📖 技术博客]()
+[🤗 Huggingface](https://huggingface.co/openbmb/MiniCPM-SALA) | [📖 技术博客](https://github.com/OpenBMB/MiniCPM/blob/main/docs/MiniCPM_SALA.pdf)
 
 # MiniCPM-SALA 是什么？
 
@@ -59,12 +59,6 @@
 ### 问题与支持
 
 - 发现了错误？[提交 Issue](https://github.com/OpenBMB/MiniCPM/issues)
-- 需要帮助？加入我们的 Discord 和微信群。
-
-更多信息，请访问：
-
-- [Hugging Face]()
-- [技术博客]()
 
 ### 机构
 
