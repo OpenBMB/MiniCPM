@@ -39,10 +39,8 @@
   - [评测结果](#评测结果)
     - [标准评测](#标准评测)
     - [RL 后训练增益](#rl-后训练增益)
-  - [推理](#推理)
-  - [部署 Cookbook](#部署-cookbook)
-  - [微调 Cookbook](#微调-cookbook)
-  - [Agent Skills — 一键部署与微调](#agent-skills--一键部署与微调)
+  - [一句话拉起 — Agent Skills](#一句话拉起--agent-skills)
+  - [Cookbook — 给想深入的用户](#cookbook--给想深入的用户)
   - [桌宠 \& 人设 LoRA 社区](#桌宠--人设-lora-社区)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 和 MiniCPM4.1 系列](#minicpm4-和-minicpm41-系列)
@@ -226,134 +224,83 @@ RL 后训练是 MiniCPM5-1B 智能跃迁的最大单一来源——它把 SFT ch
 
 > 提升最显著的是推理 / 指令跟随类评测（HMMT、IFBench、AIME、IFEval），印证了 RL 是 MiniCPM5-1B 在 1B 段位拿到榜单第一的核心驱动力。
 
-### 推理
+### 一句话拉起 — Agent Skills
 
-MiniCPM5-1B 使用**标准 `LlamaForCausalLM` 架构**，所有主流引擎开箱即用——无需自定义算子，也无模型代码 fork。下面三条一行命令覆盖大多数场景。
+MiniCPM5-1B 使用**标准 `LlamaForCausalLM` 架构**，所有主流引擎开箱即用——**无需自定义算子，也无模型代码 fork**。我们为 MiniCPM5-1B 适配了 **9 个推理后端**和 **5 个微调框架**，并提供两个顶层 [Cursor Agent Skill](https://docs.cursor.com/agent/skills)，让任何 LLM 编码 agent（Cursor / Claude Code / Codex / opencode / …）都可以**用一句自然语言 prompt**驱动它们。
+
+| 顶层 Skill | 作用 | 路由到 |
+| --- | --- | --- |
+| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | 推理路由 | `transformers` · `vllm` · `sglang` · `awq` · `gptq` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` |
+| **[`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md)** | 微调路由 | `trl` · `llamafactory` · `ms-swift` · `unsloth` · `xtuner` |
+
+在 Cursor / Claude Code 里扔一句话，agent 会自动挑 sub-skill、配环境、跑命令、回报结果：
+
+```
+@minicpm5-deploy   用 vLLM 在 8000 端口起 openbmb/MiniCPM5-1B
+@minicpm5-finetune 用 unsloth + LoRA 微调 /data/my_chat.jsonl，输出到 ./out
+```
+
+路由关系：
+
+```mermaid
+flowchart LR
+    user["用户的一句话"]
+    deploy["minicpm5-deploy<br/>(推理路由)"]
+    finetune["minicpm5-finetune<br/>(微调路由)"]
+    user -->|"deploy / serve / 部署"| deploy
+    user -->|"fine-tune / LoRA / 微调"| finetune
+
+    deploy --> d1[transformers]
+    deploy --> d2[vllm]
+    deploy --> d3[sglang]
+    deploy --> d4[awq]
+    deploy --> d5[gptq]
+    deploy --> d6[llama-cpp]
+    deploy --> d7[ollama]
+    deploy --> d8[lmstudio]
+    deploy --> d9[mlx]
+
+    finetune --> f1[trl]
+    finetune --> f2[llamafactory]
+    finetune --> f3[ms-swift]
+    finetune --> f4[unsloth]
+    finetune --> f5[xtuner]
+```
+
+推荐的 chat template 采样参数：
 
 | 模式 | 推荐采样参数 | 启用方式 |
 | --- | --- | --- |
-| **Think**（深度推理） | `temperature=0.6, top_p=0.95` | chat template 里 `enable_thinking=True` |
-| **No-think**（快速回答） | `temperature=0.7, top_p=0.8` | chat template 里 `enable_thinking=False` |
+| **Think**（深度推理） | `temperature=0.6, top_p=0.95` | `enable_thinking=True` |
+| **No-think**（快速回答） | `temperature=0.7, top_p=0.8` | `enable_thinking=False` |
 
-#### HuggingFace Transformers
+### Cookbook — 给想深入的用户
 
-```python
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+更想自己手动跑、或想看清每个 Agent Skill 在底下做了什么？每个后端 / 框架都配有一份单页 cookbook，里面有精确的命令和实际输出，并对应一个具体的 sub-skill。
 
-model_path = "openbmb/MiniCPM5-1B"
-tok = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForCausalLM.from_pretrained(
-    model_path, torch_dtype=torch.bfloat16, device_map="auto"
-).eval()
+**部署**（9 个后端）
 
-messages = [{"role": "user", "content": "用一句话解释什么是 GQA。"}]
-inputs = tok.apply_chat_template(
-    messages, add_generation_prompt=True, enable_thinking=True, return_tensors="pt"
-).to(model.device)
-out = model.generate(inputs, max_new_tokens=1024, do_sample=True, temperature=0.6, top_p=0.95)
-print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
-```
+| 后端 | Cookbook | 对应 Agent Skill |
+| --- | --- | --- |
+| Transformers (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) | [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) |
+| vLLM (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) | [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) |
+| SGLang (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) | [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) |
+| AWQ-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) | [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) |
+| GPTQ-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) | [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) |
+| llama.cpp (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) | [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) |
+| Ollama (GGUF, 端侧) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
+| LM Studio (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
+| MLX (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
 
-无 GPU 的纯 CPU 推理也支持，见 [`docs/deployment/transformers.md`](./docs/deployment/transformers.md)。
+**微调**（5 个框架）
 
-#### vLLM
-
-```bash
-pip install "vllm>=0.6.0"
-
-python -m vllm.entrypoints.openai.api_server \
-    --model openbmb/MiniCPM5-1B \
-    --served-model-name MiniCPM5-1B \
-    --dtype bfloat16 \
-    --max-model-len 131072 \
-    --gpu-memory-utilization 0.85 \
-    --port 8000
-```
-
-随后即可通过 OpenAI 兼容接口访问 `http://localhost:8000/v1`。调参与快速验证见 [`docs/deployment/vllm.md`](./docs/deployment/vllm.md)。
-
-#### SGLang
-
-```bash
-pip install "sglang[all]>=0.4"
-
-python -m sglang.launch_server \
-    --model-path openbmb/MiniCPM5-1B \
-    --served-model-name MiniCPM5-1B \
-    --dtype bfloat16 \
-    --context-length 131072 \
-    --mem-fraction-static 0.85 \
-    --host 0.0.0.0 \
-    --port 30000 \
-    --trust-remote-code
-```
-
-若在 conda 环境下报 `GLIBCXX_3.4.31 not found`，参考 [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) 里的 `LD_PRELOAD` 解决方案。
-
-### 部署 Cookbook
-
-下表每一条都对应一份单页 cookbook，**包含一次端到端的精确命令和实际输出**；同时配套一个一句 prompt 即可触发的 [Agent Skill](#agent-skills--一键部署与微调)。
-
-| 后端 | Cookbook |
-| --- | --- |
-| Transformers (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) |
-| vLLM (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) |
-| SGLang (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) |
-| AWQ-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) |
-| GPTQ-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) |
-| llama.cpp (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) |
-| Ollama (GGUF, 端侧) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) |
-| LM Studio (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) |
-| MLX (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) |
-
-### 微调 Cookbook
-
-| 框架 | Cookbook |
-| --- | --- |
-| [TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) | [`docs/finetune/trl.md`](./docs/finetune/trl.md) |
-| [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) | [`docs/finetune/llamafactory.md`](./docs/finetune/llamafactory.md) |
-| [ms-swift](https://github.com/modelscope/ms-swift) | [`docs/finetune/ms_swift.md`](./docs/finetune/ms_swift.md) |
-| [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) |
-| [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) |
-
-### Agent Skills — 一键部署与微调
-
-上述每份 cookbook 都配套一个 [Cursor Agent Skill](https://docs.cursor.com/agent/skills)，任何 LLM 驱动的编码 agent（Cursor / Claude Code / Codex / opencode / …）都可以读取 SKILL.md、安装环境、拉起服务或训练 LoRA，并按统一格式返回 mini-report——**只需一句自然语言 prompt**。
-
-示例（Cursor / Claude Code）：
-
-```
-用 minicpm5-deploy-sglang skill 把 openbmb/MiniCPM5-1B 起在 8000 端口，然后做一次快速验证。
-```
-
-**Deploy skills**（共 10 个）：
-
-| Skill | 用途 |
-| --- | --- |
-| [`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md) | 顶层路由：自动选择合适的后端 |
-| [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) | HF 单次生成（GPU 或 CPU） |
-| [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) | vLLM OpenAI 兼容服务 |
-| [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) | SGLang OpenAI 兼容服务 |
-| [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) | AWQ-Marlin Int4 via vLLM |
-| [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) | GPTQ-Marlin Int4 via vLLM |
-| [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) | GGUF 推理，CPU/GPU 都行 |
-| [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) | Ollama 端侧 GGUF |
-| [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) | Mac LM Studio OpenAI 服务 |
-| [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) | Apple Silicon 原生（MLX） |
-
-**Fine-tune skills**（共 6 个）：
-
-| Skill | 用途 |
-| --- | --- |
-| [`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md) | 顶层路由：自动选择微调框架 |
-| [`minicpm5-finetune-trl`](./skills/minicpm5-finetune-trl/SKILL.md) | LoRA SFT（TRL，assistant-only loss） |
-| [`minicpm5-finetune-llamafactory`](./skills/minicpm5-finetune-llamafactory/SKILL.md) | LLaMA-Factory LoRA SFT |
-| [`minicpm5-finetune-ms-swift`](./skills/minicpm5-finetune-ms-swift/SKILL.md) | ms-swift LoRA SFT |
-| [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) | unsloth LoRA / QLoRA |
-| [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) | xtuner LoRA SFT |
-
-每个 skill 的 `SKILL.md` 都是自包含的——描述了所需环境、具体命令和预期输出，编码 agent 可以端到端跑完无需额外说明。
+| 框架 | Cookbook | 对应 Agent Skill |
+| --- | --- | --- |
+| [TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) | [`docs/finetune/trl.md`](./docs/finetune/trl.md) | [`minicpm5-finetune-trl`](./skills/minicpm5-finetune-trl/SKILL.md) |
+| [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) | [`docs/finetune/llamafactory.md`](./docs/finetune/llamafactory.md) | [`minicpm5-finetune-llamafactory`](./skills/minicpm5-finetune-llamafactory/SKILL.md) |
+| [ms-swift](https://github.com/modelscope/ms-swift) | [`docs/finetune/ms_swift.md`](./docs/finetune/ms_swift.md) | [`minicpm5-finetune-ms-swift`](./skills/minicpm5-finetune-ms-swift/SKILL.md) |
+| [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) | [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) |
+| [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) | [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) |
 
 ### 桌宠 \& 人设 LoRA 社区
 

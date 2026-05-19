@@ -50,10 +50,8 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   - [Evaluation Results](#evaluation-results)
     - [Standard Benchmarks](#standard-benchmarks)
     - [RL Post-Training Gains](#rl-post-training-gains)
-  - [Inference](#inference)
-  - [Deployment Cookbooks](#deployment-cookbooks)
-  - [Fine-Tuning Cookbooks](#fine-tuning-cookbooks)
-  - [Agent Skills — One-Click Deploy \& Finetune](#agent-skills--one-click-deploy--finetune)
+  - [Run It in One Prompt — Agent Skills](#run-it-in-one-prompt--agent-skills)
+  - [Cookbooks — For Deeper Dives](#cookbooks--for-deeper-dives)
   - [Desktop Pet \& Persona LoRA Hub](#desktop-pet--persona-lora-hub)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 and MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
@@ -238,134 +236,83 @@ RL post-training delivers the largest single jump in MiniCPM5-1B's intelligence 
 
 > The largest gains come from reasoning-heavy and instruction-following benchmarks (HMMT, IFBench, AIME, IFEval), confirming that RL is the dominant driver of MiniCPM5-1B's leaderboard lead at the 1B scale.
 
-### Inference
+### Run It in One Prompt — Agent Skills
 
-MiniCPM5-1B uses the **standard `LlamaForCausalLM` architecture**, so it runs out-of-the-box on every mainstream engine — no custom kernels, no model-code fork. Three one-line paths cover the most common scenarios.
+MiniCPM5-1B uses the **standard `LlamaForCausalLM` architecture** and runs out-of-the-box on every mainstream engine — **no custom kernels, no model-code fork**. We've adapted MiniCPM5-1B to **9 inference backends** and **5 fine-tuning frameworks**, and shipped two top-level [Cursor Agent Skills](https://docs.cursor.com/agent/skills) so any LLM coding agent (Cursor / Claude Code / Codex / opencode / …) can drive them **from a single natural-language prompt**.
 
-| Mode | Recommended params | How to enable |
+| Top-level skill | What it does | Routes to |
 | --- | --- | --- |
-| **Think** (deliberate reasoning) | `temperature=0.6, top_p=0.95` | `enable_thinking=True` in chat template |
-| **No-think** (fast answering) | `temperature=0.7, top_p=0.8` | `enable_thinking=False` in chat template |
+| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` · `sglang` · `awq` · `gptq` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` |
+| **[`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md)** | Fine-tuning router | `trl` · `llamafactory` · `ms-swift` · `unsloth` · `xtuner` |
 
-#### HuggingFace Transformers
-
-```python
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
-model_path = "openbmb/MiniCPM5-1B"
-tok = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForCausalLM.from_pretrained(
-    model_path, torch_dtype=torch.bfloat16, device_map="auto"
-).eval()
-
-messages = [{"role": "user", "content": "用一句话解释什么是 GQA。"}]
-inputs = tok.apply_chat_template(
-    messages, add_generation_prompt=True, enable_thinking=True, return_tensors="pt"
-).to(model.device)
-out = model.generate(inputs, max_new_tokens=1024, do_sample=True, temperature=0.6, top_p=0.95)
-print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
-```
-
-CPU-only inference (no GPU) works too — see [`docs/deployment/transformers.md`](./docs/deployment/transformers.md).
-
-#### vLLM
-
-```bash
-pip install "vllm>=0.6.0"
-
-python -m vllm.entrypoints.openai.api_server \
-    --model openbmb/MiniCPM5-1B \
-    --served-model-name MiniCPM5-1B \
-    --dtype bfloat16 \
-    --max-model-len 131072 \
-    --gpu-memory-utilization 0.85 \
-    --port 8000
-```
-
-Then call the OpenAI-compatible endpoint at `http://localhost:8000/v1`. See [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) for tuning knobs and a quick sanity check.
-
-#### SGLang
-
-```bash
-pip install "sglang[all]>=0.4"
-
-python -m sglang.launch_server \
-    --model-path openbmb/MiniCPM5-1B \
-    --served-model-name MiniCPM5-1B \
-    --dtype bfloat16 \
-    --context-length 131072 \
-    --mem-fraction-static 0.85 \
-    --host 0.0.0.0 \
-    --port 30000 \
-    --trust-remote-code
-```
-
-If startup fails with `GLIBCXX_3.4.31 not found` on a conda env, see the `LD_PRELOAD` workaround in [`docs/deployment/sglang.md`](./docs/deployment/sglang.md).
-
-### Deployment Cookbooks
-
-Every backend below has a single-page cookbook with the **exact command and observed output** of an end-to-end run. Each cookbook is paired with a one-prompt [Agent Skill](#agent-skills--one-click-deploy--finetune) that an LLM agent can trigger automatically.
-
-| Backend | Cookbook |
-| --- | --- |
-| Transformers (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) |
-| vLLM (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) |
-| SGLang (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) |
-| AWQ-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) |
-| GPTQ-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) |
-| llama.cpp (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) |
-| Ollama (GGUF, end-side) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) |
-| LM Studio (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) |
-| MLX (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) |
-
-### Fine-Tuning Cookbooks
-
-| Framework | Cookbook |
-| --- | --- |
-| [TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) | [`docs/finetune/trl.md`](./docs/finetune/trl.md) |
-| [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) | [`docs/finetune/llamafactory.md`](./docs/finetune/llamafactory.md) |
-| [ms-swift](https://github.com/modelscope/ms-swift) | [`docs/finetune/ms_swift.md`](./docs/finetune/ms_swift.md) |
-| [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) |
-| [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) |
-
-### Agent Skills — One-Click Deploy \& Finetune
-
-Every cookbook above ships with a matched [Cursor Agent Skill](https://docs.cursor.com/agent/skills) so any LLM-driven coding agent (Cursor / Claude Code / Codex / opencode / …) can read the SKILL.md, set up the env, deploy the server or train a LoRA, and report a mini-report back — **from a single natural-language prompt**.
-
-Example prompt (Cursor / Claude Code):
+Drop a line like this into Cursor / Claude Code and the agent picks the right sub-skill, sets up the env, runs the command, and reports back:
 
 ```
-Use the minicpm5-deploy-sglang skill to serve openbmb/MiniCPM5-1B on port 8000, then send it a quick sanity check.
+@minicpm5-deploy   serve openbmb/MiniCPM5-1B with vLLM on port 8000
+@minicpm5-finetune use unsloth + LoRA on /data/my_chat.jsonl, write to ./out
 ```
 
-**Deploy skills** (10):
+How the routers dispatch:
 
-| Skill | Use |
-| --- | --- |
-| [`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md) | Router: pick the right backend automatically |
-| [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) | One-shot HF generation (GPU or CPU) |
-| [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) | OpenAI-compatible vLLM server |
-| [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) | OpenAI-compatible SGLang server |
-| [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) | AWQ-Marlin Int4 via vLLM |
-| [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) | GPTQ-Marlin Int4 via vLLM |
-| [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) | GGUF inference, CPU/GPU |
-| [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) | End-side GGUF via Ollama |
-| [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) | LM Studio OpenAI server on Mac |
-| [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) | Apple Silicon native via MLX |
+```mermaid
+flowchart LR
+    user["User prompt"]
+    deploy["minicpm5-deploy<br/>(inference router)"]
+    finetune["minicpm5-finetune<br/>(fine-tune router)"]
+    user -->|"deploy / serve / 部署"| deploy
+    user -->|"fine-tune / LoRA / 微调"| finetune
 
-**Fine-tune skills** (6):
+    deploy --> d1[transformers]
+    deploy --> d2[vllm]
+    deploy --> d3[sglang]
+    deploy --> d4[awq]
+    deploy --> d5[gptq]
+    deploy --> d6[llama-cpp]
+    deploy --> d7[ollama]
+    deploy --> d8[lmstudio]
+    deploy --> d9[mlx]
 
-| Skill | Use |
-| --- | --- |
-| [`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md) | Router: pick a fine-tuning framework |
-| [`minicpm5-finetune-trl`](./skills/minicpm5-finetune-trl/SKILL.md) | LoRA SFT (TRL, assistant-only loss) |
-| [`minicpm5-finetune-llamafactory`](./skills/minicpm5-finetune-llamafactory/SKILL.md) | LoRA SFT via LLaMA-Factory |
-| [`minicpm5-finetune-ms-swift`](./skills/minicpm5-finetune-ms-swift/SKILL.md) | LoRA SFT via ms-swift |
-| [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) | LoRA / QLoRA via unsloth |
-| [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) | LoRA SFT via xtuner |
+    finetune --> f1[trl]
+    finetune --> f2[llamafactory]
+    finetune --> f3[ms-swift]
+    finetune --> f4[unsloth]
+    finetune --> f5[xtuner]
+```
 
-Each skill's `SKILL.md` is self-contained — it describes the environment, the exact commands, and the expected output, so a coding agent can drive it end-to-end without further instructions.
+Recommended chat-template sampling:
+
+| Mode | Recommended params | Enable |
+| --- | --- | --- |
+| **Think** (deliberate reasoning) | `temperature=0.6, top_p=0.95` | `enable_thinking=True` |
+| **No-think** (fast answering) | `temperature=0.7, top_p=0.8` | `enable_thinking=False` |
+
+### Cookbooks — For Deeper Dives
+
+Prefer to drive things by hand, or want to know exactly what each Agent Skill does under the hood? Every backend / framework has a one-page cookbook with the exact command and observed output, paired with a backend-specific sub-skill.
+
+**Deployment** (9 backends)
+
+| Backend | Cookbook | Paired Agent Skill |
+| --- | --- | --- |
+| Transformers (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) | [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) |
+| vLLM (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) | [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) |
+| SGLang (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) | [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) |
+| AWQ-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) | [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) |
+| GPTQ-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) | [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) |
+| llama.cpp (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) | [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) |
+| Ollama (GGUF, end-side) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
+| LM Studio (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
+| MLX (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
+
+**Fine-tuning** (5 frameworks)
+
+| Framework | Cookbook | Paired Agent Skill |
+| --- | --- | --- |
+| [TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) | [`docs/finetune/trl.md`](./docs/finetune/trl.md) | [`minicpm5-finetune-trl`](./skills/minicpm5-finetune-trl/SKILL.md) |
+| [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) | [`docs/finetune/llamafactory.md`](./docs/finetune/llamafactory.md) | [`minicpm5-finetune-llamafactory`](./skills/minicpm5-finetune-llamafactory/SKILL.md) |
+| [ms-swift](https://github.com/modelscope/ms-swift) | [`docs/finetune/ms_swift.md`](./docs/finetune/ms_swift.md) | [`minicpm5-finetune-ms-swift`](./skills/minicpm5-finetune-ms-swift/SKILL.md) |
+| [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) | [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) |
+| [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) | [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) |
 
 ### Desktop Pet \& Persona LoRA Hub
 
