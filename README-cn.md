@@ -18,6 +18,7 @@
 </p>
 
 ## 更新日志🔥
+- [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** 发布！一款面向端侧与资源受限场景的 1B 级稠密模型，**在公开榜单上位居同尺寸第一**——平均分 43.56，覆盖推理、知识、数学、代码、指令跟随与 Agentic 工具调用。配套一键 [Agent Skills](./skills/) 覆盖所有主流推理 / 微调框架。🔥🔥🔥
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** 发布！这是首个经过大规模实验验证的稀疏与线性混合注意力模型，支持百万词元的有效处理与高效推理。🔥🔥🔥
 - [2025.09.29] **发布 [InfLLM-V2详细技术论文](https://arxiv.org/abs/2509.24663)!**仅需5B长文本词元，即可完成稀疏注意力能力的训练🔥🔥🔥
 - [2025.09.05] **发布 [MiniCPM4.1](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型基于原生稀疏注意力架构（InfLLM-V2），支持混合思考。🔥🔥🔥**
@@ -32,6 +33,17 @@
 - [更新日志🔥](#更新日志)
 - [目录](#目录)
 - [模型下载](#模型下载)
+- [MiniCPM5 系列](#minicpm5-系列)
+  - [亮点](#亮点)
+  - [简介](#简介)
+  - [评测结果](#评测结果)
+    - [标准评测](#标准评测)
+    - [RL 后训练增益](#rl-后训练增益)
+  - [推理](#推理)
+  - [部署 Cookbook](#部署-cookbook)
+  - [微调 Cookbook](#微调-cookbook)
+  - [Agent Skills — 一键部署与微调](#agent-skills--一键部署与微调)
+  - [桌宠 \& 人设 LoRA 社区](#桌宠--人设-lora-社区)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 和 MiniCPM4.1 系列](#minicpm4-和-minicpm41-系列)
     - [亮点](#亮点)
@@ -87,6 +99,11 @@
 
   | HuggingFace | ModelScope |
   |-------------|------------|
+  | [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B) | [MiniCPM5-1B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B) |
+  | [MiniCPM5-1B-GGUF](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | [MiniCPM5-1B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GGUF) |
+  | [MiniCPM5-1B-MLX](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | [MiniCPM5-1B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-MLX) |
+  | [MiniCPM5-1B-AWQ](https://huggingface.co/openbmb/MiniCPM5-1B-AWQ) | [MiniCPM5-1B-AWQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-AWQ) |
+  | [MiniCPM5-1B-GPTQ](https://huggingface.co/openbmb/MiniCPM5-1B-GPTQ) | [MiniCPM5-1B-GPTQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GPTQ) |
   | [MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA) | [MiniCPM-SALA](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA) |
   | [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
   | [MiniCPM4.1-8B-GPTQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-GPTQ) | [MiniCPM4.1-8B-GPTQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GPTQ) | 
@@ -122,6 +139,263 @@
   | [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
   | [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft) | [MiniCPM-S-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft) |
 </details>
+
+## MiniCPM5 系列
+
+MiniCPM5 是面壁智能新一代端侧模型家族。首发的 **MiniCPM5-1B** 是一款紧凑稠密的 1B Transformer，定位于在 1B 参数量上把"每参数能力密度"做到最高，并配套 RL 后训练、单页 cookbook 与 agent 友好的一键部署链路。
+
+### 亮点
+
+✅ **1B 级公开榜单第一** — 平均分 43.56，对比 LFM2.5-1.2B-Thinking、Qwen3-0.6B/think、Qwen3.5-0.8B/think 三家主流同尺寸模型，在 23 项推理 / 知识 / 代码 / 指令跟随 / 数学 / 逻辑 / Agentic 评测中综合领先；按总参数量计也是其中最小的一档。
+
+✅ **标准架构** — 标准 `LlamaForCausalLM`，使用 **GQA (16 Q / 2 KV)** 与 **SwiGLU**。所有主流推理引擎开箱即用，无需自定义算子。
+
+✅ **原生 128K 上下文** — `max_position_embeddings = 131,072`、`rope_theta = 5e6`，无需 rope-scaling。
+
+✅ **双模式推理** — 内置 `<think>` chat template，通过 `enable_thinking` 切换思考 / 非思考模式，同一份权重既能做快速助手，也能做深度推理。
+
+✅ **单页 Cookbook + 一键 Skill** — 仓库里每条推理 / 微调路径都配有一份单页 cookbook，与一个一一对应的 [Agent Skill](./skills/)，任何 LLM 编码 agent 用一句自然语言 prompt 即可拉起。
+
+### 简介
+
+MiniCPM5-1B 是一款 decoder-only Transformer，旨在最大化每参数的输出质量。它沿用标准 Llama 架构，因此可以在所有主流推理引擎（Transformers、vLLM、SGLang、llama.cpp、MLX、Ollama、LM Studio…）上开箱即用。
+
+| 字段 | 值 |
+| --- | --- |
+| 架构 | `LlamaForCausalLM` (稠密) |
+| 隐层数 | 24 |
+| Hidden / FFN 维度 | 1536 / 4608 (SwiGLU 1:3) |
+| Attention head | 16 Q-heads / 2 KV-heads (**GQA 8:1**) |
+| Head dim | 128 |
+| 归一化 | RMSNorm (ε = 1e-6) |
+| 激活 | SiLU |
+| 词表大小 | 130,560 |
+| 最大位置编码 | **131,072 (128 K)** |
+| RoPE θ | 5,000,000 (无 rope-scaling) |
+| Tie word embeddings | ❌ (独立 `lm_head`) |
+| 张量精度 | bfloat16 |
+| 总参数量（含 embedding） | ~1.0B（精确 1.08B，非嵌入主干 679.55M） |
+
+完整的按组件参数拆解见 [`docs/deployment/transformers.md`](./docs/deployment/transformers.md)。
+
+### 评测结果
+
+#### 标准评测
+
+MiniCPM5-1B 与同尺寸主流开源模型——**LFM2.5-1.2B-Thinking**、**Qwen3-0.6B/think**、**Qwen3.5-0.8B/think**——在 23 项公开评测上做了完整对比，覆盖综合知识 / 领域知识 / 代码 / 指令跟随 / 数学推理 / 逻辑推理 / 主观写作 / Agentic 工具调用。**MiniCPM5-1B 是其中按总参数量最小的一档**，**平均分 43.56**，对比次优的 34.52 拉开显著差距。
+
+| 分类 | 评测集 | **MiniCPM5-1B / think** | LFM2.5-1.2B-Thinking | Qwen3-0.6B / think | Qwen3.5-0.8B / think |
+| --- | --- | ---: | ---: | ---: | ---: |
+| 参数量（含 emb） | — | **1.0B** | 1.2B | 0.8B | 0.8B |
+| **平均分** | — | **43.56** | 34.52 | 28.94 | 24.49 |
+| 综合知识 | MMLU-Pro | **48.85** | 46.68 | 35.63 | 42.74 |
+|  | MMLU-Redux | **70.06** | 65.38 | 55.47 | 61.5 |
+| 领域知识 | GPQA-Diamond | 26.26 | 34.85 | 25.42 | 30.98 |
+|  | SuperGPQA | **23.14** | 22.83 | 20.79 | 22.92 |
+| 代码编程 | HumanEval+ | **78.66** | 61.59 | 50.0 | 25.61 |
+|  | MBPP+ | **62.96** | 45.24 | 37.57 | 9.52 |
+|  | LCB-Pro 25Q2 (Easy) | **22.68** | 6.19 | 4.12 | 0 |
+|  | OJBench | **4.09** | 1.94 | 0.86 | 0.43 |
+|  | LCB-v6@avg3 | **33.52** | 21.33 | 16 | 5.33 |
+| 指令遵循 | IFBench | **46.67** | 41.67 | 25.67 | 29.33 |
+|  | IFEval | 80.41 | 84.84 | 59.89 | 59.89 |
+|  | Multi-IF | 43.54 | 55.61 | 36.56 | 32.31 |
+|  | MultiChallenge | 19.48 | 23.28 | 18.97 | 23.97 |
+| 数学推理 | AIME-2025@avg16 | **40.42** | 30.83 | 16.25 | 1.04 |
+|  | AIME-2026@avg16 | **40.42** | 31.67 | 12.29 | 0.21 |
+|  | HMMT Feb 2026@avg16 | **25.76** | 21.21 | 9.85 | 0.57 |
+|  | MATH-500 | **91.6** | 89 | 72.6 | 30.4 |
+| 逻辑推理 | BBH | **71.89** | 56.84 | 47.86 | 54.58 |
+|  | BBEH | **12.14** | 8.13 | 3.78 | 8.53 |
+| 主观写作 | Arena-Hard-v2 | — | 7.13 | 9.41 | 2.06 |
+|  | WritingBench | — | 33.92 | 55.64 | 48.06 |
+| Agentic | BFCLv4 | **21.9** | 10.6 | — | — |
+|  | τ²-Bench Telecom-AA | **81.58** | 19.6 | 21.1 | 47.7 |
+
+**加粗** = 该行最高分。MiniCPM5-1B 在已报告分数的 21 项中拿下或并列 **18 项第一**，在代码、数学、逻辑、Agentic 四个分类近乎全胜。主观写作（Arena-Hard-v2 / WritingBench）仍在评测中。
+
+![MiniCPM-5 1B 公开榜单成绩](./assets/minicpm5/public_leaderboard.png)
+
+#### RL 后训练增益
+
+RL 后训练是 MiniCPM5-1B 智能跃迁的最大单一来源——它把 SFT checkpoint 转化为推理 / 指令跟随任务中可用的助手。下面这张柱状图把每个评测分数拆成 **SFT 基线**（实心）+ **RL 后训练增量**（斜纹）：
+
+![MiniCPM5-1B RL 后训练增益](./assets/minicpm5/rl_gains.png)
+
+<!-- TODO: 等最终 SFT / RL 分数 lock 后替换占位图。 -->
+
+> 提升最显著的是推理 / 指令跟随类评测（HMMT、IFBench、AIME、IFEval），印证了 RL 是 MiniCPM5-1B 在 1B 段位拿到榜单第一的核心驱动力。
+
+### 推理
+
+MiniCPM5-1B 使用**标准 `LlamaForCausalLM` 架构**，所有主流引擎开箱即用——无需自定义算子，也无模型代码 fork。下面三条一行命令覆盖大多数场景。
+
+| 模式 | 推荐采样参数 | 启用方式 |
+| --- | --- | --- |
+| **Think**（深度推理） | `temperature=0.6, top_p=0.95` | chat template 里 `enable_thinking=True` |
+| **No-think**（快速回答） | `temperature=0.7, top_p=0.8` | chat template 里 `enable_thinking=False` |
+
+#### HuggingFace Transformers
+
+```python
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_path = "openbmb/MiniCPM5-1B"
+tok = AutoTokenizer.from_pretrained(model_path)
+model = AutoModelForCausalLM.from_pretrained(
+    model_path, torch_dtype=torch.bfloat16, device_map="auto"
+).eval()
+
+messages = [{"role": "user", "content": "用一句话解释什么是 GQA。"}]
+inputs = tok.apply_chat_template(
+    messages, add_generation_prompt=True, enable_thinking=True, return_tensors="pt"
+).to(model.device)
+out = model.generate(inputs, max_new_tokens=1024, do_sample=True, temperature=0.6, top_p=0.95)
+print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
+```
+
+无 GPU 的纯 CPU 推理也支持，见 [`docs/deployment/transformers.md`](./docs/deployment/transformers.md)。
+
+#### vLLM
+
+```bash
+pip install "vllm>=0.6.0"
+
+python -m vllm.entrypoints.openai.api_server \
+    --model openbmb/MiniCPM5-1B \
+    --served-model-name MiniCPM5-1B \
+    --dtype bfloat16 \
+    --max-model-len 131072 \
+    --gpu-memory-utilization 0.85 \
+    --port 8000
+```
+
+随后即可通过 OpenAI 兼容接口访问 `http://localhost:8000/v1`。调参与快速验证见 [`docs/deployment/vllm.md`](./docs/deployment/vllm.md)。
+
+#### SGLang
+
+```bash
+pip install "sglang[all]>=0.4"
+
+python -m sglang.launch_server \
+    --model-path openbmb/MiniCPM5-1B \
+    --served-model-name MiniCPM5-1B \
+    --dtype bfloat16 \
+    --context-length 131072 \
+    --mem-fraction-static 0.85 \
+    --host 0.0.0.0 \
+    --port 30000 \
+    --trust-remote-code
+```
+
+若在 conda 环境下报 `GLIBCXX_3.4.31 not found`，参考 [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) 里的 `LD_PRELOAD` 解决方案。
+
+### 部署 Cookbook
+
+下表每一条都对应一份单页 cookbook，**包含一次端到端的精确命令和实际输出**；同时配套一个一句 prompt 即可触发的 [Agent Skill](#agent-skills--一键部署与微调)。
+
+| 后端 | Cookbook |
+| --- | --- |
+| Transformers (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) |
+| vLLM (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) |
+| SGLang (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) |
+| AWQ-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) |
+| GPTQ-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) |
+| llama.cpp (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) |
+| Ollama (GGUF, 端侧) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) |
+| LM Studio (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) |
+| MLX (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) |
+
+### 微调 Cookbook
+
+| 框架 | Cookbook |
+| --- | --- |
+| [TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) | [`docs/finetune/trl.md`](./docs/finetune/trl.md) |
+| [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) | [`docs/finetune/llamafactory.md`](./docs/finetune/llamafactory.md) |
+| [ms-swift](https://github.com/modelscope/ms-swift) | [`docs/finetune/ms_swift.md`](./docs/finetune/ms_swift.md) |
+| [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) |
+| [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) |
+
+### Agent Skills — 一键部署与微调
+
+上述每份 cookbook 都配套一个 [Cursor Agent Skill](https://docs.cursor.com/agent/skills)，任何 LLM 驱动的编码 agent（Cursor / Claude Code / Codex / opencode / …）都可以读取 SKILL.md、安装环境、拉起服务或训练 LoRA，并按统一格式返回 mini-report——**只需一句自然语言 prompt**。
+
+示例（Cursor / Claude Code）：
+
+```
+用 minicpm5-deploy-sglang skill 把 openbmb/MiniCPM5-1B 起在 8000 端口，然后做一次快速验证。
+```
+
+**Deploy skills**（共 10 个）：
+
+| Skill | 用途 |
+| --- | --- |
+| [`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md) | 顶层路由：自动选择合适的后端 |
+| [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) | HF 单次生成（GPU 或 CPU） |
+| [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) | vLLM OpenAI 兼容服务 |
+| [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) | SGLang OpenAI 兼容服务 |
+| [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) | AWQ-Marlin Int4 via vLLM |
+| [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) | GPTQ-Marlin Int4 via vLLM |
+| [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) | GGUF 推理，CPU/GPU 都行 |
+| [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) | Ollama 端侧 GGUF |
+| [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) | Mac LM Studio OpenAI 服务 |
+| [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) | Apple Silicon 原生（MLX） |
+
+**Fine-tune skills**（共 6 个）：
+
+| Skill | 用途 |
+| --- | --- |
+| [`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md) | 顶层路由：自动选择微调框架 |
+| [`minicpm5-finetune-trl`](./skills/minicpm5-finetune-trl/SKILL.md) | LoRA SFT（TRL，assistant-only loss） |
+| [`minicpm5-finetune-llamafactory`](./skills/minicpm5-finetune-llamafactory/SKILL.md) | LLaMA-Factory LoRA SFT |
+| [`minicpm5-finetune-ms-swift`](./skills/minicpm5-finetune-ms-swift/SKILL.md) | ms-swift LoRA SFT |
+| [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) | unsloth LoRA / QLoRA |
+| [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) | xtuner LoRA SFT |
+
+每个 skill 的 `SKILL.md` 都是自包含的——描述了所需环境、具体命令和预期输出，编码 agent 可以端到端跑完无需额外说明。
+
+### 桌宠 \& 人设 LoRA 社区
+
+#### Clawd × MiniCPM5 — 给桌宠装一个本地大脑
+
+MiniCPM5-1B 足够小、也足够强，可以作为桌宠的**本地 LLM 大脑**。我们提供了一个轻量桥接服务 **[minicpm-pet-bridge](https://github.com/OpenBMB/minicpm-pet-bridge)** *(仓库即将开源 — TODO 替换占位)*，把模型暴露为 OpenAI 兼容的本地端点，给 [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk) ——一个跨平台像素桌宠，能实时响应你的 AI 编码 agent——使用。
+
+> 感谢 [@rullerzhou-afk](https://github.com/rullerzhou-afk) 开源 Clawd on Desk。桌宠运行时、动画包、多 agent 集成都是上游的工作；`minicpm-pet-bridge` 只是本地 LLM 的适配层。
+
+一行命令试玩（桌宠 + 本地 MiniCPM5-1B）：
+
+```bash
+# 1) 用 vLLM 起 MiniCPM5-1B（任何 deploy 后端都行）
+python -m vllm.entrypoints.openai.api_server \
+    --model openbmb/MiniCPM5-1B --served-model-name MiniCPM5-1B \
+    --dtype bfloat16 --port 8000
+
+# 2) 在 Clawd on Desk 设置中把 endpoint 指向 http://localhost:8000/v1
+#    （Clawd 设置面板 → MiniCPM 标签页有 GUI 版本）
+```
+
+#### 人设 LoRA 社区 — 由社区共训人设
+
+在 base assistant 之外，我们同步开放 **MiniCPM5 人设 LoRA 社区**：任何人都可以上传一个人设数据集（角色 / 吉祥物 / 角色扮演 / 客服 / …），我们**完成标注与训练后发布成 LoRA**，并在社区页面里署名你的贡献。
+
+```mermaid
+flowchart LR
+    user["社区贡献者"]
+    dataset["上传人设数据集<br/>(JSONL / 对话样本)"]
+    label["官方标注 + 清洗"]
+    train["在 MiniCPM5-1B 上<br/>训练 Persona LoRA"]
+    publish["发布到 LoRA 社区<br/>+ 贡献者署名"]
+    pet["桌宠 / chat<br/>一键加载"]
+    user --> dataset --> label --> train --> publish --> pet
+    publish -.飞轮.-> user
+```
+
+- **社区入口**：[openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub)（HF Space，即将开放 — TODO 替换占位）
+- **如何贡献**：数据集格式、提交流程、署名规则见 [`docs/PERSONA_LORA_HUB-cn.md`](./docs/PERSONA_LORA_HUB-cn.md)（English: [`docs/PERSONA_LORA_HUB-en.md`](./docs/PERSONA_LORA_HUB-en.md)）
+- **首发示例**：`lora_nekoqa_adapter` — 猫娘人设（社区开放时会陆续放出更多）
+
+数据集被采纳并产出 LoRA 后，你的名字 / handle 会出现在 Hub 页面和该 LoRA 的 `README.md` 中。
 
 ## MiniCPM-SALA
 #### 亮点

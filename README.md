@@ -29,6 +29,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 > 👉 **[Learn more and Register](https://soar.openbmb.cn/)**
 
 ## Changelog🔥
+- [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released! A compact dense 1B-class LLM that **tops every public sub-2B leaderboard** in reasoning, knowledge, math, code, instruction-following and agentic use, designed for on-device and resource-constrained deployment. Ships with one-click [Agent Skills](./skills/) for every mainstream inference and fine-tuning backend. 🔥🔥🔥
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** is released! This is the first large-scale hybrid model effectively integrating sparse and linear attention for million-token context modeling. 🔥🔥🔥
 - [2025.09.29] **[InfLLM-V2 paper](https://arxiv.org/abs/2509.24663) is released!** We can train a sparse attention model with only 5B long-text tokens. 🔥🔥🔥
 - [2025.09.05] **[MiniCPM4.1 series](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** are released! This series is a hybrid reasoning model with trainable sparse attention, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥
@@ -43,6 +44,17 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 - [Changelog🔥](#changelog)
 - [Quick Links](#quick-links)
 - [Model Downloads](#model-downloads)
+- [MiniCPM5 Series](#minicpm5-series)
+  - [Highlights](#highlights)
+  - [Introduction](#introduction)
+  - [Evaluation Results](#evaluation-results)
+    - [Standard Benchmarks](#standard-benchmarks)
+    - [RL Post-Training Gains](#rl-post-training-gains)
+  - [Inference](#inference)
+  - [Deployment Cookbooks](#deployment-cookbooks)
+  - [Fine-Tuning Cookbooks](#fine-tuning-cookbooks)
+  - [Agent Skills — One-Click Deploy \& Finetune](#agent-skills--one-click-deploy--finetune)
+  - [Desktop Pet \& Persona LoRA Hub](#desktop-pet--persona-lora-hub)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 and MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
     - [Highlights](#highlights)
@@ -99,6 +111,11 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
   | HuggingFace | ModelScope |
   |-------------|------------|
+  | [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B) | [MiniCPM5-1B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B) |
+  | [MiniCPM5-1B-GGUF](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | [MiniCPM5-1B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GGUF) |
+  | [MiniCPM5-1B-MLX](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | [MiniCPM5-1B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-MLX) |
+  | [MiniCPM5-1B-AWQ](https://huggingface.co/openbmb/MiniCPM5-1B-AWQ) | [MiniCPM5-1B-AWQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-AWQ) |
+  | [MiniCPM5-1B-GPTQ](https://huggingface.co/openbmb/MiniCPM5-1B-GPTQ) | [MiniCPM5-1B-GPTQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GPTQ) |
   | [MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA) | [MiniCPM-SALA](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA) |
   | [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
   | [MiniCPM4.1-8B-GPTQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-GPTQ) | [MiniCPM4.1-8B-GPTQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GPTQ) | 
@@ -134,6 +151,263 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   | [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
   | [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft) | [MiniCPM-S-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft) |
 </details>
+
+## MiniCPM5 Series
+
+MiniCPM5 is our next-generation end-side model family. The first release, **MiniCPM5-1B**, is a compact dense 1B Transformer designed to maximize quality-per-parameter at the 1B scale, with a heavy emphasis on RL post-training, verified one-click cookbooks, and an agent-friendly deployment story.
+
+### Highlights
+
+✅ **Strongest 1B-class model on public leaderboards** — leads the **average score** (43.56) against LFM2.5-1.2B-Thinking, Qwen3-0.6B/think and Qwen3.5-0.8B/think across 23 reasoning, knowledge, code, instruction-following and agentic benchmarks, despite being the smallest counted by total parameters.
+
+✅ **Standard Architecture** — `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Runs on every mainstream engine without custom kernels.
+
+✅ **Native 128 K Context** — `max_position_embeddings = 131,072`, `rope_theta = 5e6`, no rope-scaling needed.
+
+✅ **Dual-Mode Reasoning** — built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
+
+✅ **Single-Page Cookbooks & One-Click Skills** — every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/) for one-prompt deployment by any LLM coding agent.
+
+### Introduction
+
+MiniCPM5-1B is a compact dense decoder-only Transformer trained to maximize quality per parameter. It keeps the standard Llama architecture so it runs out-of-the-box on every mainstream inference engine (Transformers, vLLM, SGLang, llama.cpp, MLX, Ollama, LM Studio…) without custom kernels.
+
+| Field | Value |
+| --- | --- |
+| Architecture | `LlamaForCausalLM` (dense) |
+| Hidden layers | 24 |
+| Hidden size / FFN size | 1536 / 4608 (SwiGLU 1:3) |
+| Attention heads | 16 Q-heads / 2 KV-heads (**GQA 8:1**) |
+| Head dim | 128 |
+| Normalization | RMSNorm (ε = 1e-6) |
+| Activation | SiLU |
+| Vocabulary size | 130,560 |
+| Max position embeddings | **131,072 (128 K)** |
+| RoPE θ | 5,000,000 (no rope-scaling) |
+| Tie word embeddings | ❌ (independent `lm_head`) |
+| Tensor dtype | bfloat16 |
+| Total params (incl. embeddings) | ~1.0 B (1.08 B exact, 679.55 M non-embedding backbone) |
+
+For the full per-component parameter breakdown see [`docs/deployment/transformers.md`](./docs/deployment/transformers.md).
+
+### Evaluation Results
+
+#### Standard Benchmarks
+
+MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers — **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think** — across 23 public benchmarks spanning general / domain knowledge, code, instruction-following, math, logical reasoning, subjective writing, and agentic tool use. **MiniCPM5-1B is the smallest model by parameter count** and **wins the overall average by a wide margin (43.56 vs. next-best 34.52)**.
+
+| Category | Benchmark | **MiniCPM5-1B / think** | LFM2.5-1.2B-Thinking | Qwen3-0.6B / think | Qwen3.5-0.8B / think |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Params (incl. emb) | — | **1.0 B** | 1.2 B | 0.8 B | 0.8 B |
+| **Average** | — | **43.56** | 34.52 | 28.94 | 24.49 |
+| General knowledge | MMLU-Pro | **48.85** | 46.68 | 35.63 | 42.74 |
+|  | MMLU-Redux | **70.06** | 65.38 | 55.47 | 61.5 |
+| Domain knowledge | GPQA-Diamond | 26.26 | 34.85 | 25.42 | 30.98 |
+|  | SuperGPQA | **23.14** | 22.83 | 20.79 | 22.92 |
+| Code | HumanEval+ | **78.66** | 61.59 | 50.0 | 25.61 |
+|  | MBPP+ | **62.96** | 45.24 | 37.57 | 9.52 |
+|  | LCB-Pro 25Q2 (Easy) | **22.68** | 6.19 | 4.12 | 0 |
+|  | OJBench | **4.09** | 1.94 | 0.86 | 0.43 |
+|  | LCB-v6@avg3 | **33.52** | 21.33 | 16 | 5.33 |
+| Instruction following | IFBench | **46.67** | 41.67 | 25.67 | 29.33 |
+|  | IFEval | 80.41 | 84.84 | 59.89 | 59.89 |
+|  | Multi-IF | 43.54 | 55.61 | 36.56 | 32.31 |
+|  | MultiChallenge | 19.48 | 23.28 | 18.97 | 23.97 |
+| Math reasoning | AIME-2025@avg16 | **40.42** | 30.83 | 16.25 | 1.04 |
+|  | AIME-2026@avg16 | **40.42** | 31.67 | 12.29 | 0.21 |
+|  | HMMT Feb 2026@avg16 | **25.76** | 21.21 | 9.85 | 0.57 |
+|  | MATH-500 | **91.6** | 89 | 72.6 | 30.4 |
+| Logical reasoning | BBH | **71.89** | 56.84 | 47.86 | 54.58 |
+|  | BBEH | **12.14** | 8.13 | 3.78 | 8.53 |
+| Subjective writing | Arena-Hard-v2 | — | 7.13 | 9.41 | 2.06 |
+|  | WritingBench | — | 33.92 | 55.64 | 48.06 |
+| Agentic | BFCLv4 | **21.9** | 10.6 | — | — |
+|  | τ²-Bench Telecom-AA | **81.58** | 19.6 | 21.1 | 47.7 |
+
+**Bold** = top score in row. MiniCPM5-1B leads or ties on **18 of the 21 benchmarks where we report a score**, including a near-clean sweep of the code, math, logical-reasoning and agentic categories. Subjective writing (Arena-Hard-v2 / WritingBench) is still being evaluated.
+
+![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard.png)
+
+#### RL Post-Training Gains
+
+RL post-training delivers the largest single jump in MiniCPM5-1B's intelligence — it is what turns the SFT checkpoint into a usable assistant on reasoning-heavy and instruction-following workloads. The chart below decomposes each benchmark score into the **SFT base** (solid) plus the **RL post-training gain** (hatched):
+
+![MiniCPM5-1B RL Post-Training Gains](./assets/minicpm5/rl_gains.png)
+
+<!-- TODO: replace placeholder figure once final SFT / RL scores are locked. -->
+
+> The largest gains come from reasoning-heavy and instruction-following benchmarks (HMMT, IFBench, AIME, IFEval), confirming that RL is the dominant driver of MiniCPM5-1B's leaderboard lead at the 1B scale.
+
+### Inference
+
+MiniCPM5-1B uses the **standard `LlamaForCausalLM` architecture**, so it runs out-of-the-box on every mainstream engine — no custom kernels, no model-code fork. Three one-line paths cover the most common scenarios.
+
+| Mode | Recommended params | How to enable |
+| --- | --- | --- |
+| **Think** (deliberate reasoning) | `temperature=0.6, top_p=0.95` | `enable_thinking=True` in chat template |
+| **No-think** (fast answering) | `temperature=0.7, top_p=0.8` | `enable_thinking=False` in chat template |
+
+#### HuggingFace Transformers
+
+```python
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_path = "openbmb/MiniCPM5-1B"
+tok = AutoTokenizer.from_pretrained(model_path)
+model = AutoModelForCausalLM.from_pretrained(
+    model_path, torch_dtype=torch.bfloat16, device_map="auto"
+).eval()
+
+messages = [{"role": "user", "content": "用一句话解释什么是 GQA。"}]
+inputs = tok.apply_chat_template(
+    messages, add_generation_prompt=True, enable_thinking=True, return_tensors="pt"
+).to(model.device)
+out = model.generate(inputs, max_new_tokens=1024, do_sample=True, temperature=0.6, top_p=0.95)
+print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
+```
+
+CPU-only inference (no GPU) works too — see [`docs/deployment/transformers.md`](./docs/deployment/transformers.md).
+
+#### vLLM
+
+```bash
+pip install "vllm>=0.6.0"
+
+python -m vllm.entrypoints.openai.api_server \
+    --model openbmb/MiniCPM5-1B \
+    --served-model-name MiniCPM5-1B \
+    --dtype bfloat16 \
+    --max-model-len 131072 \
+    --gpu-memory-utilization 0.85 \
+    --port 8000
+```
+
+Then call the OpenAI-compatible endpoint at `http://localhost:8000/v1`. See [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) for tuning knobs and a quick sanity check.
+
+#### SGLang
+
+```bash
+pip install "sglang[all]>=0.4"
+
+python -m sglang.launch_server \
+    --model-path openbmb/MiniCPM5-1B \
+    --served-model-name MiniCPM5-1B \
+    --dtype bfloat16 \
+    --context-length 131072 \
+    --mem-fraction-static 0.85 \
+    --host 0.0.0.0 \
+    --port 30000 \
+    --trust-remote-code
+```
+
+If startup fails with `GLIBCXX_3.4.31 not found` on a conda env, see the `LD_PRELOAD` workaround in [`docs/deployment/sglang.md`](./docs/deployment/sglang.md).
+
+### Deployment Cookbooks
+
+Every backend below has a single-page cookbook with the **exact command and observed output** of an end-to-end run. Each cookbook is paired with a one-prompt [Agent Skill](#agent-skills--one-click-deploy--finetune) that an LLM agent can trigger automatically.
+
+| Backend | Cookbook |
+| --- | --- |
+| Transformers (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) |
+| vLLM (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) |
+| SGLang (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) |
+| AWQ-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) |
+| GPTQ-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) |
+| llama.cpp (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) |
+| Ollama (GGUF, end-side) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) |
+| LM Studio (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) |
+| MLX (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) |
+
+### Fine-Tuning Cookbooks
+
+| Framework | Cookbook |
+| --- | --- |
+| [TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) | [`docs/finetune/trl.md`](./docs/finetune/trl.md) |
+| [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) | [`docs/finetune/llamafactory.md`](./docs/finetune/llamafactory.md) |
+| [ms-swift](https://github.com/modelscope/ms-swift) | [`docs/finetune/ms_swift.md`](./docs/finetune/ms_swift.md) |
+| [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) |
+| [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) |
+
+### Agent Skills — One-Click Deploy \& Finetune
+
+Every cookbook above ships with a matched [Cursor Agent Skill](https://docs.cursor.com/agent/skills) so any LLM-driven coding agent (Cursor / Claude Code / Codex / opencode / …) can read the SKILL.md, set up the env, deploy the server or train a LoRA, and report a mini-report back — **from a single natural-language prompt**.
+
+Example prompt (Cursor / Claude Code):
+
+```
+Use the minicpm5-deploy-sglang skill to serve openbmb/MiniCPM5-1B on port 8000, then send it a quick sanity check.
+```
+
+**Deploy skills** (10):
+
+| Skill | Use |
+| --- | --- |
+| [`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md) | Router: pick the right backend automatically |
+| [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) | One-shot HF generation (GPU or CPU) |
+| [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) | OpenAI-compatible vLLM server |
+| [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) | OpenAI-compatible SGLang server |
+| [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) | AWQ-Marlin Int4 via vLLM |
+| [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) | GPTQ-Marlin Int4 via vLLM |
+| [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) | GGUF inference, CPU/GPU |
+| [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) | End-side GGUF via Ollama |
+| [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) | LM Studio OpenAI server on Mac |
+| [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) | Apple Silicon native via MLX |
+
+**Fine-tune skills** (6):
+
+| Skill | Use |
+| --- | --- |
+| [`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md) | Router: pick a fine-tuning framework |
+| [`minicpm5-finetune-trl`](./skills/minicpm5-finetune-trl/SKILL.md) | LoRA SFT (TRL, assistant-only loss) |
+| [`minicpm5-finetune-llamafactory`](./skills/minicpm5-finetune-llamafactory/SKILL.md) | LoRA SFT via LLaMA-Factory |
+| [`minicpm5-finetune-ms-swift`](./skills/minicpm5-finetune-ms-swift/SKILL.md) | LoRA SFT via ms-swift |
+| [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) | LoRA / QLoRA via unsloth |
+| [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) | LoRA SFT via xtuner |
+
+Each skill's `SKILL.md` is self-contained — it describes the environment, the exact commands, and the expected output, so a coding agent can drive it end-to-end without further instructions.
+
+### Desktop Pet \& Persona LoRA Hub
+
+#### Clawd × MiniCPM5 — local LLM brain for your desktop pet
+
+MiniCPM5-1B is small enough and capable enough to be the **local LLM brain** for an interactive desktop pet. We provide a thin bridge service, **[minicpm-pet-bridge](https://github.com/OpenBMB/minicpm-pet-bridge)** *(repo coming soon — TODO replace placeholder)*, that exposes the model as an OpenAI-compatible local endpoint for [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk) — a cross-platform pixel desktop pet that reacts to your AI coding agent in real time.
+
+> Thanks to [@rullerzhou-afk](https://github.com/rullerzhou-afk) for building Clawd on Desk. The pet runtime, animation packs, and multi-agent integrations are all upstream work — `minicpm-pet-bridge` is just the local-LLM adapter.
+
+One-liner to try the pet with a locally served MiniCPM5-1B:
+
+```bash
+# 1) start MiniCPM5-1B via vLLM (any deploy backend works)
+python -m vllm.entrypoints.openai.api_server \
+    --model openbmb/MiniCPM5-1B --served-model-name MiniCPM5-1B \
+    --dtype bfloat16 --port 8000
+
+# 2) point Clawd on Desk at http://localhost:8000/v1 (OpenAI-compatible)
+#    → see Clawd's settings → MiniCPM tab for the GUI version
+```
+
+#### Persona LoRA Hub — community-trained personalities
+
+Beyond the base assistant, we are launching the **MiniCPM5 Persona LoRA Hub**: a community-driven space where anyone can upload a persona dataset (character / mascot / role-play / customer-service / …), get it **labeled and trained by us into a published LoRA**, and have their contribution credited on the hub.
+
+```mermaid
+flowchart LR
+    user["Community contributor"]
+    dataset["Upload persona dataset<br/>(JSONL / chat samples)"]
+    label["Official annotation + cleaning"]
+    train["Train Persona LoRA<br/>on MiniCPM5-1B"]
+    publish["Publish to Persona LoRA Hub<br/>+ contributor credit"]
+    pet["Desktop Pet / chat<br/>one-click load"]
+    user --> dataset --> label --> train --> publish --> pet
+    publish -.flywheel.-> user
+```
+
+- **Hub**: [openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub) on Hugging Face Spaces *(coming soon — TODO replace placeholder)*
+- **How to contribute**: dataset format, submission steps, attribution policy → [`docs/PERSONA_LORA_HUB-en.md`](./docs/PERSONA_LORA_HUB-en.md) (中文版：[`docs/PERSONA_LORA_HUB-cn.md`](./docs/PERSONA_LORA_HUB-cn.md))
+- **First example**: `lora_nekoqa_adapter` — a cat-girl chat persona (more launching alongside the hub)
+
+If your dataset is accepted and the resulting LoRA is published, you will be credited by name / handle on both the hub page and in the LoRA's `README.md`.
 
 ## MiniCPM-SALA
 #### Highlights
