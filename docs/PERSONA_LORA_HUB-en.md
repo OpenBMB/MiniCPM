@@ -4,7 +4,7 @@
 
 The **MiniCPM5 Persona LoRA Hub** is a community-driven space where anyone can contribute a persona dataset, get it **labeled and trained by us into a published LoRA on top of MiniCPM5-1B**, and have their contribution credited on the hub.
 
-- **Hub**: [openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub) *(coming soon — TODO replace placeholder)*
+- **Hub**: `openbmb/minicpm5-persona-lora-hub`
 - **Base model**: [openbmb/MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)
 - **License**: contributed datasets must be Apache-2.0 / CC-BY-4.0 / CC0 / public-domain compatible
 
@@ -12,7 +12,7 @@ The **MiniCPM5 Persona LoRA Hub** is a community-driven space where anyone can c
 
 1B-class models are uniquely well suited to **on-device, always-on, personality-rich agents**: desktop pets, role-play companions, branded customer service avatars, fictional NPCs. The base assistant cannot capture all of these personalities at once, but a small (~5–20 MB) LoRA adapter can — and *anyone* can ship one if they have the data.
 
-The hub is the social layer: contributors bring data, we bring the GPU and training pipeline, the community gets a steady stream of free, plug-and-play personalities for [`minicpm-pet-bridge`](https://github.com/OpenBMB/minicpm-pet-bridge), chat UIs, and downstream apps.
+The hub is the social layer: contributors bring data, we bring the GPU and training pipeline, the community gets a steady stream of free, plug-and-play personalities for `minicpm-pet-bridge`, chat UIs, and downstream apps.
 
 ## Workflow
 
@@ -33,7 +33,7 @@ flowchart LR
 3. We **label / clean** the data, building an instruction-tuned mixture compatible with our SFT recipe.
 4. We **train** a LoRA on `MiniCPM5-1B` using TRL + PEFT (assistant-only loss; see [`finetune/trl.md`](./finetune/trl.md) for the underlying recipe).
 5. We **publish** the LoRA back to the hub with a model card that **credits you by name / handle** and links the source dataset.
-6. The LoRA is **immediately usable** in [`minicpm-pet-bridge`](https://github.com/OpenBMB/minicpm-pet-bridge), any of our [deploy skills](../skills/), or any TRL/PEFT-compatible runtime.
+6. The LoRA is **immediately usable** in `minicpm-pet-bridge`, any of our [deploy skills](../skills/), or any TRL/PEFT-compatible runtime.
 
 ## Dataset format
 
@@ -68,7 +68,7 @@ Useful for character bios, world-building, monologues. We will convert these int
 
 ## Submission
 
-1. Fork [openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub) *(URL TBD)* and add your dataset under `datasets/<your-persona-name>/`, plus a `README.md` with:
+1. Fork `openbmb/minicpm5-persona-lora-hub` and add your dataset under `datasets/<your-persona-name>/`, plus a `README.md` with:
    - persona name, one-line tagline, intended use (pet / role-play / customer-service / …)
    - your name / handle and how you want to be credited
    - source attribution if the data is derivative
@@ -92,7 +92,7 @@ When we publish a LoRA built from your dataset:
 
 ## First example
 
-[`lora_nekoqa_adapter`](https://huggingface.co/openbmb/minicpm5-persona-lora-hub) *(URL TBD)* — a cat-girl chat persona trained on a community-contributed dataset. Ships pre-loaded in `minicpm-pet-bridge` as a default theme.
+`lora_nekoqa_adapter` — a cat-girl chat persona trained on a community-contributed dataset. Ships pre-loaded in `minicpm-pet-bridge` as a default theme.
 
 ## Questions
 

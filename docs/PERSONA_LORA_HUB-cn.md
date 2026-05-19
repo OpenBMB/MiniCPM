@@ -4,7 +4,7 @@
 
 **MiniCPM5 人设 LoRA 社区**是一个社区驱动的平台：任何人都可以上传一份人设数据集，由我们**完成标注、训练并以 LoRA 形式发布在 MiniCPM5-1B 之上**，并在社区中署名你的贡献。
 
-- **社区入口**：[openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub)（即将开放 — TODO 替换占位）
+- **社区入口**：`openbmb/minicpm5-persona-lora-hub`
 - **基座模型**：[openbmb/MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)
 - **License**：贡献数据集需为 Apache-2.0 / CC-BY-4.0 / CC0 / 公有领域兼容
 
@@ -12,7 +12,7 @@
 
 1B 级模型天然契合**端侧、长在线、人格鲜明的 agent**——桌宠、角色扮演伙伴、品牌客服形象、虚构 NPC。基座 assistant 无法一次性承载所有性格，但一个 ~5–20MB 的 LoRA adapter 可以；只要有数据，**任何人**都可以把一个性格做出来。
 
-社区做的是社交协作层：贡献者出数据，我们出 GPU 与训练流水线，社区获得源源不断、开箱即用的免费人设，可以直接用于 [`minicpm-pet-bridge`](https://github.com/OpenBMB/minicpm-pet-bridge)、chat UI 与下游应用。
+社区做的是社交协作层：贡献者出数据，我们出 GPU 与训练流水线，社区获得源源不断、开箱即用的免费人设，可以直接用于 `minicpm-pet-bridge`、chat UI 与下游应用。
 
 ## 工作流
 
@@ -33,7 +33,7 @@ flowchart LR
 3. 我们对数据做**标注 / 清洗**，构造与 SFT recipe 兼容的指令混合。
 4. 我们用 TRL + PEFT（assistant-only loss，参见底层 recipe [`finetune/trl.md`](./finetune/trl.md)）在 `MiniCPM5-1B` 上**训练 LoRA**。
 5. 我们把 LoRA **发布**到社区，model card 上**按你提供的 handle 署名**并链接原数据集。
-6. LoRA 可以**立即**在 [`minicpm-pet-bridge`](https://github.com/OpenBMB/minicpm-pet-bridge)、任何 [deploy skill](../skills/)、或任何 TRL/PEFT 兼容的运行时里加载使用。
+6. LoRA 可以**立即**在 `minicpm-pet-bridge`、任何 [deploy skill](../skills/)、或任何 TRL/PEFT 兼容的运行时里加载使用。
 
 ## 数据集格式
 
@@ -68,7 +68,7 @@ flowchart LR
 
 ## 提交方式
 
-1. Fork [openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub)（URL 待定），把数据集放到 `datasets/<你的人设名>/`，并附上 `README.md` 含：
+1. Fork `openbmb/minicpm5-persona-lora-hub`，把数据集放到 `datasets/<你的人设名>/`，并附上 `README.md` 含：
    - 人设名、一行 tagline、用途（桌宠 / 角色扮演 / 客服 / …）
    - 你的姓名 / handle 与希望的署名方式
    - 数据来源说明（如果是衍生作品）
@@ -92,7 +92,7 @@ flowchart LR
 
 ## 首发示例
 
-[`lora_nekoqa_adapter`](https://huggingface.co/openbmb/minicpm5-persona-lora-hub)（URL 待定）—— 猫娘 chat 人设，基于社区贡献的数据集。`minicpm-pet-bridge` 默认主题之一。
+`lora_nekoqa_adapter`—— 猫娘 chat 人设，基于社区贡献的数据集。`minicpm-pet-bridge` 默认主题之一。
 
 ## 问答
 

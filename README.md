@@ -293,7 +293,7 @@ Reference apps built on top of MiniCPM5-1B, showing what a 1B-class on-device mo
 
 #### Desktop Pet — Clawd × MiniCPM5
 
-MiniCPM5-1B is small enough and capable enough to be the **local LLM brain** for an interactive desktop pet. We provide a thin bridge service, **[minicpm-pet-bridge](https://github.com/OpenBMB/minicpm-pet-bridge)** *(repo coming soon — TODO replace placeholder)*, that exposes the model as an OpenAI-compatible local endpoint for [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk) — a cross-platform pixel desktop pet that reacts to your AI coding agent in real time.
+MiniCPM5-1B is small enough and capable enough to be the **local LLM brain** for an interactive desktop pet. We provide a thin bridge service, **`minicpm-pet-bridge`**, that exposes the model as an OpenAI-compatible local endpoint for [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk) — a cross-platform pixel desktop pet that reacts to your AI coding agent in real time.
 
 > Thanks to [@rullerzhou-afk](https://github.com/rullerzhou-afk) for building Clawd on Desk. The pet runtime, animation packs, and multi-agent integrations are all upstream work — `minicpm-pet-bridge` is just the local-LLM adapter.
 
@@ -313,9 +313,9 @@ python -m vllm.entrypoints.openai.api_server \
 
 Beyond the base assistant, we are launching the **MiniCPM5 Persona LoRA Hub**: a community-driven space where anyone can upload a persona dataset (character / mascot / role-play / customer-service / …), get it **labeled and trained by us into a published LoRA**, and have their contribution credited on the hub.
 
-- **Hub**: [openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub) on Hugging Face Spaces *(coming soon — TODO replace placeholder)*
+- **Hub**: `openbmb/minicpm5-persona-lora-hub` on Hugging Face Spaces
 - **How to contribute**: dataset format, submission steps, attribution policy → [`docs/PERSONA_LORA_HUB-en.md`](./docs/PERSONA_LORA_HUB-en.md) (中文版：[`docs/PERSONA_LORA_HUB-cn.md`](./docs/PERSONA_LORA_HUB-cn.md))
-- **First example**: `lora_nekoqa_adapter` — a cat-girl chat persona (more launching alongside the hub)
+- **First example**: `lora_nekoqa_adapter` — a cat-girl chat persona
 
 If your dataset is accepted and the resulting LoRA is published, you will be credited by name / handle on both the hub page and in the LoRA's `README.md`.
 
