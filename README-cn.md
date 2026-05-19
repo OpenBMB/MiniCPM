@@ -222,7 +222,7 @@ MiniCPM5-1B 与同尺寸主流开源模型——**LFM2.5-1.2B-Thinking**、**Qwe
 
 RL 后训练是 MiniCPM5-1B 智能跃迁的最大单一来源——它把 SFT checkpoint 转化为推理 / 指令跟随任务中可用的助手。
 
-> 📊 *分项 SFT → RL 增益柱状图即将公布。* 预览结论：提升最显著的是推理 / 指令跟随类评测（HMMT、IFBench、AIME、IFEval），印证了 RL 是 MiniCPM5-1B 在 1B 段位拿到榜单第一的核心驱动力。
+> 📊 *分项 SFT → RL 增益柱状图即将公布。*
 
 ### 一句话拉起 — Agent Skills
 

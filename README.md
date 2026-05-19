@@ -234,7 +234,7 @@ MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers — **
 
 RL post-training delivers the largest single jump in MiniCPM5-1B's intelligence — it is what turns the SFT checkpoint into a usable assistant on reasoning-heavy and instruction-following workloads.
 
-> 📊 *Per-benchmark SFT → RL gains chart coming soon.* — preview shows the largest deltas land on reasoning-heavy and instruction-following tasks (HMMT, IFBench, AIME, IFEval), confirming RL as the dominant driver of MiniCPM5-1B's leaderboard lead at the 1B scale.
+> 📊 *Per-benchmark SFT → RL gains chart coming soon.*
 
 ### Run It in One Prompt — Agent Skills
 
