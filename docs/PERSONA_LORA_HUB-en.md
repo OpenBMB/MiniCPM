@@ -18,14 +18,14 @@ The hub is the social layer: contributors bring data, we bring the GPU and train
 
 ```mermaid
 flowchart LR
-    user["Community contributor"]
-    dataset["Upload persona dataset<br/>(JSONL / chat samples)"]
-    label["Official annotation + cleaning"]
-    train["Train Persona LoRA<br/>on MiniCPM5-1B"]
-    publish["Publish to Persona LoRA Hub<br/>+ contributor credit"]
-    pet["Desktop Pet / chat<br/>one-click load"]
-    user --> dataset --> label --> train --> publish --> pet
-    publish -.flywheel.-> user
+    contributor["Community contributor"]
+    upload["Upload persona dataset<br/>(JSONL / chat samples)"]
+    annotate["Official annotation + cleaning"]
+    trainStep["Train Persona LoRA<br/>on MiniCPM5-1B"]
+    publishStep["Publish to Persona LoRA Hub<br/>+ contributor credit"]
+    loadStep["Desktop Pet / chat<br/>one-click load"]
+    contributor --> upload --> annotate --> trainStep --> publishStep --> loadStep
+    publishStep -.->|flywheel| contributor
 ```
 
 1. **Submit** your raw persona data via the hub (or as a HF dataset PR).

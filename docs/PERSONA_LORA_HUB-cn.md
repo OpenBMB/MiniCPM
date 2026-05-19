@@ -18,14 +18,14 @@
 
 ```mermaid
 flowchart LR
-    user["社区贡献者"]
-    dataset["上传人设数据集<br/>(JSONL / 对话样本)"]
-    label["官方标注 + 清洗"]
-    train["在 MiniCPM5-1B 上<br/>训练 Persona LoRA"]
-    publish["发布到 LoRA 社区<br/>+ 贡献者署名"]
-    pet["桌宠 / chat<br/>一键加载"]
-    user --> dataset --> label --> train --> publish --> pet
-    publish -.飞轮.-> user
+    contributor["社区贡献者"]
+    upload["上传人设数据集<br/>(JSONL / 对话样本)"]
+    annotate["官方标注 + 清洗"]
+    trainStep["在 MiniCPM5-1B 上<br/>训练 Persona LoRA"]
+    publishStep["发布到 LoRA 社区<br/>+ 贡献者署名"]
+    loadStep["桌宠 / chat<br/>一键加载"]
+    contributor --> upload --> annotate --> trainStep --> publishStep --> loadStep
+    publishStep -.->|飞轮| contributor
 ```
 
 1. 在社区入口（或以 HF dataset PR 形式）**提交**原始人设数据。
