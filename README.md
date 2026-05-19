@@ -52,7 +52,9 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
     - [RL Post-Training Gains](#rl-post-training-gains)
   - [Run It in One Prompt — Agent Skills](#run-it-in-one-prompt--agent-skills)
   - [Cookbooks — For Deeper Dives](#cookbooks--for-deeper-dives)
-  - [Desktop Pet \& Persona LoRA Hub](#desktop-pet--persona-lora-hub)
+  - [MiniCPM5 Applications](#minicpm5-applications)
+    - [Desktop Pet — Clawd × MiniCPM5](#desktop-pet--clawd--minicpm5)
+    - [Persona LoRA Hub](#persona-lora-hub)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 and MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
     - [Highlights](#highlights)
@@ -165,6 +167,8 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 ✅ **Dual-Mode Reasoning** — built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
 
 ✅ **Single-Page Cookbooks & One-Click Skills** — every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/) for one-prompt deployment by any LLM coding agent.
+
+✅ **Ready-Made Applications** — drop-in reference apps to show what a 1B model can do on-device today: a desktop pet powered locally by MiniCPM5-1B and a community-driven **Persona LoRA Hub** for personality fine-tunes. See [MiniCPM5 Applications](#minicpm5-applications).
 
 ### Introduction
 
@@ -314,9 +318,11 @@ Prefer to drive things by hand, or want to know exactly what each Agent Skill do
 | [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) | [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) |
 | [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) | [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) |
 
-### Desktop Pet \& Persona LoRA Hub
+### MiniCPM5 Applications
 
-#### Clawd × MiniCPM5 — local LLM brain for your desktop pet
+Reference apps built on top of MiniCPM5-1B, showing what a 1B-class on-device model can power in real-world scenarios. Both apps are open and accept community contributions.
+
+#### Desktop Pet — Clawd × MiniCPM5
 
 MiniCPM5-1B is small enough and capable enough to be the **local LLM brain** for an interactive desktop pet. We provide a thin bridge service, **[minicpm-pet-bridge](https://github.com/OpenBMB/minicpm-pet-bridge)** *(repo coming soon — TODO replace placeholder)*, that exposes the model as an OpenAI-compatible local endpoint for [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk) — a cross-platform pixel desktop pet that reacts to your AI coding agent in real time.
 
@@ -334,7 +340,7 @@ python -m vllm.entrypoints.openai.api_server \
 #    → see Clawd's settings → MiniCPM tab for the GUI version
 ```
 
-#### Persona LoRA Hub — community-trained personalities
+#### Persona LoRA Hub
 
 Beyond the base assistant, we are launching the **MiniCPM5 Persona LoRA Hub**: a community-driven space where anyone can upload a persona dataset (character / mascot / role-play / customer-service / …), get it **labeled and trained by us into a published LoRA**, and have their contribution credited on the hub.
 

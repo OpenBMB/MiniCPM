@@ -41,7 +41,9 @@
     - [RL 后训练增益](#rl-后训练增益)
   - [一句话拉起 — Agent Skills](#一句话拉起--agent-skills)
   - [Cookbook — 给想深入的用户](#cookbook--给想深入的用户)
-  - [桌宠 \& 人设 LoRA 社区](#桌宠--人设-lora-社区)
+  - [MiniCPM5 应用](#minicpm5-应用)
+    - [桌宠 — Clawd × MiniCPM5](#桌宠--clawd--minicpm5)
+    - [人设 LoRA 社区](#人设-lora-社区)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 和 MiniCPM4.1 系列](#minicpm4-和-minicpm41-系列)
     - [亮点](#亮点)
@@ -153,6 +155,8 @@ MiniCPM5 是面壁智能新一代端侧模型家族。首发的 **MiniCPM5-1B** 
 ✅ **双模式推理** — 内置 `<think>` chat template，通过 `enable_thinking` 切换思考 / 非思考模式，同一份权重既能做快速助手，也能做深度推理。
 
 ✅ **单页 Cookbook + 一键 Skill** — 仓库里每条推理 / 微调路径都配有一份单页 cookbook，与一个一一对应的 [Agent Skill](./skills/)，任何 LLM 编码 agent 用一句自然语言 prompt 即可拉起。
+
+✅ **配套应用 Demo** — 现成的应用 case，直观展示 1B 端侧模型能做什么：MiniCPM5-1B 作本地大脑的桌宠 + 社区共训的人设 LoRA 社区，详见 [MiniCPM5 应用](#minicpm5-应用)。
 
 ### 简介
 
@@ -302,9 +306,11 @@ flowchart LR
 | [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) | [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) |
 | [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) | [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) |
 
-### 桌宠 \& 人设 LoRA 社区
+### MiniCPM5 应用
 
-#### Clawd × MiniCPM5 — 给桌宠装一个本地大脑
+构建在 MiniCPM5-1B 上的参考应用，直观展示 1B 端侧模型在真实场景下能做什么。两个应用都开源，欢迎社区贡献。
+
+#### 桌宠 — Clawd × MiniCPM5
 
 MiniCPM5-1B 足够小、也足够强，可以作为桌宠的**本地 LLM 大脑**。我们提供了一个轻量桥接服务 **[minicpm-pet-bridge](https://github.com/OpenBMB/minicpm-pet-bridge)** *(仓库即将开源 — TODO 替换占位)*，把模型暴露为 OpenAI 兼容的本地端点，给 [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk) ——一个跨平台像素桌宠，能实时响应你的 AI 编码 agent——使用。
 
@@ -322,7 +328,7 @@ python -m vllm.entrypoints.openai.api_server \
 #    （Clawd 设置面板 → MiniCPM 标签页有 GUI 版本）
 ```
 
-#### 人设 LoRA 社区 — 由社区共训人设
+#### 人设 LoRA 社区
 
 在 base assistant 之外，我们同步开放 **MiniCPM5 人设 LoRA 社区**：任何人都可以上传一个人设数据集（角色 / 吉祥物 / 角色扮演 / 客服 / …），我们**完成标注与训练后发布成 LoRA**，并在社区页面里署名你的贡献。
 
