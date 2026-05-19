@@ -256,33 +256,6 @@ Drop a line like this into Cursor / Claude Code and the agent picks the right su
 @minicpm5-finetune use unsloth + LoRA on /data/my_chat.jsonl, write to ./out
 ```
 
-How the routers dispatch:
-
-```mermaid
-flowchart LR
-    user["User prompt"]
-    deploy["minicpm5-deploy<br/>(inference router)"]
-    finetune["minicpm5-finetune<br/>(fine-tune router)"]
-    user -->|"deploy / serve / 部署"| deploy
-    user -->|"fine-tune / LoRA / 微调"| finetune
-
-    deploy --> d1[transformers]
-    deploy --> d2[vllm]
-    deploy --> d3[sglang]
-    deploy --> d4[awq]
-    deploy --> d5[gptq]
-    deploy --> d6[llama-cpp]
-    deploy --> d7[ollama]
-    deploy --> d8[lmstudio]
-    deploy --> d9[mlx]
-
-    finetune --> f1[trl]
-    finetune --> f2[llamafactory]
-    finetune --> f3[ms-swift]
-    finetune --> f4[unsloth]
-    finetune --> f5[xtuner]
-```
-
 Recommended chat-template sampling:
 
 | Mode | Recommended params | Enable |
