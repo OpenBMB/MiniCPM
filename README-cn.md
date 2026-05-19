@@ -305,18 +305,6 @@ python -m vllm.entrypoints.openai.api_server \
 
 在 base assistant 之外，我们同步开放 **MiniCPM5 人设 LoRA 社区**：任何人都可以上传一个人设数据集（角色 / 吉祥物 / 角色扮演 / 客服 / …），我们**完成标注与训练后发布成 LoRA**，并在社区页面里署名你的贡献。
 
-```mermaid
-flowchart LR
-    contributor["社区贡献者"]
-    upload["上传人设数据集<br/>(JSONL / 对话样本)"]
-    annotate["官方标注 + 清洗"]
-    trainStep["在 MiniCPM5-1B 上<br/>训练 Persona LoRA"]
-    publishStep["发布到 LoRA 社区<br/>+ 贡献者署名"]
-    loadStep["桌宠 / chat<br/>一键加载"]
-    contributor --> upload --> annotate --> trainStep --> publishStep --> loadStep
-    publishStep -.->|飞轮| contributor
-```
-
 - **社区入口**：[openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub)（HF Space，即将开放 — TODO 替换占位）
 - **如何贡献**：数据集格式、提交流程、署名规则见 [`docs/PERSONA_LORA_HUB-cn.md`](./docs/PERSONA_LORA_HUB-cn.md)（English: [`docs/PERSONA_LORA_HUB-en.md`](./docs/PERSONA_LORA_HUB-en.md)）
 - **首发示例**：`lora_nekoqa_adapter` — 猫娘人设（社区开放时会陆续放出更多）

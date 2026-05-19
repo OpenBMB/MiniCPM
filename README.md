@@ -317,18 +317,6 @@ python -m vllm.entrypoints.openai.api_server \
 
 Beyond the base assistant, we are launching the **MiniCPM5 Persona LoRA Hub**: a community-driven space where anyone can upload a persona dataset (character / mascot / role-play / customer-service / …), get it **labeled and trained by us into a published LoRA**, and have their contribution credited on the hub.
 
-```mermaid
-flowchart LR
-    contributor["Community contributor"]
-    upload["Upload persona dataset<br/>(JSONL / chat samples)"]
-    annotate["Official annotation + cleaning"]
-    trainStep["Train Persona LoRA<br/>on MiniCPM5-1B"]
-    publishStep["Publish to Persona LoRA Hub<br/>+ contributor credit"]
-    loadStep["Desktop Pet / chat<br/>one-click load"]
-    contributor --> upload --> annotate --> trainStep --> publishStep --> loadStep
-    publishStep -.->|flywheel| contributor
-```
-
 - **Hub**: [openbmb/minicpm5-persona-lora-hub](https://huggingface.co/spaces/openbmb/minicpm5-persona-lora-hub) on Hugging Face Spaces *(coming soon — TODO replace placeholder)*
 - **How to contribute**: dataset format, submission steps, attribution policy → [`docs/PERSONA_LORA_HUB-en.md`](./docs/PERSONA_LORA_HUB-en.md) (中文版：[`docs/PERSONA_LORA_HUB-cn.md`](./docs/PERSONA_LORA_HUB-cn.md))
 - **First example**: `lora_nekoqa_adapter` — a cat-girl chat persona (more launching alongside the hub)
