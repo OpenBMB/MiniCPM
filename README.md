@@ -522,7 +522,7 @@ MiniCPM4/MiniCPM4.1 supports both dense attention inference and sparse attention
 - Dense attention inference: vLLM, SGLang, Huggingface Transformers
 - Sparse attention inference: Huggingface Transformers, CPM.cu
 
-#### Hybird Reasoning Mode
+#### Hybrid Reasoning Mode
 
 MiniCPM4.1 supports hybrid reasoning mode, which can be used in both deep reasoning mode and non-reasoning mode. To enable hybrid reasoning mode. User can set `enable_thinking=True` in `tokenizer.apply_chat_template` to enable hybrid reasoning mode, and set `enable_thinking=False` to enable non-reasoning mode. Similarly, user can directly add `/no_think` at the end of the query to enable non-reasoning mode. If not add any special token or add `/think` at the end of the query, the model will enable reasoning mode.
 
