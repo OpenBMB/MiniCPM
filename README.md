@@ -177,17 +177,9 @@ RL post-training delivers the largest single jump in MiniCPM5-1B's intelligence 
 
 Across 7 reasoning-, code- and instruction-following benchmarks, RL post-training delivers a **mean gain of +16.0 points**. The largest deltas land on math (AIME 2025 +20.2 / AIME 2026 +25.6 / HMMT +11.6) and instruction-following (IFBench +17.1, Multi-IF +15.1, IFEval +10.7); LCB-v6 also picks up +11.6.
 
-RL also makes the model **dramatically less verbose** on reasoning tasks — the rate of overlong responses (truncated at the max-tokens budget) drops sharply:
+RL also makes the model **dramatically less verbose** on reasoning tasks — the share of responses truncated at the max-tokens budget drops by **−29 pp on average** (HMMT: −40.5 pp, AIME 2025: −32.7 pp), so RL not only raises the score but also produces shorter, on-target reasoning traces — useful for latency-sensitive on-device deployment.
 
-| Benchmark | SFT overlong rate | RL overlong rate | Δ |
-| --- | ---: | ---: | ---: |
-| AIME 2025@avg16 | 42.29 % | 9.58 % | **−32.71 %** |
-| AIME 2026@avg16 | 38.12 % | 7.71 % | **−30.41 %** |
-| HMMT@avg16 | 47.73 % | 7.20 % | **−40.53 %** |
-| LCB-v6 | 36.95 % | 8.00 % | **−28.95 %** |
-| IFBench@avg5 | 20.47 % | 7.40 % | −13.07 % |
-
-i.e. RL not only raises the score but also produces shorter, on-target reasoning traces — useful for latency-sensitive on-device deployment.
+![MiniCPM5-1B RL Overlong-Response Rate Drop](./assets/minicpm5/rl_overlong.png)
 
 ### Run It in One Prompt — Agent Skills
 
