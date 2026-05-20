@@ -18,20 +18,25 @@
 </p>
 
 ## 更新日志🔥
-- [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** 发布！一款面向端侧与资源受限场景的 1B 级稠密模型，**在公开榜单上位居同尺寸第一**——平均分 43.56，覆盖推理、知识、数学、代码、指令跟随与 Agentic 工具调用。配套一键 [Agent Skills](./skills/) 覆盖所有主流推理 / 微调框架。🔥🔥🔥
+- 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** 发布！一款面向端侧与资源受限场景的 1B 级稠密模型，**在公开榜单上位居同尺寸第一**——平均分 43.56，覆盖推理、知识、数学、代码、指令跟随与 Agentic 工具调用。配套一键 [Agent Skills](./skills/) 覆盖所有主流推理 / 微调框架。🔥🔥🔥
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** 发布！这是首个经过大规模实验验证的稀疏与线性混合注意力模型，支持百万词元的有效处理与高效推理。🔥🔥🔥
-- [2025.09.29] **发布 [InfLLM-V2详细技术论文](https://arxiv.org/abs/2509.24663)!**仅需5B长文本词元，即可完成稀疏注意力能力的训练🔥🔥🔥
 - [2025.09.05] **发布 [MiniCPM4.1](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型基于原生稀疏注意力架构（InfLLM-V2），支持混合思考。🔥🔥🔥**
 - [2025.06.06] 发布 [MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)！该模型在保持同等规模最优性能的同时，实现了极致的效率提升！在典型端侧芯片上能够实现 5 倍以上生成加速！
+
+<details>
+<summary>更早的发布（2024 + InfLLM-V2 论文）</summary>
+
+- [2025.09.29] **发布 [InfLLM-V2 详细技术论文](https://arxiv.org/abs/2509.24663)!** 仅需 5B 长文本词元，即可完成稀疏注意力能力的训练。
 - [2024.09.05] 发布 [MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B)！该模型的表现超越 Phi-3.5-mini-instruct 和 GPT-3.5-Turbo-0125，并且能够比肩 Llama3.1-8B-Instruct、Qwen2-7B-Instruct、GLM-4-9B-Chat 等多个 7B-9B 参数量的模型。
 - [2024.07.05] 发布 [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)！该模型在保持下游任务性能无损的前提下，FFN 层实现了 87.89% 的平均稀疏度，将 FFN FLOPs 降低了 84%。
 - [2024.04.11] 发布 [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k)、[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) 和 [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)！点击[这里](https://openbmb.vercel.app/?category=Chinese+Blog)查看技术博客。
 - [2024.02.01] 发布 [MiniCPM-2B](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)！该模型在公开评测集上与 Mistral-7B 表现相近（中文、数学、代码能力更优），整体性能超越 Llama2-13B、MPT-30B、Falcon-40B 等模型。
 
+</details>
+
 ## 目录
 
 - [更新日志🔥](#更新日志)
-- [目录](#目录)
 - [模型下载](#模型下载)
 - [MiniCPM5 系列](#minicpm5-系列)
   - [亮点](#亮点)
@@ -44,100 +49,74 @@
   - [MiniCPM5 应用](#minicpm5-应用)
     - [桌宠 — Clawd × MiniCPM5](#桌宠--clawd--minicpm5)
     - [人设 LoRA 社区](#人设-lora-社区)
-- [MiniCPM-SALA](#minicpm-sala)
-- [MiniCPM4 和 MiniCPM4.1 系列](#minicpm4-和-minicpm41-系列)
-    - [亮点](#亮点)
-    - [简介](#简介)
-  - [评测结果](#评测结果)
-    - [效率评测](#效率评测)
-    - [综合评测](#综合评测)
-    - [长文本评测](#长文本评测)
-  - [模型推理](#模型推理)
-    - [混合思考](#混合思考)
-    - [HuggingFace](#huggingface)
-    - [vLLM](#vllm)
-      - [投机采样](#投机采样)
-        - [1. 下载 MiniCPM4.1 草稿模型](#1-下载-minicpm41-草稿模型)
-        - [2. 安装 EAGLE3 兼容的 vLLM](#2-安装-eagle3-兼容的-vllm)
-        - [3. 启动带有投机采样的 vLLM 服务](#3-启动带有投机采样的-vllm-服务)
-        - [4. 客户端使用示例](#4-客户端使用示例)
-        - [vLLM 配置参数说明](#vllm-配置参数说明)
-      - [标准推理（不使用投机采样）](#标准推理不使用投机采样)
-    - [SGLang](#sglang)
-      - [投机采样](#投机采样-1)
-        - [1. 下载 MiniCPM4.1 草稿模型](#1-下载-minicpm41-草稿模型-1)
-        - [2. 安装 EAGLE3 兼容的 SGLang](#2-安装-eagle3-兼容的-sglang)
-        - [3. 启动带有投机采样的 SGLang 服务](#3-启动带有投机采样的-sglang-服务)
-        - [4. 客户端使用](#4-客户端使用)
-        - [配置参数说明](#配置参数说明)
-      - [标准推理（不使用投机采样）](#标准推理不使用投机采样-1)
-    - [CPM.cu](#cpmcu)
-    - [llama.cpp and Ollama](#llamacpp-and-ollama)
-    - [llama.cpp](#llamacpp)
-    - [Ollama](#ollama)
-  - [模型微调](#模型微调)
-    - [LLaMA-Factory](#llama-factory)
-  - [BitCPM4: 模型量化](#bitcpm4-模型量化)
-    - [BitCPM4 评测](#bitcpm4-评测)
-    - [BitCPM4 模型推理](#bitcpm4-模型推理)
-  - [模型应用](#模型应用)
-    - [MiniCPM4-Survey: 综述生成](#minicpm4-survey-综述生成)
-      - [使用与演示案例](#使用与演示案例)
-      - [评估](#评估)
-    - [MiniCPM4-MCP: MCP增强的工具调用](#minicpm4-mcp-mcp增强的工具调用)
-      - [使用与演示案例](#使用与演示案例-1)
-      - [评估](#评估-1)
-    - [MiniCPM Intel AIPC Client: 端侧大模型客户端](#minicpm-intel-aipc-client-端侧大模型客户端)
-- [开源协议](#开源协议)
-    - [模型协议](#模型协议)
-    - [声明](#声明)
-- [开发机构](#开发机构)
-- [工作引用](#工作引用)
+- [MiniCPM-SALA](#minicpm-sala) *(默认折叠)*
+- [MiniCPM4 和 MiniCPM4.1 系列](#minicpm4-和-minicpm41-系列) *(默认折叠)*
+- [历史专题 →](./docs/README-legacy-cn.md) — BitCPM4 量化、MiniCPM4 应用
+- [开源协议](#开源协议) · [开发机构](#开发机构) · [工作引用](#工作引用)
 
 
 ## 模型下载
 
-  | HuggingFace | ModelScope |
-  |-------------|------------|
-  | [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B) | [MiniCPM5-1B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B) |
-  | [MiniCPM5-1B-GGUF](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | [MiniCPM5-1B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GGUF) |
-  | [MiniCPM5-1B-MLX](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | [MiniCPM5-1B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-MLX) |
-  | [MiniCPM5-1B-AWQ](https://huggingface.co/openbmb/MiniCPM5-1B-AWQ) | [MiniCPM5-1B-AWQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-AWQ) |
-  | [MiniCPM5-1B-GPTQ](https://huggingface.co/openbmb/MiniCPM5-1B-GPTQ) | [MiniCPM5-1B-GPTQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GPTQ) |
-  | [MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA) | [MiniCPM-SALA](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA) |
-  | [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
-  | [MiniCPM4.1-8B-GPTQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-GPTQ) | [MiniCPM4.1-8B-GPTQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GPTQ) | 
-  | [MiniCPM4.1-8B-AutoAWQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-AutoAWQ) | [MiniCPM4.1-8B-AutoAWQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-AutoAWQ) | 
-  | [MiniCPM-4.1-8B-Marlin](https://huggingface.co/openbmb/MiniCPM-4.1-8B-Marlin) | [MiniCPM-4.1-8B-Marlin](https://www.modelscope.cn/openbmb/MiniCPM-4.1-8B-Marlin) | 
-  | [MiniCPM4.1-8B-GGUF](https://huggingface.co/openbmb/MiniCPM4.1-8B-GGUF) | [MiniCPM4.1-8B-GGUF](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GGUF) | 
-  | [MiniCPM4.1-8B-MLX](https://huggingface.co/openbmb/MiniCPM4.1-8B-MLX) | [MiniCPM4.1-8B-MLX](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-MLX) | 
-  | [MiniCPM4.1-8B-Eagle3](https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3) | [MiniCPM4.1-8B-Eagle3](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-Eagle3) | 
-  | [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B)    | [MiniCPM4-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B) |
-  | [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
-  | [BitCPM4-1B](https://huggingface.co/openbmb/BitCPM4-1B)        | [BitCPM4-1B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-1B) |
-  | [BitCPM4-0.5B](https://huggingface.co/openbmb/BitCPM4-0.5B)    | [BitCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-0.5B) |
-  | [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) | [MiniCPM4-Survey](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-Survey) |
-  | [MiniCPM4-MCP](https://huggingface.co/openbmb/MiniCPM4-MCP)  | [MiniCPM4-MCP](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-MCP) |
+**当前主推版本 — MiniCPM5-1B**（BF16 / GGUF / MLX / AWQ / GPTQ）：
 
+| HuggingFace | ModelScope |
+|---|---|
+| [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B) | [MiniCPM5-1B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B) |
+| [MiniCPM5-1B-GGUF](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | [MiniCPM5-1B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GGUF) |
+| [MiniCPM5-1B-MLX](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | [MiniCPM5-1B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-MLX) |
+| [MiniCPM5-1B-AWQ](https://huggingface.co/openbmb/MiniCPM5-1B-AWQ) | [MiniCPM5-1B-AWQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-AWQ) |
+| [MiniCPM5-1B-GPTQ](https://huggingface.co/openbmb/MiniCPM5-1B-GPTQ) | [MiniCPM5-1B-GPTQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GPTQ) |
 
 <details>
-<summary>📋 点击展开查看所有 MiniCPM 系列模型</summary>
+<summary>📋 点击查看早期 MiniCPM 版本 — SALA、4.1 / 4、BitCPM、应用模型、MiniCPM3 / 2B / 1B</summary>
 
-  | HuggingFace | ModelScope |
-  |-------------|------------|
-  | [MiniCPM4-8B-Eagle-FRSpec](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec) | [MiniCPM4-8B-Eagle-FRSpec](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec) |
-  | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec-QAT) | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec-QAT) |
-  | [MiniCPM4-8B-Eagle-vLLM](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-vLLM) | [MiniCPM4-8B-Eagle-vLLM](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-vLLM) |
-  | [MiniCPM4-8B-marlin-Eagle-vLLM](https://huggingface.co/openbmb/MiniCPM4-8B-marlin-Eagle-vLLM) | [MiniCPM4-8B-marlin-Eagle-vLLM](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-marlin-Eagle-vLLM) |
-  | [MiniCPM4-0.5B-QAT-Int4-unquantized](https://huggingface.co/openbmb/MiniCPM4-0.5B-QAT-Int4-unquantized) | [MiniCPM4-0.5B-QAT-Int4-unquantized](https://modelscope.cn/models/OpenBMB/MiniCPM4-0.5B-QAT-Int4-unquantized) |
-  | [MiniCPM4-0.5B-QAT-Int4-GPTQ-format](https://huggingface.co/openbmb/MiniCPM4-0.5B-QAT-Int4-GPTQ-format) | [MiniCPM4-0.5B-QAT-Int4-GPTQ-format](https://modelscope.cn/models/OpenBMB/MiniCPM4-0.5B-QAT-Int4-GPTQ-format) |
-  | [MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B) | [MiniCPM3-4B](https://www.modelscope.cn/models/OpenBMB/MiniCPM3-4B) |
-  | [MiniCPM-2B-sft](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16) | [MiniCPM-2B-sft](https://modelscope.cn/models/OpenBMB/miniCPM-bf16)|
-  | [MiniCPM-2B-dpo](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16) | [MiniCPM-2B-dpo](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary) |
-  | [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) | [MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary) |
-  | [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) | [MiniCPM-MoE-8x2B](https://modelscope.cn/models/OpenBMB/MiniCPM-MoE-8x2B) |
-  | [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
-  | [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft) | [MiniCPM-S-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft) |
+**早期主力型号：**
+
+| HuggingFace | ModelScope |
+|---|---|
+| [MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA) | [MiniCPM-SALA](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA) |
+| [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
+| [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B) | [MiniCPM4-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B) |
+| [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
+
+**MiniCPM4.1 量化与投机变体：**
+
+| HuggingFace | ModelScope |
+|---|---|
+| [MiniCPM4.1-8B-GPTQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-GPTQ) | [MiniCPM4.1-8B-GPTQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GPTQ) |
+| [MiniCPM4.1-8B-AutoAWQ](https://huggingface.co/openbmb/MiniCPM4.1-8B-AutoAWQ) | [MiniCPM4.1-8B-AutoAWQ](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-AutoAWQ) |
+| [MiniCPM-4.1-8B-Marlin](https://huggingface.co/openbmb/MiniCPM-4.1-8B-Marlin) | [MiniCPM-4.1-8B-Marlin](https://www.modelscope.cn/openbmb/MiniCPM-4.1-8B-Marlin) |
+| [MiniCPM4.1-8B-GGUF](https://huggingface.co/openbmb/MiniCPM4.1-8B-GGUF) | [MiniCPM4.1-8B-GGUF](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-GGUF) |
+| [MiniCPM4.1-8B-MLX](https://huggingface.co/openbmb/MiniCPM4.1-8B-MLX) | [MiniCPM4.1-8B-MLX](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-MLX) |
+| [MiniCPM4.1-8B-Eagle3](https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3) | [MiniCPM4.1-8B-Eagle3](https://www.modelscope.cn/openbmb/MiniCPM4.1-8B-Eagle3) |
+
+**BitCPM4 三值量化 + MiniCPM4 应用：**
+
+| HuggingFace | ModelScope |
+|---|---|
+| [BitCPM4-1B](https://huggingface.co/openbmb/BitCPM4-1B) | [BitCPM4-1B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-1B) |
+| [BitCPM4-0.5B](https://huggingface.co/openbmb/BitCPM4-0.5B) | [BitCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/BitCPM4-0.5B) |
+| [MiniCPM4-Survey](https://huggingface.co/openbmb/MiniCPM4-Survey) | [MiniCPM4-Survey](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-Survey) |
+| [MiniCPM4-MCP](https://huggingface.co/openbmb/MiniCPM4-MCP) | [MiniCPM4-MCP](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-MCP) |
+
+**MiniCPM4 Eagle 投机解码、QAT 以及 2025 年之前的发布：**
+
+| HuggingFace | ModelScope |
+|---|---|
+| [MiniCPM4-8B-Eagle-FRSpec](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec) | [MiniCPM4-8B-Eagle-FRSpec](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec) |
+| [MiniCPM4-8B-Eagle-FRSpec-QAT](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec-QAT) | [MiniCPM4-8B-Eagle-FRSpec-QAT](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-FRSpec-QAT) |
+| [MiniCPM4-8B-Eagle-vLLM](https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-vLLM) | [MiniCPM4-8B-Eagle-vLLM](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-Eagle-vLLM) |
+| [MiniCPM4-8B-marlin-Eagle-vLLM](https://huggingface.co/openbmb/MiniCPM4-8B-marlin-Eagle-vLLM) | [MiniCPM4-8B-marlin-Eagle-vLLM](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B-marlin-Eagle-vLLM) |
+| [MiniCPM4-0.5B-QAT-Int4-unquantized](https://huggingface.co/openbmb/MiniCPM4-0.5B-QAT-Int4-unquantized) | [MiniCPM4-0.5B-QAT-Int4-unquantized](https://modelscope.cn/models/OpenBMB/MiniCPM4-0.5B-QAT-Int4-unquantized) |
+| [MiniCPM4-0.5B-QAT-Int4-GPTQ-format](https://huggingface.co/openbmb/MiniCPM4-0.5B-QAT-Int4-GPTQ-format) | [MiniCPM4-0.5B-QAT-Int4-GPTQ-format](https://modelscope.cn/models/OpenBMB/MiniCPM4-0.5B-QAT-Int4-GPTQ-format) |
+| [MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B) | [MiniCPM3-4B](https://www.modelscope.cn/models/OpenBMB/MiniCPM3-4B) |
+| [MiniCPM-2B-sft](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16) | [MiniCPM-2B-sft](https://modelscope.cn/models/OpenBMB/miniCPM-bf16) |
+| [MiniCPM-2B-dpo](https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16) | [MiniCPM-2B-dpo](https://modelscope.cn/models/OpenBMB/MiniCPM-2B-dpo-bf16/summary) |
+| [MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k) | [MiniCPM-2B-128k](https://modelscope.cn/models/openbmb/MiniCPM-2B-128k/summary) |
+| [MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) | [MiniCPM-MoE-8x2B](https://modelscope.cn/models/OpenBMB/MiniCPM-MoE-8x2B) |
+| [MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16) | [MiniCPM-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-1B-sft-bf16) |
+| [MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft) | [MiniCPM-S-1B](https://modelscope.cn/models/OpenBMB/MiniCPM-S-1B-sft) |
+
 </details>
 
 ## MiniCPM5 系列
@@ -222,7 +201,21 @@ MiniCPM5-1B 与同尺寸主流开源模型——**LFM2.5-1.2B-Thinking**、**Qwe
 
 RL 后训练是 MiniCPM5-1B 智能跃迁的最大单一来源——它把 SFT checkpoint 转化为推理 / 指令跟随任务中可用的助手。
 
-> 📊 *分项 SFT → RL 增益柱状图即将公布。*
+![MiniCPM5-1B RL 后训练增益](./assets/minicpm5/rl_gains.png)
+
+聚焦数学、代码、指令跟随三类共 7 项评测，RL 后训练带来 **+16.0 分的平均增益**：数学（AIME 2025 +20.2 / AIME 2026 +25.6 / HMMT +11.6）和指令跟随（IFBench +17.1、Multi-IF +15.1、IFEval +10.7）提升最显著，LCB-v6 上也有 +11.6 的明显提升。
+
+RL 同时让模型在推理任务上的**冗长程度大幅下降**——回复超出 max-tokens 预算被截断的比例显著降低：
+
+| 评测集 | SFT 超长率 | RL 超长率 | Δ |
+| --- | ---: | ---: | ---: |
+| AIME 2025@avg16 | 42.29 % | 9.58 % | **−32.71 %** |
+| AIME 2026@avg16 | 38.12 % | 7.71 % | **−30.41 %** |
+| HMMT@avg16 | 47.73 % | 7.20 % | **−40.53 %** |
+| LCB-v6 | 36.95 % | 8.00 % | **−28.95 %** |
+| IFBench@avg5 | 20.47 % | 7.40 % | −13.07 % |
+
+也就是说 RL 不仅抬高了分数，还让推理链更短、更聚焦——对延迟敏感的端侧场景尤其重要。
 
 ### 一句话拉起 — Agent Skills
 
@@ -308,6 +301,12 @@ python -m vllm.entrypoints.openai.api_server \
 数据集被采纳并产出 LoRA 后，你的名字 / handle 会出现在 Hub 页面和该 LoRA 的 `README.md` 中。
 
 ## MiniCPM-SALA
+
+> 首个大规模 **稀疏 + 线性注意力混合** 模型，原生支持百万 token 上下文（2026-02）。[HuggingFace](https://huggingface.co/openbmb/MiniCPM-SALA) · [ModelScope](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA)
+
+<details>
+<summary>点击展开：亮点、评测、推理</summary>
+
 #### 亮点
 
 MiniCPM-SALA（稀疏注意力与线性注意力）是首个高效融合稀疏与线性注意力机制、支持百万令牌上下文建模的大规模混合模型
@@ -485,7 +484,14 @@ uv pip install tilelang flash-linear-attention
 - 确保 `gcc` / `g++` 可用。
 - 如果 `CXX` 环境变量被设为 `clang++ -pthread`，手动 `export CXX=g++`。
 
+</details>
+
 ## MiniCPM4 和 MiniCPM4.1 系列
+
+> 8B 级 **可训练稀疏注意力** + 混合思考（2025-09 / 2025-06）。[MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) · [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B) · [ModelScope](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B)
+
+<details>
+<summary>点击展开：亮点、评测、推理（HF / vLLM / SGLang / CPM.cu / llama.cpp / Ollama）、微调</summary>
 
 <div align="center">
   <a href="https://www.youtube.com/watch?v=VouXjLHKDUY"><img src="https://img.youtube.com/vi/VouXjLHKDUY/0.jpg", width=70%></a>
@@ -997,105 +1003,9 @@ ollama run openbmb/minicpm4.1
 #### LLaMA-Factory
 目前模型微调支持 [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)，使用方法参考 [LLaMA-Factory 微调](https://t0mvtyikswc.feishu.cn/docx/Gv6ld1yCTodckBxysKgcpepJnKg?from=from_copylink)
 
-### BitCPM4: 模型量化
-BitCPM4 是基于 MiniCPM 系列模型进行量化感知训练（QAT）后得到的三值量化模型，在训练效率和模型参数效率实现了有效的提升。
-- 训练方法改进
-  - 在小规模模型上进行风洞实验，搜索训练所需的训练超参。
-  - 通过使用一阶段高精训练+二阶段 QAT 的方法，充分利用已经完成或部分完成训练的高精度模型，极大地压缩了 QAT 阶段所需要的算力。
-- 高效参数效率
-  - 模型使用 1.58Bit 的位宽达到的性能对标与同参数量级别的全精度模型，模型参数效率高。
-
-#### BitCPM4 评测
-BitCPM4 在测试中的表现可以对标同级别的业界主流全精度模型。
-![bitcpm-benchmark](./assets/minicpm4/bitcpm4-benchmark.png)
-
-#### BitCPM4 模型推理
-BitCPM4 开源的模型参数为伪量化形式，可以直接使用 Huggingface 框架进行推理。
-
-### 模型应用
-<details>
-<summary>查看 MiniCPM4 的应用</summary>
-#### MiniCPM4-Survey: 综述生成
-MiniCPM4-Survey 是由 [THUNLP](https://nlp.csai.tsinghua.edu.cn)、中国人民大学和 [ModelBest](https://modelbest.cn/en) 联合开发的开源大语言模型智能体。它基于 MiniCPM4-8B 基座模型，接受用户质量作为输入，自主生成可信的长篇综述论文。
-主要特性包括：
-- 计划-检索-写作生成框架 — 我们提出了一个多智能体生成框架，包含三个核心阶段：计划（定义综述的整体结构）、检索（生成合适的检索关键词）和写作（利用检索到的信息，生成连贯的段落）。
-- 高质量数据集构建——我们收集并处理大量人类专家写作的综述论文，构建高质量训练集。同时，我们收集大量研究论文，构建检索数据库。
-- 多方面奖励设计 — 我们精心设计了包含结构、内容和引用的奖励，用于评估综述的质量，在强化学习训练阶段作奖励函数。
-- 多步强化学习训练策略 — 我们提出了一个上下文管理器，以确保在促进有效推理的同时保留必要的信息，并构建了并行环境，维持强化学习训练高效。
-##### 使用与演示案例
-
-详见[此处](./demo/minicpm4/SurveyGeneration/README.md)
-
-##### 评估
-
-| Method                                      | Relevance | Coverage | Depth | Novelty | Avg.  | Fact Score |
-|---------------------------------------------|-----------|----------|-------|---------|-------|------------|
-| Naive RAG (driven by G2FT)                  | 3.25      | 2.95     | 3.35  | 2.60    | 3.04  | 43.68      |
-| AutoSurvey (driven by G2FT)                 | 3.10      | 3.25     | 3.15  | **3.15**| 3.16  | 46.56      |
-| Webthinker (driven by WTR1-7B)              | 3.30      | 3.00     | 2.75  | 2.50    | 2.89  | --         |
-| Webthinker (driven by QwQ-32B)              | 3.40      | 3.30     | 3.30  | 2.50    | 3.13  | --         |
-| OpenAI Deep Research (driven by GPT-4o)     | 3.50      |**3.95**  | 3.55  | 3.00    | **3.50**  | --         |
-| MiniCPM4-Survey                            | 3.45      | 3.70     | **3.85** | 3.00    | **3.50**  | **68.73**  |
-| &nbsp;&nbsp;&nbsp;*w/o* RL                  | **3.55**  | 3.35     | 3.30  | 2.25    | 3.11  | 50.24      |
-
-*GPT-4o 对综述生成系统的性能比较。“G2FT” 代表 Gemini-2.0-Flash-Thinking，“WTR1-7B” 代表 Webthinker-R1-7B。由于 Webthinker 不包括引用功能，OpenAI Deep Research 在导出结果时不提供引用，因此省略了对它们的 FactScore 评估。我们的技术报告中包含评测的详细信息。*
-
-#### MiniCPM4-MCP: MCP增强的工具调用
-
-MiniCPM4-MCP 是由[清华大学自然语言处理实验室（THUNLP）](https://nlp.csai.tsinghua.edu.cn)、中国人民大学与 [ModelBest](https://modelbest.cn/en) 联合开发的开源本地大语言模型代理，它基于 MiniCPM-4-8B，拥有 80 亿参数。它能够通过 MCP 协议与各种工具和数据资源交互，解决多种真实世界任务。截至目前，MiniCPM4-MCP 已支持：
-
-- 涵盖 16 个 MCP 服务器（servers）中工具的使用：这些服务器所包含的工具横跨了办公类、生活类、通讯类、资讯类、工作管理类等.
-
-- 单工具使用的能力：可使用符合 MCP 协议的工具进行单一工具的一步或多步调用。
-
-- 跨工具组合使用的能力：可组合使用符合 MCP 协议的不同工具。
-
-
-##### 使用与演示案例
-
-详见[此处](./demo/minicpm4/MCP/README.md)
-
-##### 评估
-
-| MCP 服务器             |          | gpt-4o   |          |          | qwen3    |          |          | minicpm4 |          |
-| -------------------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
-|                      | 函数名正确率   | 参数名正确率    | 数值正确率    | 函数名正确率   | 参数名正确率    | 数值正确率    | 函数名正确率   | 参数名正确率    | 数值正确率    |
-| Airbnb                | 89.3           | 67.9         | 53.6         | 92.8          | 60.7         | 50.0         | 96.4           | 67.9         | 50.0         |
-| Amap-Maps             | 79.8           | 77.5         | 50.0         | 74.4          | 72.0         | 41.0         | 89.3           | 85.7         | 39.9         |
-| Arxiv-MCP-Server      | 85.7           | 85.7         | 85.7         | 81.8          | 54.5         | 50.0         | 57.1           | 57.1         | 52.4         |
-| Calculator            | 100.0          | 100.0        | 20.0         | 80.0          | 80.0         | 13.3         | 100.0          | 100.0        | 6.67         |
-| Computor-Control-MCP  | 90.0           | 90.0         | 90.0         | 90.0          | 90.0         | 90.0         | 90.0           | 90.0         | 86.7         |
-| Desktop-Commander     | 100.0          | 100.0        | 100.0        | 100.0         | 100.0        | 100.0        | 100.0          | 100.0        | 100.0        |
-| Filesystem            | 63.5           | 63.5         | 31.3         | 69.7          | 69.7         | 26.0         | 83.3           | 83.3         | 42.7         |
-|Github | 92.0 | 80.0 | 58.0 | 80.5 | 50.0 | 27.7 | 62.8 | 25.7 | 17.1 |
-| Gaode                 | 71.1           | 55.6         | 17.8         | 68.8          | 46.6         | 24.4         | 68.9           | 46.7         | 15.6         |
-| MCP-Code-Executor     | 85.0           | 80.0         | 70.0         | 80.0          | 80.0         | 70.0         | 90.0           | 90.0         | 65.0         |
-| MCP-Docx              | 95.8           | 86.7         | 67.1         | 94.9          | 81.6         | 60.1         | 95.1           | 86.6         | 76.1         |
-| PPT                   | 72.6           | 49.8         | 40.9         | 85.9          | 50.7         | 37.5         | 91.2           | 72.1         | 56.7         |
-| PPTx                  | 64.2           | 53.7         | 13.4         | 91.0          | 68.6         | 20.9         | 91.0           | 58.2         | 26.9         |
-| Simple-Time-Server    | 90.0           | 70.0         | 70.0         | 90.0          | 90.0         | 90.0         | 90.0           | 60.0         | 60.0         |
-| Slack                 | 100.0          | 90.0         | 70.0         | 100.0         | 100.0        | 65.0         | 100.0          | 100.0        | 100.0        |
-| Whisper               | 90.0           | 90.0         | 90.0         | 90.0          | 90.0         | 90.0         | 90.0           | 90.0         | 30.0         |
-| **平均值**              | **80.2**       | **70.2**     | **49.1**     | **83.5**      | **67.7**     | **43.8**     | **88.3**       | **76.1**     | **51.2**     |
-
-#### MiniCPM Intel AIPC Client: 端侧大模型客户端
-
-MiniCPM Intel AIPC Client 是面壁智能和 Intel 合作推出的端侧大模型客户端，专为搭载 Intel Core Ultra 系列处理器的设备设计，旨在为开发者、研究人员与 AI 爱好者带来低延迟、高效率、高隐私的本地大模型使用体验。其核心特性如下：
-
-- 深度适配 Intel 硬件：全面支持 Intel Core Ultra 系列处理器，实现与硬件的深度融合，充分释放硬件性能，让用户无需依赖云端，在本地设备上就能流畅运行大模型。
-- 基于 OpenVINO 的极致优化：基于 OpenVINO 推理框架进行深度优化，大幅提升推理效率，推理速度最高可达每秒 80 tokens，确保模型响应迅速，无论是快速问答还是复杂任务处理，都能高效完成。
-- 隐私安全保障：采用本地部署方式，所有数据处理均在本地设备完成，避免数据上传至云端带来的隐私风险，让用户使用更安心，尤其适合对数据隐私要求较高的场景。
-- 面向多元用户群体：无论是追求前沿技术的开发者，专注学术研究的科研人员，还是热衷于探索 AI 应用的爱好者，都能通过 MiniCPM Intel AIPC Client，轻松体验本地大模型的强大功能，开启个性化的 AI 探索之旅 。
-
-配置要求：
-
-- 建议使用英特尔酷睿 ultra7 及以上移动端处理器
-- 建议运行内存 32GB 及以上  
-
-应用下载：
-
-[下载地址](https://github.com/OpenBMB/MiniCPM/releases/tag/2.4.2)
 </details>
+
+> 模型量化（**BitCPM4**）与 MiniCPM4 应用（**Survey** / **MCP** / **Intel AIPC Client**）见 [`docs/README-legacy-cn.md`](./docs/README-legacy-cn.md)。
 
 
 ## 开源协议
