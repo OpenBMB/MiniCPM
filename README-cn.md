@@ -185,6 +185,12 @@ MiniCPM5-1B 与同尺寸主流开源模型——**LFM2.5-1.2B-Thinking**、**Qwe
 
 RL 后训练是 MiniCPM5-1B 智能跃迁的最大单一来源——它把 SFT checkpoint 转化为推理 / 指令跟随任务中可用的助手。
 
+**训练流程。** 从 `MiniCPM5-1B-SFT` 出发，我们并行训练 **5 个专用 RL Teacher**——*Reasoning RL 1 / 2*（思维链准确性）、*RLHF*（人类偏好）、*IF RL*（指令跟随）、*General RL*（综合能力）、*Long Context RL*（长序列理解），再通过 **Online Policy Distillation (OPD)** 统一蒸馏到同一个 student 模型。
+
+![MiniCPM5-1B 训练流程](./assets/minicpm5/training_recipe.png)
+
+**分项增益。** 下图把每个评测分数拆成 SFT 基线 + RL 后训练增量：
+
 ![MiniCPM5-1B RL 后训练增益](./assets/minicpm5/rl_gains.png)
 
 聚焦数学、代码、指令跟随三类共 7 项评测，RL 后训练带来 **+16.0 分的平均增益**：数学（AIME 2025 +20.2 / AIME 2026 +25.6 / HMMT +11.6）和指令跟随（IFBench +17.1、Multi-IF +15.1、IFEval +10.7）提升最显著，LCB-v6 上也有 +11.6 的明显提升。

@@ -196,6 +196,12 @@ MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers — **
 
 RL post-training delivers the largest single jump in MiniCPM5-1B's intelligence — it is what turns the SFT checkpoint into a usable assistant on reasoning-heavy and instruction-following workloads.
 
+**Training recipe.** Starting from `MiniCPM5-1B-SFT`, we run **five specialized RL teachers** in parallel — *Reasoning RL 1 / 2* (chain-of-thought accuracy), *RLHF* (human preference), *IF RL* (instruction following), *General RL* (broad capability), *Long Context RL* (long-sequence comprehension) — and unify them into a single student via **Online Policy Distillation (OPD)**.
+
+![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
+
+**Per-benchmark gains.** The chart below decomposes each benchmark score into the SFT base plus the RL post-training delta:
+
 ![MiniCPM5-1B RL Post-Training Gains](./assets/minicpm5/rl_gains.png)
 
 Across 7 reasoning-, code- and instruction-following benchmarks, RL post-training delivers a **mean gain of +16.0 points**. The largest deltas land on math (AIME 2025 +20.2 / AIME 2026 +25.6 / HMMT +11.6) and instruction-following (IFBench +17.1, Multi-IF +15.1, IFEval +10.7); LCB-v6 also picks up +11.6.
