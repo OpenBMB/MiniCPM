@@ -60,8 +60,8 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   - [MiniCPM5 Applications](#minicpm5-applications)
     - [Desktop Pet — Clawd × MiniCPM5](#desktop-pet--clawd--minicpm5)
     - [Persona LoRA Hub](#persona-lora-hub)
-- [MiniCPM-SALA](#minicpm-sala) *(collapsed)*
-- [MiniCPM4 & MiniCPM4.1 Series](#minicpm4-and-minicpm41-series) *(collapsed)*
+- [MiniCPM-SALA](#minicpm-sala)
+- [MiniCPM4 & MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
 - [Legacy topics →](./docs/README-legacy.md) — BitCPM4 quantization, MiniCPM4 applications
 - [LICENSE](#license) · [Institutions](#institutions) · [Citation](#citation)
 

@@ -49,8 +49,8 @@
   - [MiniCPM5 应用](#minicpm5-应用)
     - [桌宠 — Clawd × MiniCPM5](#桌宠--clawd--minicpm5)
     - [人设 LoRA 社区](#人设-lora-社区)
-- [MiniCPM-SALA](#minicpm-sala) *(默认折叠)*
-- [MiniCPM4 和 MiniCPM4.1 系列](#minicpm4-和-minicpm41-系列) *(默认折叠)*
+- [MiniCPM-SALA](#minicpm-sala)
+- [MiniCPM4 和 MiniCPM4.1 系列](#minicpm4-和-minicpm41-系列)
 - [历史专题 →](./docs/README-legacy-cn.md) — BitCPM4 量化、MiniCPM4 应用
 - [开源协议](#开源协议) · [开发机构](#开发机构) · [工作引用](#工作引用)
 
