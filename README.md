@@ -52,6 +52,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 - [MiniCPM5 Series](#minicpm5-series)
   - [Highlights](#highlights)
   - [Introduction](#introduction)
+  - [Training Recipe](#training-recipe)
   - [Evaluation Results](#evaluation-results)
     - [Standard Benchmarks](#standard-benchmarks)
     - [RL Post-Training Gains](#rl-post-training-gains)
@@ -154,53 +155,23 @@ MiniCPM5-1B is a compact dense decoder-only Transformer trained to maximize qual
 
 For full architecture details and per-component parameter breakdown see [`docs/deployment/transformers.md`](./docs/deployment/transformers.md).
 
+### Training Recipe
+
+Starting from `MiniCPM5-1B-SFT`, we run **five specialized RL teachers** in parallel — *Reasoning RL 1 / 2* (chain-of-thought accuracy), *RLHF* (human preference), *IF RL* (instruction following), *General RL* (broad capability), *Long Context RL* (long-sequence comprehension) — and unify them into a single student via **Online Policy Distillation (OPD)**.
+
+![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
+
 ### Evaluation Results
 
 #### Standard Benchmarks
 
-MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers — **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think** — across 23 public benchmarks spanning general / domain knowledge, code, instruction-following, math, logical reasoning, subjective writing, and agentic tool use. **MiniCPM5-1B is the smallest model by parameter count** and **wins the overall average by a wide margin (43.56 vs. next-best 34.52)**.
-
-| Category | Benchmark | **MiniCPM5-1B / think** | LFM2.5-1.2B-Thinking | Qwen3-0.6B / think | Qwen3.5-0.8B / think |
-| --- | --- | ---: | ---: | ---: | ---: |
-| Params (incl. emb) | — | **1.0 B** | 1.2 B | 0.8 B | 0.8 B |
-| **Average** | — | **43.56** | 34.52 | 28.94 | 24.49 |
-| General knowledge | MMLU-Pro | **48.85** | 46.68 | 35.63 | 42.74 |
-|  | MMLU-Redux | **70.06** | 65.38 | 55.47 | 61.5 |
-| Domain knowledge | GPQA-Diamond | 26.26 | 34.85 | 25.42 | 30.98 |
-|  | SuperGPQA | **23.14** | 22.83 | 20.79 | 22.92 |
-| Code | HumanEval+ | **78.66** | 61.59 | 50.0 | 25.61 |
-|  | MBPP+ | **62.96** | 45.24 | 37.57 | 9.52 |
-|  | LCB-Pro 25Q2 (Easy) | **22.68** | 6.19 | 4.12 | 0 |
-|  | OJBench | **4.09** | 1.94 | 0.86 | 0.43 |
-|  | LCB-v6@avg3 | **33.52** | 21.33 | 16 | 5.33 |
-| Instruction following | IFBench | **46.67** | 41.67 | 25.67 | 29.33 |
-|  | IFEval | 80.41 | 84.84 | 59.89 | 59.89 |
-|  | Multi-IF | 43.54 | 55.61 | 36.56 | 32.31 |
-|  | MultiChallenge | 19.48 | 23.28 | 18.97 | 23.97 |
-| Math reasoning | AIME-2025@avg16 | **40.42** | 30.83 | 16.25 | 1.04 |
-|  | AIME-2026@avg16 | **40.42** | 31.67 | 12.29 | 0.21 |
-|  | HMMT Feb 2026@avg16 | **25.76** | 21.21 | 9.85 | 0.57 |
-|  | MATH-500 | **91.6** | 89 | 72.6 | 30.4 |
-| Logical reasoning | BBH | **71.89** | 56.84 | 47.86 | 54.58 |
-|  | BBEH | **12.14** | 8.13 | 3.78 | 8.53 |
-| Subjective writing | Arena-Hard-v2 | — | 7.13 | 9.41 | 2.06 |
-|  | WritingBench | — | 33.92 | 55.64 | 48.06 |
-| Agentic | BFCLv4 | **21.9** | 10.6 | — | — |
-|  | τ²-Bench Telecom-AA | **81.58** | 19.6 | 21.1 | 47.7 |
-
-**Bold** = top score in row. MiniCPM5-1B leads or ties on **18 of the 21 benchmarks where we report a score**, including a near-clean sweep of the code, math, logical-reasoning and agentic categories. Subjective writing (Arena-Hard-v2 / WritingBench) is still being evaluated.
+MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers — **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think** — across 23 public benchmarks spanning general / domain knowledge, code, instruction-following, math, logical reasoning, subjective writing, and agentic tool use. **MiniCPM5-1B is the smallest model by parameter count** and **wins the overall average by a wide margin (43.56 vs. next-best 34.52)**, leading or tying on 18 of the 21 benchmarks where we report a score.
 
 ![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard.png)
 
 #### RL Post-Training Gains
 
 RL post-training delivers the largest single jump in MiniCPM5-1B's intelligence — it is what turns the SFT checkpoint into a usable assistant on reasoning-heavy and instruction-following workloads.
-
-**Training recipe.** Starting from `MiniCPM5-1B-SFT`, we run **five specialized RL teachers** in parallel — *Reasoning RL 1 / 2* (chain-of-thought accuracy), *RLHF* (human preference), *IF RL* (instruction following), *General RL* (broad capability), *Long Context RL* (long-sequence comprehension) — and unify them into a single student via **Online Policy Distillation (OPD)**.
-
-![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
-
-**Per-benchmark gains.** The chart below decomposes each benchmark score into the SFT base plus the RL post-training delta:
 
 ![MiniCPM5-1B RL Post-Training Gains](./assets/minicpm5/rl_gains.png)
 
