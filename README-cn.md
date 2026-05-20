@@ -139,25 +139,9 @@ MiniCPM5 是面壁智能新一代端侧模型家族。首发的 **MiniCPM5-1B** 
 
 ### 简介
 
-MiniCPM5-1B 是一款 decoder-only Transformer，旨在最大化每参数的输出质量。它沿用标准 Llama 架构，因此可以在所有主流推理引擎（Transformers、vLLM、SGLang、llama.cpp、MLX、Ollama、LM Studio…）上开箱即用。
+MiniCPM5-1B 是一款 decoder-only Transformer，旨在最大化每参数的输出质量。它沿用标准 `LlamaForCausalLM` 架构（24 层、GQA 8:1、原生 128K 上下文、~1.0B 总参数），可以在所有主流推理引擎（Transformers、vLLM、SGLang、llama.cpp、MLX、Ollama、LM Studio…）上开箱即用，无需自定义算子。
 
-| 字段 | 值 |
-| --- | --- |
-| 架构 | `LlamaForCausalLM` (稠密) |
-| 隐层数 | 24 |
-| Hidden / FFN 维度 | 1536 / 4608 (SwiGLU 1:3) |
-| Attention head | 16 Q-heads / 2 KV-heads (**GQA 8:1**) |
-| Head dim | 128 |
-| 归一化 | RMSNorm (ε = 1e-6) |
-| 激活 | SiLU |
-| 词表大小 | 130,560 |
-| 最大位置编码 | **131,072 (128 K)** |
-| RoPE θ | 5,000,000 (无 rope-scaling) |
-| Tie word embeddings | ❌ (独立 `lm_head`) |
-| 张量精度 | bfloat16 |
-| 总参数量（含 embedding） | ~1.0B（精确 1.08B，非嵌入主干 679.55M） |
-
-完整的按组件参数拆解见 [`docs/deployment/transformers.md`](./docs/deployment/transformers.md)。
+完整架构细节与按组件参数拆解见 [`docs/deployment/transformers.md`](./docs/deployment/transformers.md)。
 
 ### 评测结果
 

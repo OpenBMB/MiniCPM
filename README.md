@@ -150,25 +150,9 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 
 ### Introduction
 
-MiniCPM5-1B is a compact dense decoder-only Transformer trained to maximize quality per parameter. It keeps the standard Llama architecture so it runs out-of-the-box on every mainstream inference engine (Transformers, vLLM, SGLang, llama.cpp, MLX, Ollama, LM Studio…) without custom kernels.
+MiniCPM5-1B is a compact dense decoder-only Transformer trained to maximize quality per parameter. It keeps the standard `LlamaForCausalLM` architecture (24 layers, GQA 8:1, native 128K context, ~1.0 B total params) so it runs out-of-the-box on every mainstream inference engine (Transformers, vLLM, SGLang, llama.cpp, MLX, Ollama, LM Studio…) without custom kernels.
 
-| Field | Value |
-| --- | --- |
-| Architecture | `LlamaForCausalLM` (dense) |
-| Hidden layers | 24 |
-| Hidden size / FFN size | 1536 / 4608 (SwiGLU 1:3) |
-| Attention heads | 16 Q-heads / 2 KV-heads (**GQA 8:1**) |
-| Head dim | 128 |
-| Normalization | RMSNorm (ε = 1e-6) |
-| Activation | SiLU |
-| Vocabulary size | 130,560 |
-| Max position embeddings | **131,072 (128 K)** |
-| RoPE θ | 5,000,000 (no rope-scaling) |
-| Tie word embeddings | ❌ (independent `lm_head`) |
-| Tensor dtype | bfloat16 |
-| Total params (incl. embeddings) | ~1.0 B (1.08 B exact, 679.55 M non-embedding backbone) |
-
-For the full per-component parameter breakdown see [`docs/deployment/transformers.md`](./docs/deployment/transformers.md).
+For full architecture details and per-component parameter breakdown see [`docs/deployment/transformers.md`](./docs/deployment/transformers.md).
 
 ### Evaluation Results
 
