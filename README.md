@@ -56,7 +56,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   - [Evaluation Results](#evaluation-results)
     - [Standard Benchmarks](#standard-benchmarks)
     - [What Does RL Improve?](#what-does-rl-improve)
-  - [Agent Skills](#agent-skills)
+  - [How to Run MiniCPM5-1B in One Prompt?](#how-to-run-minicpm5-1b-in-one-prompt)
   - [Deployment and Fine-tuning Cookbooks](#deployment-and-fine-tuning-cookbooks)
   - [MiniCPM5 Applications](#minicpm5-applications)
     - [Desktop Pet](#desktop-pet)
@@ -185,7 +185,7 @@ RL also makes the model **dramatically less verbose** on reasoning tasks: the sh
 
 ![MiniCPM5-1B RL Overlong Response Rate Drop](./assets/minicpm5/rl_overlong.png)
 
-### Agent Skills
+### How to Run MiniCPM5-1B in One Prompt?
 
 MiniCPM5-1B uses the **standard `LlamaForCausalLM` architecture** and runs out of the box on every mainstream engine: **no custom kernels, no model-code fork**. We adapted MiniCPM5-1B to **9 inference backends** and **5 fine-tuning frameworks**, and shipped two top-level [Cursor Agent Skills](https://docs.cursor.com/agent/skills) so any LLM coding agent (Cursor / Claude Code / Codex / opencode / …) can drive them **from a single natural-language prompt**.
 
