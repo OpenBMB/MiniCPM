@@ -42,7 +42,7 @@ python -m sglang.launch_server \
 
 | Flag | Default | When to change |
 | --- | --- | --- |
-| `--context-length` | `131072` (native 128 K) | drop for small / shared GPUs |
+| `--context-length` | `131072` (native 128K) | drop for small / shared GPUs |
 | `--mem-fraction-static` | `0.85` | drop on shared GPUs |
 | `--dtype` | `bfloat16` | use `float16` on Ampere or older |
 

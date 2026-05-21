@@ -141,7 +141,7 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 
 🧩 **Standard Architecture**: `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Runs on every mainstream engine without custom kernels.
 
-📚 **Native 128 K Context**: `max_position_embeddings = 131,072`, `rope_theta = 5e6`, no RoPE scaling needed.
+📚 **Native 128K Context**: `max_position_embeddings = 131,072`, `rope_theta = 5e6`, no RoPE scaling needed.
 
 🧠 **Dual Mode Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
 

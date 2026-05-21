@@ -1,6 +1,6 @@
 # Deploy MiniCPM5-1B GPTQ-Marlin Int4
 
-A **symmetric GPTQ-Marlin Int4** build of MiniCPM5-1B is published as `openbmb/MiniCPM5-1B-GPTQ-Marlin-Int4`. It is calibrated with 1024 mixed-domain samples and consumes ~1.1 GB on disk while preserving full 128 K context.
+A **symmetric GPTQ-Marlin Int4** build of MiniCPM5-1B is published as `openbmb/MiniCPM5-1B-GPTQ-Marlin-Int4`. It is calibrated with 1024 mixed-domain samples and consumes ~1.1 GB on disk while preserving full 128K context.
 
 ## Verified versions
 
