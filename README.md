@@ -147,7 +147,7 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 
 🛠️ **Agent Skills and Cookbooks**: every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/) for one-prompt deployment by any LLM coding agent.
 
-🎮 **MiniCPM5 Applications**: reference apps showing what a 1B model can run on-device today: a desktop pet powered locally by MiniCPM5-1B and a community driven **Persona LoRA Hub** for personality LoRAs. See [MiniCPM5 Applications](#minicpm5-applications).
+🐱 **MiniCPM5 Applications**: reference apps showing what a 1B model can run on-device today: a desktop pet powered locally by MiniCPM5-1B and a community driven **Persona LoRA Hub** for personality LoRAs. See [MiniCPM5 Applications](#minicpm5-applications).
 
 ### Introduction
 

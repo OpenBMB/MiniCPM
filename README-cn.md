@@ -136,7 +136,7 @@ MiniCPM5 是面壁智能新一代端侧模型家族。首发的 **MiniCPM5-1B** 
 
 🛠️ **Agent Skills 与 Cookbook**：仓库里每条推理 / 微调路径都配有一份单页 cookbook，与一个一一对应的 [Agent Skill](./skills/)，任何 LLM 编码 agent 用一句自然语言 prompt 即可拉起。
 
-🎮 **MiniCPM5 应用**：现成的应用 case，直观展示 1B 端侧模型能做什么：MiniCPM5-1B 作本地大脑的桌宠 + 社区共训的人设 LoRA 社区，详见 [MiniCPM5 应用](#minicpm5-应用)。
+🐱 **MiniCPM5 应用**：现成的应用 case，直观展示 1B 端侧模型能做什么：MiniCPM5-1B 作本地大脑的桌宠 + 社区共训的人设 LoRA 社区，详见 [MiniCPM5 应用](#minicpm5-应用)。
 
 ### 简介
 
