@@ -29,10 +29,10 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 > 👉 **[Learn more and Register](https://soar.openbmb.cn/)**
 
 ## Changelog🔥
-- 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released! A compact 1B-class dense model for on-device and resource-constrained use, designed for higher capability density and paired with deployment / fine-tuning [Agent Skills](./skills/). 🔥🔥🔥
-- [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** is released! This is the first large-scale hybrid model effectively integrating sparse and linear attention for million-token context modeling. 🔥🔥🔥
-- [2025.09.05] **[MiniCPM4.1 series](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** are released! This series is a hybrid reasoning model with trainable sparse attention, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥
-- [2025.06.06] Released [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)! This model achieves ultimate efficiency improvements while maintaining optimal performance at the same scale! It can achieve over 5x generation acceleration on typical end-side chips!
+- 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
+- [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** is released: a sparse-and-linear hybrid attention model for million-token context modeling and efficient inference.
+- [2025.09.05] **[MiniCPM4.1 series](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** is released: a trainable sparse-attention model with hybrid reasoning.
+- [2025.06.06] [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b) is released: an end-side model with over 5x generation acceleration on typical edge chips.
 
 <details>
 <summary>Older entries (2024 + InfLLM-V2 paper)</summary>
@@ -52,10 +52,9 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 - [MiniCPM5 Series](#minicpm5-series)
   - [Highlights](#highlights)
   - [Introduction](#introduction)
-  - [Training Recipe](#training-recipe)
   - [Evaluation Results](#evaluation-results)
-    - [Standard Benchmarks](#standard-benchmarks)
-    - [What Does RL Improve?](#what-does-rl-improve)
+  - [Training Recipe](#training-recipe)
+    - [RL + OPD Post-training Gains](#rl--opd-post-training-gains)
   - [Agent Skills: Deployment and Fine-tuning Entry Points](#agent-skills-deployment-and-fine-tuning-entry-points)
   - [Deployment and Fine-tuning Cookbooks](#deployment-and-fine-tuning-cookbooks)
   - [MiniCPM5 Applications](#minicpm5-applications)
@@ -79,15 +78,20 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 | [MiniCPM5-1B-AWQ](https://huggingface.co/openbmb/MiniCPM5-1B-AWQ) | [MiniCPM5-1B-AWQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-AWQ) |
 | [MiniCPM5-1B-GPTQ](https://huggingface.co/openbmb/MiniCPM5-1B-GPTQ) | [MiniCPM5-1B-GPTQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GPTQ) |
 
-<details>
-<summary>📋 Click to view earlier MiniCPM releases: SALA, 4.1 / 4, BitCPM, applications, MiniCPM3 / 2B / 1B</summary>
-
-**Earlier flagships:**
+**Other key releases:**
 
 | HuggingFace | ModelScope |
 |---|---|
 | [MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA) | [MiniCPM-SALA](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA) |
 | [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
+
+<details>
+<summary>📋 Click to view earlier MiniCPM releases: 4, BitCPM, applications, MiniCPM3 / 2B / 1B</summary>
+
+**Earlier flagships:**
+
+| HuggingFace | ModelScope |
+|---|---|
 | [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B) | [MiniCPM4-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B) |
 | [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
 
@@ -133,11 +137,11 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 ## MiniCPM5 Series
 
-MiniCPM5 is our next-generation end-side model family. The first release, **MiniCPM5-1B**, is a compact dense 1B Transformer designed to maximize quality per parameter at the 1B scale, with a heavy emphasis on RL training, single-page cookbooks, and deployment / fine-tuning skills for coding agents.
+MiniCPM5 is our next-generation end-side model family. The first release, **MiniCPM5-1B**, is a compact dense 1B Transformer for on-device and resource-constrained use, with RL + OPD post-training, single-page cookbooks, and deployment / fine-tuning skills for coding agents.
 
 ### Highlights
 
-🏆 **Strongest 1B-class model on public leaderboards**: leads the **average score** (43.56) against LFM2.5-1.2B-Thinking, Qwen3-0.6B/think and Qwen3.5-0.8B/think across 23 reasoning, knowledge, code, instruction-following and agentic benchmarks, while also being the smallest by total parameters.
+🏆 **Public evaluation**: MiniCPM5-1B reaches an average score of 43.56 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks; its strengths are most visible in agentic tool use, code, and competition math.
 
 🧩 **Standard Architecture**: `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Runs on every mainstream engine without custom kernels.
 
@@ -147,13 +151,19 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 
 🛠️ **Deployment / Fine-tuning Agent Skills**: every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/), so LLM coding agents can choose the right route for a target backend or framework.
 
-🐱 **MiniCPM5 Applications**: reference apps showing what a 1B model can run on-device today: a desktop pet powered locally by MiniCPM5-1B and a community driven **Persona LoRA Hub** for personality LoRAs. See [MiniCPM5 Applications](#minicpm5-applications).
+🐱 **MiniCPM5 Applications**: reference apps for local use, including a desktop pet powered by MiniCPM5-1B and a community-driven **Persona LoRA Hub**. See [MiniCPM5 Applications](#minicpm5-applications).
 
 ### Introduction
 
-MiniCPM5-1B is a compact dense decoder-only Transformer trained to maximize quality per parameter. It keeps the standard `LlamaForCausalLM` architecture (24 layers, GQA 8:1, native 128K context, ~1.0 B total params) so it runs out-of-the-box on every mainstream inference engine (Transformers, vLLM, SGLang, llama.cpp, MLX, Ollama, LM Studio…) without custom kernels.
+MiniCPM5-1B is a compact dense decoder-only Transformer trained to improve output quality at the 1B scale. It keeps the standard `LlamaForCausalLM` architecture (24 layers, GQA 8:1, native 128K context, ~1.0 B total params) so it runs on mainstream inference engines (Transformers, vLLM, SGLang, llama.cpp, MLX, Ollama, LM Studio…) without custom kernels.
 
 For full architecture details and per-component parameter breakdown see [`docs/deployment/transformers.md`](./docs/deployment/transformers.md).
+
+### Evaluation Results
+
+We benchmark MiniCPM5-1B against 1B-class open-source SOTA peers, **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**, across public benchmarks. MiniCPM5-1B reaches an average score of **43.56**, about 9 points above the strongest peer average of **34.52**. The gain mainly comes from three areas: agentic tool use, with **81.58** on τ²-Bench Telecom-AA and **21.9** on BFCLv4; code, with **22.68** on LCB-Pro, **33.52** on LCB-v6, and **4.09** on OJBench; and competition math, with AIME-2025 / 2026 around **40** and MATH-500 at **91.6**. For on-device assistant use cases, this is most relevant to tool use, code generation, and difficult reasoning.
+
+![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard.png)
 
 ### Training Recipe
 
@@ -165,25 +175,13 @@ During **post-training**, we continue with **200B tokens of deep-thinking SFT** 
 
 ![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
 
-### Evaluation Results
+#### RL + OPD Post-training Gains
 
-#### Standard Benchmarks
+**RL + OPD** brings a clear improvement. On math, code and instruction-following workloads, RL + OPD raises the average score by **↑16 points** while cutting the share of responses that hit the max-tokens budget by **↓29 percentage points**. This improves both task scores and response length control, making deep reasoning more practical for a 1B on-device model; the figures below show the score gains and the drop in overlong responses.
 
-MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers: **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**. Across 23 public benchmarks covering general and domain knowledge, code, instruction-following, math, logical reasoning, subjective writing and agentic tool use, **MiniCPM5-1B is the smallest model by parameter count** and **wins the overall average by a wide margin (43.56 vs. next-best 34.52)**. It leads or ties on 18 of the 21 benchmarks where we report a score.
+![MiniCPM5-1B RL + OPD Gains](./assets/minicpm5/rl_gains.png)
 
-![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard.png)
-
-#### What Does RL Improve?
-
-RL training delivers the largest single jump in MiniCPM5-1B's intelligence: it turns the SFT checkpoint into a usable assistant for reasoning and instruction-following workloads.
-
-![MiniCPM5-1B RL Gains](./assets/minicpm5/rl_gains.png)
-
-Across seven math, code, and instruction-following benchmarks, RL raises the average score by **↑16.0 points**. The largest gains come from math (AIME 2025 ↑20.2 / AIME 2026 ↑25.6 / HMMT ↑11.6) and instruction-following (IFBench ↑17.1, Multi-IF ↑15.1, IFEval ↑10.7); LCB-v6 also improves by ↑11.6.
-
-RL also makes the model **dramatically less verbose** on reasoning tasks: the share of responses truncated at the max-tokens budget drops by **↓29 pp on average** (HMMT ↓40.5 pp, AIME 2025 ↓32.7 pp). In practice, RL raises scores while producing shorter, more focused reasoning traces for latency-sensitive on-device deployment.
-
-![MiniCPM5-1B RL Overlong Response Rate Drop](./assets/minicpm5/rl_overlong.png)
+![MiniCPM5-1B RL + OPD Overlong Response Rate Drop](./assets/minicpm5/rl_overlong.png)
 
 ### Agent Skills: Deployment and Fine-tuning Entry Points
 
@@ -279,13 +277,13 @@ If your dataset is accepted and the resulting LoRA is published, you will be cre
 
 MiniCPM-SALA (Sparse Attention and Linear Attention) is the first large-scale hybrid model effectively integrating sparse and linear attention for million-token context modeling
 
-✅ Innovative Hybrid Architecture: Synergizes 25% Sparse Attention (InfLLM-v2) for high-fidelity long context modeling with 75% Linear Attention (Lightning Attention) for global efficiency.
+✅ Hybrid Architecture: combines 25% Sparse Attention (InfLLM-v2) for long-context modeling with 75% Linear Attention (Lightning Attention) for global efficiency.
 
-✅ Shattering Efficiency Walls: Breaks the "Compute Wall" and the "Memory Wall," achieving 3.5× inference speed and significantly lower KV-cache overhead compared to dense baselines. 
+✅ Inference Efficiency: achieves 3.5× inference speed and lower KV-cache overhead compared with dense baselines. 
 
-✅ Million-Token Context: Empowered by HyPE (Hybrid Positional Embedding), it scales to 1M+ tokens while maintaining strong length generalization. 
+✅ Million-Token Context: uses HyPE (Hybrid Positional Embedding) to scale to 1M+ tokens while maintaining length generalization. 
 
-✅ HALO Adaptation: Utilizes Hybrid Attention via Layer Optimization (HALO), a novel distillation recipe that effectively transfers dense attention capabilities to the hybrid architecture, avoiding the severe performance degradation typical of pure linear models.
+✅ HALO Adaptation: uses Hybrid Attention via Layer Optimization (HALO), a distillation recipe that transfers dense attention capabilities to the hybrid architecture and mitigates the degradation often seen in pure linear models.
 
 #### Introduction
 
@@ -298,7 +296,7 @@ MiniCPM-SALA is an efficient hybrid model in which 25% of the layers adopt [InfL
   - Circumvents the inefficiencies of cold-start training by performing an architectural transformation on the pre-trained weights, thereby reducing the total training budget to approximately 25% relative to training a comparable model from scratch.
 
 - **[HyPE](https://arxiv.org/abs/2601.22156) (Hybrid Positional Encoding)**
-  - Harmonizes the performance across both short and long contexts, which can maintain general capabilities (e.g., knowledge, mathematics, and coding) comparable to modern full-attention models like Qwen3-8B and achieve substantial advantages across multiple long-context benchmarks.
+  - Balances short-context and long-context performance, maintaining general capabilities (e.g., knowledge, mathematics, and coding) close to full-attention models such as Qwen3-8B while scoring higher on multiple long-context benchmarks.
 
 - **Efficient Inference on Long Sequences**
   - Achieves up to 3.5x the inference speed of Qwen3-8B at a sequence length of 256K tokens on A6000D, supports inference at context lengths of up to 1M tokens on both NVIDIA A6000D and 5090 GPUs, whereas Qwen3-8B fails at this length due to out-of-memory (OOM) errors.
@@ -307,7 +305,7 @@ MiniCPM-SALA is an efficient hybrid model in which 25% of the layers adopt [InfL
 
 #### Efficiency Evaluation
 
-We benchmarked MiniCPM-SALA (9B) against Qwen3-8B on NVIDIA A6000D and RTX 5090 GPUs to evaluate inference speed and memory efficiency. The results demonstrate a significant performance leap: MiniCPM-SALA not only achieves up to a 2.5x speedup in time-to-first-token (TTFT) but also overcomes the memory bottlenecks of full-attention architectures. While Qwen3-8B suffers from OOM errors at extended lengths, MiniCPM-SALA successfully scales to 1M-token contexts on a single consumer-grade RTX 5090, effectively democratizing ultra-long context inference on edge hardware.
+We benchmarked MiniCPM-SALA (9B) against Qwen3-8B on NVIDIA A6000D and RTX 5090 GPUs to evaluate inference speed and memory efficiency. MiniCPM-SALA achieves up to a 2.5x speedup in time-to-first-token (TTFT) and reduces the memory pressure of full-attention architectures at ultra-long lengths. In this setup, Qwen3-8B runs into OOM errors at extended lengths, while MiniCPM-SALA can process 1M-token contexts on a single consumer-grade RTX 5090.
 
 ![inference_speed_a6000d](./assets/minicpm_sala/inference_speed_a600d.png)
 
@@ -315,13 +313,13 @@ We benchmarked MiniCPM-SALA (9B) against Qwen3-8B on NVIDIA A6000D and RTX 5090 
 
 #### Long-Context Evaluation
 
-MiniCPM-SALA consistently outperforms other open-source LLMs of similar scale across most involved long-context benchmarks. Specifically, it achieves the highest scores in the RULER and NoLiMa tests at all context lengths (up to 128K) and maintains the highest overall average score of 38.97, suggesting superior performance in handling long-context information processing.
+MiniCPM-SALA scores higher than the tested open-source LLMs of similar scale on most long-context benchmarks. It achieves the highest scores in the RULER and NoLiMa tests at all context lengths up to 128K, with an overall average score of 38.97.
 
 ![long_text_evaluation](./assets/minicpm_sala/long_text_evaluation.png)
 
 #### Ultra-long Context Evaluation
 
-The evaluation demonstrates that MiniCPM-SALA exhibits effective length extrapolation capabilities, maintaining a score of 81.6 at a 2048K context length despite being trained on only 520K tokens. The model achieves this without auxiliary techniques like YaRN, likely due to its NoPE configuration in sparse attention layers.
+MiniCPM-SALA shows effective length extrapolation, maintaining a score of 81.6 at a 2048K context length despite being trained on up to 520K tokens. The model does this without auxiliary techniques like YaRN, likely due to its NoPE configuration in sparse attention layers.
 
 ![ultra_long_text_evaluation](./assets/minicpm_sala/ultra_long_text_evaluation.png)
 
@@ -333,7 +331,7 @@ MiniCPM-SALA achieves an average score of 76.53 across standard benchmarks, outp
 
 ### Inference
 
-To achieve optimal performance, we recommend using the `Temperature=0.9`.
+Recommended inference setting: `Temperature=0.9`.
 
 #### HuggingFace
 
@@ -475,14 +473,14 @@ MiniCPM 4.1-8B is the first open-source reasoning LLM with trainable sparse atte
 ✅ Efficient Architecture: Trainable sparse attention, frequency-ranked speculative decoding
 
 #### Introduction
-MiniCPM4 and MiniCPM4.1 series are highly efficient large language models (LLMs) designed explicitly for end-side devices, which achieves this efficiency through systematic innovation in four key dimensions: model architecture, training data, training algorithms, and inference systems.
+MiniCPM4 and MiniCPM4.1 series are large language models designed for end-side devices, with efficiency optimizations across model architecture, training data, training algorithms, and inference systems.
 
 - 🏗️ **Efficient Model Architecture:**
   - InfLLM-V2 -- Trainable Sparse Attention Mechanism: Adopts a trainable sparse attention mechanism architecture where each token only needs to compute relevance with less than 5% of tokens in 128K long text processing, significantly reducing computational overhead for long texts ([InfLLM-V2 Training Kernels](https://github.com/OpenBMB/infllmv2_cuda_impl))
 
 - 🧠 **Efficient Learning Algorithms:**
   - Model Wind Tunnel 2.0 -- Efficient Predictable Scaling: Introduces scaling prediction methods for performance of downstream tasks, enabling more precise model training configuration search
-  - BitCPM -- Ultimate Ternary Quantization: Compresses model parameter bit-width to 3 values, achieving 90% extreme model bit-width reduction
+  - BitCPM -- Ternary Quantization: Compresses model parameter bit-width to 3 values, achieving 90% model bit-width reduction
   - Efficient Training Engineering Optimization: Adopts FP8 low-precision computing technology combined with Multi-token Prediction training strategy
 
 - 📚 **High-Quality Training Data:**
@@ -496,7 +494,7 @@ MiniCPM4 and MiniCPM4.1 series are highly efficient large language models (LLMs)
 ### Evaluation Results
 
 #### Efficiency Evaluation
-On two typical end-side chips, Jetson AGX Orin and RTX 4090, MiniCPM4 and MiniCPM4.1 demonstrate significantly faster processing speed compared to similar-size models in long text processing tasks. As text length increases, MiniCPM4 and MiniCPM4.1's efficiency advantage becomes more pronounced. On the Jetson AGX Orin platform, compared to Qwen3-8B, MiniCPM4 and MiniCPM4.1 achieves approximately 7x decoding speed improvement.
+On two typical end-side chips, Jetson AGX Orin and RTX 4090, MiniCPM4 and MiniCPM4.1 show faster processing speed than similar-size models in long-text processing tasks. As text length increases, the speed gains become more pronounced. On Jetson AGX Orin, compared with Qwen3-8B, MiniCPM4 and MiniCPM4.1 achieve approximately 7x decoding speed improvement.
 
 ![benchmark](./assets/minicpm4/efficiency.png)
 
@@ -505,21 +503,21 @@ MiniCPM4.1 achieves 3x decoding speed improvement in reasoning.
 ![benchmark](./assets/minicpm4/minicpm4.1_speed.png)
 
 #### Comprehensive Evaluation
-MiniCPM4 launches end-side versions with 8B and 0.5B parameter scales, both achieving best-in-class performance in their respective categories.
+MiniCPM4 launches end-side versions with 8B and 0.5B parameter scales, both showing competitive performance in their respective categories.
 
 ![benchmark](./assets/minicpm4/benchmark.png)
 
-MiniCPM4.1 launches end-side versions with 8B parameter scale, achieving best-in-class performance in deep reasoning mode.
+MiniCPM4.1 launches an 8B end-side version with competitive performance in deep reasoning mode.
 
 ![benchmark](./assets/minicpm4/benchmark4.1.png)
 
 #### Long Text Evaluation
-MiniCPM4 is pre-trained on 32K long texts and achieves length extension through YaRN technology. In the 128K long text needle-in-a-haystack task, MiniCPM4 demonstrates outstanding performance. MiniCPM4.1 is pre-trained on 64K long texts and achieves length extension through YaRN technology. In the 128K long text needle-in-a-haystack task, MiniCPM4.1 demonstrates outstanding performance.
+MiniCPM4 is pre-trained on 32K long texts and achieves length extension through YaRN. In the 128K needle-in-a-haystack task, MiniCPM4 maintains stable performance. MiniCPM4.1 is pre-trained on 64K long texts and also uses YaRN for length extension, with stable performance on the 128K needle-in-a-haystack task.
 
 ![long-niah](./assets/minicpm4/128k-niah.png)
 
 ### Inference
-MiniCPM 4.1 can be used with following frameworks: Huggingface Transformers, SGLang, vLLM, and CPM.cu. For the ultimate inference speed, we highly recommend CPM.cu.
+MiniCPM 4.1 can be used with the following frameworks: Huggingface Transformers, SGLang, vLLM, and CPM.cu. For inference efficiency, CPM.cu is a good first option.
 
 MiniCPM4/MiniCPM4.1 supports both dense attention inference and sparse attention inference modes, where vLLM and SGLang currently only support dense inference mode. If you want to use sparse inference mode, please use Huggingface Transformers and CPM.cu.
 
