@@ -29,7 +29,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 > 👉 **[Learn more and Register](https://soar.openbmb.cn/)**
 
 ## Changelog🔥
-- 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released! A compact dense 1B-class LLM that **tops every public sub-2B leaderboard** in reasoning, knowledge, math, code, instruction-following and agentic use, designed for on-device and resource-constrained deployment. Ships with one-click [Agent Skills](./skills/) for every mainstream inference and fine-tuning backend. 🔥🔥🔥
+- 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released! A compact dense 1B-class LLM that **tops every public sub-2B leaderboard** across reasoning, knowledge, math, code, instruction-following and agentic use. It is built for on-device and resource-constrained deployment, and ships with [Agent Skills](./skills/) for one-prompt inference and fine-tuning. 🔥🔥🔥
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** is released! This is the first large-scale hybrid model effectively integrating sparse and linear attention for million-token context modeling. 🔥🔥🔥
 - [2025.09.05] **[MiniCPM4.1 series](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** are released! This series is a hybrid reasoning model with trainable sparse attention, which can be used in both deep reasoning mode and non-reasoning mode. 🔥🔥🔥
 - [2025.06.06] Released [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)! This model achieves ultimate efficiency improvements while maintaining optimal performance at the same scale! It can achieve over 5x generation acceleration on typical end-side chips!
@@ -55,21 +55,21 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   - [Training Recipe](#training-recipe)
   - [Evaluation Results](#evaluation-results)
     - [Standard Benchmarks](#standard-benchmarks)
-    - [RL Post-Training Gains](#rl-post-training-gains)
-  - [Run It in One Prompt — Agent Skills](#run-it-in-one-prompt--agent-skills)
-  - [Cookbooks — For Deeper Dives](#cookbooks--for-deeper-dives)
+    - [RL Gains](#rl-gains)
+  - [Agent Skills](#agent-skills)
+  - [Deployment and Fine-tuning Cookbooks](#deployment-and-fine-tuning-cookbooks)
   - [MiniCPM5 Applications](#minicpm5-applications)
-    - [Desktop Pet — Clawd × MiniCPM5](#desktop-pet--clawd--minicpm5)
+    - [Desktop Pet](#desktop-pet)
     - [Persona LoRA Hub](#persona-lora-hub)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 & MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
-- [Legacy topics →](./docs/README-legacy.md) — BitCPM4 quantization, MiniCPM4 applications
+- [Legacy topics →](./docs/README-legacy.md): BitCPM4 quantization, MiniCPM4 applications
 - [LICENSE](#license) · [Institutions](#institutions) · [Citation](#citation)
 
 
 ## Model Downloads
 
-**Current release — MiniCPM5-1B** (BF16, GGUF, MLX, AWQ, GPTQ):
+**Current release: MiniCPM5-1B** (BF16, GGUF, MLX, AWQ, GPTQ):
 
 | HuggingFace | ModelScope |
 |---|---|
@@ -80,7 +80,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 | [MiniCPM5-1B-GPTQ](https://huggingface.co/openbmb/MiniCPM5-1B-GPTQ) | [MiniCPM5-1B-GPTQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GPTQ) |
 
 <details>
-<summary>📋 Click to view earlier MiniCPM releases — SALA, 4.1 / 4, BitCPM, applications, MiniCPM3 / 2B / 1B</summary>
+<summary>📋 Click to view earlier MiniCPM releases: SALA, 4.1 / 4, BitCPM, applications, MiniCPM3 / 2B / 1B</summary>
 
 **Earlier flagships:**
 
@@ -133,21 +133,21 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 ## MiniCPM5 Series
 
-MiniCPM5 is our next-generation end-side model family. The first release, **MiniCPM5-1B**, is a compact dense 1B Transformer designed to maximize quality-per-parameter at the 1B scale, with a heavy emphasis on RL post-training, verified one-click cookbooks, and an agent-friendly deployment story.
+MiniCPM5 is our next-generation end-side model family. The first release, **MiniCPM5-1B**, is a compact dense 1B Transformer designed to maximize quality per parameter at the 1B scale, with a heavy emphasis on RL training, single-page cookbooks, and an agent driven deployment story.
 
 ### Highlights
 
-✅ **Strongest 1B-class model on public leaderboards** — leads the **average score** (43.56) against LFM2.5-1.2B-Thinking, Qwen3-0.6B/think and Qwen3.5-0.8B/think across 23 reasoning, knowledge, code, instruction-following and agentic benchmarks, despite being the smallest counted by total parameters.
+🏆 **Strongest 1B-class model on public leaderboards**: leads the **average score** (43.56) against LFM2.5-1.2B-Thinking, Qwen3-0.6B/think and Qwen3.5-0.8B/think across 23 reasoning, knowledge, code, instruction-following and agentic benchmarks, while also being the smallest by total parameters.
 
-✅ **Standard Architecture** — `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Runs on every mainstream engine without custom kernels.
+🧩 **Standard Architecture**: `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Runs on every mainstream engine without custom kernels.
 
-✅ **Native 128 K Context** — `max_position_embeddings = 131,072`, `rope_theta = 5e6`, no rope-scaling needed.
+📚 **Native 128 K Context**: `max_position_embeddings = 131,072`, `rope_theta = 5e6`, no RoPE scaling needed.
 
-✅ **Dual-Mode Reasoning** — built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
+🧠 **Dual Mode Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
 
-✅ **Single-Page Cookbooks & One-Click Skills** — every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/) for one-prompt deployment by any LLM coding agent.
+🛠️ **Agent Skills and Cookbooks**: every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/) for one-prompt deployment by any LLM coding agent.
 
-✅ **Ready-Made Applications** — drop-in reference apps to show what a 1B model can do on-device today: a desktop pet powered locally by MiniCPM5-1B and a community-driven **Persona LoRA Hub** for personality fine-tunes. See [MiniCPM5 Applications](#minicpm5-applications).
+🎮 **MiniCPM5 Applications**: reference apps showing what a 1B model can run on-device today: a desktop pet powered locally by MiniCPM5-1B and a community driven **Persona LoRA Hub** for personality LoRAs. See [MiniCPM5 Applications](#minicpm5-applications).
 
 ### Introduction
 
@@ -157,7 +157,7 @@ For full architecture details and per-component parameter breakdown see [`docs/d
 
 ### Training Recipe
 
-Starting from `MiniCPM5-1B-SFT`, we run **five specialized RL teachers** in parallel — *Reasoning RL 1 / 2* (chain-of-thought accuracy), *RLHF* (human preference), *IF RL* (instruction following), *General RL* (broad capability), *Long Context RL* (long-sequence comprehension) — and unify them into a single student via **Online Policy Distillation (OPD)**.
+Starting from `MiniCPM5-1B-SFT`, we run **five specialized RL teachers** in parallel: *Reasoning RL 1 / 2* for chain-of-thought accuracy, *RLHF* for human preference, *IF RL* for instruction-following, *General RL* for broad capability, and *Long Context RL* for long-sequence comprehension. We then unify them into a single student with **Online Policy Distillation (OPD)**.
 
 ![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
 
@@ -165,48 +165,48 @@ Starting from `MiniCPM5-1B-SFT`, we run **five specialized RL teachers** in para
 
 #### Standard Benchmarks
 
-MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers — **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think** — across 23 public benchmarks spanning general / domain knowledge, code, instruction-following, math, logical reasoning, subjective writing, and agentic tool use. **MiniCPM5-1B is the smallest model by parameter count** and **wins the overall average by a wide margin (43.56 vs. next-best 34.52)**, leading or tying on 18 of the 21 benchmarks where we report a score.
+MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers: **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**. Across 23 public benchmarks covering general and domain knowledge, code, instruction-following, math, logical reasoning, subjective writing and agentic tool use, **MiniCPM5-1B is the smallest model by parameter count** and **wins the overall average by a wide margin (43.56 vs. next-best 34.52)**. It leads or ties on 18 of the 21 benchmarks where we report a score.
 
 ![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard.png)
 
-#### RL Post-Training Gains
+#### RL Gains
 
-RL post-training delivers the largest single jump in MiniCPM5-1B's intelligence — it is what turns the SFT checkpoint into a usable assistant on reasoning-heavy and instruction-following workloads.
+RL training delivers the largest single jump in MiniCPM5-1B's intelligence: it turns the SFT checkpoint into a usable assistant for reasoning and instruction-following workloads.
 
-![MiniCPM5-1B RL Post-Training Gains](./assets/minicpm5/rl_gains.png)
+![MiniCPM5-1B RL Gains](./assets/minicpm5/rl_gains.png)
 
-Across 7 reasoning-, code- and instruction-following benchmarks, RL post-training delivers a **mean gain of +16.0 points**. The largest deltas land on math (AIME 2025 +20.2 / AIME 2026 +25.6 / HMMT +11.6) and instruction-following (IFBench +17.1, Multi-IF +15.1, IFEval +10.7); LCB-v6 also picks up +11.6.
+Across seven math, code, and instruction-following benchmarks, RL raises the average score by **↑16.0 points**. The largest gains come from math (AIME 2025 ↑20.2 / AIME 2026 ↑25.6 / HMMT ↑11.6) and instruction-following (IFBench ↑17.1, Multi-IF ↑15.1, IFEval ↑10.7); LCB-v6 also improves by ↑11.6.
 
-RL also makes the model **dramatically less verbose** on reasoning tasks — the share of responses truncated at the max-tokens budget drops by **−29 pp on average** (HMMT: −40.5 pp, AIME 2025: −32.7 pp), so RL not only raises the score but also produces shorter, on-target reasoning traces — useful for latency-sensitive on-device deployment.
+RL also makes the model **dramatically less verbose** on reasoning tasks: the share of responses truncated at the max-tokens budget drops by **↓29 pp on average** (HMMT ↓40.5 pp, AIME 2025 ↓32.7 pp). In practice, RL raises scores while producing shorter, more focused reasoning traces for latency-sensitive on-device deployment.
 
-![MiniCPM5-1B RL Overlong-Response Rate Drop](./assets/minicpm5/rl_overlong.png)
+![MiniCPM5-1B RL Overlong Response Rate Drop](./assets/minicpm5/rl_overlong.png)
 
-### Run It in One Prompt — Agent Skills
+### Agent Skills
 
-MiniCPM5-1B uses the **standard `LlamaForCausalLM` architecture** and runs out-of-the-box on every mainstream engine — **no custom kernels, no model-code fork**. We've adapted MiniCPM5-1B to **9 inference backends** and **5 fine-tuning frameworks**, and shipped two top-level [Cursor Agent Skills](https://docs.cursor.com/agent/skills) so any LLM coding agent (Cursor / Claude Code / Codex / opencode / …) can drive them **from a single natural-language prompt**.
+MiniCPM5-1B uses the **standard `LlamaForCausalLM` architecture** and runs out of the box on every mainstream engine: **no custom kernels, no model-code fork**. We adapted MiniCPM5-1B to **9 inference backends** and **5 fine-tuning frameworks**, and shipped two top-level [Cursor Agent Skills](https://docs.cursor.com/agent/skills) so any LLM coding agent (Cursor / Claude Code / Codex / opencode / …) can drive them **from a single natural-language prompt**.
 
 | Top-level skill | What it does | Routes to |
 | --- | --- | --- |
 | **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` · `sglang` · `awq` · `gptq` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` |
-| **[`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md)** | Fine-tuning router | `trl` · `llamafactory` · `ms-swift` · `unsloth` · `xtuner` |
+| **[`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md)** | Fine tuning router | `trl` · `llamafactory` · `ms-swift` · `unsloth` · `xtuner` |
 
-Drop a line like this into Cursor / Claude Code and the agent picks the right sub-skill, sets up the env, runs the command, and reports back:
+Drop a line like this into Cursor / Claude Code and the agent picks the right sub skill, sets up the env, runs the command, and reports back:
 
 ```
 @minicpm5-deploy   serve openbmb/MiniCPM5-1B with vLLM on port 8000
 @minicpm5-finetune use unsloth + LoRA on /data/my_chat.jsonl, write to ./out
 ```
 
-Recommended chat-template sampling:
+Recommended chat template sampling:
 
 | Mode | Recommended params | Enable |
 | --- | --- | --- |
-| **Think** (deliberate reasoning) | `temperature=0.6, top_p=0.95` | `enable_thinking=True` |
-| **No-think** (fast answering) | `temperature=0.7, top_p=0.8` | `enable_thinking=False` |
+| **Think** | `temperature=0.6, top_p=0.95` | `enable_thinking=True` |
+| **No Think** | `temperature=0.7, top_p=0.8` | `enable_thinking=False` |
 
-### Cookbooks — For Deeper Dives
+### Deployment and Fine-tuning Cookbooks
 
-Prefer to drive things by hand, or want to know exactly what each Agent Skill does under the hood? Every backend / framework has a one-page cookbook with the exact command and observed output, paired with a backend-specific sub-skill.
+Prefer to drive things by hand, or want to know exactly what each Agent Skill does under the hood? Every backend / framework has a single-page cookbook with the exact command and observed output, paired with a backend-specific sub skill.
 
 **Deployment** (9 backends)
 
@@ -222,7 +222,7 @@ Prefer to drive things by hand, or want to know exactly what each Agent Skill do
 | LM Studio (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
 | MLX (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
 
-**Fine-tuning** (5 frameworks)
+**Fine tuning** (5 frameworks)
 
 | Framework | Cookbook | Paired Agent Skill |
 | --- | --- | --- |
@@ -234,13 +234,13 @@ Prefer to drive things by hand, or want to know exactly what each Agent Skill do
 
 ### MiniCPM5 Applications
 
-Reference apps built on top of MiniCPM5-1B, showing what a 1B-class on-device model can power in real-world scenarios. Both apps are open and accept community contributions.
+Reference apps built on top of MiniCPM5-1B, showing what a 1B-class on-device model can power in real world scenarios. Both apps are open and accept community contributions.
 
-#### Desktop Pet — Clawd × MiniCPM5
+#### Desktop Pet
 
-MiniCPM5-1B is small enough and capable enough to be the **local LLM brain** for an interactive desktop pet. We provide a thin bridge service, **`minicpm-pet-bridge`**, that exposes the model as an OpenAI-compatible local endpoint for [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk) — a cross-platform pixel desktop pet that reacts to your AI coding agent in real time.
+MiniCPM5-1B is small enough and capable enough to be the **local LLM brain** for an interactive desktop pet. We provide a thin bridge service, **`minicpm-pet-bridge`**, that exposes the model as an OpenAI-compatible local endpoint for [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk), a pixel desktop pet that reacts to your AI coding agent in real time.
 
-> Thanks to [@rullerzhou-afk](https://github.com/rullerzhou-afk) for building Clawd on Desk. The pet runtime, animation packs, and multi-agent integrations are all upstream work — `minicpm-pet-bridge` is just the local-LLM adapter.
+> Thanks to [@rullerzhou-afk](https://github.com/rullerzhou-afk) for building Clawd on Desk. The pet runtime, animation packs, and multi-agent integrations are all upstream work; `minicpm-pet-bridge` is the local LLM adapter.
 
 One-liner to try the pet with a locally served MiniCPM5-1B:
 
@@ -260,7 +260,7 @@ Beyond the base assistant, we are launching the **MiniCPM5 Persona LoRA Hub**: a
 
 - **Hub**: `openbmb/minicpm5-persona-lora-hub` on Hugging Face Spaces
 - **How to contribute**: dataset format, submission steps, attribution policy → [`docs/PERSONA_LORA_HUB-en.md`](./docs/PERSONA_LORA_HUB-en.md) (中文版：[`docs/PERSONA_LORA_HUB-cn.md`](./docs/PERSONA_LORA_HUB-cn.md))
-- **First example**: `lora_nekoqa_adapter` — a cat-girl chat persona
+- **First example**: `lora_nekoqa_adapter`, a cat-girl chat persona
 
 If your dataset is accepted and the resulting LoRA is published, you will be credited by name / handle on both the hub page and in the LoRA's `README.md`.
 
@@ -959,7 +959,7 @@ ollama run openbmb/minicpm4.1
 
 </details>
 
-> Quantization (**BitCPM4**) and MiniCPM4 applications (**Survey** / **MCP** / **Intel AIPC Client**) — see [`docs/README-legacy.md`](./docs/README-legacy.md).
+> Quantization (**BitCPM4**) and MiniCPM4 applications (**Survey** / **MCP** / **Intel AIPC Client**): see [`docs/README-legacy.md`](./docs/README-legacy.md).
 
 
 ## LICENSE
