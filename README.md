@@ -55,7 +55,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   - [Training Recipe](#training-recipe)
   - [Evaluation Results](#evaluation-results)
     - [Standard Benchmarks](#standard-benchmarks)
-    - [RL Gains](#rl-gains)
+    - [What Does RL Improve?](#what-does-rl-improve)
   - [Agent Skills](#agent-skills)
   - [Deployment and Fine-tuning Cookbooks](#deployment-and-fine-tuning-cookbooks)
   - [MiniCPM5 Applications](#minicpm5-applications)
@@ -157,7 +157,11 @@ For full architecture details and per-component parameter breakdown see [`docs/d
 
 ### Training Recipe
 
-Starting from `MiniCPM5-1B-SFT`, we run **five specialized RL teachers** in parallel: *Reasoning RL 1 / 2* for chain-of-thought accuracy, *RLHF* for human preference, *IF RL* for instruction-following, *General RL* for broad capability, and *Long Context RL* for long-sequence comprehension. We then unify them into a single student with **Online Policy Distillation (OPD)**.
+The training of MiniCPM5-1B is a full-stack practice of the **UltraData hierarchical data governance system**, covering both staged pre-training and post-training.
+
+During **pre-training**, the model goes through two stable-training stages with **1T tokens** each, followed by **200B tokens of decay training** and **200B tokens of mid-training** to further align capability targets and data distribution.
+
+During **post-training**, we continue with **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to strengthen reasoning and general chat abilities. On top of that, domain-specific Reinforcement Learning (RL) and **On-Policy Distillation (OPD)** integrate specialized RL teachers into the final release model, improving capability while merging multiple training branches into one checkpoint.
 
 ![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
 
@@ -169,7 +173,7 @@ MiniCPM5-1B is benchmarked against the closest open-source 1B-class peers: **LFM
 
 ![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard.png)
 
-#### RL Gains
+#### What Does RL Improve?
 
 RL training delivers the largest single jump in MiniCPM5-1B's intelligence: it turns the SFT checkpoint into a usable assistant for reasoning and instruction-following workloads.
 
