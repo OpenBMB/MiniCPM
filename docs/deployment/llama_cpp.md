@@ -18,7 +18,7 @@ These artifacts already include the metadata patches needed by every `llama.cpp`
 huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-Q4_K_M.gguf --local-dir ./minicpm5
 
 # Interactive chat (auto-applies the chat template)
-llama-cli -m ./minicpm5/MiniCPM5-1B-Q4_K_M.gguf -n 2048 --temp 0.7 --top-p 0.8 -ngl 99
+llama-cli -m ./minicpm5/MiniCPM5-1B-Q4_K_M.gguf -n 2048 --temp 0.7 --top-p 0.95 -ngl 99
 ```
 
 ## OpenAI-compatible server
@@ -31,7 +31,7 @@ curl http://localhost:8080/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 256
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 256
     }'
 ```
 
@@ -39,8 +39,8 @@ curl http://localhost:8080/v1/chat/completions \
 
 | Mode | `--temp` | `--top-p` | When to use |
 | --- | --- | --- | --- |
-| Think | 0.6 | 0.95 | reasoning, math, code, multi-step |
-| No-think | 0.7 | 0.8 | fast assistant, latency-bound |
+| Think | 0.9 | 0.95 | reasoning, math, code, multi-step |
+| No-think | 0.7 | 0.95 | fast assistant, latency-bound |
 
 ## Build a GGUF from your own checkpoint
 

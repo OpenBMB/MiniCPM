@@ -44,7 +44,7 @@ with torch.no_grad():
         inputs,
         max_new_tokens=1024,
         do_sample=True,
-        temperature=0.6,
+        temperature=0.9,
         top_p=0.95,
     )
 print(tokenizer.decode(outputs[0][inputs.shape[-1]:], skip_special_tokens=True))
@@ -82,7 +82,7 @@ with torch.no_grad():
         max_new_tokens=512,
         do_sample=True,
         temperature=0.7,
-        top_p=0.8,
+        top_p=0.95,
     )
 print(tokenizer.decode(outputs[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
@@ -93,8 +93,8 @@ Verified on a server-class CPU: **fp32 throughput ≈ 20 tok/s** for short promp
 
 | Mode | `enable_thinking` | `temperature` | `top_p` | When to use |
 | --- | --- | --- | --- | --- |
-| Think | `True` | 0.6 | 0.95 | hard reasoning, math, code, multi-step |
-| No-think | `False` | 0.7 | 0.8 | fast assistant, latency-bound |
+| Think | `True` | 0.9 | 0.95 | hard reasoning, math, code, multi-step |
+| No-think | `False` | 0.7 | 0.95 | fast assistant, latency-bound |
 
 `generation_config.json` is tuned for **think** mode by default.
 

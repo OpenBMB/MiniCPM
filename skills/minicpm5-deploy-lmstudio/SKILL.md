@@ -65,7 +65,7 @@ curl http://127.0.0.1:1234/v1/chat/completions \
     -d '{
         "model": "minicpm5-1b",
         "messages": [{"role":"user","content":"1+1=?"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 64
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64
     }'
 ```
 

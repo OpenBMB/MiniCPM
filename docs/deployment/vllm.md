@@ -45,7 +45,7 @@ curl http://localhost:8000/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B",
         "messages": [{"role": "user", "content": "用一句话解释什么是 GQA。"}],
-        "temperature": 0.6,
+        "temperature": 0.9,
         "top_p": 0.95,
         "max_tokens": 1024,
         "chat_template_kwargs": {"enable_thinking": true}
@@ -54,8 +54,8 @@ curl http://localhost:8000/v1/chat/completions \
 
 | Mode | `enable_thinking` | `temperature` | `top_p` |
 | --- | --- | --- | --- |
-| Think | `true` | 0.6 | 0.95 |
-| No-think | `false` | 0.7 | 0.8 |
+| Think | `true` | 0.9 | 0.95 |
+| No-think | `false` | 0.7 | 0.95 |
 
 ## Verified run
 
@@ -81,7 +81,7 @@ from vllm import LLM, SamplingParams
 llm = LLM(model="openbmb/MiniCPM5-1B", dtype="bfloat16", max_model_len=131072)
 out = llm.chat(
     [[{"role": "user", "content": "用一句话解释 GQA。"}]],
-    SamplingParams(temperature=0.6, top_p=0.95, max_tokens=512),
+    SamplingParams(temperature=0.9, top_p=0.95, max_tokens=512),
     chat_template_kwargs={"enable_thinking": True},
 )
 print(out[0].outputs[0].text)

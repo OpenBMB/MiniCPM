@@ -59,7 +59,7 @@ $ curl -sS http://localhost:8000/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B-AWQ",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.6, "top_p": 0.95, "max_tokens": 64
+        "temperature": 0.9, "top_p": 0.95, "max_tokens": 64
     }'
 
 # reply: "<think>

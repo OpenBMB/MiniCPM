@@ -146,7 +146,7 @@ FastLanguageModel.for_inference(model)           # 2× faster generation
 
 inputs = tok.apply_chat_template([{"role":"user","content":"用一句话解释 GQA。"}],
                                  add_generation_prompt=True, enable_thinking=True, return_tensors="pt").to("cuda")
-out = model.generate(inputs, max_new_tokens=512, temperature=0.6, top_p=0.95)
+out = model.generate(inputs, max_new_tokens=512, temperature=0.9, top_p=0.95)
 print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
 

@@ -53,7 +53,7 @@ $ curl -sS http://localhost:8000/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B-GPTQ",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.6, "top_p": 0.95, "max_tokens": 64
+        "temperature": 0.9, "top_p": 0.95, "max_tokens": 64
     }'
 
 # reply: "<think>
@@ -65,8 +65,8 @@ The `<think>...</think>` block is the default chat-template behavior. Set `chat_
 
 | Mode | `enable_thinking` | `temperature` | `top_p` |
 | --- | --- | ---: | ---: |
-| Think (default) | `true` (or omit) | 0.6 | 0.95 |
-| No-think | `false` | 0.7 | 0.8 |
+| Think (default) | `true` (or omit) | 0.9 | 0.95 |
+| No-think | `false` | 0.7 | 0.95 |
 
 The quantization layer (Marlin Int4) doesn't touch the chat template, so think / no-think behavior is identical to the fp16 build — only the weights are quantized.
 

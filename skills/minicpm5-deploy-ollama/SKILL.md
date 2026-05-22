@@ -51,7 +51,7 @@ PARAMETER stop "</s>"
 
 # Defaults tuned for nothink mode
 PARAMETER temperature 0.7
-PARAMETER top_p 0.8
+PARAMETER top_p 0.95
 PARAMETER num_ctx 8192
 EOF
 ```
@@ -73,7 +73,7 @@ curl http://localhost:11434/v1/chat/completions \
     -d '{
         "model": "minicpm5-1b",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 64
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64
     }'
 ```
 
@@ -84,10 +84,10 @@ Expected: `"2"` in the reply. **Verified ~132 tok/s on Apple M4 / 16 GB.**
 Default Modelfile is nothink. For think:
 
 ```bash
-ollama run ${MODEL_NAME} --temperature 0.6 --top-p 0.95
+ollama run ${MODEL_NAME} --temperature 0.9 --top-p 0.95
 ```
 
-Or bake it into a separate model tag with two flipped lines (`temperature 0.6`, `top_p 0.95`) and `ollama create ${MODEL_NAME}-think -f Modelfile.think`.
+Or bake it into a separate model tag by flipping `temperature 0.7` to `temperature 0.9` (top_p stays 0.95) and `ollama create ${MODEL_NAME}-think -f Modelfile.think`.
 
 To force the auto-injected `<think>\n` prefix, use raw mode:
 
@@ -96,7 +96,7 @@ curl http://localhost:11434/api/generate -d '{
     "model": "minicpm5-1b",
     "raw": true,
     "prompt": "<|im_start|>user\n鸡兔同笼…<|im_end|>\n<|im_start|>assistant\n<think>\n",
-    "options": {"temperature": 0.6, "top_p": 0.95}
+    "options": {"temperature": 0.9, "top_p": 0.95}
 }'
 ```
 

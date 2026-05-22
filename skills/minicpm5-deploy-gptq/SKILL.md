@@ -48,7 +48,7 @@ curl http://localhost:${PORT}/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B-GPTQ",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 64,
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64,
         "chat_template_kwargs": {"enable_thinking": false}
     }'
 ```
@@ -61,8 +61,8 @@ Same as fp16 / AWQ — the quantization layer doesn't touch the chat template. U
 
 | Mode | `enable_thinking` | `temperature` | `top_p` |
 | --- | --- | ---: | ---: |
-| Think (default) | `true` (or omit) | 0.6 | 0.95 |
-| No-think | `false` | 0.7 | 0.8 |
+| Think (default) | `true` (or omit) | 0.9 | 0.95 |
+| No-think | `false` | 0.7 | 0.95 |
 
 ## AWQ vs GPTQ — which to pick
 

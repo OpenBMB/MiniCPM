@@ -77,7 +77,7 @@ curl http://localhost:${PORT}/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 64,
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64,
         "chat_template_kwargs": {"enable_thinking": false}
     }'
 ```
@@ -87,8 +87,8 @@ Expected: `choices[0].message.content` contains `"2"`. If you see `<think>...</t
 ## Sampling defaults
 
 ```json
-{"temperature": 0.6, "top_p": 0.95, "chat_template_kwargs": {"enable_thinking": true}}    // think
-{"temperature": 0.7, "top_p": 0.8,  "chat_template_kwargs": {"enable_thinking": false}}   // nothink
+{"temperature": 0.9, "top_p": 0.95, "chat_template_kwargs": {"enable_thinking": true}}    // think
+{"temperature": 0.7, "top_p": 0.95, "chat_template_kwargs": {"enable_thinking": false}}   // nothink
 ```
 
 ## Common pitfalls

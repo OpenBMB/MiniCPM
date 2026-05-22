@@ -54,15 +54,15 @@ curl http://localhost:30000/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B",
         "messages": [{"role": "user", "content": "用一句话解释什么是 GQA。"}],
-        "temperature": 0.6, "top_p": 0.95, "max_tokens": 1024,
+        "temperature": 0.9, "top_p": 0.95, "max_tokens": 1024,
         "chat_template_kwargs": {"enable_thinking": true}
     }'
 ```
 
 | Mode | `enable_thinking` | `temperature` | `top_p` |
 | --- | --- | --- | --- |
-| Think | `true` | 0.6 | 0.95 |
-| No-think | `false` | 0.7 | 0.8 |
+| Think | `true` | 0.9 | 0.95 |
+| No-think | `false` | 0.7 | 0.95 |
 
 ## Offline / batched (Engine API)
 
@@ -79,7 +79,7 @@ llm = sgl.Engine(
 outputs = llm.generate(
     ["用一句话解释什么是 GQA。"],
     sampling_params={
-        "temperature": 0.6, "top_p": 0.95, "max_new_tokens": 1024,
+        "temperature": 0.9, "top_p": 0.95, "max_new_tokens": 1024,
         "skip_special_tokens": False,
     },
 )

@@ -44,7 +44,7 @@ huggingface-cli download ${GGUF_REPO} MiniCPM5-1B-${QUANT}.gguf --local-dir .
 
 ```bash
 llama-cli -m MiniCPM5-1B-${QUANT}.gguf \
-    -n 2048 --temp 0.7 --top-p 0.8 -ngl ${NGL} -c ${CTX}
+    -n 2048 --temp 0.7 --top-p 0.95 -ngl ${NGL} -c ${CTX}
 ```
 
 ### 3b. OpenAI-compatible HTTP server
@@ -62,7 +62,7 @@ curl http://localhost:8080/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B",
         "messages": [{"role":"user","content":"1+1=?"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 64
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64
     }'
 ```
 
@@ -72,8 +72,8 @@ Expected: `"2"` in the reply.
 
 | Mode | `--temp` | `--top-p` |
 | --- | --- | --- |
-| Think | 0.6 | 0.95 |
-| No-think | 0.7 | 0.8 |
+| Think | 0.9 | 0.95 |
+| No-think | 0.7 | 0.95 |
 
 ## Choosing a quant
 

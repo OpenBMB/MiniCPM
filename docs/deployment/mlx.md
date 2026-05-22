@@ -34,7 +34,7 @@ mlx_lm.generate --model ./minicpm5-mlx-q4 \
 1+1=?<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens 200 --temp 0.7 --top-p 0.8 \
+    --max-tokens 200 --temp 0.7 --top-p 0.95 \
     --extra-eos-token "<|im_end|>"
 ```
 
@@ -116,7 +116,7 @@ mlx_lm.generate --model ./minicpm5-mlx-q4 \
 鸡兔同笼，头共10个，脚共28只，问鸡和兔各几只？<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens 200 --temp 0.7 --top-p 0.8 \
+    --max-tokens 200 --temp 0.7 --top-p 0.95 \
     --extra-eos-token "<|im_end|>"
 ```
 
@@ -158,8 +158,8 @@ print()
 
 | Mode | `--temp` | `--top-p` | When to use |
 | --- | --- | --- | --- |
-| Think | 0.6 | 0.95 | reasoning, math, code, multi-step (model auto-emits `<think>` block) |
-| No-think | 0.7 | 0.8 | fast assistant, latency-bound |
+| Think | 0.9 | 0.95 | reasoning, math, code, multi-step (model auto-emits `<think>` block) |
+| No-think | 0.7 | 0.95 | fast assistant, latency-bound |
 
 Both modes are activated by sampling parameters only — the GGUF-baked Jinja chat template auto-injects `<think>\n` when no `system` message disables it, so you get think-mode behaviour by default.
 

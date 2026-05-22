@@ -57,7 +57,7 @@ curl http://localhost:${PORT}/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-1B",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 64,
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64,
         "chat_template_kwargs": {"enable_thinking": false}
     }'
 ```
@@ -73,7 +73,7 @@ llm = sgl.Engine(model_path="${MODEL_PATH}", tp_size=1, mem_fraction_static=0.8,
 
 outputs = llm.generate(
     ["用一句话解释什么是 GQA。"],
-    sampling_params={"temperature": 0.6, "top_p": 0.95, "max_new_tokens": 1024,
+    sampling_params={"temperature": 0.9, "top_p": 0.95, "max_new_tokens": 1024,
                      "skip_special_tokens": False},
 )
 print(outputs)

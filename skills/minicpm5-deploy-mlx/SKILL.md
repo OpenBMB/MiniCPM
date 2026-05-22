@@ -38,7 +38,7 @@ mlx_lm.generate --model "${MLX_REPO}" \
 1+1=?<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens ${MAX_TOKENS} --temp 0.7 --top-p 0.8 \
+    --max-tokens ${MAX_TOKENS} --temp 0.7 --top-p 0.95 \
     --extra-eos-token "<|im_end|>"
 ```
 
@@ -76,7 +76,7 @@ curl http://127.0.0.1:8000/v1/chat/completions \
     -d '{
         "model": "default",
         "messages": [{"role":"user","content":"1+1=?"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 64
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64
     }'
 ```
 

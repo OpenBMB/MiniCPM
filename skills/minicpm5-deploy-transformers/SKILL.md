@@ -49,8 +49,8 @@ with torch.no_grad():
         inputs,
         max_new_tokens=1024,
         do_sample=True,
-        temperature=0.6,           # nothink: 0.7
-        top_p=0.95,                # nothink: 0.8
+        temperature=0.9,           # nothink: 0.7
+        top_p=0.95,
     )
 print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
@@ -61,8 +61,8 @@ For CPU only: change `torch_dtype=torch.float32, device_map="cpu"` and drop `ena
 
 | Mode | `enable_thinking` | `temperature` | `top_p` |
 | --- | --- | --- | --- |
-| Think | `True` | 0.6 | 0.95 |
-| No-think | `False` | 0.7 | 0.8 |
+| Think | `True` | 0.9 | 0.95 |
+| No-think | `False` | 0.7 | 0.95 |
 
 ## Validate
 

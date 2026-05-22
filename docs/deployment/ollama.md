@@ -39,7 +39,7 @@ PARAMETER stop "</s>"
 
 # Defaults are tuned for no-think mode
 PARAMETER temperature 0.7
-PARAMETER top_p 0.8
+PARAMETER top_p 0.95
 PARAMETER num_ctx 8192
 EOF
 
@@ -65,7 +65,7 @@ curl http://localhost:11434/v1/chat/completions \
     -d '{
         "model": "minicpm5-1b",
         "messages": [{"role": "user", "content": "用一句话解释 GQA。"}],
-        "temperature": 0.6, "top_p": 0.95, "max_tokens": 1024
+        "temperature": 0.9, "top_p": 0.95, "max_tokens": 1024
     }'
 ```
 
@@ -76,22 +76,22 @@ curl http://localhost:11434/api/chat -d '{
     "model": "minicpm5-1b",
     "messages": [{"role":"user","content":"1+1=?"}],
     "stream": false,
-    "options": {"temperature": 0.7, "top_p": 0.8}
+    "options": {"temperature": 0.7, "top_p": 0.95}
 }'
 ```
 
 ## Think vs No-think
 
-The Modelfile above defaults to **no-think** (`temperature=0.7, top_p=0.8`). To switch a single conversation to **think** mode, override the sampling params at request time:
+The Modelfile above defaults to **no-think** (`temperature=0.7, top_p=0.95`). To switch a single conversation to **think** mode, override the sampling params at request time:
 
 ```bash
-ollama run minicpm5-1b --temperature 0.6 --top-p 0.95
+ollama run minicpm5-1b --temperature 0.9 --top-p 0.95
 ```
 
-Or bake it into a separate model tag with the two parameter lines flipped:
+Or bake it into a separate model tag by raising the temperature line (top_p stays 0.95):
 
 ```Modelfile
-PARAMETER temperature 0.6
+PARAMETER temperature 0.9
 PARAMETER top_p 0.95
 ```
 
@@ -104,7 +104,7 @@ Then `ollama create minicpm5-1b-think -f Modelfile.think`.
 >     "model": "minicpm5-1b",
 >     "raw": true,
 >     "prompt": "<|im_start|>user\n鸡兔同笼…<|im_end|>\n<|im_start|>assistant\n<think>\n",
->     "options": {"temperature": 0.6, "top_p": 0.95}
+>     "options": {"temperature": 0.9, "top_p": 0.95}
 > }'
 > ```
 

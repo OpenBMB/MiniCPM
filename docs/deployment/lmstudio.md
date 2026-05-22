@@ -93,7 +93,7 @@ curl -sS http://localhost:1234/v1/chat/completions \
     -d '{
         "model": "minicpm5-1b",
         "messages": [{"role": "user", "content": "用一句话解释什么是 GQA。"}],
-        "temperature": 0.7, "top_p": 0.8, "max_tokens": 200,
+        "temperature": 0.7, "top_p": 0.95, "max_tokens": 200,
         "stop": ["<|im_end|>", "<|im_start|>"]
     }'
 ```
@@ -106,7 +106,7 @@ curl -sS http://localhost:1234/v1/chat/completions \
     -d '{
         "model": "minicpm5-1b",
         "messages": [{"role": "user", "content": "鸡兔同笼，头共10个，脚共28只，问鸡和兔各几只？请逐步推理后给出答案。"}],
-        "temperature": 0.6, "top_p": 0.95, "max_tokens": 400,
+        "temperature": 0.9, "top_p": 0.95, "max_tokens": 400,
         "stop": ["<|im_end|>", "<|im_start|>"]
     }'
 ```
@@ -153,8 +153,8 @@ The GGUF runtime does not do this split — `<think>...</think>` is emitted inli
 
 | Mode | `temperature` | `top_p` | When to use |
 | --- | --- | --- | --- |
-| Think | 0.6 | 0.95 | reasoning, math, code (model auto-emits a `<think>` block) |
-| No-think | 0.7 | 0.8 | latency-bound assistant |
+| Think | 0.9 | 0.95 | reasoning, math, code (model auto-emits a `<think>` block) |
+| No-think | 0.7 | 0.95 | latency-bound assistant |
 
 ## Toggling Think / No-think
 

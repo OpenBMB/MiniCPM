@@ -209,8 +209,8 @@ Recommended chat template sampling:
 
 | Mode | Recommended params | Enable |
 | --- | --- | --- |
-| **Think** | `temperature=0.6, top_p=0.95` | `enable_thinking=True` |
-| **No Think** | `temperature=0.7, top_p=0.8` | `enable_thinking=False` |
+| **Think** | `temperature=0.9, top_p=0.95` | `enable_thinking=True` |
+| **No Think** | `temperature=0.7, top_p=0.95` | `enable_thinking=False` |
 
 ### Deployment and Fine-tuning Cookbooks
 
