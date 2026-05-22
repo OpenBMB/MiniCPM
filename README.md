@@ -177,7 +177,13 @@ During **post-training**, we continue with **200B tokens of deep-thinking SFT** 
 
 #### RL + OPD Post-training Gains
 
-**RL + OPD** brings a clear improvement. On math, code and instruction-following workloads, RL + OPD raises the average score by **↑16 points** while cutting the share of responses that hit the max-tokens budget by **↓29 percentage points**. This improves both task scores and response length control, making deep reasoning more practical for a 1B on-device model; the figures below show the score gains and the drop in overlong responses.
+**RL + OPD** brings a clear improvement. On math, code and instruction-following workloads, RL + OPD raises the average score by **↑16 points** while cutting the share of responses that hit the max-tokens budget by **↓29 percentage points**. This improves both task scores and response length control, making deep reasoning more practical for a 1B on-device model; the figures below show the two-stage RL pipeline, score gains, and the drop in overlong responses.
+
+The RL stage combines several complementary training signals. For closed-book QA, we train on [TriviaQA](https://huggingface.co/datasets/mandarjoshi/trivia_qa) and [NQ-Open](https://huggingface.co/datasets/google-research-datasets/nq_open), with a system prompt that encourages the model to acknowledge uncertainty instead of guessing. A Generative Reward Model judges each answer with a simple reward: +1 for correct, 0 for an honest "I don't know", and -1 for incorrect. We also use [LongWriter-Zero-RLData](https://huggingface.co/datasets/THU-KEG/LongWriter-Zero-RLData) for writing, synthesize verifiable RLVR data from general corpora for instruction following, identity recognition, and long-context comprehension, and apply pair-wise RLHF on conversational queries with anchor responses judged by a Generative Reward Model.
+
+For OPD, we build on Thinking Machines Lab's [On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/) and incorporate implementation improvements from [Rethinking On-Policy Distillation](https://arxiv.org/pdf/2604.13016). In the RL framework, we use reverse KL divergence as the advantage estimate, replacing the original verification-based advantage. At each response position, we take top-k logits from both the student and teacher models, compute reverse KL on the union of the two token sets, and balance the accuracy of the RKL signal with training efficiency.
+
+![MiniCPM5-1B RL Two-stage Pipeline](./assets/minicpm5/rl_two_stage_overview.png)
 
 ![MiniCPM5-1B RL + OPD Gains](./assets/minicpm5/rl_gains.png)
 
