@@ -209,15 +209,15 @@ MiniCPM5-1B 使用**标准 `LlamaForCausalLM` 架构**，所有主流引擎开�
 
 | 后端 | Cookbook | 对应 Agent Skill |
 | --- | --- | --- |
-| Transformers (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) | [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) |
-| vLLM (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) | [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) |
-| SGLang (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) | [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) |
-| AWQ-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) | [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) |
-| GPTQ-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) | [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) |
-| llama.cpp (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) | [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) |
-| Ollama (GGUF, 端侧) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
-| LM Studio (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
-| MLX (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
+| [Transformers](https://github.com/huggingface/transformers) (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) | [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) |
+| [vLLM](https://github.com/vllm-project/vllm) (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) | [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) |
+| [SGLang](https://github.com/sgl-project/sglang) (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) | [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) |
+| [AWQ](https://github.com/mit-han-lab/llm-awq)-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) | [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) |
+| [GPTQ](https://github.com/AutoGPTQ/AutoGPTQ)-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) | [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) |
+| [llama.cpp](https://github.com/ggml-org/llama.cpp) (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) | [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) |
+| [Ollama](https://github.com/ollama/ollama) (GGUF, 端侧) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
+| [LM Studio](https://lmstudio.ai) (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
+| [MLX](https://github.com/ml-explore/mlx-lm) (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
 
 **微调**（5 个框架）
 
