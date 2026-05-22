@@ -163,7 +163,7 @@ For full architecture details and per-component parameter breakdown see [`docs/d
 
 We benchmark MiniCPM5-1B against 1B-class open-source SOTA peers, **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**, across public benchmarks. MiniCPM5-1B reaches an average score of **43.56**, about 9 points above the strongest peer average of **34.52**. The gain mainly comes from three areas: agentic tool use, with **81.58** on τ²-Bench Telecom-AA and **21.9** on BFCLv4; code, with **22.68** on LCB-Pro, **33.52** on LCB-v6, and **4.09** on OJBench; and competition math, with AIME-2025 / 2026 around **40** and MATH-500 at **91.6**. For on-device assistant use cases, this is most relevant to tool use, code generation, and difficult reasoning.
 
-![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard.png)
+![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard_en.png)
 
 ### Training Recipe
 

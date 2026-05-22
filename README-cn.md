@@ -152,7 +152,7 @@ MiniCPM5-1B 是一款 decoder-only Transformer，训练目标是提升 1B 参数
 
 我们将 MiniCPM5-1B 与同尺寸 SOTA 开源模型 **LFM2.5-1.2B-Thinking**、**Qwen3-0.6B/think**、**Qwen3.5-0.8B/think** 在公开评测上做了对比。MiniCPM5-1B 平均分为 **43.56**，比对照模型中的最高平均分 **34.52** 高约 9 分。分数提升主要来自三类能力：Agentic 工具调用上，τ²-Bench Telecom-AA 达到 **81.58**，BFCLv4 为 **21.9**；代码任务上，LCB-Pro **22.68**、LCB-v6 **33.52**、OJBench **4.09**；竞赛数学上，AIME-2025 / 2026 约 **40**，MATH-500 为 **91.6**。这些结果对应到端侧助手场景，主要价值在工具调用、代码生成和高难推理。
 
-![MiniCPM-5 1B 公开榜单成绩](./assets/minicpm5/public_leaderboard.png)
+![MiniCPM-5 1B 公开榜单成绩](./assets/minicpm5/public_leaderboard_cn.png)
 
 ### 训练流程
 
