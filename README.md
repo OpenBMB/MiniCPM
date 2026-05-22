@@ -52,6 +52,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   - [Evaluation Results](#evaluation-results)
   - [Training Recipe](#training-recipe)
     - [RL + OPD Post-training Gains](#rl--opd-post-training-gains)
+  - [One-line Quickstart](#one-line-quickstart)
   - [Agent Skills: Deployment and Fine-tuning Entry Points](#agent-skills-deployment-and-fine-tuning-entry-points)
   - [Deployment and Fine-tuning Cookbooks](#deployment-and-fine-tuning-cookbooks)
   - [MiniCPM5 Applications](#minicpm5-applications)
@@ -178,13 +179,67 @@ During **post-training**, we continue with **200B tokens of deep-thinking SFT** 
 
 The RL stage combines several complementary training signals. For Reasoning RL, we use [DAPO-Math-17k](https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k); rollouts that are incorrect or overlong receive a negative reward. For closed-book QA, we train on [TriviaQA](https://huggingface.co/datasets/mandarjoshi/trivia_qa) and [NQ-Open](https://huggingface.co/datasets/google-research-datasets/nq_open), with a system prompt that encourages the model to acknowledge uncertainty instead of guessing. A Generative Reward Model judges each answer with a simple reward: +1 for correct, 0 for an honest "I don't know", and -1 for incorrect. We also use [LongWriter-Zero-RLData](https://huggingface.co/datasets/THU-KEG/LongWriter-Zero-RLData) for writing, synthesize verifiable RLVR data from general corpora for instruction following, identity recognition, and long-context comprehension, and apply pair-wise RLHF on conversational queries with anchor responses judged by a Generative Reward Model.
 
-For OPD, we build on Thinking Machines Lab's [On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/) and incorporate implementation improvements from [Rethinking On-Policy Distillation](https://arxiv.org/pdf/2604.13016). In the RL framework, we use reverse KL divergence as the advantage estimate, replacing the original verification-based advantage. At each response position, we take top-k logits from both the student and teacher models, compute reverse KL on the union of the two token sets, and balance the accuracy of the RKL signal with training efficiency.
+For OPD, we build on Thinking Machines Lab's [On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/) and incorporate implementation improvements from [Rethinking On-Policy Distillation](https://arxiv.org/pdf/2604.13016). In the RL framework, we use reverse KL divergence as the advantage estimate, replacing the original verification-based advantage. At each response position, we take top-k logits from both the student and teacher models, compute reverse KL on the union of the two token sets, and balance the accuracy of the RKL signal with training efficiency. OPD reuses the per-domain prompt distribution already used to train each specialized RL teacher, so no additional data curation is required.
 
 ![MiniCPM5-1B RL Two-stage Pipeline](./assets/minicpm5/rl_two_stage_overview.png)
 
 ![MiniCPM5-1B RL + OPD Gains](./assets/minicpm5/rl_gains.png)
 
 ![MiniCPM5-1B RL + OPD Overlong Response Rate Drop](./assets/minicpm5/rl_overlong.png)
+
+### One-line Quickstart
+
+For the three most common inference paths, a single shell command is enough to bring MiniCPM5-1B up:
+
+**vLLM** (OpenAI-compatible server, NVIDIA GPU):
+
+```bash
+pip install vllm && vllm serve openbmb/MiniCPM5-1B --port 8000
+```
+
+**SGLang** (OpenAI-compatible server, NVIDIA GPU):
+
+```bash
+pip install "sglang==0.5.6.post3" && python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000
+```
+
+**Transformers** (Python, CPU or GPU):
+
+```bash
+pip install -U transformers && python -c "from transformers import pipeline; print(pipeline('text-generation', 'openbmb/MiniCPM5-1B', device_map='auto')('1+1=?', max_new_tokens=64)[0]['generated_text'])"
+```
+
+Recommended chat template sampling:
+
+| Mode | Recommended params | Enable |
+| --- | --- | --- |
+| **Think** | `temperature=0.9, top_p=0.95` | `enable_thinking=True` |
+| **No Think** | `temperature=0.7, top_p=0.95` | `enable_thinking=False` |
+
+For other backends (AWQ / GPTQ / llama.cpp / Ollama / LM Studio / MLX), see the cookbooks table below.
+
+#### With tool calling
+
+MiniCPM5-1B emits tool calls in an XML format. To consume them as OpenAI-compatible `tool_calls`, both engines need a custom parser.
+
+**SGLang** — install our fork (registers a built-in `minicpm5` tool-call parser):
+
+```bash
+uv pip install 'git+https://github.com/zhangtao2-1/sglang-minicpm.git@feature/add_minicpm5_tool_call_parser#subdirectory=python&egg=sglang[all]'
+python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000 \
+    --tool-call-parser minicpm5
+```
+
+**vLLM** — load the parser plugin shipped in this repo:
+
+```bash
+vllm serve openbmb/MiniCPM5-1B --port 8000 \
+    --enable-auto-tool-choice \
+    --tool-call-parser minicpm5 \
+    --tool-parser-plugin ./tool_parsers/minicpm5xml_tool_parser.py
+```
+
+The plugin file lives at [`tool_parsers/minicpm5xml_tool_parser.py`](./tool_parsers/minicpm5xml_tool_parser.py).
 
 ### Agent Skills: Deployment and Fine-tuning Entry Points
 
@@ -201,13 +256,6 @@ In Cursor / Claude Code, you can call them like this: the agent reads the top-le
 @minicpm5-deploy   serve openbmb/MiniCPM5-1B with vLLM on port 8000
 @minicpm5-finetune use unsloth + LoRA on /data/my_chat.jsonl, write to ./out
 ```
-
-Recommended chat template sampling:
-
-| Mode | Recommended params | Enable |
-| --- | --- | --- |
-| **Think** | `temperature=0.9, top_p=0.95` | `enable_thinking=True` |
-| **No Think** | `temperature=0.7, top_p=0.95` | `enable_thinking=False` |
 
 ### Deployment and Fine-tuning Cookbooks
 
