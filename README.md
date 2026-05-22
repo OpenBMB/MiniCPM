@@ -17,16 +17,13 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 </p>
 
 > [!NOTE]
-> ### 🏆 2026 Sparse Operator Acceleration & Race (SOAR) is Now Live!
+> ### 🐱 MiniCPM5-1B Desktop Pet · Video Demo
 >
-> **The MiniCPM-SALA architecture is just the beginning. Realizing its full potential requires deep system-level synergy and cross-layer compilation optimization.**
+> **Coming soon:** a short video showing the MiniCPM5-1B desktop pet powered locally.
 >
-> OpenBMB, in collaboration with **SGLang** and **NVIDIA**, invites global geeks to tackle the limits of **9B-scale, 1M-token inference** on a dedicated **NVIDIA 6000D** environment.
+> <!-- TODO: replace this placeholder with the actual <video>, GIF, or YouTube/Bilibili link once the demo is ready. -->
 >
-> * 💰 **Prize Pool:** >$100,000 USD (Top Prize: **$89,000**)
-> * 🚀 **Goal:** Optimize single and multi-batch performance via cross-layer compilation.
->
-> 👉 **[Learn more and Register](https://soar.openbmb.cn/)**
+> 👉 **[Learn more about MiniCPM5 Applications](#minicpm5-applications)**
 
 ## Changelog🔥
 - 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
@@ -84,6 +81,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 |---|---|
 | [MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA) | [MiniCPM-SALA](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA) |
 | [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
+| [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
 
 <details>
 <summary>📋 Click to view earlier MiniCPM releases: 4, BitCPM, applications, MiniCPM3 / 2B / 1B</summary>
@@ -93,7 +91,6 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 | HuggingFace | ModelScope |
 |---|---|
 | [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B) | [MiniCPM4-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B) |
-| [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
 
 **MiniCPM4.1 quantized & speculative variants:**
 
@@ -141,7 +138,7 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 
 ### Highlights
 
-🏆 **Public evaluation**: MiniCPM5-1B reaches an average score of 43.56 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks; its strengths are most visible in agentic tool use, code, and competition math.
+🏆 **Public evaluation**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks; its strengths are most visible in agentic tool use, code, and competition math.
 
 🧩 **Standard Architecture**: `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Runs on every mainstream engine without custom kernels.
 
@@ -161,7 +158,7 @@ For full architecture details and per-component parameter breakdown see [`docs/d
 
 ### Evaluation Results
 
-We benchmark MiniCPM5-1B against 1B-class open-source SOTA peers, **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**, across public benchmarks. MiniCPM5-1B reaches an average score of **43.56**, about 9 points above the strongest peer average of **34.52**. The gain mainly comes from three areas: agentic tool use, with **81.58** on τ²-Bench Telecom-AA and **21.9** on BFCLv4; code, with **22.68** on LCB-Pro, **33.52** on LCB-v6, and **4.09** on OJBench; and competition math, with AIME-2025 / 2026 around **40** and MATH-500 at **91.6**. For on-device assistant use cases, this is most relevant to tool use, code generation, and difficult reasoning.
+We benchmark MiniCPM5-1B against 1B-class open-source SOTA peers, **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**, across public benchmarks. MiniCPM5-1B reaches an average score of **42.57**, about 7 points above the strongest peer average of **35.61**. The gain mainly comes from three areas: agentic tool use, with **79.53** on τ²-Bench Telecom-AA; code, with **22.68** on LCB-Pro, **33.52** on LCB-v6, and **7.33** on OJBench; and competition math, with AIME-2025 / 2026 around **40** and MATH-500 at **91.6**. For on-device assistant use cases, this is most relevant to tool use, code generation, and difficult reasoning.
 
 ![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard_en.png)
 
@@ -169,17 +166,17 @@ We benchmark MiniCPM5-1B against 1B-class open-source SOTA peers, **LFM2.5-1.2B-
 
 The training of MiniCPM5-1B is a full-stack practice of the **UltraData hierarchical data governance system**, covering both staged pre-training and post-training.
 
-During **pre-training**, the model goes through two stable-training stages with **1T tokens** each, followed by **200B tokens of decay training** and **200B tokens of mid-training** to further align capability targets and data distribution.
+During **pre-training**, the model goes through two stable-training stages with **1T tokens** each, followed by **200B tokens of decay training** and **200B tokens of mid-training** to further align capability targets and data distribution. The pre-training corpus is released alongside the model as [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3).
 
-During **post-training**, we continue with **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to strengthen reasoning and general chat abilities. On top of that, domain-specific Reinforcement Learning (RL) and **On-Policy Distillation (OPD)** integrate specialized RL teachers into the final release model, improving capability while merging multiple training branches into one checkpoint.
+During **post-training**, we continue with **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to strengthen reasoning and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). On top of that, domain-specific Reinforcement Learning (RL) and **On-Policy Distillation (OPD)** integrate specialized RL teachers into the final release model, improving capability while merging multiple training branches into one checkpoint.
 
 ![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
 
 #### RL + OPD Post-training Gains
 
-**RL + OPD** brings a clear improvement. On math, code and instruction-following workloads, RL + OPD raises the average score by **↑16 points** while cutting the share of responses that hit the max-tokens budget by **↓29 percentage points**. This improves both task scores and response length control, making deep reasoning more practical for a 1B on-device model; the figures below show the two-stage RL pipeline, score gains, and the drop in overlong responses.
+**RL + OPD** brings a clear improvement. On math, code and instruction-following workloads, RL + OPD raises the average score by **↑16 points** while cutting the share of responses that hit the max-tokens budget by **↓29 percentage points**. This improves both task scores and response length control, making deep reasoning more practical for a 1B on-device model; the figures below show the two-stage Reasoning RL pipeline, score gains, and the drop in overlong responses.
 
-The RL stage combines several complementary training signals. For closed-book QA, we train on [TriviaQA](https://huggingface.co/datasets/mandarjoshi/trivia_qa) and [NQ-Open](https://huggingface.co/datasets/google-research-datasets/nq_open), with a system prompt that encourages the model to acknowledge uncertainty instead of guessing. A Generative Reward Model judges each answer with a simple reward: +1 for correct, 0 for an honest "I don't know", and -1 for incorrect. We also use [LongWriter-Zero-RLData](https://huggingface.co/datasets/THU-KEG/LongWriter-Zero-RLData) for writing, synthesize verifiable RLVR data from general corpora for instruction following, identity recognition, and long-context comprehension, and apply pair-wise RLHF on conversational queries with anchor responses judged by a Generative Reward Model.
+The RL stage combines several complementary training signals. For Reasoning RL, we use [DAPO-Math-17k](https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k); rollouts that are incorrect or overlong receive a negative reward. For closed-book QA, we train on [TriviaQA](https://huggingface.co/datasets/mandarjoshi/trivia_qa) and [NQ-Open](https://huggingface.co/datasets/google-research-datasets/nq_open), with a system prompt that encourages the model to acknowledge uncertainty instead of guessing. A Generative Reward Model judges each answer with a simple reward: +1 for correct, 0 for an honest "I don't know", and -1 for incorrect. We also use [LongWriter-Zero-RLData](https://huggingface.co/datasets/THU-KEG/LongWriter-Zero-RLData) for writing, synthesize verifiable RLVR data from general corpora for instruction following, identity recognition, and long-context comprehension, and apply pair-wise RLHF on conversational queries with anchor responses judged by a Generative Reward Model.
 
 For OPD, we build on Thinking Machines Lab's [On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/) and incorporate implementation improvements from [Rethinking On-Policy Distillation](https://arxiv.org/pdf/2604.13016). In the RL framework, we use reverse KL divergence as the advantage estimate, replacing the original verification-based advantage. At each response position, we take top-k logits from both the student and teacher models, compute reverse KL on the union of the two token sets, and balance the accuracy of the RKL signal with training efficiency.
 

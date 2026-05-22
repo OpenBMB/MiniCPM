@@ -17,6 +17,15 @@
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">加入我们</a>
 </p>
 
+> [!NOTE]
+> ### 🐱 MiniCPM5-1B 桌宠 · 视频 Demo
+>
+> **即将上线：** 视频演示 MiniCPM5-1B 本地驱动的桌宠交互。
+>
+> <!-- TODO: 视频 / GIF / YouTube / Bilibili 链接就绪后替换此处占位 -->
+>
+> 👉 **[了解 MiniCPM5 应用](#minicpm5-应用)**
+
 ## 更新日志🔥
 - 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** 发布：面向端侧与资源受限场景的 1B 稠密模型，并配套部署 / 微调 [Agent Skills](./skills/)。
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** 发布：稀疏与线性混合注意力模型，支持百万词元上下文和高效推理。
@@ -73,6 +82,7 @@
 |---|---|
 | [MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA) | [MiniCPM-SALA](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA) |
 | [MiniCPM4.1-8B](https://huggingface.co/openbmb/MiniCPM4.1-8B) | [MiniCPM4.1-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4.1-8B) |
+| [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
 
 <details>
 <summary>📋 点击查看早期 MiniCPM 版本：4、BitCPM、应用模型、MiniCPM3 / 2B / 1B</summary>
@@ -82,7 +92,6 @@
 | HuggingFace | ModelScope |
 |---|---|
 | [MiniCPM4-8B](https://huggingface.co/openbmb/MiniCPM4-8B) | [MiniCPM4-8B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-8B) |
-| [MiniCPM4-0.5B](https://huggingface.co/openbmb/MiniCPM4-0.5B) | [MiniCPM4-0.5B](https://www.modelscope.cn/models/OpenBMB/MiniCPM4-0.5B) |
 
 **MiniCPM4.1 量化与投机变体：**
 
@@ -130,7 +139,7 @@ MiniCPM5 是面壁智能新一代端侧模型家族。首发的 **MiniCPM5-1B** 
 
 ### 亮点
 
-🏆 **公开评测**：在推理 / 知识 / 代码 / 指令跟随 / 数学 / 逻辑 / Agentic 评测中，MiniCPM5-1B 平均分 43.56；优势主要体现在 Agentic 工具调用、代码和竞赛数学。
+🏆 **公开评测**：在推理 / 知识 / 代码 / 指令跟随 / 数学 / 逻辑 / Agentic 评测中，MiniCPM5-1B 平均分 42.57；优势主要体现在 Agentic 工具调用、代码和竞赛数学。
 
 🧩 **标准架构**：标准 `LlamaForCausalLM`，使用 **GQA (16 Q / 2 KV)** 与 **SwiGLU**。所有主流推理引擎开箱即用，无需自定义算子。
 
@@ -150,7 +159,7 @@ MiniCPM5-1B 是一款 decoder-only Transformer，训练目标是提升 1B 参数
 
 ### 评测结果
 
-我们将 MiniCPM5-1B 与同尺寸 SOTA 开源模型 **LFM2.5-1.2B-Thinking**、**Qwen3-0.6B/think**、**Qwen3.5-0.8B/think** 在公开评测上做了对比。MiniCPM5-1B 平均分为 **43.56**，比对照模型中的最高平均分 **34.52** 高约 9 分。分数提升主要来自三类能力：Agentic 工具调用上，τ²-Bench Telecom-AA 达到 **81.58**，BFCLv4 为 **21.9**；代码任务上，LCB-Pro **22.68**、LCB-v6 **33.52**、OJBench **4.09**；竞赛数学上，AIME-2025 / 2026 约 **40**，MATH-500 为 **91.6**。这些结果对应到端侧助手场景，主要价值在工具调用、代码生成和高难推理。
+我们将 MiniCPM5-1B 与同尺寸 SOTA 开源模型 **LFM2.5-1.2B-Thinking**、**Qwen3-0.6B/think**、**Qwen3.5-0.8B/think** 在公开评测上做了对比。MiniCPM5-1B 平均分为 **42.57**，比对照模型中的最高平均分 **35.61** 高约 7 分。分数提升主要来自三类能力：Agentic 工具调用上 τ²-Bench Telecom-AA 达到 **79.53**；代码任务上 LCB-Pro **22.68**、LCB-v6 **33.52**、OJBench **7.33**；竞赛数学上 AIME-2025 / 2026 约 **40**，MATH-500 为 **91.6**。这些结果对应到端侧助手场景，主要价值在工具调用、代码生成和高难推理。
 
 ![MiniCPM-5 1B 公开榜单成绩](./assets/minicpm5/public_leaderboard_cn.png)
 
@@ -158,17 +167,17 @@ MiniCPM5-1B 是一款 decoder-only Transformer，训练目标是提升 1B 参数
 
 MiniCPM5-1B 的训练过程是 **UltraData 分级治理体系**的一次完整实践，覆盖分阶段预训练与后训练两个部分。
 
-**预训练阶段**采用逐级推进的训练配方：首先进行两阶段 stable training，各使用 **1T tokens**；随后进入 **200B tokens decay training**，再通过 **200B tokens mid-training** 强化目标能力与数据分布适配。
+**预训练阶段**采用逐级推进的训练配方：首先进行两阶段 stable training，各使用 **1T tokens**；随后进入 **200B tokens decay training**，再通过 **200B tokens mid-training** 强化目标能力与数据分布适配。预训练所用的语料来自我们同步开源的 [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3)。
 
-**后训练阶段**继续使用 **200B tokens deep-thinking SFT** 与 **200B tokens hybrid-thinking SFT** 打磨推理与通用对话能力。在此基础上，我们引入领域强化学习（Reinforcement Learning, RL）与 **On-Policy Distillation (OPD)**，将多个专用 RL teacher 的能力统一到最终发布模型中，实现能力增强与版本融合。
+**后训练阶段**继续使用 **200B tokens deep-thinking SFT** 与 **200B tokens hybrid-thinking SFT** 打磨推理与通用对话能力，SFT 数据来自同步开源的 [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605)。在此基础上，我们引入领域强化学习（Reinforcement Learning, RL）与 **On-Policy Distillation (OPD)**，将多个专用 RL teacher 的能力统一到最终发布模型中，实现能力增强与版本融合。
 
 ![MiniCPM5-1B 训练流程](./assets/minicpm5/training_recipe.png)
 
 #### RL + OPD 后训练提升
 
-**RL + OPD** 带来了显著提升。在数学、代码、指令跟随三类工作负载上，RL + OPD 将平均分提升 **↑16 分**，同时将回复触顶 max-tokens 预算的比例降低 **↓29 个百分点**。这说明后训练同时改善了任务得分和回复长度控制，使深度推理更适合在 1B 端侧模型上使用；下方图示展示 RL 两阶段流程、分数提升和超长率下降。
+**RL + OPD** 带来了显著提升。在数学、代码、指令跟随三类工作负载上，RL + OPD 将平均分提升 **↑16 分**，同时将回复触顶 max-tokens 预算的比例降低 **↓29 个百分点**。这说明后训练同时改善了任务得分和回复长度控制，使深度推理更适合在 1B 端侧模型上使用；下方图示展示 Reasoning RL 两阶段流程、分数提升和超长率下降。
 
-RL 阶段组合了多类互补训练信号。闭卷问答使用 [TriviaQA](https://huggingface.co/datasets/mandarjoshi/trivia_qa) 和 [NQ-Open](https://huggingface.co/datasets/google-research-datasets/nq_open)，并在每条样本前加入系统提示，引导模型在不确定时承认不知道，而不是随机猜测；奖励由 Generative Reward Model 判定，答对为 +1，诚实回答“不知道”为 0，答错为 -1。我们还使用 [LongWriter-Zero-RLData](https://huggingface.co/datasets/THU-KEG/LongWriter-Zero-RLData) 提升写作能力，从通用语料合成可验证数据用于 RLVR 训练，覆盖指令跟随、身份识别和长上下文理解，并基于通用对话查询构造 anchor responses，用 Generative Reward Model 支持 pair-wise RLHF，提升通用对话体验。
+RL 阶段组合了多类互补训练信号。Reasoning RL 使用 [DAPO-Math-17k](https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k)，回答错误或超长的 rollout 会收到负向奖励。闭卷问答使用 [TriviaQA](https://huggingface.co/datasets/mandarjoshi/trivia_qa) 和 [NQ-Open](https://huggingface.co/datasets/google-research-datasets/nq_open)，并在每条样本前加入系统提示，引导模型在不确定时承认不知道，而不是随机猜测；奖励由 Generative Reward Model 判定，答对为 +1，诚实回答“不知道”为 0，答错为 -1。我们还使用 [LongWriter-Zero-RLData](https://huggingface.co/datasets/THU-KEG/LongWriter-Zero-RLData) 提升写作能力，从通用语料合成可验证数据用于 RLVR 训练，覆盖指令跟随、身份识别和长上下文理解，并基于通用对话查询构造 anchor responses，用 Generative Reward Model 支持 pair-wise RLHF，提升通用对话体验。
 
 OPD 部分参考了 Thinking Machines Lab 的 [On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/) 思路，并结合 [Rethinking On-Policy Distillation](https://arxiv.org/pdf/2604.13016) 做了实现改进：我们在强化学习框架中使用反向 KL 散度作为优势估计值，替代原有的 verification-based advantage；同时在 response 序列的每个位置分别对学生模型和教师模型 logits 做双边 top-k 采样，取并集后计算反向 KL 散度，在监督信号准确性和训练效率之间取得平衡。
 
