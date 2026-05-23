@@ -1,3 +1,9 @@
+# For MiniCPM5-1B (the current release), the install commands live with each
+# backend / framework cookbook under docs/deployment/ and docs/finetune/, since
+# the supported version range differs per engine (vLLM / SGLang / transformers /
+# llama.cpp / MLX / Ollama / LM Studio). This file pins the legacy stack that
+# still works for the older MiniCPM 1B / 2B series.
+
 # for MiniCPM-2B hf inference
 torch>=2.0.0
 transformers>=4.36.2
