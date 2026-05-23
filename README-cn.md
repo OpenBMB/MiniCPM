@@ -22,7 +22,9 @@
 >
 > **视频演示：** MiniCPM5-1B 本地驱动桌宠的交互流程。
 >
-> <video src="./assets/minicpm5/minicpm5_desktop_pet_demo.mp4" controls width="720"></video>
+> <video src="https://github.com/OpenBMB/MiniCPM/raw/minicpm5/assets/minicpm5/minicpm5_desktop_pet_demo.mp4" controls width="720"></video>
+>
+> 如果上方播放器未显示，可直接 [点此下载 / 观看 mp4](https://github.com/OpenBMB/MiniCPM/raw/minicpm5/assets/minicpm5/minicpm5_desktop_pet_demo.mp4)。
 >
 > 👉 **项目仓库：** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)
 
