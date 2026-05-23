@@ -1,4 +1,13 @@
 ## 模型量化
+
+> **MiniCPM5-1B 用户**：请改用 cookbook 里的 AWQ / GPTQ 路径 ——
+> [`docs/deployment/awq.md`](../docs/deployment/awq.md) ·
+> [`docs/deployment/gptq.md`](../docs/deployment/gptq.md)。
+> 配套发布的 `openbmb/MiniCPM5-1B-AWQ` / `openbmb/MiniCPM5-1B-GPTQ`
+> 已经按这两份 cookbook 校准好。
+>
+> 下文是更早期 MiniCPM 1B / 2B 系列的量化脚本，保留作历史参考。
+
 <p id="gptq"></p>
 
 **gptq量化**
