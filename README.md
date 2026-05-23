@@ -57,7 +57,6 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
   - [Deployment and Fine-tuning Cookbooks](#deployment-and-fine-tuning-cookbooks)
   - [MiniCPM5 Applications](#minicpm5-applications)
     - [Desktop Pet](#desktop-pet)
-    - [Persona LoRA Hub](#persona-lora-hub)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 & MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
 - [Legacy topics →](./docs/README-legacy.md): BitCPM4 quantization, MiniCPM4 applications
@@ -141,6 +140,8 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 
 🏆 **Public evaluation**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks; its strengths are most visible in agentic tool use, code, and competition math.
 
+![MiniCPM5-1B capability comparison by domain](./assets/minicpm5/public_leaderboard_radar_en.png)
+
 🧩 **Standard Architecture**: `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Runs on every mainstream engine without custom kernels.
 
 📚 **Native 128K Context**: `max_position_embeddings = 131,072`, `rope_theta = 5e6`, no RoPE scaling needed.
@@ -149,7 +150,7 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 
 🛠️ **Deployment / Fine-tuning Agent Skills**: every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/), so LLM coding agents can choose the right route for a target backend or framework.
 
-🐱 **MiniCPM5 Applications**: reference apps for local use, including a desktop pet powered by MiniCPM5-1B and a community-driven **Persona LoRA Hub**. See [MiniCPM5 Applications](#minicpm5-applications).
+🐱 **MiniCPM5 Applications**: reference apps for local use, including a desktop pet powered by MiniCPM5-1B. See [MiniCPM5 Applications](#minicpm5-applications).
 
 ### Introduction
 
@@ -220,26 +221,12 @@ For other backends (AWQ / GPTQ / llama.cpp / Ollama / LM Studio / MLX), see the 
 
 #### With tool calling
 
-MiniCPM5-1B emits tool calls in an XML format. To consume them as OpenAI-compatible `tool_calls`, both engines need a custom parser.
-
-**SGLang** — install our fork (registers a built-in `minicpm5` tool-call parser):
+For tool / function calling, **SGLang is the recommended backend** — MiniCPM5-1B emits XML-style tool calls and SGLang's built-in `minicpm5` parser converts them to OpenAI-compatible `tool_calls` natively:
 
 ```bash
-uv pip install 'git+https://github.com/zhangtao2-1/sglang-minicpm.git@feature/add_minicpm5_tool_call_parser#subdirectory=python&egg=sglang[all]'
 python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000 \
-    --tool-call-parser minicpm5
+    --tool-call-parser minicpm5      # or: --tool-call-parser auto
 ```
-
-**vLLM** — load the parser plugin shipped in this repo:
-
-```bash
-vllm serve openbmb/MiniCPM5-1B --port 8000 \
-    --enable-auto-tool-choice \
-    --tool-call-parser minicpm5 \
-    --tool-parser-plugin ./tool_parsers/minicpm5xml_tool_parser.py
-```
-
-The plugin file lives at [`tool_parsers/minicpm5xml_tool_parser.py`](./tool_parsers/minicpm5xml_tool_parser.py).
 
 ### Agent Skills: Deployment and Fine-tuning Entry Points
 
@@ -287,7 +274,7 @@ Prefer to drive things by hand, or want to know exactly what each Agent Skill do
 
 ### MiniCPM5 Applications
 
-Reference apps built on top of MiniCPM5-1B, showing what a 1B-class on-device model can power in real world scenarios. Both apps are open and accept community contributions.
+A reference app built on top of MiniCPM5-1B, showing what a 1B-class on-device model can power in real world scenarios.
 
 #### Desktop Pet
 
@@ -297,16 +284,6 @@ We ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet
 - **Developer path**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
 
 > The pet UI layer is **forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk)** (AGPL-3.0). The pet runtime, animation packs, and multi-agent integrations are upstream work; on top of that we integrate the local MiniCPM5-1B sidecar, 5-step onboarding, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
-
-#### Persona LoRA Hub
-
-Beyond the base assistant, we are launching the **MiniCPM5 Persona LoRA Hub**: a community-driven space where anyone can upload a persona dataset (character / mascot / role-play / customer-service / …), get it **labeled and trained by us into a published LoRA**, and have their contribution credited on the hub.
-
-- **Hub**: `openbmb/minicpm5-persona-lora-hub` on Hugging Face Spaces
-- **How to contribute**: dataset format, submission steps, attribution policy → [`docs/PERSONA_LORA_HUB-en.md`](./docs/PERSONA_LORA_HUB-en.md) (中文版：[`docs/PERSONA_LORA_HUB-cn.md`](./docs/PERSONA_LORA_HUB-cn.md))
-- **First example**: `lora_nekoqa_adapter`, a cat-girl chat persona
-
-If your dataset is accepted and the resulting LoRA is published, you will be credited by name / handle on both the hub page and in the LoRA's `README.md`.
 
 ## MiniCPM-SALA
 
