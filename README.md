@@ -19,27 +19,27 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 > [!NOTE]
 > ### 🐱 MiniCPM5-1B Desktop Pet · Video Demo
 >
-> **Coming soon:** a short video showing the MiniCPM5-1B desktop pet powered locally.
+> **Video demo:** local MiniCPM5-1B powering the desktop pet interaction flow.
 >
-> <!-- TODO: replace this placeholder with the actual <video>, GIF, or YouTube/Bilibili link once the demo is ready. -->
+> <video src="./assets/minicpm5/minicpm5_desktop_pet_demo.mp4" controls width="720"></video>
 >
 > 👉 **Project:** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)
 
 ## Highlights
 
-We are kicking off the **MiniCPM5** series — our next-generation end-side model family. The first checkpoint, **MiniCPM5-1B**, is a compact dense 1B Transformer for on-device and resource-constrained use, with RL + OPD post-training, single-page cookbooks, and deployment / fine-tuning skills for coding agents.
+We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA on public evaluations. The model uses the standard `LlamaForCausalLM` architecture, supports native 128K context, and is released in BF16, GGUF, MLX, AWQ, and GPTQ variants.
 
-🏆 **Public evaluation**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks; its strengths are most visible in agentic tool use, code, and competition math.
+🏆 **1B-class open-source SOTA**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks, above the highest average score of 35.61 among strong open-source models in the same size class; its strengths are most visible in agentic tool use, code, and competition math.
 
 ![MiniCPM5-1B capability comparison by domain](./assets/minicpm5/public_leaderboard_radar_en.png)
 
-🧩 **Standard Architecture**: `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Runs on every mainstream engine without custom kernels.
+🧩 **Standard Architecture**: `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Mainstream inference engines can load it directly without custom kernels.
 
 📚 **Native 128K Context**: `max_position_embeddings = 131,072`, `rope_theta = 5e6`, no RoPE scaling needed.
 
 🧠 **Dual Mode Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
 
-🛠️ **Deployment / Fine-tuning Agent Skills**: every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/), so LLM coding agents can choose the right route for a target backend or framework.
+🛠️ **Deployment / Fine-tuning Agent Skills**: the repo provides single-page cookbooks for major inference backends and fine-tuning frameworks, each paired with an [Agent Skill](./skills/) to help developers reproduce deployment and fine-tuning workflows.
 
 🐱 **Desktop Pet**: a local-LLM desktop pet driven by MiniCPM5-1B — see [Desktop Pet](#desktop-pet) below.
 
@@ -69,10 +69,9 @@ We are kicking off the **MiniCPM5** series — our next-generation end-side mode
   - [Introduction](#introduction)
   - [Evaluation Results](#evaluation-results)
   - [Training Recipe](#training-recipe)
-    - [RL + OPD Post-training Gains](#rl--opd-post-training-gains)
-  - [One-line Quickstart](#one-line-quickstart)
-  - [Agent Skills: Deployment and Fine-tuning Entry Points](#agent-skills-deployment-and-fine-tuning-entry-points)
-  - [Deployment and Fine-tuning Cookbooks](#deployment-and-fine-tuning-cookbooks)
+    - [What does RL + OPD bring?](#what-does-rl--opd-bring)
+  - [Quickstart](#quickstart)
+  - [Deployment and Fine-tuning Cookbooks and Agent Skills](#deployment-and-fine-tuning-cookbooks-and-agent-skills)
   - [Desktop Pet](#desktop-pet)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 & MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
@@ -159,42 +158,57 @@ For full architecture details and per-component parameter breakdown see [`docs/d
 
 ### Evaluation Results
 
-We benchmark MiniCPM5-1B against 1B-class open-source SOTA peers, **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**, across public benchmarks. MiniCPM5-1B reaches an average score of **42.57**, about 7 points above the strongest peer average of **35.61**. The gain mainly comes from three areas: agentic tool use, with **79.53** on τ²-Bench Telecom-AA; code, with **22.68** on LCB-Pro, **33.52** on LCB-v6, and **7.33** on OJBench; and competition math, with AIME-2025 / 2026 around **40** and MATH-500 at **91.6**. For on-device assistant use cases, this is most relevant to tool use, code generation, and difficult reasoning.
+We compare MiniCPM5-1B with strong open-source models in the same size class, including **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**. MiniCPM5-1B reaches an average score of **42.57**, above the highest average score of **35.61** among these models, reaching 1B-class open-source SOTA within this comparison set.
+
+More importantly, the lead does not come from a single outlier. MiniCPM5-1B is strongest in the capabilities that matter most for on-device agents: tool use, code generation, and difficult reasoning. It reaches **79.53** on τ²-Bench Telecom-AA, **22.68 / 33.52 / 7.33** on LCB-Pro / LCB-v6 / OJBench, around **40** on AIME-2025 / 2026, and **91.6** on MATH-500. These results make MiniCPM5-1B more than a small chat model: it is also a practical local coding agent, tool assistant, and reasoning assistant.
 
 ![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard_en.png)
 
 ### Training Recipe
 
-The training of MiniCPM5-1B is a full-stack practice of the **UltraData hierarchical data governance system**, covering both staged pre-training and post-training.
+The training of MiniCPM5-1B is a full-stack practice of the **[UltraData hierarchical data governance system](https://ultradata.openbmb.cn/)**, covering both staged pre-training and post-training.
 
 During **pre-training**, the model goes through two stable-training stages with **1T tokens** each, followed by **200B tokens of decay training** and **200B tokens of mid-training** to further align capability targets and data distribution. The pre-training corpus is released alongside the model as [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3).
 
-During **post-training**, we continue with **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to strengthen reasoning and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). On top of that, domain-specific Reinforcement Learning (RL) and **On-Policy Distillation (OPD)** integrate specialized RL teachers into the final release model, improving capability while merging multiple training branches into one checkpoint.
+During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to establish deep-thinking, hybrid-thinking, and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, closed-book QA, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
 
 ![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
 
-#### RL + OPD Post-training Gains
+#### What does RL + OPD bring?
 
-**RL + OPD** brings a clear improvement. On math, code and instruction-following workloads, RL + OPD raises the average score by **↑16 points** while cutting the share of responses that hit the max-tokens budget by **↓29 percentage points**. This improves both task scores and response length control, making deep reasoning more practical for a 1B on-device model; the figures below show the two-stage Reasoning RL pipeline, score gains, and the drop in overlong responses.
+**RL + OPD** is a key part of MiniCPM5-1B post-training. On math, code and instruction-following tasks, RL + OPD raises the average score by **↑16 points** while cutting the share of responses that hit the max-tokens budget by **↓29 percentage points**. The figures below show the two-stage Reasoning RL pipeline, score gains, and the drop in overlong responses.
 
-The RL stage combines several complementary training signals. For Reasoning RL, we use [DAPO-Math-17k](https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k); rollouts that are incorrect or overlong receive a negative reward. For closed-book QA, we train on [TriviaQA](https://huggingface.co/datasets/mandarjoshi/trivia_qa) and [NQ-Open](https://huggingface.co/datasets/google-research-datasets/nq_open), with a system prompt that encourages the model to acknowledge uncertainty instead of guessing. A Generative Reward Model judges each answer with a simple reward: +1 for correct, 0 for an honest "I don't know", and -1 for incorrect. We also use [LongWriter-Zero-RLData](https://huggingface.co/datasets/THU-KEG/LongWriter-Zero-RLData) for writing, synthesize verifiable RLVR data from general corpora for instruction following, identity recognition, and long-context comprehension, and apply pair-wise RLHF on conversational queries with anchor responses judged by a Generative Reward Model.
-
-For OPD, we build on Thinking Machines Lab's [On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/) and incorporate implementation improvements from [Rethinking On-Policy Distillation](https://arxiv.org/pdf/2604.13016). In the RL framework, we use reverse KL divergence as the advantage estimate, replacing the original verification-based advantage. At each response position, we take top-k logits from both the student and teacher models, compute reverse KL on the union of the two token sets, and balance the accuracy of the RKL signal with training efficiency. OPD reuses the per-domain prompt distribution already used to train each specialized RL teacher, so no additional data curation is required.
+**RL** combines several complementary training signals. Reasoning RL uses [DAPO-Math-17k](https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k) to strengthen mathematical reasoning. Closed-book QA uses [TriviaQA](https://huggingface.co/datasets/mandarjoshi/trivia_qa) and [NQ-Open](https://huggingface.co/datasets/google-research-datasets/nq_open), with a system prompt that encourages the model to acknowledge uncertainty instead of guessing. Writing is trained with [LongWriter-Zero-RLData](https://huggingface.co/datasets/THU-KEG/LongWriter-Zero-RLData); instruction following and long-context comprehension use verifiable RLVR data synthesized from general corpora. For general dialogue, we build pair-wise RLHF signals from anchor responses and use a Generative Reward Model for preference judgment.
 
 ![MiniCPM5-1B RL Two-stage Pipeline](./assets/minicpm5/rl_two_stage_overview.png)
+
+**OPD** builds on Thinking Machines Lab's [On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/) and incorporates implementation improvements from [Rethinking On-Policy Distillation](https://arxiv.org/pdf/2604.13016). In the RL framework, we use reverse KL divergence as the advantage estimate, replacing the original verification-based advantage. At each response position, we take top-k logits from both the student and teacher models, compute reverse KL on the union of the two token sets, and balance the accuracy of the RKL signal with training efficiency. OPD reuses the in-domain prompts used to train each RL teacher as distillation data, so no additional data curation is required.
 
 ![MiniCPM5-1B RL + OPD Gains](./assets/minicpm5/rl_gains.png)
 
 ![MiniCPM5-1B RL + OPD Overlong Response Rate Drop](./assets/minicpm5/rl_overlong.png)
 
-### One-line Quickstart
+### Quickstart
 
-For the three most common inference paths, a single shell command is enough to bring MiniCPM5-1B up:
+For the three most common inference paths, you can start a service or run local inference as follows:
 
 **vLLM** (OpenAI-compatible server, NVIDIA GPU):
 
 ```bash
 pip install "vllm>=0.21" && vllm serve openbmb/MiniCPM5-1B --port 8000
+```
+
+Test request:
+
+```bash
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openbmb/MiniCPM5-1B",
+    "messages": [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}],
+    "max_tokens": 128,
+    "temperature": 0.7
+  }'
 ```
 
 **SGLang** (OpenAI-compatible server, NVIDIA GPU):
@@ -203,10 +217,49 @@ pip install "vllm>=0.21" && vllm serve openbmb/MiniCPM5-1B --port 8000
 pip install "sglang[srt]>=0.5.12" && python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000
 ```
 
-**Transformers** (Python, CPU or GPU):
+Test request:
 
 ```bash
-pip install -U "transformers>=5.6" && python -c "from transformers import pipeline; print(pipeline('text-generation', 'openbmb/MiniCPM5-1B', device_map='auto')('1+1=?', max_new_tokens=64)[0]['generated_text'])"
+curl http://localhost:30000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openbmb/MiniCPM5-1B",
+    "messages": [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}],
+    "max_tokens": 128,
+    "temperature": 0.7
+  }'
+```
+
+**Transformers** (local Python inference, CPU or GPU):
+
+```bash
+pip install -U "transformers>=5.6" accelerate torch
+```
+
+Local inference test:
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_id = "openbmb/MiniCPM5-1B"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    torch_dtype="auto",
+    device_map="auto",
+)
+
+messages = [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}]
+inputs = tokenizer.apply_chat_template(
+    messages,
+    tokenize=True,
+    add_generation_prompt=True,
+    enable_thinking=False,
+    return_tensors="pt",
+).to(model.device)
+
+outputs = model.generate(inputs, max_new_tokens=128)
+print(tokenizer.decode(outputs[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
 
 Recommended chat template sampling:
@@ -216,7 +269,7 @@ Recommended chat template sampling:
 | **Think** | `temperature=0.9, top_p=0.95` | `enable_thinking=True` |
 | **No Think** | `temperature=0.7, top_p=0.95` | `enable_thinking=False` |
 
-For other backends (AWQ / GPTQ / llama.cpp / Ollama / LM Studio / MLX), see the cookbooks table below.
+For other backends (llama.cpp / Ollama / LM Studio / MLX) and vLLM inference with AWQ / GPTQ quantized weights, see the cookbooks table below.
 
 #### With tool calling
 
@@ -227,39 +280,37 @@ python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000 \
     --tool-call-parser minicpm5      # or: --tool-call-parser auto
 ```
 
-### Agent Skills: Deployment and Fine-tuning Entry Points
+### Deployment and Fine-tuning Cookbooks and Agent Skills
 
-MiniCPM5-1B uses the **standard `LlamaForCausalLM` architecture** and runs out of the box on every mainstream engine: **no custom kernels, no model-code fork**. Around this standard architecture, we provide two top-level [Cursor Agent Skills](https://docs.cursor.com/agent/skills): `minicpm5-deploy` routes deployment requests to **9 inference backends**, while `minicpm5-finetune` routes training requests to **5 fine-tuning frameworks**.
+MiniCPM5-1B uses the **standard `LlamaForCausalLM` architecture**, so mainstream inference engines can load it directly: **no custom kernels, no model-code fork**. To help developers reproduce deployment and fine-tuning workflows, we provide single-page cookbooks paired with [Cursor Agent Skills](https://docs.cursor.com/agent/skills): the cookbooks are for manual execution, while Agent Skills let Cursor / Claude Code agents choose the route based on the target backend, hardware, and data path.
+
+The two top-level skills cover deployment and fine-tuning:
 
 | Top-level skill | What it does | Routes to |
 | --- | --- | --- |
-| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` · `sglang` · `awq` · `gptq` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` |
+| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` (including AWQ / GPTQ quantized routes) · `sglang` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` |
 | **[`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md)** | Fine tuning router | `trl` · `llamafactory` · `ms-swift` · `unsloth` · `xtuner` |
 
-In Cursor / Claude Code, you can call them like this: the agent reads the top-level skill, selects the matching sub-skill and cookbook based on your backend, hardware, and data path, then runs the command and reports back.
+In Cursor / Claude Code, you can call them like this: the agent reads the top-level skill, selects the matching sub-skill and cookbook based on the target backend, hardware, and data path, then runs the command and reports back.
 
 ```
 @minicpm5-deploy   serve openbmb/MiniCPM5-1B with vLLM on port 8000
 @minicpm5-finetune use unsloth + LoRA on /data/my_chat.jsonl, write to ./out
 ```
 
-### Deployment and Fine-tuning Cookbooks
+The tables below list the cookbook and sub-skill for each inference backend and fine-tuning framework. Quantized models are not listed as standalone backends; they are described under the inference backend that can load each format.
 
-Prefer to drive things by hand, or want to know exactly what each Agent Skill does under the hood? Every backend / framework has a single-page cookbook with the exact command and observed output, paired with a backend-specific sub skill.
+**Inference Deployment** (7 backends)
 
-**Deployment** (9 backends)
-
-| Backend | Cookbook | Paired Agent Skill |
-| --- | --- | --- |
-| [Transformers](https://github.com/huggingface/transformers) (GPU + CPU) | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) | [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) |
-| [vLLM](https://github.com/vllm-project/vllm) (OpenAI server) | [`docs/deployment/vllm.md`](./docs/deployment/vllm.md) | [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md) |
-| [SGLang](https://github.com/sgl-project/sglang) (OpenAI server) | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) | [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) |
-| [AWQ](https://github.com/mit-han-lab/llm-awq)-Marlin Int4 (vLLM) | [`docs/deployment/awq.md`](./docs/deployment/awq.md) | [`minicpm5-deploy-awq`](./skills/minicpm5-deploy-awq/SKILL.md) |
-| [GPTQ](https://github.com/AutoGPTQ/AutoGPTQ)-Marlin Int4 (vLLM) | [`docs/deployment/gptq.md`](./docs/deployment/gptq.md) | [`minicpm5-deploy-gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) |
-| [llama.cpp](https://github.com/ggml-org/llama.cpp) (GGUF, CPU/GPU) | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) | [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) |
-| [Ollama](https://github.com/ollama/ollama) (GGUF, end-side) | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
-| [LM Studio](https://lmstudio.ai) (Mac, OpenAI server) | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
-| [MLX](https://github.com/ml-explore/mlx-lm) (Apple Silicon) | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
+| Backend | Model format / use case | Cookbook | Paired Agent Skill |
+| --- | --- | --- | --- |
+| [Transformers](https://github.com/huggingface/transformers) | BF16 / FP16 local Python inference, GPU + CPU | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) | [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) |
+| [vLLM](https://github.com/vllm-project/vllm) | BF16 / FP16 OpenAI server; supports AWQ / GPTQ-Marlin Int4 quantized weights | [`vllm.md`](./docs/deployment/vllm.md); quantized: [`awq.md`](./docs/deployment/awq.md) / [`gptq.md`](./docs/deployment/gptq.md) | [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md); quantized: [`awq`](./skills/minicpm5-deploy-awq/SKILL.md) / [`gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) |
+| [SGLang](https://github.com/sgl-project/sglang) | BF16 / FP16 OpenAI server, recommended for tool calling | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) | [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) |
+| [llama.cpp](https://github.com/ggml-org/llama.cpp) | GGUF local inference, CPU/GPU | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) | [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) |
+| [Ollama](https://github.com/ollama/ollama) | GGUF local on-device runtime | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
+| [LM Studio](https://lmstudio.ai) | GGUF Mac desktop app and OpenAI server | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
+| [MLX](https://github.com/ml-explore/mlx-lm) | MLX / 4bit local inference on Apple Silicon | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
 
 **Fine tuning** (5 frameworks)
 
@@ -273,12 +324,14 @@ Prefer to drive things by hand, or want to know exactly what each Agent Skill do
 
 ### Desktop Pet
 
-We ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, an end-user-friendly desktop pet driven by a **local** MiniCPM5-1B. A thin `llama.cpp` `llama-server` sidecar loads the GGUF (Apple Silicon → Metal · NVIDIA → CUDA · generic → CPU) and serves an OpenAI-compatible local endpoint to an Electron pet UI. The pet reacts to your AI coding agent (Cursor / Claude Code / Codex) in real time and supports LoRA persona switching.
+We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, a desktop pet driven locally by MiniCPM5-1B. It uses a thin `llama.cpp` `llama-server` sidecar to load the GGUF model and serves an OpenAI-compatible local endpoint to an Electron pet UI.
 
-- **End-user path** (no Python / conda / PyTorch): grab `Clawd-on-Desk-*-arm64.dmg` from [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases), follow the 5-step onboarding (env check → accelerator probe → GGUF download → sidecar warmup → ready).
-- **Developer path**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
+The pet supports Apple Silicon / NVIDIA GPU / CPU paths, can work with coding agents such as Cursor, Claude Code, and Codex, and supports LoRA persona switching.
 
-> The pet UI layer is **forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk)** (AGPL-3.0). The pet runtime, animation packs, and multi-agent integrations are upstream work; on top of that we integrate the local MiniCPM5-1B sidecar, 5-step onboarding, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
+- **User install**: grab `Clawd-on-Desk-*-arm64.dmg` from [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases), then follow the onboarding flow for environment checks, model download, and sidecar startup.
+- **Developer run**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
+
+> The pet UI layer is forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk) (AGPL-3.0). On top of the upstream pet runtime, animation packs, and multi-agent integrations, we add the local MiniCPM5-1B sidecar, onboarding flow, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
 
 ## MiniCPM-SALA
 
