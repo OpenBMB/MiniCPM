@@ -23,7 +23,8 @@ pip install -r requirements.txt
 We only provide examples for single-node multi-GPU/multi-node multi-GPU setups, so you will need at least one machine with multiple GPUs. In the **default configuration file** in this repository, we have documented the memory usage:
 
 + SFT full parameters fine-tuning: Evenly distributed across 4 GPUs, each GPU consumes `30245MiB` of memory.
-+ LORA fine-tuning: One GPU, consuming `10619MiB`  of memory.。
++ LORA fine-tuning: One GPU, consuming `10619MiB` of memory.
++ QLoRA fine-tuning + CPU offload: One GPU, consuming `5500MiB` of memory.
 
 > Please note that these results are for reference only, and memory consumption may vary with different parameters. Please adjust according to your hardware situation.
 
