@@ -1,6 +1,6 @@
 ---
 name: minicpm5-deploy-mlx
-description: Run MiniCPM5-1B natively on Apple Silicon with Apple's MLX framework (highest on-device throughput). Use when the user has an M1–M4 Mac and asks for "MLX", "mlx_lm", "mlx_lm.convert", "mlx_lm.generate", or wants the fastest path on Apple Silicon.
+description: Run MiniCPM5-1B natively on Apple Silicon with Apple's MLX framework. Use when the user has an Apple Silicon Mac and asks for "MLX", "mlx_lm", "mlx_lm.convert", "mlx_lm.generate", or wants the fastest path on Apple Silicon.
 ---
 
 # Deploy MiniCPM5-1B with MLX (Apple Silicon)
@@ -14,13 +14,6 @@ Apple's on-device tensor framework. Highest throughput on M-series. Stays inside
 | `MLX_REPO` | `openbmb/MiniCPM5-1B-MLX-4bit` (pre-converted) | required |
 | OR `HF_REPO` + `QUANT` | `openbmb/MiniCPM5-1B`, `4bit` or `bf16` | for local conversion |
 | `MAX_TOKENS` | `200` | `200` |
-
-Verified on Apple M4 / 16 GB / mlx-lm 0.31.3:
-
-| Quant | Disk | Peak RAM | Prompt | Gen |
-| --- | --- | --- | --- | --- |
-| bf16 | 2.0 GB | 2.2 GB | 228 tok/s | **50 tok/s** |
-| Q4 (4.5 bpw) | 589 MB | 0.7 GB | 168 tok/s | **157 tok/s** |
 
 ## Steps
 

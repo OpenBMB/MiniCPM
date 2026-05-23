@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | `MiniCPM5-1B-F16.gguf` | 2.1 GB | reference quality, uniform CPU/GPU performance |
 | `MiniCPM5-1B-Q8_0.gguf` | 1.1 GB | very small quality drop vs F16, half the disk |
-| `MiniCPM5-1B-Q4_K_M.gguf` | 657 MB | edge / mobile-class hardware, < 1 GB VRAM |
+| `MiniCPM5-1B-Q4_K_M.gguf` | 657 MB | edge / mobile-class hardware, minimal VRAM |
 
 These artifacts already include the metadata patches needed by every `llama.cpp`-based runtime (Ollama / LM Studio / `llama-cpp-python`), so you can use them directly.
 
@@ -57,7 +57,7 @@ cmake --build . --config Release -j $(nproc) --target llama-quantize llama-cli l
 
 # Or a CUDA build for high-throughput inference
 # cmake .. -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=90 -DCMAKE_BUILD_TYPE=Release
-# (CMAKE_CUDA_ARCHITECTURES: H100/H200=90, A100=80, V100=70)
+# (set CMAKE_CUDA_ARCHITECTURES to your GPU compute capability, see NVIDIA docs)
 
 cd ..
 SRC=/path/to/your-MiniCPM5-fp16-hf

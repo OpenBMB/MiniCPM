@@ -14,14 +14,15 @@ Symmetric AWQ-Marlin Int4. ~1.1 GB ckpt, full 128 K context, runs on Hopper / Ad
 | `MODEL_PATH` | `openbmb/MiniCPM5-1B-AWQ-Sym-Marlin-Int4` | required (must be the AWQ ckpt) |
 | `PORT` | `8000` | `8000` |
 | `GPU_ID` | `0` | `0` |
-| `MEM_FRAC` | `0.5` | `0.5` (fits 128 K KV cache on a 24 GB consumer card; raise on H200) |
+| `MEM_FRAC` | `0.5` | `0.5` (fits 128 K KV cache on a typical NVIDIA GPU; raise on larger cards) |
 
 ## Steps
 
 ### 1. Install (once)
 
 ```bash
-pip install "vllm>=0.6.0"
+pip install "vllm>=0.21"          # latest (CUDA 13.x driver hosts)
+# pip install "vllm==0.10.1.1"    # fallback for CUDA 12.x driver hosts
 ```
 
 ### 2. Launch

@@ -2,14 +2,6 @@
 
 A **symmetric GPTQ-Marlin Int4** build of MiniCPM5-1B is published as `openbmb/MiniCPM5-1B-GPTQ-Marlin-Int4`. It is calibrated with 1024 mixed-domain samples and consumes ~1.1 GB on disk while preserving full 128K context.
 
-## Verified versions
-
-| Component | Version |
-| --- | --- |
-| vLLM | 0.10 + (`--quantization gptq_marlin`) |
-| `torch` | 2.7 + (cu126) |
-| GPU | Hopper / Ada / Ampere (tested on H200) |
-
 ## Quantization config
 
 ```json
@@ -33,7 +25,8 @@ vLLM transparently uses the **Marlin kernel** for this layout when you pass `--q
 ## OpenAI-compatible server
 
 ```bash
-pip install "vllm>=0.6.0"
+pip install "vllm>=0.21"          # latest (CUDA 13.x driver hosts)
+# pip install "vllm==0.10.1.1"    # fallback for CUDA 12.x driver hosts
 
 python -m vllm.entrypoints.openai.api_server \
     --model openbmb/MiniCPM5-1B-GPTQ-Marlin-Int4 \
@@ -45,7 +38,7 @@ python -m vllm.entrypoints.openai.api_server \
     --port 8000
 ```
 
-## Verified run
+## Sample run
 
 ```bash
 $ curl -sS http://localhost:8000/v1/chat/completions \

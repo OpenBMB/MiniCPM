@@ -4,16 +4,6 @@
 
 > 🔑 Two install gotchas: (1) replace `opencv-python` with `opencv-python-headless` if you don't have libGL on the host; (2) when running outside the system Python, invoke `xtuner/tools/train.py` directly rather than `xtuner train` (the CLI wrapper uses system `python` for its subprocess). Both are baked into the recipe below.
 
-## Verified versions
-
-| Component | Version | Result |
-| --- | --- | --- |
-| xtuner | **0.2.0** | LoRA SFT ✅ 50 iters / 13 s on H200 |
-| `mmengine` | 0.10.6 | |
-| `transformers` | 4.57.x | |
-| `peft` | 0.11+ | |
-| `torch` | 2.7.1 + cu126 | |
-
 ## Install
 
 ```bash
@@ -161,7 +151,7 @@ CUDA_VISIBLE_DEVICES=0 python /path/to/site-packages/xtuner/tools/train.py \
 NPROC_PER_NODE=8 xtuner train minicpm5_lora.py --work-dir ./runs/minicpm5_xtuner
 ```
 
-Verified run (200 samples, 1 epoch, bs=4, grad_acc=2, single H200):
+Sample run (200 samples, 1 epoch, bs=4, grad_acc=2, single GPU):
 
 ```
 05/17 09:33:59 - mmengine - INFO - Num train samples 200

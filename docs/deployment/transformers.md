@@ -2,19 +2,11 @@
 
 MiniCPM5-1B is a standard `LlamaForCausalLM`, so it loads directly via `AutoModelForCausalLM` — no custom modeling code, no `trust_remote_code`.
 
-## Verified versions
-
-| Component | Version |
-| --- | --- |
-| `transformers` | 4.51 + |
-| `torch` | 2.1 + |
-| `peft` | 0.11 + (optional, for LoRA inference) |
-| Python | 3.9 – 3.12 |
-
 ## Install
 
 ```bash
-pip install -U "transformers>=4.51" "torch>=2.1" accelerate
+pip install -U "transformers>=5.6,<6" "torch>=2.11" accelerate     # latest (CUDA 13.x driver hosts)
+# pip install -U "transformers==4.57.3" "torch==2.7.1" accelerate  # fallback for CUDA 12.x driver hosts
 ```
 
 ## GPU inference (bfloat16)
@@ -50,8 +42,6 @@ with torch.no_grad():
 print(tokenizer.decode(outputs[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
 
-Verified on a single H200 (bf16): **load ≈ 7 s, throughput ≈ 16 tok/s** for short prompts. Throughput rises with longer outputs once CUDA graphs are warm.
-
 ## CPU-only inference
 
 The whole 1.08B-param model is < 4.5 GB in fp32, so it can run on CPU only (laptops, CI machines, no-GPU sanity checks):
@@ -86,8 +76,6 @@ with torch.no_grad():
     )
 print(tokenizer.decode(outputs[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
-
-Verified on a server-class CPU: **fp32 throughput ≈ 20 tok/s** for short prompts. For lower memory and higher throughput on commodity laptops, use the GGUF builds with `llama.cpp` / `Ollama` / `LM Studio` (see [`llama_cpp.md`](./llama_cpp.md)).
 
 ## Generation defaults
 

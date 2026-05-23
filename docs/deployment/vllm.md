@@ -2,18 +2,11 @@
 
 vLLM ≥ 0.6 supports MiniCPM5-1B natively — no custom kernels. For production-grade throughput and OpenAI-compatible chat completions, this is the recommended path. For the quantized variants on the same vLLM binary see [`awq.md`](./awq.md) and [`gptq.md`](./gptq.md).
 
-## Verified versions
-
-| Component | Version | Result |
-| --- | --- | --- |
-| vLLM | **0.10.1** (also 0.9.1) | OpenAI server ✅ chat ✅ think + nothink ✅ |
-| `torch` | 2.7.1 + cu126 | bfloat16 / float16 |
-| Python | 3.10 | |
-
 ## Install
 
 ```bash
-pip install "vllm>=0.6.0"
+pip install "vllm>=0.21"          # latest (CUDA 13.x driver hosts)
+# pip install "vllm==0.10.1.1"    # fallback for CUDA 12.x driver hosts
 ```
 
 ## OpenAI-compatible server
@@ -34,7 +27,7 @@ python -m vllm.entrypoints.openai.api_server \
 | --- | --- | --- |
 | `--max-model-len` | `131072` (native 128K) | drop to `8192` / `32768` to free KV-cache on small GPUs |
 | `--gpu-memory-utilization` | `0.85` | drop on **shared** GPUs — vLLM hard-fails if `(free / total) < value` |
-| `--dtype` | `bfloat16` | `float16` for older GPUs (A100/H100/H200 bf16 is preferred) |
+| `--dtype` | `bfloat16` | `float16` for older GPUs (newer NVIDIA GPUs prefer bf16) |
 | `--enforce-eager` | unset | set if CUDA graphs OOM on tiny VRAM budgets |
 
 ## Chat completions
@@ -57,7 +50,7 @@ curl http://localhost:8000/v1/chat/completions \
 | Think | `true` | 0.9 | 0.95 |
 | No-think | `false` | 0.7 | 0.95 |
 
-## Verified run
+## Sample run
 
 ```bash
 $ curl -sS http://localhost:8000/v1/chat/completions \
@@ -70,8 +63,6 @@ $ curl -sS http://localhost:8000/v1/chat/completions \
   "usage": {"prompt_tokens": 14, "completion_tokens": 2, "total_tokens": 16}
 }
 ```
-
-Verified on a single H200 with `--max-model-len 8192 --gpu-memory-utilization 0.5`, prompt → reply round trip ≈ 1 s.
 
 ## Offline / batched inference
 

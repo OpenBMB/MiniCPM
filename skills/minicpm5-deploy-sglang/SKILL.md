@@ -22,8 +22,8 @@ OpenAI-compatible server with RadixAttention prefix cache. Best fit for **batche
 ### 1. Install (once)
 
 ```bash
-pip install "sglang==0.5.6.post3"          # recommended for CUDA 12.x driver hosts
-# pip install "sglang[srt]"                # latest, requires CUDA 13.x driver
+pip install "sglang[srt]>=0.5.12"          # latest, requires CUDA 13.x driver
+# pip install "sglang==0.5.6.post3"        # fallback for CUDA 12.x driver hosts
 ```
 
 ### 2. Recommended runtime env vars
@@ -47,7 +47,7 @@ CUDA_VISIBLE_DEVICES=${GPU_ID} python -m sglang.launch_server \
     --port ${PORT}
 ```
 
-Wait for `The server is fired up and ready to roll!` (~75 s on H200 cold start).
+Wait for `The server is fired up and ready to roll!` .
 
 ### 4. Validate
 
@@ -81,9 +81,7 @@ print(outputs)
 
 ## Common pitfalls
 
-- **`libcudart.so.13: cannot open shared object file`** when installing `sglang[srt]`: your driver is CUDA 12.x. Use `pip install "sglang==0.5.6.post3"` instead (no cu13 deps).
 - **`GLIBCXX_3.4.31 not found`**: conda Python ships an older `libstdc++`. Force-load system: `LD_PRELOAD=/lib/x86_64-linux-gnu/libstdc++.so.6 python -m sglang.launch_server ...`
-- **`Module 'sgl_kernel' undefined symbol`**: `sgl-kernel` ABI mismatched with your `torch`. Compatible pairs: `torch 2.7+cu126 ↔ sgl-kernel 0.2.x`, `torch 2.8+cu128 ↔ sgl-kernel 0.3.0–0.3.5`, `torch 2.9+cu128 ↔ sgl-kernel 0.3.20`.
 
 ## When NOT to use
 

@@ -2,13 +2,6 @@
 
 [Ollama](https://ollama.com) is the easiest CLI / daemon path to run MiniCPM5-1B on a laptop or desktop — one binary, no Python, no CUDA toolkit. It consumes the same GGUF files we ship for `llama.cpp`.
 
-## Verified versions
-
-| Component | Version |
-| --- | --- |
-| Ollama | 0.24 + |
-| Hardware verified | Apple M4 / 16 GB (Q4_K_M ~132 tok/s gen, ~688 MB RAM, ~1 s cold load) |
-
 ## TL;DR
 
 ```bash
@@ -122,4 +115,4 @@ For sustained throughput with larger KV caches, set `OLLAMA_FLASH_ATTENTION=1 OL
 
 - [`llama_cpp.md`](./llama_cpp.md) — the engine behind Ollama; full GGUF build pipeline
 - [`lmstudio.md`](./lmstudio.md) — desktop GUI consumer of the same GGUFs
-- [`mlx.md`](./mlx.md) — alternative on-device path on Apple Silicon (higher tok/s for Q4)
+- [`mlx.md`](./mlx.md) — alternative on-device path on Apple Silicon (faster for Q4)

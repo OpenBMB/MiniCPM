@@ -8,12 +8,6 @@ description: Fine-tune MiniCPM5-1B with ms-swift (ModelScope's SFT / DPO / KTO /
 ModelScope-native SFT / DPO / KTO / ORPO. ChatML template + standard `llama` model_type.
 
 > ⚠️ **ms-swift 4.x renamed `--train_type` → `--tuner_type`**. Older tutorials still use `--train_type lora`, which on 4.x produces `ValueError: remaining_argv: ['--train_type', 'lora']`. Use `--tuner_type lora` (or just omit it — `lora` is the default in 4.x).
->
-> ⚠️ **Driver-aware torch pin (read this BEFORE running)**: `pip install ms-swift` resolves to the latest `torch` wheel (currently cu13). If `nvidia-smi` shows `CUDA Version: 12.x`, the cu13 wheel installs but `cuda.is_available()` is False. Fix immediately after `pip install`:
->
-> ```bash
-> pip install --force-reinstall "torch==2.7.1" "torchvision==0.22.1"
-> ```
 
 ## Required input
 
@@ -111,7 +105,7 @@ NPROC_PER_NODE=8 swift sft \
 
 - **`Failed to automatically match model_type`**: add `--model_type llama`.
 - **`Failed to automatically match template_type`**: add `--template chatml`.
-- **Conflict with LLaMA-Factory in same env**: LLaMA-Factory pins `transformers==4.52`, ms-swift wants the latest. Use separate venvs, or set `PYTHONNOUSERSITE=1` to ignore user-site `transformers`.
+- **Conflict with LLaMA-Factory in same env**: LLaMA-Factory pins `transformers==4.52`, ms-swift wants the latest (currently transformers ≥5.6). Use separate venvs, or set `PYTHONNOUSERSITE=1` to ignore user-site `transformers`.
 
 ## Reference
 

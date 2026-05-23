@@ -7,8 +7,6 @@ description: Fine-tune MiniCPM5-1B with bare-metal TRL + PEFT, including assista
 
 Bare-metal Python recipe with **assistant-only loss mask**. Minimal abstractions, full control.
 
-> ⚠️ **Driver-aware torch pin**: if `nvidia-smi` shows `CUDA Version: 12.x` and you let pip resolve `torch` freely, you may land on a cu13 wheel that fails to use the GPU. The install snippet below explicitly pins `torch==2.7.1` (cu126) which works on cu12.x drivers.
-
 ## Required input
 
 | Var | Example | Default |
@@ -22,9 +20,15 @@ Bare-metal Python recipe with **assistant-only loss mask**. Minimal abstractions
 ### 1. Install (once)
 
 ```bash
-pip install "torch==2.7.1" "torchvision==0.22.1" \
-            "trl>=0.18" "peft>=0.11" "transformers>=4.51" \
+# latest (CUDA 13.x driver hosts)
+pip install "torch>=2.11" "torchvision" \
+            "trl>=0.21" "peft>=0.13" "transformers>=5.6,<6" \
             datasets accelerate
+
+# fallback for CUDA 12.x driver hosts:
+# pip install "torch==2.7.1" "torchvision==0.22.1" \
+#             "trl==0.20.0" "peft==0.11.1" "transformers==4.57.3" \
+#             datasets accelerate
 ```
 
 ### 2. Patch the tokenizer with a training-only chat template
@@ -165,7 +169,7 @@ tok.save_pretrained("./minicpm5-trl-merged")        # use the ORIGINAL tokenizer
 
 ## Common pitfalls
 
-- **`SFTConfig has no attribute 'max_length'`**: your `trl` is too old. Need `trl>=0.18` (we tested 0.20).
+- **`SFTConfig has no attribute 'max_length'`**: your `trl` is too old. Need `trl>=0.21`.
 - **Loss does not decrease**: `assistant_only_loss=True` requires the `{% generation %}` block in the chat template. If you forgot to set the patched template, TRL falls back to loss-over-all-tokens.
 
 ## Reference

@@ -2,14 +2,6 @@
 
 A **symmetric AWQ-Marlin Int4** build of MiniCPM5-1B is published as `openbmb/MiniCPM5-1B-AWQ-Sym-Marlin-Int4`. It is calibrated with 1024 mixed-domain samples and consumes ~1.1 GB on disk (vs ~2.1 GB for fp16) while preserving full 128K context.
 
-## Verified versions
-
-| Component | Version |
-| --- | --- |
-| vLLM | 0.10 + (`--quantization awq_marlin`) |
-| `torch` | 2.7 + (cu126) |
-| GPU | Hopper / Ada / Ampere (tested on H200) |
-
 ## Quantization config (already baked into the checkpoint)
 
 ```json
@@ -30,7 +22,8 @@ The Marlin kernel is enabled by setting `--quantization awq_marlin` at server la
 ## Install
 
 ```bash
-pip install "vllm>=0.6.0"
+pip install "vllm>=0.21"          # latest (CUDA 13.x driver hosts)
+# pip install "vllm==0.10.1.1"    # fallback for CUDA 12.x driver hosts
 ```
 
 ## OpenAI-compatible server
@@ -49,9 +42,9 @@ python -m vllm.entrypoints.openai.api_server \
 Notes:
 
 - The checkpoint stores weights as fp16, so `--dtype float16` (not bf16). vLLM will warn but still work if you pass bfloat16.
-- `0.5` GPU memory is enough for 128K context on H200 — drop further on smaller cards.
+- `0.5` GPU memory is usually enough for 128K context — drop further on smaller cards.
 
-## Verified run
+## Sample run
 
 ```bash
 $ curl -sS http://localhost:8000/v1/chat/completions \

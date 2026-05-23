@@ -2,19 +2,11 @@
 
 [SGLang](https://github.com/sgl-project/sglang) serves MiniCPM5-1B as a standard `LlamaForCausalLM` with **RadixAttention prefix cache**, very high concurrency, and an OpenAI-compatible API.
 
-## Verified versions
-
-| Component | Version |
-| --- | --- |
-| SGLang | 0.5.6 + |
-| `torch` | 2.7 + (cu126) or 2.9 + (cu128); pick the build matching your driver |
-| Python | 3.10 |
-
 ## Install
 
 ```bash
-pip install "sglang==0.5.6.post3"          # recommended for CUDA 12.x drivers
-# pip install "sglang[srt]"                # latest, requires CUDA 13.x driver
+pip install "sglang[srt]>=0.5.12"          # latest, requires CUDA 13.x driver
+# pip install "sglang==0.5.6.post3"        # fallback for CUDA 12.x drivers
 ```
 
 Recommended runtime env vars:

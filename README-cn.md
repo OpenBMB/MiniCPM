@@ -195,19 +195,19 @@ OPD 部分参考了 Thinking Machines Lab 的 [On-Policy Distillation](https://t
 **vLLM**（OpenAI 兼容服务，NVIDIA GPU）：
 
 ```bash
-pip install vllm && vllm serve openbmb/MiniCPM5-1B --port 8000
+pip install "vllm>=0.21" && vllm serve openbmb/MiniCPM5-1B --port 8000
 ```
 
 **SGLang**（OpenAI 兼容服务，NVIDIA GPU）：
 
 ```bash
-pip install "sglang==0.5.6.post3" && python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000
+pip install "sglang[srt]>=0.5.12" && python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000
 ```
 
 **Transformers**（Python，CPU 或 GPU）：
 
 ```bash
-pip install -U transformers && python -c "from transformers import pipeline; print(pipeline('text-generation', 'openbmb/MiniCPM5-1B', device_map='auto')('1+1=?', max_new_tokens=64)[0]['generated_text'])"
+pip install -U "transformers>=5.6" && python -c "from transformers import pipeline; print(pipeline('text-generation', 'openbmb/MiniCPM5-1B', device_map='auto')('1+1=?', max_new_tokens=64)[0]['generated_text'])"
 ```
 
 推荐的 chat template 采样参数：
@@ -680,7 +680,7 @@ pip install -e . # or python setup.py install
 * `dense_len`（默认值：8192）：稀疏注意力对短序列收益有限，当 token 长度低于此阈值时自动切换为标准注意力。设为 `-1` 则强制始终使用稀疏注意力。
 
 - **长度扩展**
-Minicpm4.1 原生支持 65,536 tokens 的上下文长度。若对话总长度（输入 + 输出）远超此限制，建议通过 RoPE 缩放技术扩展上下文。我们已验证通过调整 LongRoPE 因子，模型可稳定支持 131,072 tokens 的超长上下文。
+Minicpm4.1 原生支持 65,536 tokens 的上下文长度。若对话总长度（输入 + 输出）远超此限制，建议通过 RoPE 缩放技术扩展上下文。通过调整 LongRoPE 因子，模型可稳定支持 131,072 tokens 的超长上下文。
 
 修改方法：在 `config.json` 文件中调整 `rope_scaling` 字段参数即可。
 

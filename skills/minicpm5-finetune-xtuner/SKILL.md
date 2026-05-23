@@ -7,12 +7,6 @@ description: Fine-tune MiniCPM5-1B with xtuner (mmengine config-driven SFT). Use
 
 mmengine config-driven SFT. Uses Python config files (not YAML) and integrates with mmengine's runner / hook system.
 
-> ⚠️ **Driver-aware torch pin (read this BEFORE running)**: `pip install xtuner==0.2.0` resolves to the latest `torch` wheel (currently cu13). If `nvidia-smi` shows `CUDA Version: 12.x`, the cu13 wheel installs but training launch crashes with `operator torchvision::nms does not exist`. Fix immediately after `pip install`:
->
-> ```bash
-> pip install --force-reinstall "torch==2.7.1" "torchvision==0.22.1"   # cu126 wheel
-> ```
-
 ## Required input
 
 | Var | Example | Default |

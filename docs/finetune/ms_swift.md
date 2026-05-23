@@ -4,21 +4,11 @@
 
 > 🔑 **Two flags are mandatory** for MiniCPM5: `--model_type llama --template chatml`. Without them ms-swift refuses to auto-detect the architecture / template (because the disk-level structure is shared with several other Llama-family models).
 
-## Verified versions
-
-| Component | Version | Result |
-| --- | --- | --- |
-| ms-swift | **4.1.0.dev0** | LoRA SFT ✅ loss 4.52 → 3.57 (200 samples / 1 epoch / H200) |
-| `transformers` | 4.57.1 | |
-| `peft` | 0.11.1 | |
-| `trl` | 0.20.0 | |
-| `torch` | 2.7.1 + cu126 | |
-
 ## Install
 
 ```bash
 pip install "ms-swift>=3.0"
-# or, for the dev branch we tested:
+# or, for the dev branch:
 pip install git+https://github.com/modelscope/ms-swift.git
 ```
 
@@ -63,7 +53,7 @@ CUDA_VISIBLE_DEVICES=0 swift sft \
 >
 > Both errors are because MiniCPM5 shares its disk-level architecture and tokenizer with several llama-family models, and ms-swift refuses to guess.
 
-## 3. Verified output
+## 3. Sample output
 
 ```
 {'loss': 4.5170, 'token_acc': 0.2587, 'epoch': 0.04, 'memory(GiB)': 4.62}
@@ -75,7 +65,7 @@ CUDA_VISIBLE_DEVICES=0 swift sft \
 {'train_runtime': 12.46, 'train_samples_per_second': 16.05, 'train_loss': 3.795}
 ```
 
-Loss 4.52 → 3.57, token accuracy 0.26 → 0.35, peak GPU memory 9.8 GB on a single H200 — clean convergence.
+Loss 4.52 → 3.57, token accuracy 0.26 → 0.35 — clean convergence.
 
 ## 4. Merge LoRA & inference
 

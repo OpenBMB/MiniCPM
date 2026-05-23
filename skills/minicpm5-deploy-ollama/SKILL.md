@@ -77,7 +77,7 @@ curl http://localhost:11434/v1/chat/completions \
     }'
 ```
 
-Expected: `"2"` in the reply. **Verified ~132 tok/s on Apple M4 / 16 GB.**
+Expected: `"2"` in the reply. 
 
 ## Think mode
 
@@ -107,7 +107,7 @@ curl http://localhost:11434/api/generate -d '{
 
 ## When NOT to use
 
-- Highest throughput on Mac → `minicpm5-deploy-mlx` (Q4 ~157 tok/s)
+- Highest throughput on Mac → `minicpm5-deploy-mlx` (Q4 build)
 - GUI experience → `minicpm5-deploy-lmstudio`
 - NVIDIA GPU production → `minicpm5-deploy-vllm`
 

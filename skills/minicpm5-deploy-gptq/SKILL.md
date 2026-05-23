@@ -21,7 +21,8 @@ Symmetric GPTQ-Marlin Int4. ~1.1 GB ckpt, full 128 K context, runs on Hopper / A
 ### 1. Install
 
 ```bash
-pip install "vllm>=0.6.0"
+pip install "vllm>=0.21"          # latest (CUDA 13.x driver hosts)
+# pip install "vllm==0.10.1.1"    # fallback for CUDA 12.x driver hosts
 ```
 
 ### 2. Launch

@@ -2,21 +2,12 @@
 
 [LM Studio](https://lmstudio.ai/) is the **GUI-first** path for running MiniCPM5-1B on a Mac / Windows / Linux laptop — drag a model in, click *Load*, chat, or expose an OpenAI-compatible REST endpoint with one toggle. On Apple Silicon it ships **two** inference runtimes that both work for MiniCPM5-1B:
 
-| Runtime | Format | Verified version | When to use |
+| Runtime | Format | Version | When to use |
 | --- | --- | --- | --- |
 | `llama.cpp-mac-arm64-apple-metal` | **GGUF** | 2.14.0 | cross-platform, same artifact as Ollama |
 | `mlx-llm-mac-arm64-apple-metal` | **MLX** | 1.6.0 | Apple Silicon only — **~60% faster** at 4-bit, automatic think/answer split via OpenAI `reasoning_content` |
 
 LM Studio does **not** load raw Hugging Face `transformers` checkpoints directly. To use the MLX runtime you must first apply the metadata fixes from [`mlx.md`](./mlx.md#required-hf-side-patch) and then run `mlx_lm.convert` on the released `hf-fp16/` checkpoint — see [`mlx.md`](./mlx.md) for the full pipeline.
-
-## Verified versions
-
-| Component | Version | Result |
-| --- | --- | --- |
-| LM Studio | 0.4.13 (1) | Q4_K_M GGUF + OpenAI server ✅ |
-| `lms` CLI | bundled with LM Studio | import / load / server / ps ✅ |
-| Underlying engine | bundled `llama.cpp` (Metal on Apple Silicon) | — |
-| Hardware | Apple M4 / 16 GB unified memory | Q4_K_M: 89 tok/s gen, 656 MiB |
 
 ## TL;DR
 
@@ -81,7 +72,7 @@ Verify with:
 # minicpm5-1b    minicpm5-1b    IDLE      688.07 MB    8192       4           Local
 ```
 
-## Inference (verified outputs)
+## Inference
 
 LM Studio exposes an OpenAI-compatible API on `http://localhost:1234/v1`. The chat template baked into the GGUF is auto-applied:
 
@@ -110,15 +101,6 @@ curl -sS http://localhost:1234/v1/chat/completions \
         "stop": ["<|im_end|>", "<|im_start|>"]
     }'
 ```
-
-Wall-clock numbers on M4 / 16 GB / LM Studio 0.4.13 (GPU=max, ctx=8192, prompt = chicken-rabbit puzzle):
-
-| Runtime | Format | File size | Cold load | Resident | Gen tokens | Gen tok/s | Auto think/answer split | Math answer |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | :---: | --- |
-| llama.cpp 2.14.0 | GGUF Q4_K_M | 688 MB | 10.7 s | 656 MiB | 226 | 88.7 | ❌ | ⚠️ off |
-| llama.cpp 2.14.0 | GGUF F16 | 2.17 GB | 2.0 s (warm) | 2.02 GiB | 379 | 43.6 | ❌ | ✅ 鸡 6 / 兔 4 |
-| **mlx-llm 1.6.0** | **MLX Q4 (4.5bpw)** | **589 MB** | **4.5 s** | **589 MiB** | **1428** | **142.7** | **✅** | **✅ 鸡 6 / 兔 4** |
-| mlx-llm 1.6.0 | MLX bf16 | 2.0 GB | 5.5 s | 2.02 GiB | 471 | 47.4 | ✅ | ✅ 鸡 6 / 兔 4 |
 
 > 💡 On Apple Silicon the **MLX Q4 build is the clear winner**: ~60% faster than the equivalent GGUF Q4_K_M, reasoning-tokens are routed to OpenAI's `reasoning_content` extension (so the visible `content` only contains the final answer), and the math answer matches F16 quality. Use the GGUF build only when cross-platform parity matters.
 >
@@ -215,7 +197,7 @@ minicpm5-1b-mlx-think@4bit      1B      Llama    617.97 MB    Local      ← alw
 
 In the GUI chat pane just pick the variant you want from the model dropdown — the chat template baked into each variant decides whether `<think>` activates.
 
-### Verified on M4 / MLX-Q4 (`用一句话告诉我中国首都。`, `max_tokens=120`)
+### Variant behaviour example (`用一句话告诉我中国首都。`, `max_tokens=120`)
 
 | Variant | `reasoning_tokens` | `content` (first 80 chars) |
 | --- | ---: | --- |
@@ -255,4 +237,4 @@ You forgot the explicit `stop` array — see the sanity-check snippets above.
 
 - [`ollama.md`](./ollama.md) — the same GGUF, CLI / daemon path
 - [`llama_cpp.md`](./llama_cpp.md) — the underlying engine; build / patch / quantize recipe
-- [`mlx.md`](./mlx.md) — alternative MLX path on Apple Silicon (higher tok/s, no GUI)
+- [`mlx.md`](./mlx.md) — alternative MLX path on Apple Silicon (no GUI)

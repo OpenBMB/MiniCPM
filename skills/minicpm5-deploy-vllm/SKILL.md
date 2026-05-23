@@ -24,7 +24,8 @@ If `MODEL_PATH` ends with `-AWQ-...` use AWQ block; if `-GPTQ-...` use GPTQ bloc
 ### 1. Install (once)
 
 ```bash
-pip install "vllm>=0.6.0"
+pip install "vllm>=0.21"          # latest (CUDA 13.x driver hosts)
+# pip install "vllm==0.10.1.1"    # fallback for CUDA 12.x driver hosts
 ```
 
 ### 2. Launch — pick ONE of the three based on `MODEL_PATH`
@@ -67,7 +68,7 @@ CUDA_VISIBLE_DEVICES=${GPU_ID} python -m vllm.entrypoints.openai.api_server \
     --port ${PORT}
 ```
 
-Wait for `Application startup complete` in the log (~30-60 s on H200, longer on cold start).
+Wait for `Application startup complete` in the log .
 
 ### 3. Validate
 
@@ -96,7 +97,6 @@ Expected: `choices[0].message.content` contains `"2"`. If you see `<think>...</t
 - **`(free / total) < MEM_FRAC` hard error**: lower `--gpu-memory-utilization` (e.g. 0.5 on a shared GPU).
 - **OOM at startup with 128 K**: drop `--max-model-len` to 32768 or 8192.
 - **AWQ outputs garbled `awq_marlin` for non-AWQ ckpt**: only pass `--quantization awq_marlin` for the AWQ checkpoint, NOT for plain bf16.
-- **Same env as LLaMA-Factory** breaks vLLM: LLaMA-Factory pins `transformers==4.52`, vLLM 0.10 wants `>=4.55`. Use separate venvs.
 
 ## When NOT to use
 

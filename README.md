@@ -194,19 +194,19 @@ For the three most common inference paths, a single shell command is enough to b
 **vLLM** (OpenAI-compatible server, NVIDIA GPU):
 
 ```bash
-pip install vllm && vllm serve openbmb/MiniCPM5-1B --port 8000
+pip install "vllm>=0.21" && vllm serve openbmb/MiniCPM5-1B --port 8000
 ```
 
 **SGLang** (OpenAI-compatible server, NVIDIA GPU):
 
 ```bash
-pip install "sglang==0.5.6.post3" && python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000
+pip install "sglang[srt]>=0.5.12" && python -m sglang.launch_server --model-path openbmb/MiniCPM5-1B --port 30000
 ```
 
 **Transformers** (Python, CPU or GPU):
 
 ```bash
-pip install -U transformers && python -c "from transformers import pipeline; print(pipeline('text-generation', 'openbmb/MiniCPM5-1B', device_map='auto')('1+1=?', max_new_tokens=64)[0]['generated_text'])"
+pip install -U "transformers>=5.6" && python -c "from transformers import pipeline; print(pipeline('text-generation', 'openbmb/MiniCPM5-1B', device_map='auto')('1+1=?', max_new_tokens=64)[0]['generated_text'])"
 ```
 
 Recommended chat template sampling:
@@ -680,7 +680,7 @@ These parameters control the behavior of InfLLM v2:
 * `dense_len` (default: 8192): Since Sparse Attention offers limited benefits for short sequences, the model can use standard (dense) attention for shorter texts. The model will use dense attention for sequences with a token length below `dense_len` and switch to sparse attention for sequences exceeding this length. Set this to `-1` to always use sparse attention regardless of sequence length.
 
 - **Long Context Extension**
-MiniCPM4.1 natively supports context lengths of up to 65,536(64k) tokens. For conversations where the total length (including both input and output) significantly exceeds this limit, we recommend using RoPE scaling techniques for effective handling of long texts. We have validated the model's performance on context lengths of up to 131,072 tokens by modifying the LongRoPE factor.
+MiniCPM4.1 natively supports context lengths of up to 65,536(64k) tokens. For conversations where the total length (including both input and output) significantly exceeds this limit, we recommend using RoPE scaling techniques for effective handling of long texts. By modifying the LongRoPE factor, the model can stably handle context lengths of up to 131,072 tokens.
 
 You can apply the LongRoPE factor modification by modifying the model files. Specifically, in the `config.json` file, adjust the `rope_scaling` fields.
 

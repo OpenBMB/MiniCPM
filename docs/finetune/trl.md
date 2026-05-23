@@ -2,15 +2,6 @@
 
 A minimal Python recipe that uses the [TRL](https://github.com/huggingface/trl) `SFTTrainer` + [PEFT](https://github.com/huggingface/peft) `LoraConfig` directly, with an **assistant-only loss mask** delivered via a small chat-template patch.
 
-## Verified versions
-
-| Component | Version | Result |
-| --- | --- | --- |
-| `trl` | **0.20.0** | LoRA SFT ✅ loss 4.07 → 3.52 (200 samples / 1 epoch / H200) |
-| `peft` | 0.11.1 | 11.2 M trainable / 1.09 B total (1.03%) |
-| `transformers` | 4.57.1 | |
-| `torch` | 2.7.1 + cu126 | |
-
 ## Why bare-metal TRL?
 
 - **Assistant-only loss out-of-the-box**: TRL's `SFTConfig(assistant_only_loss=True)` masks tokens outside `{% generation %}` blocks, so the loss only sees what the model is *actually generating*. This typically gives a ~10-15 % faster wall-clock per epoch and noticeably cleaner gradients.
@@ -114,7 +105,7 @@ trainer.train()
 trainer.model.save_pretrained(f"{OUT}/adapter_final")   # adapter_model.safetensors + adapter_config.json
 ```
 
-### Verified output
+### Sample output
 
 ```
 trainable params: 11,206,656 || all params: 1,091,839,488 || trainable%: 1.0264
@@ -126,7 +117,7 @@ trainable params: 11,206,656 || all params: 1,091,839,488 || trainable%: 1.0264
 {'train_runtime': 14.91, 'train_samples_per_second': 13.4, 'train_loss': 3.71}
 ```
 
-200-sample × 1-epoch tiny-LoRA on a single H200 — converges cleanly.
+200-sample × 1-epoch tiny-LoRA on a single GPU — converges cleanly.
 
 ## Inference with the LoRA adapter
 
@@ -169,7 +160,7 @@ Make sure `assistant_only_loss=True` and the patched chat template have a `{% ge
 
 ### `SFTConfig has no attribute 'max_length'`
 
-Your `trl` is too old. `max_length` was added around 0.16. Upgrade to `trl>=0.18` (we tested 0.20.0).
+Your `trl` is too old. `max_length` was added around 0.16. Upgrade to `trl>=0.21`.
 
 ## See also
 

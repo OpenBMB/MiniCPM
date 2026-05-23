@@ -2,19 +2,6 @@
 
 [MLX](https://github.com/ml-explore/mlx) is Apple's on-device tensor framework. For MiniCPM5-1B it is the recommended path on Apple Silicon (M1–M4) when you want **highest throughput** and want to stay inside one Python process — no separate server, no `llama.cpp` build chain.
 
-| Quant | Disk | Peak RAM | Prompt | Gen | Verified |
-| --- | --- | --- | --- | --- | --- |
-| bf16 | 2.0 GB | 2.2 GB | 228 tok/s | **50 tok/s** | M4 / 16 GB |
-| Q4 (4.5 bpw) | 589 MB | 0.7 GB | 168 tok/s | **157 tok/s** | M4 / 16 GB |
-
-## Verified versions
-
-| Component | Version | Result |
-| --- | --- | --- |
-| `mlx-lm` | 0.31.3 | bf16 + Q4 ✅ |
-| `mlx` | 0.31.2 | — |
-| Hardware | Apple M4 / 16 GB unified memory | Q4: 157 tok/s gen · 0.7 GB peak |
-
 ## TL;DR
 
 ```bash
@@ -97,16 +84,16 @@ assert tk.decode(ids) == "We are given a problem.", "byte-level decode still bro
 ```bash
 HF=./MiniCPM5-1B-hf-fixed   # the patched copy from above
 
-# bf16 master copy (2.0 GB on disk, 2.2 GB peak RAM at runtime)
+# bf16 master copy
 mlx_lm.convert --hf-path "$HF" --mlx-path ./minicpm5-mlx-bf16
 
-# 4-bit Q4, 4.5 bits/weight on average (589 MB on disk, 0.7 GB peak RAM at runtime)
+# 4-bit Q4, 4.5 bits/weight on average
 mlx_lm.convert --hf-path "$HF" --mlx-path ./minicpm5-mlx-q4 -q --q-bits 4
 ```
 
 The 4-bit pass logs `[INFO] Quantized model with 4.501 bits per weight.` — the slight overshoot above 4 bits is from keeping the `embed_tokens` and `lm_head` in higher precision, which preserves quality on the small, untied vocabulary head.
 
-## Inference (verified outputs)
+## Inference
 
 ### One-shot generate
 
@@ -119,8 +106,6 @@ mlx_lm.generate --model ./minicpm5-mlx-q4 \
     --max-tokens 200 --temp 0.7 --top-p 0.95 \
     --extra-eos-token "<|im_end|>"
 ```
-
-Produces a fluent step-by-step Chinese solution at **~157 tok/s** on M4 / 16 GB:
 
 ```text
 首先，理解问题：总共有10个头（鸡和兔都是头），总共有28只脚。我们需要找出鸡和兔各自的数量。
@@ -162,17 +147,6 @@ print()
 | No-think | 0.7 | 0.95 | fast assistant, latency-bound |
 
 Both modes are activated by sampling parameters only — the GGUF-baked Jinja chat template auto-injects `<think>\n` when no `system` message disables it, so you get think-mode behaviour by default.
-
-## Throughput on M4 / 16 GB
-
-Numbers from the sanity-check prompts above (`max_tokens=200`, batch=1):
-
-| Quant | Prompt eval | Generation | Peak unified memory |
-| --- | --- | --- | --- |
-| bf16 | 228 tok/s | 50 tok/s | 2.22 GB |
-| Q4 (4.5 bpw) | 168 tok/s | **157 tok/s** | 0.70 GB |
-
-For a 16 GB machine, the Q4 build is the obvious daily-driver: 3× the gen throughput and ~30% of the RAM compared to bf16, with no perceptible quality drop on Chinese / English quick prompts.
 
 ## Q&A
 

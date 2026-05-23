@@ -14,7 +14,7 @@ Before picking a backend, you MUST know:
 | Variable | Example | Where to ask |
 | --- | --- | --- |
 | `MODEL_PATH` | HF id `openbmb/MiniCPM5-1B` (post-release) **or** a local path | "Which checkpoint? HF id or local path?" |
-| Hardware | NVIDIA H100/H200 / NVIDIA consumer / Apple Silicon / CPU only | infer from context, otherwise ask |
+| Hardware | NVIDIA GPU / Apple Silicon / CPU only | infer from context, otherwise ask |
 | Goal | "interactive chat" / "OpenAI server" / "Python script" / "benchmark" | infer from context |
 
 ### Available checkpoints on Hugging Face
@@ -41,14 +41,16 @@ If the user has a local copy, accept any directory path that contains `config.js
 | "GGUF" / "llama.cpp" / "llama-cli" / "CPU only" | any CPU + optional GPU | GGUF | **`minicpm5-deploy-llama-cpp`** |
 | "Ollama" / "ollama run" / "Modelfile" | macOS / Linux laptop | GGUF | **`minicpm5-deploy-ollama`** |
 | "LM Studio" / "desktop GUI" | macOS / Windows / Linux | GGUF or MLX | **`minicpm5-deploy-lmstudio`** |
-| "MLX" / "Apple Silicon native" / "fastest on Mac" | Apple M1–M4 | MLX | **`minicpm5-deploy-mlx`** |
+| "MLX" / "Apple Silicon native" / "fastest on Mac" | Apple Silicon | MLX | **`minicpm5-deploy-mlx`** |
 
 If the user **has not specified** any of the above and asks "how do I run this?":
 
 - **CUDA box, want fastest server**: pick `minicpm5-deploy-vllm`.
 - **CUDA box, want minimal Python**: pick `minicpm5-deploy-transformers`.
 - **Apple Silicon laptop**: pick `minicpm5-deploy-ollama` (easiest) or `minicpm5-deploy-mlx` (fastest).
-- **CPU only / Windows / sub-1 GB VRAM**: pick `minicpm5-deploy-llama-cpp` (Q4_K_M).
+- **CPU only / Windows / low-VRAM**: pick `minicpm5-deploy-llama-cpp` (Q4_K_M).
+
+> **Future formats**: vLLM `>=0.21` additionally registers `mxfp4` and `modelopt_fp4` in its quant registry. If we publish those formats later, point to `minicpm5-deploy-vllm` with the corresponding `--quantization` flag — no new skill needed.
 
 ## 3. Invocation contract
 

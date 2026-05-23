@@ -22,7 +22,7 @@ Single-GPU LoRA / QLoRA. Heavy custom kernels for memory savings (~2× reduction
 | `BASE_MODEL` | `openbmb/MiniCPM5-1B` | required |
 | `DATA` | path to messages-format jsonl | required |
 | `OUTPUT_DIR` | `./runs/minicpm5_unsloth` | required |
-| `LOAD_IN_4BIT` | `True` (QLoRA, ~6 GB VRAM) / `False` (LoRA bf16, ~12 GB) | `False` |
+| `LOAD_IN_4BIT` | `True` (QLoRA, lowest VRAM) / `False` (LoRA bf16) | `False` |
 
 ## Steps
 

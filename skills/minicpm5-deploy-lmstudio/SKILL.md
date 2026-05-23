@@ -9,8 +9,8 @@ Desktop GUI + OpenAI-compatible local server. On Apple Silicon ships **two runti
 
 | Runtime | Format | When to use |
 | --- | --- | --- |
-| **GGUF** (llama.cpp engine) | F16 / Q8_0 / Q4_K_M | cross-platform, same artifact as Ollama; verified ~89 tok/s Q4_K_M on M4 |
-| **MLX** (Apple Silicon only) | bf16 / 4-bit | ~60 % faster, automatic think/answer split via `reasoning_content`; verified ~143 tok/s Q4 on M4 |
+| **GGUF** (llama.cpp engine) | F16 / Q8_0 / Q4_K_M | cross-platform, same artifact as Ollama; Q4_K_M build |
+| **MLX** (Apple Silicon only) | bf16 / 4-bit | ~60 % faster, automatic think/answer split via `reasoning_content`; Q4 build |
 
 ## Required input
 

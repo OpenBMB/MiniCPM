@@ -4,17 +4,6 @@
 
 > 🔑 If you're using unsloth alongside vLLM in the same env, pin `transformers==4.57.3` — unsloth's vLLM coexistence patch only handles transformers ≤ 4.57.x. Recipe baked in below.
 
-## Verified versions
-
-| Component | Version | Result |
-| --- | --- | --- |
-| unsloth | **2026.5.2** | LoRA SFT ✅ loss 4.67 → 3.52 (200 samples / 1 epoch / H200) |
-| `unsloth_zoo` | 2026.5.1 | |
-| `transformers` | **4.57.3** (pinned by unsloth, see Q&A) | |
-| `peft` | 0.19.1 | |
-| `trl` | 0.24.0 | |
-| `torch` | 2.7.1 + cu126 | |
-
 ## Install
 
 ```bash
@@ -101,11 +90,11 @@ trainer.train()
 trainer.model.save_pretrained(f"{OUT}/adapter_final")
 ```
 
-## Verified output
+## Sample output
 
 ```
 ==((====))==  Unsloth 2026.5.2: Fast Llama patching. Transformers: 4.57.3.
-   \\   /|    NVIDIA H200. Num GPUs = 1. Max memory: 139.7 GB.
+   \\   /|    NVIDIA GPU. Num GPUs = 1.
 O^O/ \_/ \    Torch: 2.7.1+cu126. CUDA: 9.0. CUDA Toolkit: 12.6.
 \        /    Bfloat16 = TRUE. Trainable parameters = 11,206,656 (1.03 %)
 
@@ -128,12 +117,12 @@ model, tok = FastLanguageModel.from_pretrained(
     model_name=BASE,
     max_seq_length=4096,
     dtype=torch.bfloat16,
-    load_in_4bit=True,            # ← ~3-4 GB VRAM for the base model
+    load_in_4bit=True,            # ← 4-bit base for QLoRA
     full_finetuning=False,
 )
 ```
 
-With `load_in_4bit=True`, MiniCPM5-1B + LoRA fits in **< 6 GB VRAM** at 4K context — so you can do QLoRA on a single 8 GB consumer GPU (RTX 3060 / 4060 Ti).
+With `load_in_4bit=True`, MiniCPM5-1B + LoRA can run on a low-VRAM consumer GPU for QLoRA at 4K context.
 
 ## Inference with the LoRA adapter
 

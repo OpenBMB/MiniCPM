@@ -19,7 +19,8 @@ One-shot Python generation. No server. Works on a single GPU (bfloat16) or CPU o
 ### 1. Install (once)
 
 ```bash
-pip install -U "transformers>=4.51" "torch>=2.1" accelerate
+pip install -U "transformers>=5.6,<6" "torch>=2.11" accelerate     # latest (CUDA 13.x driver hosts)
+# pip install -U "transformers==4.57.3" "torch==2.7.1" accelerate  # fallback for CUDA 12.x driver hosts
 ```
 
 ### 2. Run
@@ -82,7 +83,7 @@ Adapters from any of the `minicpm5-finetune-*` skills load directly with no surg
 
 - Need an OpenAI-compatible HTTP server → `minicpm5-deploy-vllm` or `minicpm5-deploy-sglang`
 - Apple Silicon → `minicpm5-deploy-mlx` is faster
-- < 1 GB VRAM / CPU-only laptop → `minicpm5-deploy-llama-cpp` with Q4_K_M is faster
+- CPU-only or low-VRAM laptop → `minicpm5-deploy-llama-cpp` with Q4_K_M is faster
 
 ## Reference
 

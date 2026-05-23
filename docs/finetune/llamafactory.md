@@ -2,18 +2,6 @@
 
 [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) is the most-used community fine-tuning framework. MiniCPM5-1B is a vanilla `LlamaForCausalLM`, so it works out-of-the-box with LLaMA-Factory's standard recipe.
 
-## Verified versions
-
-| Component | Version | Result |
-| --- | --- | --- |
-| LLaMA-Factory | **0.9.3** | LoRA SFT ✅ loss 4.19 → 3.62 (200 samples / 1 epoch / H200) |
-| `transformers` | 4.52.4 (LF pulls this in) | |
-| `peft` | 0.15.2 | |
-| `trl` | 0.9.6 | |
-| `torch` | 2.7.1 + cu126 | |
-
-> ⚠️ LLaMA-Factory 0.9.3 pins `transformers==4.52.4`. If you also use **vLLM ≥ 0.10** in the same env (which wants `transformers>=4.55`), keep them in **separate** Python environments — installing both into one venv will break vLLM.
-
 ## Install
 
 ```bash
@@ -108,7 +96,7 @@ ddp_timeout: 180000000
 CUDA_VISIBLE_DEVICES=0 llamafactory-cli train lora_sft.yaml
 ```
 
-Verified run (200 samples, 1 epoch, single H200, bs=4, grad_acc=2, lr=2e-4):
+Sample run (200 samples, 1 epoch, single GPU, bs=4, grad_acc=2, lr=2e-4):
 
 ```
 {'loss': 4.1912, 'learning_rate': 0.000192, 'epoch': 0.2}
@@ -145,7 +133,7 @@ The merged model is a regular `LlamaForCausalLM` and can be served with **any** 
 
 ## 5. Full SFT (no LoRA)
 
-If you have enough GPU memory (~12 GB for bf16 + AdamW on a single H100/H200), drop `finetuning_type: lora` and the LoRA fields:
+If you have enough GPU memory (~12 GB for bf16 + AdamW on a single GPU), drop `finetuning_type: lora` and the LoRA fields:
 
 ```yaml
 finetuning_type: full
@@ -160,7 +148,7 @@ You probably set `template: llama3` or similar. Use `template: empty` to delegat
 
 ### `transformers >= 4.55 required` (when also using vLLM in the same env)
 
-LLaMA-Factory 0.9.3 wants `transformers==4.52`, vLLM 0.10 wants `>=4.55`. Use two virtual environments — one for fine-tuning, one for serving. The merged model is portable across them.
+LLaMA-Factory 0.9.3 wants `transformers==4.52`, vLLM 0.21 wants `>=5.6`. Use two virtual environments — one for fine-tuning, one for serving. The merged model is portable across them.
 
 ### Multi-GPU
 

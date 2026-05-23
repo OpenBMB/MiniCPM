@@ -7,12 +7,6 @@ description: Fine-tune MiniCPM5-1B with LLaMA-Factory (YAML-driven SFT / DPO / W
 
 YAML-driven SFT / DPO with WebUI. Most-documented community framework.
 
-> ⚠️ **Driver-aware torch pin (read this BEFORE running)**: `pip install llamafactory==0.9.3` resolves to the latest `torch` wheel, which currently ships against CUDA 13. If `nvidia-smi` shows `CUDA Version: 12.x` on your host, the cu13 wheel installs but `torch.cuda.is_available()` returns `False`, and `llamafactory-cli train` fails with `Your setup doesn't support bf16/gpu`. Fix immediately after `pip install`:
->
-> ```bash
-> pip install --force-reinstall "torch==2.7.1" "torchvision==0.22.1"   # cu126 wheel, works on cu12.x drivers
-> ```
-
 ## Required input
 
 | Var | Example | Default |
@@ -32,7 +26,7 @@ python -m venv .venv-lf && source .venv-lf/bin/activate
 pip install "llamafactory==0.9.3"
 ```
 
-> ⚠️ LLaMA-Factory pins `transformers==4.52`. Do NOT install it into a vLLM env (vLLM 0.10 wants `transformers>=4.55`).
+> ⚠️ LLaMA-Factory pins `transformers==4.52`. Do NOT install it into a vLLM env (vLLM 0.21 wants `transformers>=5.6`). Always use a separate venv.
 
 ### 2. Register the dataset (sharegpt / messages format)
 

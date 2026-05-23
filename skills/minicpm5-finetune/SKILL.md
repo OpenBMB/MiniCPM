@@ -15,7 +15,7 @@ You're being asked to fine-tune MiniCPM5-1B. Pick exactly one framework skill be
 | `DATA` | path to JSONL in messages format | `[{"messages": [{"role":"user","content":"..."}, {"role":"assistant","content":"..."}]}]` |
 | `OUTPUT_DIR` | where to write checkpoints | mkdir if missing |
 | Goal | "LoRA SFT" / "full SFT" / "DPO" / "QLoRA on consumer GPU" / "continue-pretrain at scale" | drives skill choice |
-| Hardware | 1× H100/H200 / 1× consumer GPU / multi-node | drives skill choice |
+| Hardware | 1× GPU / multi-node | drives skill choice |
 
 ### Default base model
 
