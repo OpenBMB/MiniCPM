@@ -23,7 +23,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 >
 > <!-- TODO: replace this placeholder with the actual <video>, GIF, or YouTube/Bilibili link once the demo is ready. -->
 >
-> 👉 **[Learn more about MiniCPM5 Applications](#minicpm5-applications)**
+> 👉 **Project:** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet) · **More apps:** [MiniCPM5 Applications](#minicpm5-applications)
 
 ## Changelog🔥
 - 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
@@ -291,21 +291,12 @@ Reference apps built on top of MiniCPM5-1B, showing what a 1B-class on-device mo
 
 #### Desktop Pet
 
-MiniCPM5-1B is small enough and capable enough to be the **local LLM brain** for an interactive desktop pet. We provide a thin bridge service, **`minicpm-pet-bridge`**, that exposes the model as an OpenAI-compatible local endpoint for [Clawd on Desk](https://github.com/rullerzhou-afk/clawd-on-desk), a pixel desktop pet that reacts to your AI coding agent in real time.
+We ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, an end-user-friendly desktop pet driven by a **local** MiniCPM5-1B. A thin `llama.cpp` `llama-server` sidecar loads the GGUF (Apple Silicon → Metal · NVIDIA → CUDA · generic → CPU) and serves an OpenAI-compatible local endpoint to an Electron pet UI. The pet reacts to your AI coding agent (Cursor / Claude Code / Codex) in real time and supports LoRA persona switching.
 
-> Thanks to [@rullerzhou-afk](https://github.com/rullerzhou-afk) for building Clawd on Desk. The pet runtime, animation packs, and multi-agent integrations are all upstream work; `minicpm-pet-bridge` is the local LLM adapter.
+- **End-user path** (no Python / conda / PyTorch): grab `Clawd-on-Desk-*-arm64.dmg` from [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases), follow the 5-step onboarding (env check → accelerator probe → GGUF download → sidecar warmup → ready).
+- **Developer path**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
 
-One-liner to try the pet with a locally served MiniCPM5-1B:
-
-```bash
-# 1) start MiniCPM5-1B via vLLM (any deploy backend works)
-python -m vllm.entrypoints.openai.api_server \
-    --model openbmb/MiniCPM5-1B --served-model-name MiniCPM5-1B \
-    --dtype bfloat16 --port 8000
-
-# 2) point Clawd on Desk at http://localhost:8000/v1 (OpenAI-compatible)
-#    → see Clawd's settings → MiniCPM tab for the GUI version
-```
+> The pet UI layer is **forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk)** (AGPL-3.0). The pet runtime, animation packs, and multi-agent integrations are upstream work; on top of that we integrate the local MiniCPM5-1B sidecar, 5-step onboarding, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
 
 #### Persona LoRA Hub
 
