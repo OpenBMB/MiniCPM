@@ -28,7 +28,7 @@
 
 ## Highlights
 
-MiniCPM5 是面壁智能新一代端侧模型家族。首发的 **MiniCPM5-1B** 是一款紧凑稠密的 1B Transformer，面向端侧与资源受限场景，并配套 RL + OPD 后训练、单页 cookbook 与面向 coding agent 的部署 / 微调 Skill。
+我们正式开启 **MiniCPM5** 系列 —— 面壁智能新一代端侧模型家族。首发版本 **MiniCPM5-1B** 是一款紧凑稠密的 1B Transformer，面向端侧与资源受限场景，并配套 RL + OPD 后训练、单页 cookbook 与面向 coding agent 的部署 / 微调 Skill。
 
 🏆 **公开评测**：在推理 / 知识 / 代码 / 指令跟随 / 数学 / 逻辑 / Agentic 评测中，MiniCPM5-1B 平均分 42.57；优势主要体现在 Agentic 工具调用、代码和竞赛数学。
 
@@ -66,7 +66,7 @@ MiniCPM5 是面壁智能新一代端侧模型家族。首发的 **MiniCPM5-1B** 
 - [亮点](#亮点)
 - [更新日志🔥](#更新日志)
 - [模型下载](#模型下载)
-- [MiniCPM5 系列](#minicpm5-系列)
+- [MiniCPM5-1B](#minicpm5-1b)
   - [简介](#简介)
   - [评测结果](#评测结果)
   - [训练流程](#训练流程)
@@ -151,7 +151,7 @@ MiniCPM5 是面壁智能新一代端侧模型家族。首发的 **MiniCPM5-1B** 
 
 </details>
 
-## MiniCPM5 系列
+## MiniCPM5-1B
 
 ### 简介
 

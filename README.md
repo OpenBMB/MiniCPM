@@ -27,7 +27,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 ## Highlights
 
-MiniCPM5 is our next-generation end-side model family. The first release, **MiniCPM5-1B**, is a compact dense 1B Transformer for on-device and resource-constrained use, with RL + OPD post-training, single-page cookbooks, and deployment / fine-tuning skills for coding agents.
+We are kicking off the **MiniCPM5** series — our next-generation end-side model family. The first checkpoint, **MiniCPM5-1B**, is a compact dense 1B Transformer for on-device and resource-constrained use, with RL + OPD post-training, single-page cookbooks, and deployment / fine-tuning skills for coding agents.
 
 🏆 **Public evaluation**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks; its strengths are most visible in agentic tool use, code, and competition math.
 
@@ -65,7 +65,7 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 - [Highlights](#highlights)
 - [Changelog🔥](#changelog)
 - [Model Downloads](#model-downloads)
-- [MiniCPM5 Series](#minicpm5-series)
+- [MiniCPM5-1B](#minicpm5-1b)
   - [Introduction](#introduction)
   - [Evaluation Results](#evaluation-results)
   - [Training Recipe](#training-recipe)
@@ -150,7 +150,7 @@ MiniCPM5 is our next-generation end-side model family. The first release, **Mini
 
 </details>
 
-## MiniCPM5 Series
+## MiniCPM5-1B
 
 ### Introduction
 
