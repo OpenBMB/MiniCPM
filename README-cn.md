@@ -24,7 +24,7 @@
 >
 > <!-- TODO: 视频 / GIF / YouTube / Bilibili 链接就绪后替换此处占位 -->
 >
-> 👉 **项目仓库：** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet) · **更多应用：** [MiniCPM5 应用](#minicpm5-应用)
+> 👉 **项目仓库：** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)
 
 ## Highlights
 

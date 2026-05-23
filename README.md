@@ -23,7 +23,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 >
 > <!-- TODO: replace this placeholder with the actual <video>, GIF, or YouTube/Bilibili link once the demo is ready. -->
 >
-> 👉 **Project:** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet) · **More apps:** [MiniCPM5 Applications](#minicpm5-applications)
+> 👉 **Project:** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)
 
 ## Highlights
 
