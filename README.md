@@ -41,7 +41,7 @@ We are kicking off the **MiniCPM5** series — our next-generation end-side mode
 
 🛠️ **Deployment / Fine-tuning Agent Skills**: every inference and fine-tuning path in this repo ships with a single-page cookbook and a paired [Agent Skill](./skills/), so LLM coding agents can choose the right route for a target backend or framework.
 
-🐱 **MiniCPM5 Applications**: reference apps for local use, including a desktop pet powered by MiniCPM5-1B. See [MiniCPM5 Applications](#minicpm5-applications).
+🐱 **Desktop Pet**: a local-LLM desktop pet driven by MiniCPM5-1B — see [Desktop Pet](#desktop-pet) below.
 
 ## Changelog🔥
 - 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
@@ -73,8 +73,7 @@ We are kicking off the **MiniCPM5** series — our next-generation end-side mode
   - [One-line Quickstart](#one-line-quickstart)
   - [Agent Skills: Deployment and Fine-tuning Entry Points](#agent-skills-deployment-and-fine-tuning-entry-points)
   - [Deployment and Fine-tuning Cookbooks](#deployment-and-fine-tuning-cookbooks)
-  - [MiniCPM5 Applications](#minicpm5-applications)
-    - [Desktop Pet](#desktop-pet)
+  - [Desktop Pet](#desktop-pet)
 - [MiniCPM-SALA](#minicpm-sala)
 - [MiniCPM4 & MiniCPM4.1 Series](#minicpm4-and-minicpm41-series)
 - [Legacy topics →](./docs/README-legacy.md): BitCPM4 quantization, MiniCPM4 applications
@@ -272,11 +271,7 @@ Prefer to drive things by hand, or want to know exactly what each Agent Skill do
 | [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) | [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) |
 | [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) | [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) |
 
-### MiniCPM5 Applications
-
-A reference app built on top of MiniCPM5-1B, showing what a 1B-class on-device model can power in real world scenarios.
-
-#### Desktop Pet
+### Desktop Pet
 
 We ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, an end-user-friendly desktop pet driven by a **local** MiniCPM5-1B. A thin `llama.cpp` `llama-server` sidecar loads the GGUF (Apple Silicon → Metal · NVIDIA → CUDA · generic → CPU) and serves an OpenAI-compatible local endpoint to an Electron pet UI. The pet reacts to your AI coding agent (Cursor / Claude Code / Codex) in real time and supports LoRA persona switching.
 
