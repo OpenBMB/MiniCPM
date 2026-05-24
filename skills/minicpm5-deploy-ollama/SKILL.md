@@ -34,8 +34,8 @@ mkdir -p ~/${MODEL_NAME} && cd ~/${MODEL_NAME}
 
 huggingface-cli download ${GGUF_REPO} MiniCPM5-1B-${QUANT}.gguf --local-dir .
 
-cat > Modelfile <<'EOF'
-FROM ./MiniCPM5-1B-Q4_K_M.gguf
+cat > Modelfile <<EOF
+FROM ./MiniCPM5-1B-${QUANT}.gguf
 
 # MiniCPM5 chat template (matches release tokenizer)
 TEMPLATE """{{- if .Messages -}}
@@ -55,8 +55,6 @@ PARAMETER top_p 0.95
 PARAMETER num_ctx 8192
 EOF
 ```
-
-> ⚠️ The `FROM ./MiniCPM5-1B-Q4_K_M.gguf` line is hard-coded to Q4_K_M; change the filename if you used a different `QUANT`.
 
 ### 3. Create + run
 

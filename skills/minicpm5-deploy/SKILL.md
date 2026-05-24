@@ -22,8 +22,6 @@ Before picking a backend, you MUST know:
 | Variant | HF repo | Use with |
 | --- | --- | --- |
 | **HF fp16 (recommended)** | [`openbmb/MiniCPM5-1B`](https://huggingface.co/openbmb/MiniCPM5-1B) | `transformers` / `vllm` (no `--quantization`) / `sglang` / any `minicpm5-finetune-*` |
-| AWQ-Marlin Int4 | [`openbmb/MiniCPM5-1B-AWQ`](https://huggingface.co/openbmb/MiniCPM5-1B-AWQ) | `minicpm5-deploy-awq` (vLLM `--quantization awq_marlin`) |
-| GPTQ-Marlin Int4 | [`openbmb/MiniCPM5-1B-GPTQ`](https://huggingface.co/openbmb/MiniCPM5-1B-GPTQ) | `minicpm5-deploy-gptq` (vLLM `--quantization gptq_marlin`) |
 | GGUF F16 / Q8_0 / Q4_K_M | [`openbmb/MiniCPM5-1B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | `minicpm5-deploy-llama-cpp` / `-ollama` / `-lmstudio` |
 | MLX (Apple Silicon) | [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | `minicpm5-deploy-mlx` |
 
@@ -36,8 +34,6 @@ If the user has a local copy, accept any directory path that contains `config.js
 | "Quick Python script" / "one-shot generation" / "no server" | any GPU or CPU | HF safetensors | **`minicpm5-deploy-transformers`** |
 | "OpenAI server" / "production serving" / "high QPS" | NVIDIA GPU | HF safetensors | **`minicpm5-deploy-vllm`** |
 | "RadixAttention" / "prefix cache" / "batched eval" | NVIDIA GPU | HF safetensors | **`minicpm5-deploy-sglang`** |
-| "Int4" / "low VRAM" / "AWQ" | NVIDIA GPU (Ampere+) | AWQ-Marlin | **`minicpm5-deploy-awq`** |
-| "Int4" / "GPTQ" | NVIDIA GPU (Ampere+) | GPTQ-Marlin | **`minicpm5-deploy-gptq`** |
 | "GGUF" / "llama.cpp" / "llama-cli" / "CPU only" | any CPU + optional GPU | GGUF | **`minicpm5-deploy-llama-cpp`** |
 | "Ollama" / "ollama run" / "Modelfile" | macOS / Linux laptop | GGUF | **`minicpm5-deploy-ollama`** |
 | "LM Studio" / "desktop GUI" | macOS / Windows / Linux | GGUF or MLX | **`minicpm5-deploy-lmstudio`** |
@@ -49,8 +45,6 @@ If the user **has not specified** any of the above and asks "how do I run this?"
 - **CUDA box, want minimal Python**: pick `minicpm5-deploy-transformers`.
 - **Apple Silicon laptop**: pick `minicpm5-deploy-ollama` (easiest) or `minicpm5-deploy-mlx` (fastest).
 - **CPU only / Windows / low-VRAM**: pick `minicpm5-deploy-llama-cpp` (Q4_K_M).
-
-> **Future formats**: vLLM `>=0.21` additionally registers `mxfp4` and `modelopt_fp4` in its quant registry. If we publish those formats later, point to `minicpm5-deploy-vllm` with the corresponding `--quantization` flag — no new skill needed.
 
 ## 3. Invocation contract
 

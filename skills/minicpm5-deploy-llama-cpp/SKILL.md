@@ -98,7 +98,7 @@ llama-quantize out/F16.gguf out/Q4_K_M.gguf Q4_K_M
 
 ## When NOT to use
 
-- NVIDIA GPU + want best throughput → `minicpm5-deploy-vllm` (or `-awq` / `-gptq`)
+- NVIDIA GPU + want OpenAI-compatible serving → `minicpm5-deploy-vllm`
 - Apple Silicon native → `minicpm5-deploy-mlx` is faster
 - Just want one-line desktop run → `minicpm5-deploy-ollama`
 - Want a desktop GUI → `minicpm5-deploy-lmstudio`

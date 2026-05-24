@@ -26,6 +26,7 @@ python -m sglang.launch_server \
     --dtype bfloat16 \
     --context-length 131072 \
     --mem-fraction-static 0.85 \
+    --tool-call-parser minicpm5 \
     --host 0.0.0.0 \
     --port 30000
 ```
@@ -55,6 +56,36 @@ curl http://localhost:30000/v1/chat/completions \
 | --- | --- | --- | --- |
 | Think | `true` | 0.9 | 0.95 |
 | No-think | `false` | 0.7 | 0.95 |
+
+## Tool calling
+
+MiniCPM5-1B emits XML-style tool calls. SGLang ships a built-in `minicpm5` parser that converts them to OpenAI-compatible `tool_calls`.
+
+Start the server with either `--tool-call-parser minicpm5` or `--tool-call-parser auto`, then send a standard OpenAI-style tools request:
+
+```bash
+curl http://localhost:30000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-1B",
+        "messages": [{"role": "user", "content": "What is the weather in Beijing?"}],
+        "tools": [{
+            "type": "function",
+            "function": {
+                "name": "get_weather",
+                "description": "Get current weather for a city",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"city": {"type": "string"}},
+                    "required": ["city"]
+                }
+            }
+        }],
+        "tool_choice": "auto",
+        "temperature": 0.7,
+        "max_tokens": 256
+    }'
+```
 
 ## Offline / batched (Engine API)
 

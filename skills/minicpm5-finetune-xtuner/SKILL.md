@@ -124,11 +124,10 @@ log_processor = dict(by_epoch=False)
 ### 3. Train — invoke `train.py` directly (not `xtuner train`)
 
 ```bash
-TRAIN_PY=$(python -c "import xtuner.tools.train as t; print(t.__file__)")
-CUDA_VISIBLE_DEVICES=0 python $TRAIN_PY ${WORK_DIR}/minicpm5_lora.py --work-dir ${WORK_DIR}
+CUDA_VISIBLE_DEVICES=0 python -m xtuner.tools.train ${WORK_DIR}/minicpm5_lora.py --work-dir ${WORK_DIR}
 ```
 
-> 🔑 **Use `python TRAIN_PY` directly** — `xtuner train` invokes `subprocess.run(["python", train.py, ...])` which uses the *system* `python`, not your conda env. If your training deps live in a non-default env, the subprocess silently dies with no logs.
+> 🔑 **Use `python -m xtuner.tools.train` directly** — this keeps the command inside the active venv / conda env and avoids the CLI wrapper spawning a different `python`.
 
 For multi-GPU, use the standard wrapper: `NPROC_PER_NODE=8 xtuner train CONFIG --work-dir ...`.
 

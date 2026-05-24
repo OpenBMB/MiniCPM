@@ -2,7 +2,7 @@
 
 [xtuner](https://github.com/InternLM/xtuner) is the InternLM team's mmengine-based fine-tuning framework. It uses Python config files (not YAML) and integrates tightly with mmengine's runner / hook system. MiniCPM5-1B works with the **`qwen_chat` prompt template** (which is just ChatML — `<|im_start|>...<|im_end|>`) and the standard `openai_map_fn` for messages-format data.
 
-> 🔑 Two install gotchas: (1) replace `opencv-python` with `opencv-python-headless` if you don't have libGL on the host; (2) when running outside the system Python, invoke `xtuner/tools/train.py` directly rather than `xtuner train` (the CLI wrapper uses system `python` for its subprocess). Both are baked into the recipe below.
+> 🔑 Two install gotchas: (1) replace `opencv-python` with `opencv-python-headless` if you don't have libGL on the host; (2) use `python -m xtuner.tools.train` so the trainer runs inside the active venv / conda env. Both are baked into the recipe below.
 
 ## Install
 
@@ -139,11 +139,11 @@ log_processor = dict(by_epoch=False)
 
 ## Train
 
-xtuner's `xtuner train` CLI invokes `subprocess.run(["python", train.py, ...])` which uses your **system** `python`. If your training deps live in a conda env, call `train.py` directly:
+xtuner's `xtuner train` CLI may spawn a different `python`. If your training deps live in a conda env, call the module through the active interpreter:
 
 ```bash
-# Direct invocation (recommended for non-base conda envs)
-CUDA_VISIBLE_DEVICES=0 python /path/to/site-packages/xtuner/tools/train.py \
+# Module invocation (recommended for non-base conda envs)
+CUDA_VISIBLE_DEVICES=0 python -m xtuner.tools.train \
     minicpm5_lora.py \
     --work-dir ./runs/minicpm5_xtuner
 

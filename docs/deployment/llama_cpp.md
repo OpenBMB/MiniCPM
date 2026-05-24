@@ -63,7 +63,8 @@ cd ..
 SRC=/path/to/your-MiniCPM5-fp16-hf
 OUT=/path/to/output
 
-python convert_hf_to_gguf.py "$SRC" --outfile "$OUT/F16.gguf" --outtype f16
+# Run from the llama.cpp repository root cloned above.
+python ./convert_hf_to_gguf.py "$SRC" --outfile "$OUT/F16.gguf" --outtype f16
 build/bin/llama-quantize "$OUT/F16.gguf" "$OUT/Q4_K_M.gguf" Q4_K_M
 build/bin/llama-quantize "$OUT/F16.gguf" "$OUT/Q8_0.gguf"   Q8_0
 ```

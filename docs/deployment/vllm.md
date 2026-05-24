@@ -1,6 +1,6 @@
 # Deploy MiniCPM5-1B with vLLM
 
-vLLM ≥ 0.6 supports MiniCPM5-1B natively — no custom kernels. For production-grade throughput and OpenAI-compatible chat completions, this is the recommended path. For the quantized variants on the same vLLM binary see [`awq.md`](./awq.md) and [`gptq.md`](./gptq.md).
+vLLM `>=0.21` supports MiniCPM5-1B natively — no custom kernels. For production-grade throughput and OpenAI-compatible chat completions, this is the recommended path.
 
 ## Install
 
@@ -12,8 +12,7 @@ pip install "vllm>=0.21"          # latest (CUDA 13.x driver hosts)
 ## OpenAI-compatible server
 
 ```bash
-python -m vllm.entrypoints.openai.api_server \
-    --model openbmb/MiniCPM5-1B \
+vllm serve openbmb/MiniCPM5-1B \
     --served-model-name MiniCPM5-1B \
     --dtype bfloat16 \
     --max-model-len 131072 \
@@ -77,7 +76,3 @@ out = llm.chat(
 )
 print(out[0].outputs[0].text)
 ```
-
-## Quantized variants
-
-The same vLLM binary can serve the **AWQ-Marlin Int4** and **GPTQ-Marlin Int4** builds — see [`awq.md`](./awq.md) and [`gptq.md`](./gptq.md). Just point `--model` at the quantized checkpoint and add `--quantization awq_marlin` / `--quantization gptq_marlin`.

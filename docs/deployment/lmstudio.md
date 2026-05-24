@@ -138,7 +138,7 @@ The GGUF runtime does not do this split — `<think>...</think>` is emitted inli
 
 ## Toggling Think / No-think
 
-LM Studio 0.4.13 + `mlx-llm` 1.6.0 currently **does not honour** the standard `chat_template_kwargs.enable_thinking` flag — passing it in the OpenAI request body has no effect. None of the natural-language hints (`/no_think` suffix, system prompt saying "do not include reasoning", etc.) reliably suppress thinking either. So in the GUI chat pane there is no built-in toggle.
+As of 2026-05, LM Studio's OpenAI-compatible layer does not consistently honour the standard `chat_template_kwargs.enable_thinking` flag. Passing it in the request body may have no effect, and natural-language hints (`/no_think` suffix, system prompt saying "do not include reasoning", etc.) do not reliably suppress thinking either. So in the GUI chat pane there may be no built-in toggle.
 
 The cleanest workaround is to **register two extra model variants with the `enable_thinking` switch hard-coded into the Jinja template**, then switch modes by switching model in the GUI's model dropdown. Variant folders symlink the weights, so each variant adds **~10 KB on disk** (one rewritten `chat_template.jinja`).
 

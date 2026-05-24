@@ -14,8 +14,9 @@ OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0 ollama serve &
 mkdir -p ~/minicpm5-1b && cd ~/minicpm5-1b
 huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-Q4_K_M.gguf --local-dir .
 
-cat > Modelfile <<'EOF'
-FROM ./MiniCPM5-1B-Q4_K_M.gguf
+QUANT=Q4_K_M
+cat > Modelfile <<EOF
+FROM ./MiniCPM5-1B-${QUANT}.gguf
 
 # MiniCPM5 chat template
 TEMPLATE """{{- if .Messages -}}

@@ -1,11 +1,11 @@
 ---
 name: minicpm5-deploy-sglang
-description: Serve MiniCPM5-1B via SGLang as an OpenAI-compatible HTTP server with RadixAttention prefix cache. Use when the user asks for "SGLang", "RadixAttention", "prefix cache", batch evaluation, or wants a high-concurrency NVIDIA-GPU server alternative to vLLM.
+description: Serve MiniCPM5-1B via SGLang as an OpenAI-compatible HTTP server with RadixAttention prefix cache and built-in MiniCPM5 tool-call parsing. Use when the user asks for "SGLang", "RadixAttention", "prefix cache", batch evaluation, tool calling, or wants a high-concurrency NVIDIA-GPU server alternative to vLLM.
 ---
 
 # Deploy MiniCPM5-1B with SGLang
 
-OpenAI-compatible server with RadixAttention prefix cache. Best fit for **batched eval pipelines** and high-concurrency serving.
+OpenAI-compatible server with RadixAttention prefix cache. Best fit for **tool calling**, batched eval pipelines, and high-concurrency serving.
 
 ## Required input
 
@@ -16,6 +16,7 @@ OpenAI-compatible server with RadixAttention prefix cache. Best fit for **batche
 | `GPU_ID` | `0` | `0` |
 | `CTX_LEN` | `131072` (128 K) | `131072` |
 | `MEM_FRAC` | `0.85` | `0.85` |
+| `TOOL_PARSER` | `minicpm5` | `minicpm5`; use `auto` if you want template detection |
 
 ## Steps
 
@@ -43,6 +44,7 @@ CUDA_VISIBLE_DEVICES=${GPU_ID} python -m sglang.launch_server \
     --dtype bfloat16 \
     --context-length ${CTX_LEN} \
     --mem-fraction-static ${MEM_FRAC} \
+    --tool-call-parser ${TOOL_PARSER} \
     --host 0.0.0.0 \
     --port ${PORT}
 ```
@@ -63,6 +65,34 @@ curl http://localhost:${PORT}/v1/chat/completions \
 ```
 
 Expected: `choices[0].message.content` contains `"2"`.
+
+## Tool calling
+
+SGLang includes a native MiniCPM5 XML tool-call parser. Keep `TOOL_PARSER=minicpm5` (or `auto`) when launching, then send an OpenAI-style tools request:
+
+```bash
+curl http://localhost:${PORT}/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-1B",
+        "messages": [{"role": "user", "content": "What is the weather in Beijing?"}],
+        "tools": [{
+            "type": "function",
+            "function": {
+                "name": "get_weather",
+                "description": "Get current weather for a city",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"city": {"type": "string"}},
+                    "required": ["city"]
+                }
+            }
+        }],
+        "tool_choice": "auto",
+        "temperature": 0.7,
+        "max_tokens": 256
+    }'
+```
 
 ## Offline / batched (Engine API)
 

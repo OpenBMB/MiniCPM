@@ -9,7 +9,7 @@
 </h4>
 
 <p align="center">
-<a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM Paper</a> |
+<a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM Tech Report</a> |
 <a href="https://modelbest.feishu.cn/wiki/D2tFw8Pcsi5CIzkaHNacLK64npg" target="_blank">MiniCPM Wiki (in Chinese)</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V Repo</a> |
 Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">WeChat</a> |
@@ -79,15 +79,13 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 
 ## 📦 Model Downloads
 
-**Current release: MiniCPM5-1B** (BF16, GGUF, MLX, AWQ, GPTQ):
+**Current release: MiniCPM5-1B** (BF16, GGUF, MLX):
 
 | HuggingFace | ModelScope |
 |---|---|
 | [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B) | [MiniCPM5-1B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B) |
 | [MiniCPM5-1B-GGUF](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | [MiniCPM5-1B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GGUF) |
 | [MiniCPM5-1B-MLX](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | [MiniCPM5-1B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-MLX) |
-| [MiniCPM5-1B-AWQ](https://huggingface.co/openbmb/MiniCPM5-1B-AWQ) | [MiniCPM5-1B-AWQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-AWQ) |
-| [MiniCPM5-1B-GPTQ](https://huggingface.co/openbmb/MiniCPM5-1B-GPTQ) | [MiniCPM5-1B-GPTQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GPTQ) |
 
 **Other key releases:**
 
@@ -162,9 +160,9 @@ We compare MiniCPM5-1B with strong open-source models in the same size class, in
 
 The training of MiniCPM5-1B is a full-stack practice of **[UltraData Tiered Data Management](https://ultradata.openbmb.cn/)**, covering three stages: base training, mid-training, and post-training.
 
-During **base training**, the model goes through two-stage stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3).
+During **base training**, the model goes through two-stage stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb) and [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3).
 
-During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to establish deep-thinking, hybrid-thinking, and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, closed-book QA, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
+During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to establish deep-thinking, hybrid-thinking, and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605), with math-focused data from [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math). We then train specialized **RL teachers** for math, code, closed-book QA, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
 
 ![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
 
@@ -263,7 +261,7 @@ Recommended chat template sampling:
 | **Think** | `temperature=0.9, top_p=0.95` | `enable_thinking=True` |
 | **No Think** | `temperature=0.7, top_p=0.95` | `enable_thinking=False` |
 
-For other backends (llama.cpp / Ollama / LM Studio / MLX) and vLLM inference with AWQ / GPTQ quantized weights, see the cookbooks table below.
+For other backends (llama.cpp / Ollama / LM Studio / MLX), see the cookbooks table below.
 
 #### With tool calling
 
@@ -282,7 +280,7 @@ The two top-level skills cover deployment and fine-tuning:
 
 | Top-level skill | What it does | Routes to |
 | --- | --- | --- |
-| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` (including AWQ / GPTQ quantized routes) · `sglang` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` |
+| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` · `sglang` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` |
 | **[`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md)** | Fine tuning router | `trl` · `llamafactory` · `ms-swift` · `unsloth` · `xtuner` |
 
 In Cursor / Claude Code, you can call them like this: the agent reads the top-level skill, selects the matching sub-skill and cookbook based on the target backend, hardware, and data path, then runs the command and reports back.
@@ -299,7 +297,6 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 | Backend | Model format / use case | Cookbook | Paired Agent Skill |
 | --- | --- | --- | --- |
 | [Transformers](https://github.com/huggingface/transformers) | BF16 / FP16 local Python inference, GPU + CPU | [`docs/deployment/transformers.md`](./docs/deployment/transformers.md) | [`minicpm5-deploy-transformers`](./skills/minicpm5-deploy-transformers/SKILL.md) |
-| [vLLM](https://github.com/vllm-project/vllm) | BF16 / FP16 OpenAI server; supports AWQ / GPTQ-Marlin Int4 quantized weights | [`vllm.md`](./docs/deployment/vllm.md); quantized: [`awq.md`](./docs/deployment/awq.md) / [`gptq.md`](./docs/deployment/gptq.md) | [`minicpm5-deploy-vllm`](./skills/minicpm5-deploy-vllm/SKILL.md); quantized: [`awq`](./skills/minicpm5-deploy-awq/SKILL.md) / [`gptq`](./skills/minicpm5-deploy-gptq/SKILL.md) |
 | [SGLang](https://github.com/sgl-project/sglang) | BF16 / FP16 OpenAI server, recommended for tool calling | [`docs/deployment/sglang.md`](./docs/deployment/sglang.md) | [`minicpm5-deploy-sglang`](./skills/minicpm5-deploy-sglang/SKILL.md) |
 | [llama.cpp](https://github.com/ggml-org/llama.cpp) | GGUF local inference, CPU/GPU | [`docs/deployment/llama_cpp.md`](./docs/deployment/llama_cpp.md) | [`minicpm5-deploy-llama-cpp`](./skills/minicpm5-deploy-llama-cpp/SKILL.md) |
 | [Ollama](https://github.com/ollama/ollama) | GGUF local on-device runtime | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
