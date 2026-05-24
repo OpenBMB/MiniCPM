@@ -150,9 +150,7 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 
 ### Introduction
 
-MiniCPM5-1B is a compact dense decoder-only Transformer trained to improve output quality at the 1B scale. It keeps the standard `LlamaForCausalLM` architecture (24 layers, GQA 8:1, native 128K context, ~1.0 B total params) so it runs on mainstream inference engines (Transformers, vLLM, SGLang, llama.cpp, MLX, Ollama, LM Studio…) without custom kernels.
-
-For full architecture details and per-component parameter breakdown see [`docs/deployment/transformers.md`](./docs/deployment/transformers.md).
+MiniCPM5-1B is the first checkpoint in the MiniCPM5 series. It is designed for local assistants, coding agents, tool-use workflows, and reasoning scenarios where a compact model is preferred. The model keeps a small deployment footprint while providing native long-context support and both Think / No Think chat modes through the same checkpoint.
 
 ### Evaluation Results
 

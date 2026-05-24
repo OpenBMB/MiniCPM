@@ -151,9 +151,7 @@
 
 ### 简介
 
-MiniCPM5-1B 是一款 decoder-only Transformer，训练目标是提升 1B 参数量下的输出质量。它沿用标准 `LlamaForCausalLM` 架构（24 层、GQA 8:1、原生 128K 上下文、~1.0B 总参数），可以在主流推理引擎（Transformers、vLLM、SGLang、llama.cpp、MLX、Ollama、LM Studio…）上直接使用，无需自定义算子。
-
-完整架构细节与按组件参数拆解见 [`docs/deployment/transformers.md`](./docs/deployment/transformers.md)。
+MiniCPM5-1B 是 MiniCPM5 系列的首个模型，面向本地助手、coding agent、工具调用流程以及需要紧凑模型的推理场景。它在较小部署成本下提供原生长上下文能力，并通过同一份权重支持 Think / No Think 两种对话模式。
 
 ### 评测结果
 
