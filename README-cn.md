@@ -165,7 +165,7 @@ MiniCPM5-1B 是一款 decoder-only Transformer，训练目标是提升 1B 参数
 
 MiniCPM5-1B 的训练过程是 **[UltraData 分级数据管理体系](https://ultradata.openbmb.cn/)** 的一次完整实践，覆盖 base training、mid-training 与后训练三个阶段。
 
-**Base training** 采用逐级推进的训练配方，包含 stable training 与 decay training，用于建立基础语言能力与训练稳定性。随后进入 **mid-training**，进一步强化目标能力并适配数据分布。训练语料来自我们同步开源的 [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3)。
+**Base training** 采用逐级推进的训练配方，包含两阶段 stable training 与 decay training，用于建立基础语言能力与训练稳定性。随后进入 **mid-training**，进一步强化目标能力并适配数据分布。训练语料来自我们同步开源的 [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3)。
 
 **后训练阶段**分为 **SFT**、**RL** 与 **OPD** 三步。我们先使用 **200B tokens deep-thinking SFT** 与 **200B tokens hybrid-thinking SFT** 建立深度思考、混合思考和通用对话能力，相关 SFT 数据已同步开源为 [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605)。随后针对数学、代码、闭卷问答和写作等方向训练专用 **RL teacher**，并通过 **On-Policy Distillation (OPD)** 将这些 teacher 的能力蒸馏回同一个发布模型。
 
