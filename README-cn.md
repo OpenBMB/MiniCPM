@@ -30,7 +30,7 @@
 
 ## ✨ 亮点
 
-我们正式发布 **MiniCPM5** 系列首个模型 **MiniCPM5-1B**。这是面向端侧、本地部署和资源受限场景打造的 1B 稠密 Transformer，在公开评测中达到同尺寸开源模型 SOTA 水平。
+我们正式发布 **MiniCPM5** 系列首个模型 **MiniCPM5-1B**。这是面向端侧、本地部署和资源受限场景打造的 1B 稠密 Transformer，在基准评测中达到同尺寸开源模型 SOTA 水平。
 
 🏆 **同尺寸开源模型 SOTA**：在推理 / 知识 / 代码 / 指令跟随 / 数学 / 逻辑 / Agentic 评测中，MiniCPM5-1B 平均分 42.57，高于同尺寸优秀开源模型中的最高平均分 35.61；优势主要体现在 Agentic 工具调用、代码和竞赛数学。
 
@@ -159,7 +159,7 @@ MiniCPM5-1B 是一款 decoder-only Transformer，训练目标是提升 1B 参数
 
 我们选取 **LFM2.5-1.2B-Thinking**、**Qwen3-0.6B/think**、**Qwen3.5-0.8B/think** 等同尺寸优秀开源模型进行横向比较。这些模型本身已经很强；在这组对比中，MiniCPM5-1B 达到同尺寸开源模型 SOTA 水平，优势主要体现在工具调用、代码生成和高难推理上，也更适合承担本地 coding agent、工具助手和推理助手的角色。
 
-![MiniCPM-5 1B 公开榜单成绩](./assets/minicpm5/public_leaderboard_cn.png)
+![MiniCPM-5 1B 基准评测成绩](./assets/minicpm5/public_leaderboard_cn.png)
 
 ### 训练流程
 
