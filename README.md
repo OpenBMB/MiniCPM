@@ -21,9 +21,9 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 >
 > **Video demo:** local MiniCPM5-1B powering the desktop pet interaction flow.
 >
-> [<img src="./assets/minicpm5/minicpm5_desktop_pet_cover.png" alt="MiniCPM Desk Pet" width="720">](https://github.com/OpenBMB/MiniCPM/raw/minicpm5/assets/minicpm5/minicpm5_desktop_pet_demo.mp4)
+> <a href="https://youtu.be/UXtUccouXGY"><img src="https://img.youtube.com/vi/UXtUccouXGY/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
 >
-> Click the cover above to [download / open the mp4](https://github.com/OpenBMB/MiniCPM/raw/minicpm5/assets/minicpm5/minicpm5_desktop_pet_demo.mp4).
+> Watch on [YouTube](https://youtu.be/UXtUccouXGY).
 >
 > 👉 **Project:** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)
 
