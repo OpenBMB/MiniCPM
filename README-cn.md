@@ -36,10 +36,6 @@
 
 ![MiniCPM5-1B 各领域能力对比](./assets/minicpm5/public_leaderboard_radar_cn.png)
 
-🧩 **标准架构**：采用 `LlamaForCausalLM`，使用 **GQA (16 Q / 2 KV)** 与 **SwiGLU**。主流推理引擎可直接加载，无需自定义算子。
-
-📚 **原生 128K 上下文**：`max_position_embeddings = 131,072`、`rope_theta = 5e6`，无需 RoPE scaling。
-
 🧠 **双模式推理**：内置 `<think>` chat template，通过 `enable_thinking` 切换思考 / 非思考模式，同一份权重既能做快速助手，也能做深度推理。
 
 🛠️ **部署 / 微调 Agent Skills**：仓库为主要推理后端和微调框架提供单页 cookbook，并配套一一对应的 [Agent Skill](./skills/)，方便开发者复现部署和微调流程。
@@ -161,17 +157,15 @@ MiniCPM5-1B 是一款 decoder-only Transformer，训练目标是提升 1B 参数
 
 ### 评测结果
 
-我们选取 **LFM2.5-1.2B-Thinking**、**Qwen3-0.6B/think**、**Qwen3.5-0.8B/think** 等同尺寸优秀开源模型进行横向比较。MiniCPM5-1B 平均分为 **42.57**，高于这些模型中的最高平均分 **35.61**，在该对比范围内达到同尺寸开源模型 SOTA 水平。
-
-更重要的是，MiniCPM5-1B 的领先并不来自单一维度，而是集中在端侧 Agent 最需要的几类能力：工具调用、代码生成和高难推理。模型在 τ²-Bench Telecom-AA 上达到 **79.53**，在 LCB-Pro / LCB-v6 / OJBench 上取得 **22.68 / 33.52 / 7.33**，AIME-2025 / 2026 约 **40**，MATH-500 为 **91.6**。这些分项说明 MiniCPM5-1B 不只是“能聊”的 1B 模型，也更适合承担本地 coding agent、工具助手和推理助手的角色。
+我们选取 **LFM2.5-1.2B-Thinking**、**Qwen3-0.6B/think**、**Qwen3.5-0.8B/think** 等同尺寸优秀开源模型进行横向比较。这些模型本身已经很强；在这组对比中，MiniCPM5-1B 达到同尺寸开源模型 SOTA 水平，优势主要体现在工具调用、代码生成和高难推理上，也更适合承担本地 coding agent、工具助手和推理助手的角色。
 
 ![MiniCPM-5 1B 公开榜单成绩](./assets/minicpm5/public_leaderboard_cn.png)
 
 ### 训练流程
 
-MiniCPM5-1B 的训练过程是 **[UltraData 分级治理体系](https://ultradata.openbmb.cn/)** 的一次完整实践，覆盖分阶段预训练与后训练两个部分。
+MiniCPM5-1B 的训练过程是 **[UltraData 分级数据管理体系](https://ultradata.openbmb.cn/)** 的一次完整实践，覆盖 base training、mid-training 与后训练三个阶段。
 
-**预训练阶段**采用逐级推进的训练配方：首先进行两阶段 stable training，各使用 **1T tokens**；随后进入 **200B tokens decay training**，再通过 **200B tokens mid-training** 强化目标能力与数据分布适配。预训练所用的语料来自我们同步开源的 [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3)。
+**Base training** 采用逐级推进的训练配方，包含 stable training 与 decay training，用于建立基础语言能力与训练稳定性。随后进入 **mid-training**，进一步强化目标能力并适配数据分布。训练语料来自我们同步开源的 [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3)。
 
 **后训练阶段**分为 **SFT**、**RL** 与 **OPD** 三步。我们先使用 **200B tokens deep-thinking SFT** 与 **200B tokens hybrid-thinking SFT** 建立深度思考、混合思考和通用对话能力，相关 SFT 数据已同步开源为 [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605)。随后针对数学、代码、闭卷问答和写作等方向训练专用 **RL teacher**，并通过 **On-Policy Distillation (OPD)** 将这些 teacher 的能力蒸馏回同一个发布模型。
 

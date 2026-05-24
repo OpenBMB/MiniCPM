@@ -35,10 +35,6 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 
 ![MiniCPM5-1B capability comparison by domain](./assets/minicpm5/public_leaderboard_radar_en.png)
 
-🧩 **Standard Architecture**: `LlamaForCausalLM` with **GQA (16 Q / 2 KV)** and **SwiGLU**. Mainstream inference engines can load it directly without custom kernels.
-
-📚 **Native 128K Context**: `max_position_embeddings = 131,072`, `rope_theta = 5e6`, no RoPE scaling needed.
-
 🧠 **Dual Mode Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
 
 🛠️ **Deployment / Fine-tuning Agent Skills**: the repo provides single-page cookbooks for major inference backends and fine-tuning frameworks, each paired with an [Agent Skill](./skills/) to help developers reproduce deployment and fine-tuning workflows.
@@ -160,17 +156,15 @@ For full architecture details and per-component parameter breakdown see [`docs/d
 
 ### Evaluation Results
 
-We compare MiniCPM5-1B with strong open-source models in the same size class, including **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**. MiniCPM5-1B reaches an average score of **42.57**, above the highest average score of **35.61** among these models, reaching 1B-class open-source SOTA within this comparison set.
-
-More importantly, the lead does not come from a single outlier. MiniCPM5-1B is strongest in the capabilities that matter most for on-device agents: tool use, code generation, and difficult reasoning. It reaches **79.53** on τ²-Bench Telecom-AA, **22.68 / 33.52 / 7.33** on LCB-Pro / LCB-v6 / OJBench, around **40** on AIME-2025 / 2026, and **91.6** on MATH-500. These results make MiniCPM5-1B more than a small chat model: it is also a practical local coding agent, tool assistant, and reasoning assistant.
+We compare MiniCPM5-1B with strong open-source models in the same size class, including **LFM2.5-1.2B-Thinking**, **Qwen3-0.6B/think** and **Qwen3.5-0.8B/think**. These are capable baselines; within this comparison set, MiniCPM5-1B reaches 1B-class open-source SOTA, with its advantage most visible in tool use, code generation, and difficult reasoning. This makes it a practical choice for local coding agents, tool assistants, and reasoning assistants.
 
 ![MiniCPM-5 1B Public Leaderboard](./assets/minicpm5/public_leaderboard_en.png)
 
 ### Training Recipe
 
-The training of MiniCPM5-1B is a full-stack practice of the **[UltraData hierarchical data governance system](https://ultradata.openbmb.cn/)**, covering both staged pre-training and post-training.
+The training of MiniCPM5-1B is a full-stack practice of **[UltraData Tiered Data Management](https://ultradata.openbmb.cn/)**, covering three stages: base training, mid-training, and post-training.
 
-During **pre-training**, the model goes through two stable-training stages with **1T tokens** each, followed by **200B tokens of decay training** and **200B tokens of mid-training** to further align capability targets and data distribution. The pre-training corpus is released alongside the model as [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3).
+During **base training**, the model goes through stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3).
 
 During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to establish deep-thinking, hybrid-thinking, and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, closed-book QA, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
 
