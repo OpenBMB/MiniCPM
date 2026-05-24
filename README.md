@@ -29,7 +29,7 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 ## ✨ Highlights
 
-We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA on public evaluations. The model uses the standard `LlamaForCausalLM` architecture, supports native 128K context, and is released in BF16, GGUF, MLX, AWQ, and GPTQ variants.
+We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA on public evaluations.
 
 🏆 **1B-class open-source SOTA**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks, above the highest average score of 35.61 among strong open-source models in the same size class; its strengths are most visible in agentic tool use, code, and competition math.
 
