@@ -90,7 +90,6 @@ LM Studio 0.4.13's chat-completion endpoint does **not** propagate `chat_templat
 
 ## Common pitfalls
 
-- **`error loading model vocabulary: unknown pre-tokenizer type: 'minicpm5'`**: GGUF was not metadata-patched. Use the released GGUF (already patched), or apply the metadata patch from [`docs/deployment/llama_cpp.md`](../../docs/deployment/llama_cpp.md#self-built-gguf-metadata-patch) before importing.
 - **MLX runtime not available**: only on Apple Silicon. On Intel Mac / Windows / Linux LM Studio, only the GGUF runtime works.
 
 ## When NOT to use

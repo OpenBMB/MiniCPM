@@ -1,6 +1,6 @@
 ---
 name: minicpm5-deploy-ollama
-description: Run MiniCPM5-1B via Ollama on macOS / Linux laptop. Uses the released GGUF (already metadata-patched). Use when the user wants "ollama run", "ollama pull", a Modelfile-driven setup, or one-line laptop deployment.
+description: Run MiniCPM5-1B via Ollama on macOS / Linux laptop using the released GGUF. Use when the user wants "ollama run", "ollama pull", a Modelfile-driven setup, or one-line laptop deployment.
 ---
 
 # Deploy MiniCPM5-1B with Ollama
@@ -102,7 +102,6 @@ curl http://localhost:11434/api/generate -d '{
 
 ## Common pitfalls
 
-- **Output is `****\n****\n…` garbage**: the GGUF was built from a non-released checkpoint and wasn't metadata-patched. The released artifacts already have the fix; if you built your own, apply the GGUF metadata patch from [`docs/deployment/llama_cpp.md`](../../docs/deployment/llama_cpp.md#self-built-gguf-metadata-patch) before `ollama create`.
 - **`Error: invalid file magic`**: corrupted download. Re-run `huggingface-cli download`.
 
 ## When NOT to use

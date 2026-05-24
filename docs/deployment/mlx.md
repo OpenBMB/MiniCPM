@@ -5,18 +5,10 @@
 ## TL;DR
 
 ```bash
-pip install mlx-lm gguf
+pip install "mlx-lm>=0.31"
 
-# 1. Apply the two metadata fixes from "Required HF-side patch" below, writing
-#    the patched directory at /path/to/hf-fp16-fixed.
-
-# 2. Convert (bf16 and / or 4-bit)
-HF=/path/to/hf-fp16-fixed
-mlx_lm.convert --hf-path "$HF" --mlx-path ./minicpm5-mlx-bf16
-mlx_lm.convert --hf-path "$HF" --mlx-path ./minicpm5-mlx-q4 -q --q-bits 4
-
-# 3. Generate
-mlx_lm.generate --model ./minicpm5-mlx-q4 \
+# Run a pre-converted MLX repo directly
+mlx_lm.generate --model openbmb/MiniCPM5-1B-MLX-4bit \
     --prompt "<|im_start|>user
 1+1=?<|im_end|>
 <|im_start|>assistant
@@ -25,73 +17,21 @@ mlx_lm.generate --model ./minicpm5-mlx-q4 \
     --extra-eos-token "<|im_end|>"
 ```
 
-## Required HF-side patch
+## Building MLX weights from your own checkpoint (advanced)
 
-The released `hf-fp16/` checkpoint needs **two metadata fixes** before `mlx_lm.convert` will work — without them the converted model loads but emits raw byte-level BPE labels (`ĠareĠgivenĠ"1+1=?"...`) instead of decoded text.
-
-### 1. `config.json` — add `tie_word_embeddings: false`
-
-MiniCPM5-1B has an **independent `lm_head`** (see model card). The released `config.json` does not include `tie_word_embeddings`, so MLX falls back to the Llama default (which historically tied) and **drops `lm_head` during conversion**, then transparently aliases it to the embedding matrix at load time. The embedding and `lm_head` are not numerically equivalent, so generations look like uniform-random tokens.
-
-```python
-import json
-c = json.load(open("hf-fp16/config.json"))
-c["tie_word_embeddings"] = False         # ← required
-json.dump(c, open("hf-fp16/config.json", "w"), indent=2)
-```
-
-After the fix, `mlx_lm.convert` produces 219 weights (vs. 218 without the fix); confirm with:
+If you have a self-trained HF fp16 checkpoint and want to produce MLX weights, use `mlx_lm.convert`:
 
 ```bash
-python -c "import json; m=json.load(open('mlx-bf16/model.safetensors.index.json')); \
-    print('lm_head present:', any('lm_head' in k for k in m['weight_map']))"
-```
-
-### 2. `tokenizer_config.json` — switch class to `PreTrainedTokenizerFast`
-
-The released `tokenizer_config.json` advertises:
-
-```json
-"tokenizer_class": "LlamaTokenizerFast",
-"legacy": true,
-"sp_model_kwargs": {},
-```
-
-…but the actual `tokenizer.json` is **byte-level BPE** (GPT-2 / Llama-3 family — vocab tokens carry the `Ġ` space and `Ċ` newline prefixes). Loading it under `LlamaTokenizerFast` triggers the SentencePiece decode path, which does not reverse the byte-level mapping; every space is rendered as `Ġ` and every newline as `Ċ`.
-
-```python
-import json
-tc = json.load(open("hf-fp16/tokenizer_config.json"))
-tc["tokenizer_class"] = "PreTrainedTokenizerFast"
-for k in ("legacy", "sp_model_kwargs", "use_default_system_prompt",
-         "add_prefix_space", "spaces_between_special_tokens"):
-    tc.pop(k, None)
-json.dump(tc, open("hf-fp16/tokenizer_config.json", "w"),
-          indent=2, ensure_ascii=False)
-```
-
-Sanity check after the patch:
-
-```python
-from transformers import AutoTokenizer
-tk = AutoTokenizer.from_pretrained("hf-fp16-fixed")
-ids = tk.encode("We are given a problem.", add_special_tokens=False)
-assert tk.decode(ids) == "We are given a problem.", "byte-level decode still broken"
-```
-
-## Conversion
-
-```bash
-HF=./MiniCPM5-1B-hf-fixed   # the patched copy from above
+HF=/path/to/your-fp16-hf
 
 # bf16 master copy
 mlx_lm.convert --hf-path "$HF" --mlx-path ./minicpm5-mlx-bf16
 
-# 4-bit Q4, 4.5 bits/weight on average
+# 4-bit (smaller / faster, ~4.5 bits/weight on average)
 mlx_lm.convert --hf-path "$HF" --mlx-path ./minicpm5-mlx-q4 -q --q-bits 4
 ```
 
-The 4-bit pass logs `[INFO] Quantized model with 4.501 bits per weight.` — the slight overshoot above 4 bits is from keeping the `embed_tokens` and `lm_head` in higher precision, which preserves quality on the small, untied vocabulary head.
+The 4-bit pass logs `[INFO] Quantized model with 4.501 bits per weight.` — the slight overshoot above 4 bits is from keeping `embed_tokens` and `lm_head` in higher precision, which preserves quality on the small, untied vocabulary head.
 
 ## Inference
 
@@ -137,7 +77,7 @@ for resp in stream_generate(
 print()
 ```
 
-> 💡 `--extra-eos-token "<|im_end|>"` (CLI) or adding `<|im_end|>` to the wrapper's stop list (Python) is required: the GGUF / HF metadata only register `</s>` (id 1) and the secondary EOS id 130073 as model EOS, but the chat template ends turns with the `<|im_end|>` *string*. Without an extra EOS the model will keep generating into the next role's prompt.
+> 💡 `--extra-eos-token "<|im_end|>"` (CLI) or adding `<|im_end|>` to the wrapper's stop list (Python) is required: the released metadata only registers `</s>` (id 1) and the secondary EOS id 130073 as model EOS, but the chat template ends turns with the `<|im_end|>` *string*. Without an extra EOS the model will keep generating into the next role's prompt.
 
 ## Recommended sampling
 
@@ -146,17 +86,9 @@ print()
 | Think | 0.9 | 0.95 | reasoning, math, code, multi-step (model auto-emits `<think>` block) |
 | No-think | 0.7 | 0.95 | fast assistant, latency-bound |
 
-Both modes are activated by sampling parameters only — the GGUF-baked Jinja chat template auto-injects `<think>\n` when no `system` message disables it, so you get think-mode behaviour by default.
+Both modes are activated by sampling parameters only — the released chat template auto-injects `<think>\n` when no `system` message disables it, so you get think-mode behaviour by default.
 
 ## Q&A
-
-### `mlx_lm.generate` prints `Ġinland===éķ¿` style garbage
-
-You skipped step 2 of the HF patch — the byte-level BPE decoder is not being applied. Re-patch `tokenizer_config.json`, re-run `mlx_lm.convert`, and re-test.
-
-### Generated tokens look *random* (not byte-level garbage, just nonsense)
-
-You skipped step 1 of the HF patch — `lm_head` was dropped during conversion. Verify with the `lm_head present` check above; if it prints `False`, fix `tie_word_embeddings` in `config.json` and re-convert.
 
 ### Model never stops generating
 

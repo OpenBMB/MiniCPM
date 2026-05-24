@@ -67,7 +67,7 @@ For CPU only: change `torch_dtype=torch.float32, device_map="cpu"` and drop `ena
 
 ## Validate
 
-A coherent answer to `1+1=?` (e.g. `"2"` or `"答案是 2"`). If output is gibberish (`Ċ` / `Ġ`-tagged tokens), the tokenizer didn't decode through byte-level BPE — check `tokenizer_config.json` has `tokenizer_class: PreTrainedTokenizerFast` (NOT `LlamaTokenizerFast`). Apply the HF-side patch from [`docs/deployment/mlx.md`](../../docs/deployment/mlx.md#required-hf-side-patch) to fix a self-built checkpoint.
+A coherent answer to `1+1=?` (e.g. `"2"` or `"答案是 2"`).
 
 ## LoRA inference
 

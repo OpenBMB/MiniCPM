@@ -5,7 +5,7 @@ description: Run MiniCPM5-1B with llama.cpp using the released GGUF artifacts (F
 
 # Deploy MiniCPM5-1B with llama.cpp
 
-CPU / edge / consumer-GPU deployment via the released GGUF artifacts. The artifacts ship metadata-patched, so vanilla `llama.cpp` (and downstream Ollama / LM Studio / `llama-cpp-python`) all work out of the box.
+CPU / edge / consumer-GPU deployment via the released GGUF artifacts. The artifacts work directly with vanilla `llama.cpp` and every downstream runtime (Ollama / LM Studio / `llama-cpp-python`).
 
 ## Required input
 
@@ -85,8 +85,6 @@ Expected: `"2"` in the reply.
 
 ## Common pitfalls
 
-- **`unknown pre-tokenizer type: 'minicpm5'`** when loading: you're using a GGUF that was NOT built from the released artifacts. The released artifacts have `tokenizer.ggml.pre = "llama-bpe"` (post-patched). For self-built GGUFs, apply the metadata patch documented in [`docs/deployment/llama_cpp.md`](../../docs/deployment/llama_cpp.md#self-built-gguf-metadata-patch) first.
-- **Garbled `****\n****\n…` output**: same root cause as above — unpatched metadata. Run the patch script.
 - **Slow on CPU + large context**: drop `-c 131072` to `-c 8192` if you don't need 128 K.
 
 ## Building your own GGUF (advanced)
@@ -97,8 +95,6 @@ If you've trained your own MiniCPM5-1B variant, build a GGUF with:
 python convert_hf_to_gguf.py /path/to/your-fp16-hf --outfile out/F16.gguf --outtype f16
 llama-quantize out/F16.gguf out/Q4_K_M.gguf Q4_K_M
 ```
-
-Then apply the GGUF metadata patch from [`docs/deployment/llama_cpp.md`](../../docs/deployment/llama_cpp.md#self-built-gguf-metadata-patch) — it rewrites `tokenizer.ggml.pre` and the 508 special-token types so unpatched llama.cpp loaders accept the GGUF.
 
 ## When NOT to use
 

@@ -35,16 +35,12 @@ mlx_lm.generate --model "${MLX_REPO}" \
     --extra-eos-token "<|im_end|>"
 ```
 
-### 2B. Convert from a HF checkpoint locally
+### 2B. Convert from a HF checkpoint locally (advanced)
 
-If a pre-converted MLX repo is not available, convert from the HF base. **`mlx_lm.convert` < 0.31 silently drops `lm_head` if `tie_word_embeddings` is missing**, so a one-time HF metadata patch is required before convert (the released `openbmb/MiniCPM5-1B` ships with the patch already applied; you only need this for self-trained checkpoints):
+Use `mlx_lm.convert` only if you have a self-trained HF fp16 checkpoint:
 
 ```bash
-# Apply the two metadata fixes from docs/deployment/mlx.md → "Required HF-side patch"
-# (sets tie_word_embeddings=false in config.json + tokenizer_class=PreTrainedTokenizerFast
-#  in tokenizer_config.json; writes the patched dir at /path/to/hf-fp16-fixed/).
-
-HF=/path/to/your-hf-fp16-fixed
+HF=/path/to/your-fp16-hf
 
 # Convert: bf16
 mlx_lm.convert --hf-path "$HF" --mlx-path ./minicpm5-mlx-bf16
@@ -57,7 +53,7 @@ Then run as in 2A.
 
 ### 3. Validate
 
-The reply should contain `"2"` for `1+1=?`. If output is gibberish (`Ċ` / `Ġ` tokens), the byte-level BPE didn't decode — the HF checkpoint's `tokenizer_class` is wrong (`LlamaTokenizerFast` instead of `PreTrainedTokenizerFast`). The pre-released MLX repos already have this fixed; for local conversion, apply the HF-side patch from [`docs/deployment/mlx.md`](../../docs/deployment/mlx.md#required-hf-side-patch).
+The reply should contain `"2"` for `1+1=?`.
 
 ## OpenAI-compatible server (mlx-lm)
 
@@ -75,9 +71,8 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 
 ## Common pitfalls
 
-- **Output is `ĊWeĠareĠgivenĠ"1+1=?"…` (byte-level BPE tags)**: HF metadata not patched. The pre-released MLX repo is fine; for local conversion, ensure `tokenizer_config.json` has `tokenizer_class: PreTrainedTokenizerFast`.
-- **Output is uniform random tokens**: MLX dropped `lm_head` because `tie_word_embeddings` was missing. Apply the HF-side patch from [`docs/deployment/mlx.md`](../../docs/deployment/mlx.md#required-hf-side-patch) and re-convert.
 - **Slow first generate**: MLX JIT-compiles kernels on first call (~5-10 s); subsequent calls hit the warm cache.
+- **Model never stops generating**: pass `--extra-eos-token "<|im_end|>"` (CLI) or add `<|im_end|>` to the Python wrapper's stop list — `</s>` alone doesn't terminate ChatML turns.
 
 ## When NOT to use
 

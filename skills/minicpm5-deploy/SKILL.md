@@ -75,7 +75,6 @@ curl http://localhost:PORT/v1/chat/completions \
 Expected: HTTP 200 with `choices[0].message.content` containing `"2"`.
 
 If you get `<think>...` instead, the request hit think mode — set `enable_thinking: false` in `chat_template_kwargs`.
-If you get garbled tokens, the GGUF was loaded by an unpatched llama.cpp consumer — see the relevant sub-skill (llama_cpp / ollama / lmstudio).
 
 ## 5. Known cross-backend pitfalls
 
@@ -84,7 +83,6 @@ These are common to multiple backends — surface to the user up front:
 - **Think vs no-think**: defaults are think mode (`temperature=0.9, top_p=0.95`). For nothink (faster, less verbose) use `enable_thinking=false` + `temperature=0.7, top_p=0.95`.
 - **128 K context**: `max_position_embeddings=131072`, `rope_theta=5e6`, **no rope-scaling**. Pass `--max-model-len 131072` (vLLM) / `--context-length 131072` (SGLang) / `-c 131072` (llama.cpp) to use the full window. Lower if VRAM is tight.
 - **Untied lm_head**: `tie_word_embeddings=false`. Tools that assume the Llama tied default (e.g. `mlx_lm.convert` < 0.31) will silently drop `lm_head` → output collapses to random tokens. The MLX skill bakes in the fix.
-- **Chat template special tokens**: GGUF-based runtimes need the released GGUFs (already metadata-patched) — do NOT rebuild from a non-released checkpoint without applying the GGUF metadata patch from [`docs/deployment/llama_cpp.md`](../../docs/deployment/llama_cpp.md#self-built-gguf-metadata-patch) first.
 
 ## 6. Don't reinvent: link to the cookbook
 

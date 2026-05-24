@@ -7,7 +7,7 @@
 | `llama.cpp-mac-arm64-apple-metal` | **GGUF** | 2.14.0 | cross-platform, same artifact as Ollama |
 | `mlx-llm-mac-arm64-apple-metal` | **MLX** | 1.6.0 | Apple Silicon only — **~60% faster** at 4-bit, automatic think/answer split via OpenAI `reasoning_content` |
 
-LM Studio does **not** load raw Hugging Face `transformers` checkpoints directly. To use the MLX runtime you must first apply the metadata fixes from [`mlx.md`](./mlx.md#required-hf-side-patch) and then run `mlx_lm.convert` on the released `hf-fp16/` checkpoint — see [`mlx.md`](./mlx.md) for the full pipeline.
+LM Studio does **not** load raw Hugging Face `transformers` checkpoints directly. To use the MLX runtime, point LM Studio at a pre-converted MLX repo, or run `mlx_lm.convert` first — see [`mlx.md`](./mlx.md) for the full pipeline.
 
 ## TL;DR
 
@@ -103,8 +103,6 @@ curl -sS http://localhost:1234/v1/chat/completions \
 ```
 
 > 💡 On Apple Silicon the **MLX Q4 build is the clear winner**: ~60% faster than the equivalent GGUF Q4_K_M, reasoning-tokens are routed to OpenAI's `reasoning_content` extension (so the visible `content` only contains the final answer), and the math answer matches F16 quality. Use the GGUF build only when cross-platform parity matters.
->
-> ⚠️ **Quality caveat**: on short ambiguous Chinese prompts (e.g. `1/5是多少`), the MLX runtime visibly **outperforms** the GGUF runtime — even at F16 the GGUF path tends to refuse with "I need more context", while the same MLX build answers `0.2`. We have not fully root-caused this; suspected upstream `llama.cpp` chat-template / BPE handling on the patched GGUF. If you primarily chat in Chinese, prefer the MLX runtime.
 
 ### Auto think/answer split (MLX runtime only)
 
@@ -209,18 +207,6 @@ In the GUI chat pane just pick the variant you want from the model dropdown — 
 
 ## Q&A
 
-### `Failed to load model. error loading model vocabulary: unknown pre-tokenizer type: 'minicpm5'`
-
-The released GGUF artifacts on [`openbmb/MiniCPM5-1B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) are already metadata-patched (`tokenizer.ggml.pre = "llama-bpe"`) and load cleanly. If you import a **self-built** GGUF that still carries `tokenizer.ggml.pre = "minicpm5"`, LM Studio refuses to load — apply the metadata patch in [`llama_cpp.md`](./llama_cpp.md#self-built-gguf-metadata-patch) and re-import.
-
-> ℹ️ Behaviour comparison on the released `MiniCPM5-1B-Q4_K_M.gguf`:
->
-> | Engine | Load | Output |
-> | --- | --- | --- |
-> | LM Studio 0.4.13 | ❌ hard error: `unknown pre-tokenizer type: 'minicpm5'` | n/a |
-> | Ollama 0.24.0 | ⚠️ loads with `using: 'default'` warning | `****\n****\n…` gibberish |
-> | After `patch_minicpm5_gguf.py` | ✅ loads cleanly | fluent Chinese / English |
-
 ### `lms` says `Cannot find LM Studio installation`
 
 You haven't completed LM Studio's first-run GUI onboarding yet. Open the app from Launchpad, accept the EULA + pick a model source, then re-run the CLI command.
@@ -236,5 +222,5 @@ You forgot the explicit `stop` array — see the sanity-check snippets above.
 ## See also
 
 - [`ollama.md`](./ollama.md) — the same GGUF, CLI / daemon path
-- [`llama_cpp.md`](./llama_cpp.md) — the underlying engine; build / patch / quantize recipe
+- [`llama_cpp.md`](./llama_cpp.md) — the underlying engine; build / quantize recipe
 - [`mlx.md`](./mlx.md) — alternative MLX path on Apple Silicon (no GUI)
