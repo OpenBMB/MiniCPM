@@ -84,6 +84,8 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 | HuggingFace | ModelScope |
 |---|---|
 | [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B) | [MiniCPM5-1B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B) |
+| [MiniCPM5-1B-SFT](https://huggingface.co/openbmb/MiniCPM5-1B-SFT) | [MiniCPM5-1B-SFT](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-SFT) |
+| [MiniCPM5-1B-Base](https://huggingface.co/openbmb/MiniCPM5-1B-Base) | [MiniCPM5-1B-Base](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-Base) |
 | [MiniCPM5-1B-GGUF](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | [MiniCPM5-1B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-GGUF) |
 | [MiniCPM5-1B-MLX](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | [MiniCPM5-1B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-1B-MLX) |
 
@@ -160,9 +162,9 @@ We compare MiniCPM5-1B with strong open-source models in the same size class, in
 
 The training of MiniCPM5-1B is a full-stack practice of **[UltraData Tiered Data Management](https://ultradata.openbmb.cn/)**, covering three stages: base training, mid-training, and post-training.
 
-During **base training**, the model goes through two-stage stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb) and [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3).
+During **base training**, the model goes through two-stage stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb), [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3), and [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math).
 
-During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to establish deep-thinking, hybrid-thinking, and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605), with math-focused data from [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math). We then train specialized **RL teachers** for math, code, closed-book QA, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
+During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to establish deep-thinking, hybrid-thinking, and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, closed-book QA, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
 
 ![MiniCPM5-1B Training Recipe](./assets/minicpm5/training_recipe.png)
 
