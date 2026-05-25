@@ -12,7 +12,6 @@ pip install "sglang[srt]>=0.5.12"          # latest, requires CUDA 13.x driver
 Recommended runtime env vars:
 
 ```bash
-export VLLM_WORKER_MULTIPROC_METHOD=spawn
 export SGLANG_ALLOW_OVERWRITE_LONGER_CONTEXT_LEN=1
 export SGLANG_DISABLE_CUDNN_CHECK=1
 ```
