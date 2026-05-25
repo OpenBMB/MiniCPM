@@ -421,7 +421,6 @@ vllm serve ${model_path} \
 
 </details>
 
-
 ## 🧪 MiniCPM-SALA
 
 > 首个大规模 **稀疏 + 线性注意力混合** 模型，原生支持百万 token 上下文（2026-02）。[HuggingFace](https://huggingface.co/openbmb/MiniCPM-SALA) · [ModelScope](https://www.modelscope.cn/models/OpenBMB/MiniCPM-SALA)
