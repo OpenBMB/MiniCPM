@@ -75,6 +75,7 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
     - [What does RL + OPD bring?](#what-does-rl--opd-bring)
   - [Quickstart](#quickstart)
   - [Deployment and Fine-tuning Cookbooks and Agent Skills](#deployment-and-fine-tuning-cookbooks-and-agent-skills)
+  - [Other Supported Frameworks](#other-supported-frameworks)
   - [Desktop Pet](#desktop-pet)
 - [🧪 MiniCPM-SALA](#-minicpm-sala)
 - [⚡ MiniCPM4 & MiniCPM4.1 Series](#-minicpm4-and-minicpm41-series)
@@ -321,20 +322,11 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 | [unsloth](https://github.com/unslothai/unsloth) | [`docs/finetune/unsloth.md`](./docs/finetune/unsloth.md) | [`minicpm5-finetune-unsloth`](./skills/minicpm5-finetune-unsloth/SKILL.md) |
 | [xtuner](https://github.com/InternLM/xtuner) | [`docs/finetune/xtuner.md`](./docs/finetune/xtuner.md) | [`minicpm5-finetune-xtuner`](./skills/minicpm5-finetune-xtuner/SKILL.md) |
 
-### Desktop Pet
+### Other Supported Frameworks
 
-We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, a desktop pet driven locally by MiniCPM5-1B. It uses a thin `llama.cpp` `llama-server` sidecar to load the GGUF model and serves an OpenAI-compatible local endpoint to an Electron pet UI.
+In addition to the deployment and fine-tuning frameworks listed above, MiniCPM5-1B is also supported by FlagOS for multi-chip deployment.
 
-<a href="https://youtu.be/Ee0slMW8SEk"><img src="https://img.youtube.com/vi/Ee0slMW8SEk/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
-
-The pet supports Apple Silicon / NVIDIA GPU / CPU paths, can work with coding agents such as Cursor, Claude Code, and Codex, and supports LoRA persona switching.
-
-- **User install**: grab `Clawd-on-Desk-*-arm64.dmg` from [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases), then follow the onboarding flow for environment checks, model download, and sidecar startup.
-- **Developer run**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
-
-> The pet UI layer is forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk) (AGPL-3.0). On top of the upstream pet runtime, animation packs, and multi-agent integrations, we add the local MiniCPM5-1B sidecar, onboarding flow, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
-
-## FlagOS Overview
+#### FlagOS Overview
 
 To enable large-scale deployment across different AI chips, Beijing Zhiyuan Research Institute, together with numerous research institutions, chip manufacturers, system vendors, and algorithm and software organizations both domestically and internationally, jointly initiated and established the FlagOS Open Source Community.
 
@@ -345,7 +337,7 @@ Official website express: [https://flagos.io](https://flagos.io/)
 <details>
 <summary>FlagOS multi-chip support and usage</summary>
 
-## FlagOS: Supporting Multiple AI Chips
+#### FlagOS: Supporting Multiple AI Chips
 
 Thanks to FlagOS’s unified multi-chip AI system software stack, MiniCPM5-1B was adapted to 4–5 different AI chips in an extremely short time. Currently, the multi-chip version of MiniCPM5-1B has been released on FlagRelease, FlagOS’s platform for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. Details are as follows:
 
@@ -361,17 +353,17 @@ Thanks to FlagOS’s unified multi-chip AI system software stack, MiniCPM5-1B wa
 |Ascend|[MiniCPM5-1B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|[MiniCPM5-1B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|
 |ARM-v9|[MiniCPM5-1B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|[MiniCPM5-1B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|
 
-## FlagOS Usage
+#### FlagOS Usage
 
-### FlagOS Performance Acceleration on Nvidia
+##### FlagOS Performance Acceleration on Nvidia
 
-#### From FlagRelease (**Recommendation**)
+###### From FlagRelease (**Recommendation**)
 
 FlagRelease is a platform developed by the FlagOS team for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. The multi-chip version of MiniCPM5-1B has already been released on FlagRelease. All necessary software packages are pre-installed on the platform, so users do not need to install anything.
 
-##### FlagRelease Image Key Versions
+###### FlagRelease Image Key Versions
 
-##### FlagRelease Quick Start
+###### FlagRelease Quick Start
 
 |Vendor|ModelScope|Huggingface|
 |---|---|---|
@@ -385,11 +377,11 @@ FlagRelease is a platform developed by the FlagOS team for automatic migration, 
 |Ascend|[MiniCPM5-1B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|[MiniCPM5-1B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|
 |ARM-v9|[MiniCPM5-1B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|[MiniCPM5-1B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|
 
-#### From Scratch
+###### From Scratch
 
 - Dependencies: Python 3.12, GLIBC 2.39, GLIBCXX 3.4.33, CXXABI 1.3.15
 
-##### Vllm Version
+###### Vllm Version
 
 ###### Installing the FlagOS Operator Library
 
@@ -419,17 +411,30 @@ vllm serve ${model_path} \
 --gpu-memory-utilization 0.85
 ```
 
-### Using FlagOS Unified Multi-Chip Backend Plugin
+##### Using FlagOS Unified Multi-Chip Backend Plugin
 
 [**vllm-plugin-FL**](https://github.com/flagos-ai/vllm-plugin-FL) is a plugin built for the vLLM inference/service framework. Developed on top of FlagOS’s unified multi-chip backend, it is designed to extend vLLM’s capabilities and performance across a variety of hardware environments.
 
-#### Using vllm-plugin-FL
+###### Using vllm-plugin-FL
 
 |Vendor|From Scratch|From FlagRelease||
 |---|---|---|---|
 |Nvidia|[vllm-plugin-FL/MiniCPM5-1B](https://github.com/flagos-ai/vllm-plugin-FL/blob/main/examples/minicpm/README.md)|[MiniCPM5-1B-ModelScope](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
 
 </details>
+
+### Desktop Pet
+
+We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, a desktop pet driven locally by MiniCPM5-1B. It uses a thin `llama.cpp` `llama-server` sidecar to load the GGUF model and serves an OpenAI-compatible local endpoint to an Electron pet UI.
+
+<a href="https://youtu.be/Ee0slMW8SEk"><img src="https://img.youtube.com/vi/Ee0slMW8SEk/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
+
+The pet supports Apple Silicon / NVIDIA GPU / CPU paths, can work with coding agents such as Cursor, Claude Code, and Codex, and supports LoRA persona switching.
+
+- **User install**: grab `Clawd-on-Desk-*-arm64.dmg` from [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases), then follow the onboarding flow for environment checks, model download, and sidecar startup.
+- **Developer run**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
+
+> The pet UI layer is forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk) (AGPL-3.0). On top of the upstream pet runtime, animation packs, and multi-agent integrations, we add the local MiniCPM5-1B sidecar, onboarding flow, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
 
 ## 🧪 MiniCPM-SALA
 
