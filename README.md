@@ -34,13 +34,13 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 ## ✨ Highlights
 
-We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA on the benchmark suite.
+We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA.
 
 🏆 **1B-class open-source SOTA**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks, above the highest average score of 35.61 among strong open-source models in the same size class; its strengths are most visible in agentic tool use, code, and competition math.
 
 ![MiniCPM5-1B capability comparison by domain](./assets/minicpm5/public_leaderboard_radar_en.png)
 
-🧠 **Dual Mode Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
+🧠 **Hybrid Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
 
 🛠️ **Deployment / Fine-tuning Agent Skills**: the repo provides single-page cookbooks for major inference backends and fine-tuning frameworks, each paired with an [Agent Skill](./skills/) to help developers reproduce deployment and fine-tuning workflows.
 
@@ -325,7 +325,7 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 
 We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, a desktop pet driven locally by MiniCPM5-1B. It uses a thin `llama.cpp` `llama-server` sidecar to load the GGUF model and serves an OpenAI-compatible local endpoint to an Electron pet UI.
 
-<a href="https://youtu.be/Ee0slMW8SEk"><img src="https://img.youtube.com/vi/UXtUccouXGY/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
+<a href="https://youtu.be/Ee0slMW8SEk"><img src="https://img.youtube.com/vi/Ee0slMW8SEk/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
 
 The pet supports Apple Silicon / NVIDIA GPU / CPU paths, can work with coding agents such as Cursor, Claude Code, and Codex, and supports LoRA persona switching.
 
