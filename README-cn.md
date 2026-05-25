@@ -161,7 +161,7 @@ MiniCPM5-1B 是 MiniCPM5 系列的首个模型，面向本地助手、coding age
 
 ### 训练流程
 
-MiniCPM5-1B 的训练过程是 **[UltraData 分级数据管理体系](https://ultradata.openbmb.cn/)** 的一次完整实践，覆盖 base training、mid-training 与后训练三个阶段。
+MiniCPM5-1B 的训练过程是 **[UltraData 分级数据管理体系](https://arxiv.org/pdf/2602.09003)** 的一次完整实践，覆盖 base training、mid-training 与后训练三个阶段。
 
 **Base training** 采用逐级推进的训练配方，包含两阶段 stable training 与 decay training，用于建立基础语言能力与训练稳定性。随后进入 **mid-training**，进一步强化目标能力并适配数据分布。训练语料来自我们同步开源的 [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)、[Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3) 与 [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math)。
 
