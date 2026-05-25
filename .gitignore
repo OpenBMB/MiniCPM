@@ -7,3 +7,7 @@ wip.*
 venv
 .venv
 .env
+
+# 雷达图数据源 + 渲染脚本 (产物 PNG 进 assets/, 不同步源)
+榜单.csv
+scripts/
