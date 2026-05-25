@@ -13,7 +13,10 @@
 <a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM 技术报告</a> |
 <a href="https://modelbest.feishu.cn/wiki/D2tFw8Pcsi5CIzkaHNacLK64npg" target="_blank">MiniCPM 知识库</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V 仓库</a> |
-<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a> |
+<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a>
+</p>
+
+<p align="center">
 加入我们的 <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> 和 <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">微信群</a> |
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">加入我们</a>
 </p>
