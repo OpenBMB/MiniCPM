@@ -12,20 +12,22 @@
 <a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM Tech Report</a> |
 <a href="https://modelbest.feishu.cn/wiki/D2tFw8Pcsi5CIzkaHNacLK64npg" target="_blank">MiniCPM Wiki (in Chinese)</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V Repo</a> |
+<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a> |
 Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">WeChat</a> |
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">Join Us</a>
 </p>
 
 > [!NOTE]
-> ### 🐱 MiniCPM5-1B Desktop Pet · Video Demo
+> ### 🏆 2026 Sparse Operator Acceleration & Race (SOAR) is Now Live!
 >
-> **Video demo:** local MiniCPM5-1B powering the desktop pet interaction flow.
+> **The MiniCPM-SALA architecture is just the beginning. Realizing its full potential requires deep system-level synergy and cross-layer compilation optimization.**
 >
-> <a href="https://youtu.be/UXtUccouXGY"><img src="https://img.youtube.com/vi/UXtUccouXGY/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
+> OpenBMB, in collaboration with **SGLang** and **NVIDIA**, invites global geeks to tackle the limits of **9B-scale, 1M-token inference** on a dedicated **NVIDIA 6000D** environment.
 >
-> Watch on [YouTube](https://youtu.be/UXtUccouXGY).
+> * 💰 **Prize Pool:** >$100,000 USD (Top Prize: **$89,000**)
+> * 🚀 **Goal:** Optimize single and multi-batch performance via cross-layer compilation.
 >
-> 👉 **Project:** [OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)
+> 👉 **[Learn more and Register](https://soar.openbmb.cn/)**
 
 ## ✨ Highlights
 
@@ -45,16 +47,16 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 - 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** is released: a sparse-and-linear hybrid attention model for million-token context modeling and efficient inference.
 - [2025.09.05] **[MiniCPM4.1 series](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** is released: a trainable sparse-attention model with hybrid reasoning.
-- [2025.06.06] [**MiniCPM4**](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b) is released: an end-side model with over 5x generation acceleration on typical edge chips.
+- [2025.06.06] **[MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** is released: an end-side model with over 5x generation acceleration on typical edge chips.
 
 <details>
 <summary>Older entries (2024 + InfLLM-V2 paper)</summary>
 
 - [2025.09.29] **[InfLLM-V2 paper](https://arxiv.org/abs/2509.24663) is released!** We can train a sparse attention model with only 5B long-text tokens.
-- [2024.09.05] We release [**MiniCPM3-4B**](https://huggingface.co/openbmb/MiniCPM3-4B)! This model outperforms Phi-3.5-mini-instruct and GPT-3.5-Turbo-0125 and is comparable to several models with 7B-9B parameters like Llama3.1-8B-Instruct, Qwen2-7B-Instruct, and GLM-4-9B-Chat.
-- [2024.07.05] Released [**MiniCPM-S-1B**](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)! This model achieves an average sparsity of 87.89% in the FFN layer, reducing FFN FLOPs by 84%, while maintaining downstream task performance.
-- [2024.04.11] Released [**MiniCPM-2B-128k**](https://huggingface.co/openbmb/MiniCPM-2B-128k), [**MiniCPM-MoE-8x2B**](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B) and [**MiniCPM-1B**](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)! Click [here](https://openbmb.vercel.app/) to read our technical blog.
-- [2024.02.01] Released [**MiniCPM-2B**](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)! This model performs similarly to Mistral-7B on public benchmarks (with better performance in Chinese, math, and code abilities) and overall outperforms models like Llama2-13B, MPT-30B, and Falcon-40B.
+- [2024.09.05] We release **[MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B)**! This model outperforms Phi-3.5-mini-instruct and GPT-3.5-Turbo-0125 and is comparable to several models with 7B-9B parameters like Llama3.1-8B-Instruct, Qwen2-7B-Instruct, and GLM-4-9B-Chat.
+- [2024.07.05] Released **[MiniCPM-S-1B](https://huggingface.co/openbmb/MiniCPM-S-1B-sft)**! This model achieves an average sparsity of 87.89% in the FFN layer, reducing FFN FLOPs by 84%, while maintaining downstream task performance.
+- [2024.04.11] Released **[MiniCPM-2B-128k](https://huggingface.co/openbmb/MiniCPM-2B-128k)**, **[MiniCPM-MoE-8x2B](https://huggingface.co/openbmb/MiniCPM-MoE-8x2B)** and **[MiniCPM-1B](https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16)**! Click [here](https://openbmb.vercel.app/) to read our technical blog.
+- [2024.02.01] Released **[MiniCPM-2B](https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16)**! This model performs similarly to Mistral-7B on public benchmarks (with better performance in Chinese, math, and code abilities) and overall outperforms models like Llama2-13B, MPT-30B, and Falcon-40B.
 
 </details>
 
@@ -162,7 +164,7 @@ We compare MiniCPM5-1B with strong open-source models in the same size class, in
 
 The training of MiniCPM5-1B is a full-stack practice of **[UltraData Tiered Data Management](https://arxiv.org/pdf/2602.09003)**, covering three stages: base training, mid-training, and post-training.
 
-During **base training**, the model goes through two-stage stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb), [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3), and [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math).
+During **base training**, the model goes through stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb), [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3), and [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math).
 
 During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **200B tokens of deep-thinking SFT** and **200B tokens of hybrid-thinking SFT** to establish deep-thinking, hybrid-thinking, and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, closed-book QA, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
 
@@ -304,6 +306,7 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 | [Ollama](https://github.com/ollama/ollama) | GGUF local on-device runtime | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
 | [LM Studio](https://lmstudio.ai) | GGUF Mac desktop app and OpenAI server | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
 | [MLX](https://github.com/ml-explore/mlx-lm) | MLX / 4bit local inference on Apple Silicon | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
+| [ArcLight](https://github.com/OpenBMB/ArcLight) | GGUF local on-device, CPU, Desktop & Server | [`docs/deployment/arclight.md`](./docs/deployment/arclight.md) | [`minicpm5-deploy-arclight`](./skills/minicpm5-deploy-arclight/SKILL.md) |
 
 **Fine tuning** (5 frameworks)
 
@@ -318,6 +321,8 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 ### Desktop Pet
 
 We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, a desktop pet driven locally by MiniCPM5-1B. It uses a thin `llama.cpp` `llama-server` sidecar to load the GGUF model and serves an OpenAI-compatible local endpoint to an Electron pet UI.
+
+<a href="https://youtu.be/Ee0slMW8SEk"><img src="https://img.youtube.com/vi/UXtUccouXGY/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
 
 The pet supports Apple Silicon / NVIDIA GPU / CPU paths, can work with coding agents such as Cursor, Claude Code, and Codex, and supports LoRA persona switching.
 
