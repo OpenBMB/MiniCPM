@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://github.com/OpenBMB/MiniCPM/blob/main/assets/wechat.jpg" target="_blank">WeChat</a> |
+Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=559o65ab-9086-442a-96c9-cf382e80b22d" target="_blank">Feishu/Lark</a> |
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">Join Us</a>
 </p>
 
