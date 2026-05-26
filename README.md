@@ -430,10 +430,10 @@ We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Des
 
 <a href="https://youtu.be/Ee0slMW8SEk"><img src="https://img.youtube.com/vi/Ee0slMW8SEk/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
 
-The pet supports Apple Silicon / NVIDIA GPU / CPU paths, can work with coding agents such as Cursor, Claude Code, and Codex, and supports LoRA persona switching.
+The pet supports macOS Apple Silicon and Windows x64 with Vulkan support, can work with coding agents such as Cursor, Claude Code, and Codex, and supports persona adapter switching backed by LoRA adapters.
 
-- **User install**: grab `Clawd-on-Desk-*-arm64.dmg` from [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases), then follow the onboarding flow for environment checks, model download, and sidecar startup.
-- **Developer run**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
+- **User install**: download the latest macOS `MiniCPM Desk Pet-*-arm64.dmg` or Windows `.exe` installer from [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases), then follow the onboarding flow for environment checks, model download, and model warm-up.
+- **Developer run**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && cd MiniCPM-Desk-Pet && ./go.sh` — see [`docs/development.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/docs/development.md) for the full setup.
 
 > The pet UI layer is forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk) (AGPL-3.0). On top of the upstream pet runtime, animation packs, and multi-agent integrations, we add the local MiniCPM5-1B sidecar, onboarding flow, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
 
