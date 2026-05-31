@@ -46,15 +46,19 @@ LMS="/Applications/LM Studio.app/Contents/Resources/app/.webpack/lms"
 
 ### 2B. MLX runtime path (Apple Silicon, recommended on Mac)
 
-The MLX runtime needs an MLX-format checkpoint. Either pull a pre-converted one from `openbmb/MiniCPM5-1B-MLX-{bf16,4bit}` (when published) or convert locally — see `minicpm5-deploy-mlx` for the conversion step. Then:
+The MLX runtime needs an MLX-format checkpoint. The only published MLX repo is [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) (4-bit affine); there is no separate `-bf16` / `-4bit` variant. Either drop that one in as-is, or convert locally from `openbmb/MiniCPM5-1B` (see `minicpm5-deploy-mlx`). Then:
 
 ```bash
-# Drop the converted MLX directory into LM Studio's model registry
+# Option A — use the official pre-quantized repo
+huggingface-cli download openbmb/MiniCPM5-1B-MLX \
+    --local-dir ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX
+
+# Option B — drop a locally converted directory in
 mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX-${QUANT}
 cp -r ./minicpm5-mlx-${QUANT}/* ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX-${QUANT}/
 
 "$LMS" server start
-"$LMS" load minicpm5-1b-mlx-${QUANT} --gpu max -y
+"$LMS" load minicpm5-1b-mlx${QUANT:+-${QUANT}} --gpu max -y
 ```
 
 ### 3. Validate

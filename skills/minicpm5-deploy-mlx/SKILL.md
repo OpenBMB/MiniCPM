@@ -11,7 +11,7 @@ Apple's on-device tensor framework. Highest throughput on M-series. Stays inside
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `MLX_REPO` | `openbmb/MiniCPM5-1B-MLX-4bit` (pre-converted) | required |
+| `MLX_REPO` | `openbmb/MiniCPM5-1B-MLX` (pre-converted 4-bit affine) | required |
 | OR `HF_REPO` + `QUANT` | `openbmb/MiniCPM5-1B`, `4bit` or `bf16` | for local conversion |
 | `MAX_TOKENS` | `200` | `200` |
 
@@ -31,8 +31,7 @@ mlx_lm.generate --model "${MLX_REPO}" \
 1+1=?<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens ${MAX_TOKENS} --temp 0.7 --top-p 0.95 \
-    --extra-eos-token "<|im_end|>"
+    --max-tokens ${MAX_TOKENS} --temp 0.7 --top-p 0.95
 ```
 
 ### 2B. Convert from a HF checkpoint locally (advanced)
@@ -72,7 +71,7 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 ## Common pitfalls
 
 - **Slow first generate**: MLX JIT-compiles kernels on first call (~5-10 s); subsequent calls hit the warm cache.
-- **Model never stops generating**: pass `--extra-eos-token "<|im_end|>"` (CLI) or add `<|im_end|>` to the Python wrapper's stop list — `</s>` alone doesn't terminate ChatML turns.
+- **Model runs past `<|im_end|>`**: only happens on `mlx-lm < 0.31` (older versions ignore multi-id `eos_token_id` lists). Upgrade, or pass `--extra-eos-token "<|im_end|>"` as a manual override — `<|im_end|>` is token id 130073 and is already listed in `generation_config.json` on 0.31+.
 
 ## When NOT to use
 

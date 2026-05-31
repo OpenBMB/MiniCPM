@@ -76,3 +76,43 @@ out = llm.chat(
 )
 print(out[0].outputs[0].text)
 ```
+
+## Tool calling (plugin)
+
+MiniCPM5-1B emits **XML-style** tool calls. The vLLM-side parser ([vllm-project/vllm#43175](https://github.com/vllm-project/vllm/pull/43175)) was merged to `main` on 2026-05-27 but is **not in any pip release yet** — `v0.22.0` (2026-05-29) was cut before that merge and the file is absent from the v0.22.0 tree.
+
+As a bridge, this repo ships the parser at [`tool_parsers/minicpm5xml_tool_parser.py`](../../tool_parsers/minicpm5xml_tool_parser.py) (the same file as the upstream PR). Load it via vLLM's `--tool-parser-plugin`:
+
+```bash
+vllm serve openbmb/MiniCPM5-1B \
+    --served-model-name MiniCPM5-1B \
+    --dtype bfloat16 --max-model-len 131072 --port 8000 \
+    --enable-auto-tool-choice \
+    --tool-parser-plugin /path/to/MiniCPM/tool_parsers/minicpm5xml_tool_parser.py \
+    --tool-call-parser minicpm5
+```
+
+```bash
+curl http://localhost:8000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-1B",
+        "messages": [{"role": "user", "content": "What is the weather in Beijing?"}],
+        "tools": [{
+            "type": "function",
+            "function": {
+                "name": "get_weather",
+                "description": "Get current weather for a city",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"city": {"type": "string"}},
+                    "required": ["city"]
+                }
+            }
+        }],
+        "tool_choice": "auto",
+        "temperature": 0.7, "max_tokens": 256
+    }'
+```
+
+Once vLLM `v0.23` (or later) is released with the parser baked in, drop `--tool-parser-plugin` and use only `--tool-call-parser minicpm5`.
