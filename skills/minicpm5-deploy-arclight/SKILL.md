@@ -33,13 +33,16 @@ Use `ARCLIGHT_BACKEND=AUTO` by default. Set it explicitly only when needed:
 
 ### 2. Prepare a GGUF model
 
-ArcLight uses GGUF checkpoints from `llama.cpp`. Use a supported model family:
+ArcLight uses GGUF checkpoints from `llama.cpp`. The `nnml` backend only loads `f32 / f16 / q4_0 / q8_0 / q6_K / q8_K` tensor types — **`Q4_K_M` is not supported**.
 
-- MiniCPM5-1B
-- Qwen3
-- Llama2
+Supported model families: MiniCPM5-1B, Qwen3, Llama2.
 
-For first validation, prefer a small quantized model such as `MiniCPM5-1B-Q4_0.gguf`.
+For first validation use the released `Q8_0` (`openbmb/MiniCPM5-1B-GGUF`), or quantize an unreleased `Q4_0` yourself from the F16:
+
+```bash
+huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-F16.gguf --local-dir .
+llama-quantize ./MiniCPM5-1B-F16.gguf ./MiniCPM5-1B-Q4_0.gguf Q4_0
+```
 
 ### 3A. One-shot generation
 

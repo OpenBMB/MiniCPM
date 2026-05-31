@@ -9,6 +9,14 @@ pip install "sglang[srt]>=0.5.12"          # latest, requires CUDA 13.x driver
 # pip install "sglang==0.5.6.post3"        # fallback for CUDA 12.x drivers
 ```
 
+> ⚠️ **Tool calling needs a newer build than any current pip release.** The MiniCPM5 XML parser (`--tool-call-parser minicpm5`) landed in [sgl-project/sglang#25600](https://github.com/sgl-project/sglang/pull/25600), merged into `main` on 2026-05-22. The latest release `v0.5.12.post1` was branched earlier and does **not** ship the parser yet. Until `v0.5.13` is tagged, install from source if you need tool calling:
+>
+> ```bash
+> pip install "git+https://github.com/sgl-project/sglang.git@main#subdirectory=python"
+> ```
+>
+> Plain chat completions (no `tools=`) work fine on the pip release — MiniCPM5-1B is a stock `LlamaForCausalLM` so it loads on every SGLang version that supports Llama.
+
 Recommended runtime env vars:
 
 ```bash
