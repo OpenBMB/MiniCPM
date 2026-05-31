@@ -22,7 +22,14 @@ cmake --build build --config Release -j 32
 
 ## Preparing a Model
 
-ArcLight uses the GGUF model format from [llama.cpp](https://github.com/ggml-org/llama.cpp). Download a GGUF checkpoint from Hugging Face or convert your own model by following the llama.cpp GGUF conversion workflow.
+ArcLight uses the GGUF model format from [llama.cpp](https://github.com/ggml-org/llama.cpp). The current `nnml` backend only ships kernels for **`f32` / `f16` / `q4_0` / `q8_0` / `q6_K` / `q8_K`** (see `nnml/src/ops/types.cpp`); other quants such as `Q4_K_M` will not load.
+
+The official `openbmb/MiniCPM5-1B-GGUF` repo publishes `F16`, `Q8_0`, and `Q4_K_M` — note that **`Q4_0` is not included**. For a `q4_0` build you have to quantize it yourself from the released `F16`:
+
+```bash
+huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-F16.gguf --local-dir .
+llama-quantize ./MiniCPM5-1B-F16.gguf ./MiniCPM5-1B-Q4_0.gguf Q4_0
+```
 
 The current codebase includes model definitions for:
 
@@ -30,7 +37,7 @@ The current codebase includes model definitions for:
 - Qwen3
 - Llama2
 
-For first-time testing, start with MiniCPM5-1B or another small GGUF model, preferably a quantized checkpoint such as `Q4_0`.
+For first-time testing, start with MiniCPM5-1B or another small GGUF model, preferably the locally produced `Q4_0` (smallest) or the released `Q8_0`.
 
 ## Building
 

@@ -7,14 +7,14 @@
 ```bash
 pip install "mlx-lm>=0.31"
 
-# Run a pre-converted MLX repo directly
-mlx_lm.generate --model openbmb/MiniCPM5-1B-MLX-4bit \
+# Run the official pre-converted MLX repo directly
+# (config.json declares "quantization": {"bits": 4, "mode": "affine"})
+mlx_lm.generate --model openbmb/MiniCPM5-1B-MLX \
     --prompt "<|im_start|>user
 1+1=?<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens 200 --temp 0.7 --top-p 0.95 \
-    --extra-eos-token "<|im_end|>"
+    --max-tokens 200 --temp 0.7 --top-p 0.95
 ```
 
 ## Building MLX weights from your own checkpoint (advanced)
@@ -43,8 +43,7 @@ mlx_lm.generate --model ./minicpm5-mlx-q4 \
 鸡兔同笼，头共10个，脚共28只，问鸡和兔各几只？<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens 200 --temp 0.7 --top-p 0.95 \
-    --extra-eos-token "<|im_end|>"
+    --max-tokens 200 --temp 0.7 --top-p 0.95
 ```
 
 ```text
@@ -77,7 +76,7 @@ for resp in stream_generate(
 print()
 ```
 
-> 💡 `--extra-eos-token "<|im_end|>"` (CLI) or adding `<|im_end|>` to the wrapper's stop list (Python) is required: the released metadata only registers `</s>` (id 1) and the secondary EOS id 130073 as model EOS, but the chat template ends turns with the `<|im_end|>` *string*. Without an extra EOS the model will keep generating into the next role's prompt.
+> ℹ️ `<|im_end|>` is **token id 130073** in this tokenizer, and `generation_config.json` already lists it in `eos_token_id: [1, 130073]`. mlx-lm reads that list and adds both ids to the stop set, so no `--extra-eos-token` flag is needed — the model stops at end-of-turn on its own.
 
 ## Recommended sampling
 
@@ -92,7 +91,7 @@ Both modes are activated by sampling parameters only — the released chat templ
 
 ### Model never stops generating
 
-Add `--extra-eos-token "<|im_end|>"` (CLI) or include `<|im_end|>` in `stop` (Python). See note above.
+Confirm you're on `mlx-lm >= 0.31`. Older versions ignored multi-id `eos_token_id` lists in `generation_config.json` and would only stop at `</s>` (id 1) — on a chat-template turn the model never emits `</s>` so it ran past the turn boundary. 0.31+ honours the full list (`[1, 130073]`) and stops at `<|im_end|>` automatically. As a last-resort override you can still pass `--extra-eos-token "<|im_end|>"`.
 
 ## See also
 

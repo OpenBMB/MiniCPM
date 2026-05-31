@@ -66,6 +66,21 @@ Expected: `choices[0].message.content` contains `"2"`. If you see `<think>...</t
 - **`(free / total) < MEM_FRAC` hard error**: lower `--gpu-memory-utilization` (e.g. 0.5 on a shared GPU).
 - **OOM at startup with 128 K**: drop `--max-model-len` to 32768 or 8192.
 
+## Tool calling (plugin)
+
+The vLLM-side MiniCPM5 XML parser ([PR #43175](https://github.com/vllm-project/vllm/pull/43175)) merged to `main` on 2026-05-27 but is **not in any pip release yet** (`v0.22.0` was cut before the merge). Use the bridge plugin shipped at `tool_parsers/minicpm5xml_tool_parser.py` in this repo:
+
+```bash
+vllm serve "${MODEL_PATH}" \
+    --served-model-name MiniCPM5-1B \
+    --dtype bfloat16 --max-model-len ${CTX_LEN} --port ${PORT} \
+    --enable-auto-tool-choice \
+    --tool-parser-plugin /path/to/MiniCPM/tool_parsers/minicpm5xml_tool_parser.py \
+    --tool-call-parser minicpm5
+```
+
+Drop `--tool-parser-plugin` once vLLM ships a release containing the parser natively.
+
 ## When NOT to use
 
 - One-shot Python script → `minicpm5-deploy-transformers`

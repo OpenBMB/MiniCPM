@@ -27,6 +27,12 @@ pip install "sglang[srt]>=0.5.12"          # latest, requires CUDA 13.x driver
 # pip install "sglang==0.5.6.post3"        # fallback for CUDA 12.x driver hosts
 ```
 
+**For tool calling, install from `main`** — the `minicpm5` parser ([PR #25600](https://github.com/sgl-project/sglang/pull/25600), merged 2026-05-22) is not in any pip release yet (`v0.5.12.post1` was branched earlier). Plain chat works on the pip release; only `--tool-call-parser minicpm5` needs `main`:
+
+```bash
+pip install "git+https://github.com/sgl-project/sglang.git@main#subdirectory=python"
+```
+
 ### 2. Recommended runtime env vars
 
 ```bash
@@ -111,7 +117,7 @@ print(outputs)
 
 ## Common pitfalls
 
-- **`GLIBCXX_3.4.31 not found`**: conda Python ships an older `libstdc++`. Force-load system: `LD_PRELOAD=/lib/x86_64-linux-gnu/libstdc++.so.6 python -m sglang.launch_server ...`
+- **`GLIBCXX_3.4.31 not found`** (only if you hit it — not universal): conda Python ships an older `libstdc++` than the SGLang wheel was built against. Force-load the system one: `LD_PRELOAD=/lib/x86_64-linux-gnu/libstdc++.so.6 python -m sglang.launch_server ...`
 
 ## When NOT to use
 

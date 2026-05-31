@@ -127,7 +127,7 @@ When LM Studio's `mlx-llm` runtime detects a `<think>...</think>` block in the m
 
 The GGUF runtime does not do this split — `<think>...</think>` is emitted inline as part of `content`, and you have to strip it client-side. If your downstream client supports the OpenAI reasoning extension (Cursor, Continue, etc.), prefer the MLX runtime.
 
-> 💡 Always pass an explicit `stop` array including both `<|im_end|>` and `<|im_start|>`. LM Studio's bundled chat template emits the assistant turn correctly, but its OpenAI-compat layer does not auto-attach the `<|im_end|>` stop string, so without it the model will sometimes continue past the EOT marker into a second hallucinated turn.
+> 💡 If you observe the model continuing past `<|im_end|>` into a hallucinated second turn, add `"stop": ["<|im_end|>", "<|im_start|>"]` to the request. `<|im_end|>` is token id 130073 and is already in the GGUF's `eos_token_id` array, so LM Studio normally stops there on its own — only resort to an explicit `stop` array if you actually see overrun in practice.
 
 ## Recommended sampling
 
@@ -144,12 +144,29 @@ The cleanest workaround is to **register two extra model variants with the `enab
 
 ### One-time setup script
 
+The script below operates on already-imported MLX folders under `~/.lmstudio/models/openbmb/`. **Get them there first** — there is no pre-converted `MiniCPM5-1B-MLX-Q4` / `MiniCPM5-1B-MLX-bf16` Hugging Face repo to clone; the only published MLX repo is [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) (4-bit affine). Either drop it in as-is, or build the two flavours locally with `mlx_lm.convert` (see [`mlx.md`](./mlx.md)) and `mv` them into the LM Studio registry, e.g.:
+
+```bash
+# Option A — use the official 4-bit affine repo as a single source
+mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX
+huggingface-cli download openbmb/MiniCPM5-1B-MLX \
+    --local-dir ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX
+
+# Option B — build both flavours from the fp16 HF repo
+HF=openbmb/MiniCPM5-1B
+mlx_lm.convert --hf-path "$HF" --mlx-path ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX-bf16
+mlx_lm.convert --hf-path "$HF" --mlx-path ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX-Q4 -q --q-bits 4
+```
+
+Then list the flavours you want the variant script to touch in `SOURCES`.
+
 ```bash
 python3 - <<'PY'
 import os, re, shutil
 
 ROOT = os.path.expanduser("~/.lmstudio/models/openbmb")
-SOURCES = ["MiniCPM5-1B-MLX-Q4", "MiniCPM5-1B-MLX-bf16"]
+# Set to whichever flavour folders actually exist under ROOT:
+SOURCES = ["MiniCPM5-1B-MLX"]  # or ["MiniCPM5-1B-MLX-Q4", "MiniCPM5-1B-MLX-bf16"]
 
 block_re = re.compile(
     r"\{%-\s*if\s+enable_thinking\s+is\s+defined\s*%\}.*?"
