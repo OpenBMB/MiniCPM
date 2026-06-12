@@ -20,18 +20,6 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 <a href="https://mp.weixin.qq.com/s/KIhH2nCURBXuFXAtYRpuXg?poc_token=HBIsUWijxino8oJ5s6HcjcfXFRi0Xj2LJlxPYD9c">Join Us</a>
 </p>
 
-> [!NOTE]
-> ### 🏆 2026 Sparse Operator Acceleration & Race (SOAR) is Now Live!
->
-> **The MiniCPM-SALA architecture is just the beginning. Realizing its full potential requires deep system-level synergy and cross-layer compilation optimization.**
->
-> OpenBMB, in collaboration with **SGLang** and **NVIDIA**, invites global geeks to tackle the limits of **9B-scale, 1M-token inference** on a dedicated **NVIDIA 6000D** environment.
->
-> * 💰 **Prize Pool:** >$100,000 USD (Top Prize: **$89,000**)
-> * 🚀 **Goal:** Optimize single and multi-batch performance via cross-layer compilation.
->
-> 👉 **[Learn more and Register](https://soar.openbmb.cn/)**
-
 ## ✨ Highlights
 
 We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA.
