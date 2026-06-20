@@ -277,7 +277,7 @@ The two top-level skills cover deployment and fine-tuning:
 
 | Top-level skill | What it does | Routes to |
 | --- | --- | --- |
-| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` · `sglang` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` |
+| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` · `sglang` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` · `mnn` |
 | **[`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md)** | Fine tuning router | `trl` · `llamafactory` · `ms-swift` · `unsloth` · `xtuner` |
 
 In Cursor / Claude Code, you can call them like this: the agent reads the top-level skill, selects the matching sub-skill and cookbook based on the target backend, hardware, and data path, then runs the command and reports back.
@@ -289,7 +289,7 @@ In Cursor / Claude Code, you can call them like this: the agent reads the top-le
 
 The tables below list the cookbook and sub-skill for each inference backend and fine-tuning framework. Quantized models are not listed as standalone backends; they are described under the inference backend that can load each format.
 
-**Inference Deployment** (7 backends)
+**Inference Deployment** (8 backends)
 
 | Backend | Model format / use case | Cookbook | Paired Agent Skill |
 | --- | --- | --- | --- |
@@ -300,6 +300,7 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 | [LM Studio](https://lmstudio.ai) | GGUF Mac desktop app and OpenAI server | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
 | [MLX](https://github.com/ml-explore/mlx-lm) | MLX / 4bit local inference on Apple Silicon | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
 | [ArcLight](https://github.com/OpenBMB/ArcLight) | GGUF local on-device, CPU, Desktop & Server | [`docs/deployment/arclight.md`](./docs/deployment/arclight.md) | [`minicpm5-deploy-arclight`](./skills/minicpm5-deploy-arclight/SKILL.md) |
+| [MNN](https://github.com/alibaba/MNN) | MNN mobile on-device inference (Android / iOS) | [`docs/deployment/mnn.md`](./docs/deployment/mnn.md) | [`minicpm5-deploy-mnn`](./skills/minicpm5-deploy-mnn/SKILL.md) |
 
 **Fine tuning** (5 frameworks)
 
