@@ -96,6 +96,8 @@ python convert_hf_to_gguf.py /path/to/your-fp16-hf --outfile out/F16.gguf --outt
 llama-quantize out/F16.gguf out/Q4_K_M.gguf Q4_K_M
 ```
 
+Trained a **LoRA adapter** (not a full model) and want to apply it at runtime with `--lora` instead of baking it in? Convert it to a GGUF adapter — see **`minicpm5-finetune-gguf-lora`**.
+
 ## When NOT to use
 
 - NVIDIA GPU + want OpenAI-compatible serving → `minicpm5-deploy-vllm`

@@ -42,6 +42,7 @@ Any local directory containing `config.json` + `model.safetensors` + `tokenizer.
 - **First time fine-tuning MiniCPM5**: pick **`minicpm5-finetune-llamafactory`** — most documented, fewest surprises.
 - **Need DPO / KTO / ORPO**: pick **`minicpm5-finetune-ms-swift`** (best out-of-the-box) or **`minicpm5-finetune-trl`** (most control).
 - **Single 24 GB consumer GPU**: pick **`minicpm5-finetune-unsloth`** with `load_in_4bit=True`.
+- **Target is llama.cpp / Ollama / LM Studio / MiniCPM Desk Pet (GGUF)**: train with any skill above, then convert the adapter with **`minicpm5-finetune-gguf-lora`** (PEFT adapter → GGUF LoRA).
 
 ## 3. Invocation contract
 
@@ -82,3 +83,10 @@ Expected: a coherent answer (e.g. `"2"`). If it's gibberish or empty, training b
 ## 5. Don't reinvent: link to the cookbook
 
 Each sub-skill is paired with a one-page cookbook in [`docs/finetune/`](../../docs/finetune/). The skill is the machine-readable shortcut; the cookbook is the human-readable reference.
+
+## 6. Next step — deploying the adapter
+
+The adapter at `OUTPUT_DIR/` is a PEFT adapter (`adapter_model.safetensors`). How you ship it depends on the runtime:
+
+- **vLLM / transformers / SGLang** (fp16 HF base): load the PEFT adapter directly — no conversion.
+- **llama.cpp / Ollama / LM Studio / MiniCPM Desk Pet** (GGUF base): convert it to a GGUF LoRA first with **`minicpm5-finetune-gguf-lora`**, then `--lora adapter.gguf` (or upload it in the Desk Pet app).
