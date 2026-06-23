@@ -592,7 +592,7 @@ source sglang_minicpm_sala_env/bin/activate
 
 # 2. 安装 SGLang
 uv pip install --upgrade pip setuptools wheel
-uv pip install -e ./python[all]
+uv pip install -e ./'python[all]'
 
 # 3. 编译安装 CUDA 扩展
 # (确保依赖已克隆到 3rdparty/ 目录)
