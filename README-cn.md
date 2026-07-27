@@ -11,7 +11,7 @@
 
 <p align="center">
 <a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM 技术报告</a> |
-<a href="https://modelbest.feishu.cn/wiki/D2tFw8Pcsi5CIzkaHNacLK64npg" target="_blank">MiniCPM 知识库</a> |
+<a href="https://modelbest.feishu.cn/wiki/UtWxwcERfiRIpIkBOjuc3h9tn1D?fromScene=spaceOverview" target="_blank">MiniCPM 知识库</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V 仓库</a> |
 <a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a>
 </p>
