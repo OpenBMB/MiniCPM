@@ -24,6 +24,7 @@ Before picking a backend, you MUST know:
 | **HF fp16 (recommended)** | [`openbmb/MiniCPM5-1B`](https://huggingface.co/openbmb/MiniCPM5-1B) | `transformers` / `vllm` (no `--quantization`) / `sglang` / any `minicpm5-finetune-*` |
 | GGUF F16 / Q8_0 / Q4_K_M | [`openbmb/MiniCPM5-1B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | `minicpm5-deploy-llama-cpp` / `-ollama` / `-lmstudio` |
 | MLX (Apple Silicon) | [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | `minicpm5-deploy-mlx` |
+| MNN (mobile on-device) | HF [`taobao-mnn/MiniCPM5-1B-MNN`](https://huggingface.co/taobao-mnn/MiniCPM5-1B-MNN) / MS [`MNN/MiniCPM5-1B-MNN`](https://www.modelscope.cn/models/MNN/MiniCPM5-1B-MNN) | `minicpm5-deploy-mnn` |
 
 If the user has a local copy, accept any directory path that contains `config.json` and `model.safetensors` (or the equivalent GGUF / MLX layout).
 
@@ -38,6 +39,7 @@ If the user has a local copy, accept any directory path that contains `config.js
 | "Ollama" / "ollama run" / "Modelfile" | macOS / Linux laptop | GGUF | **`minicpm5-deploy-ollama`** |
 | "LM Studio" / "desktop GUI" | macOS / Windows / Linux | GGUF or MLX | **`minicpm5-deploy-lmstudio`** |
 | "MLX" / "Apple Silicon native" / "fastest on Mac" | Apple Silicon | MLX | **`minicpm5-deploy-mlx`** |
+| "MNN" / "mnn-llm" / "Android" / "iOS" / "mobile deployment" | Android / iOS phone or tablet | MNN | **`minicpm5-deploy-mnn`** |
 
 If the user **has not specified** any of the above and asks "how do I run this?":
 
@@ -45,6 +47,7 @@ If the user **has not specified** any of the above and asks "how do I run this?"
 - **CUDA box, want minimal Python**: pick `minicpm5-deploy-transformers`.
 - **Apple Silicon laptop**: pick `minicpm5-deploy-ollama` (easiest) or `minicpm5-deploy-mlx` (fastest).
 - **CPU only / Windows / low-VRAM**: pick `minicpm5-deploy-llama-cpp` (Q4_K_M).
+- **Android / iOS mobile app**: pick `minicpm5-deploy-mnn`.
 
 ## 3. Invocation contract
 
