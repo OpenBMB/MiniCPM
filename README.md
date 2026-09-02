@@ -590,7 +590,7 @@ source sglang_minicpm_sala_env/bin/activate
 
 # 2. Install SGLang
 uv pip install --upgrade pip setuptools wheel
-uv pip install -e ./python[all]
+uv pip install -e ./'python[all]'
 
 # 3. Compile CUDA Extensions
 # (Ensure dependencies are cloned to 3rdparty/)
