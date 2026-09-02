@@ -420,10 +420,10 @@ vllm serve ${model_path} \
 
 <a href="https://youtu.be/Ee0slMW8SEk"><img src="https://img.youtube.com/vi/Ee0slMW8SEk/0.jpg" alt="MiniCPM Desk Pet video demo" width="720"></a>
 
-桌宠支持 Apple Silicon / NVIDIA GPU / CPU 路线，可以与 Cursor、Claude Code、Codex 等编码 agent 联动，并支持 LoRA 人格切换。
+桌宠支持 macOS Apple Silicon 和带 Vulkan 支持的 Windows x64，可以与 Cursor、Claude Code、Codex 等编码 agent 联动，并支持基于 LoRA 适配器的人格切换。
 
-- **用户安装**：从 [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases) 下载 `Clawd-on-Desk-*-arm64.dmg`，按引导完成环境检查、模型下载和 sidecar 启动。
-- **开发者运行**：`git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh`，详见 [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者)。
+- **用户安装**：从 [Releases](https://github.com/OpenBMB/MiniCPM-Desk-Pet/releases) 下载最新 macOS `MiniCPM Desk Pet-*-arm64.dmg` 或 Windows `.exe` 安装程序，按引导完成环境检查、模型下载和模型预热。
+- **开发者运行**：`git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && cd MiniCPM-Desk-Pet && ./go.sh`，完整设置流程见 [`docs/development.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/docs/development.md)。
 
 > 桌宠 UI 层 fork 自 [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk)（AGPL-3.0）。我们在上游桌宠运行时、动画包和多 agent 集成基础上，加入本地 MiniCPM5-1B sidecar、Onboarding 和 LoRA 人格切换。完整致谢见 [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md)。
 
