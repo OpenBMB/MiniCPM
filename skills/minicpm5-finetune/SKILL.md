@@ -50,7 +50,7 @@ Each sub-skill expects `BASE_MODEL`, `DATA`, `OUTPUT_DIR` and outputs an LoRA ad
 
 | Framework | Gotcha (skill handles it for you) |
 | --- | --- |
-| LLaMA-Factory | `template: empty` (delegate to model's own jinja, NOT `template: llama3`) |
+| LLaMA-Factory | `template: minicpm5` (needs LLaMA-Factory from source; NOT `template: empty` / `llama3`) |
 | ms-swift | mandatory `--model_type llama --template chatml` flags |
 | TRL | training-only chat template patch for `assistant_only_loss=True` |
 | unsloth | `transformers==4.57.3` pin if vLLM is in the same env |

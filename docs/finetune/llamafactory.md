@@ -4,8 +4,12 @@
 
 ## Install
 
+`template: minicpm5` was added in [LLaMA-Factory #10801](https://github.com/hiyouga/LLaMA-Factory/pull/10801), which landed after the latest PyPI release (v0.9.5). Until v0.9.6 ships, install from source:
+
 ```bash
-pip install "llamafactory==0.9.3"        # or just `pip install llamafactory` for latest
+git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
+cd LLaMA-Factory
+pip install -e .
 ```
 
 ## 1. Dataset prep
@@ -64,7 +68,7 @@ lora_target: all          # all linear layers; or "q_proj,k_proj,v_proj,o_proj,g
 ### dataset
 dataset: my_chat_data
 dataset_dir: /path/to/finetune_data
-template: empty           # MiniCPM5 chat template auto-loads from the model's tokenizer_config.json
+template: minicpm5        # MiniCPM5 ChatML template + XML tool calling
 cutoff_len: 4096
 max_samples: 100000
 overwrite_cache: true
@@ -88,7 +92,11 @@ bf16: true
 ddp_timeout: 180000000
 ```
 
-> 💡 `template: empty` tells LLaMA-Factory to **delegate to the tokenizer's built-in `chat_template.jinja`**, which is the MiniCPM5 ChatML-style template (with think / no-think / tools support). Do **not** set `template: llama3` or other built-ins — they will produce a broken token layout.
+> 💡 **Use `template: minicpm5`, not `template: empty`.**
+>
+> LLaMA-Factory does not delegate to the tokenizer's `chat_template.jinja`. `empty` is a real, empty template — bare `{{content}}` slots, no role markers, no EOS replacement, and tools falling back to ReAct `Action:` / `Action Input:` — so training under it silently produces a token layout the model has never seen.
+>
+> `template: minicpm5` reproduces the model's own template byte-for-byte, including think / no-think and XML tool calling. Do **not** set `template: llama3` or other built-ins either.
 
 ## 3. Train
 
@@ -107,7 +115,9 @@ Sample run (200 samples, 1 epoch, single GPU, bs=4, grad_acc=2, lr=2e-4):
 {'train_runtime': 11.45, 'train_samples_per_second': 17.5, 'train_loss': 3.85}
 ```
 
-Loss decreases monotonically from 4.19 → 3.62 over the 25 optimizer steps — the framework + chat template + tokenizer combo all work end-to-end.
+Loss decreases monotonically from 4.19 → 3.62 over the 25 optimizer steps.
+
+> ⚠️ A smoothly decreasing loss does **not** confirm the chat template is correct — a mismatched template trains just as cleanly. Verify the template itself with the sanity check in [§4](#4-inference-with-the-lora-adapter).
 
 ## 4. Inference with the LoRA adapter
 
@@ -122,7 +132,7 @@ llamafactory-cli export merge.yaml
 ```yaml
 model_name_or_path: openbmb/MiniCPM5-1B
 adapter_name_or_path: ./runs/minicpm5_lora
-template: empty
+template: minicpm5
 finetuning_type: lora
 export_dir: ./minicpm5-merged
 export_size: 4
@@ -142,13 +152,17 @@ deepspeed: examples/deepspeed/ds_z2_config.json   # optional, for multi-GPU
 
 ## Q&A
 
-### `template not found` / wrong tokens
+### `Template minicpm5 does not exist`
 
-You probably set `template: llama3` or similar. Use `template: empty` to delegate to the model's own `chat_template.jinja`.
+Your LLaMA-Factory predates [#10801](https://github.com/hiyouga/LLaMA-Factory/pull/10801). It is not in v0.9.5 or earlier — install from source, see [Install](#install).
 
-### `transformers >= 4.55 required` (when also using vLLM in the same env)
+### Garbled output, or tool calls missing the function name
 
-LLaMA-Factory 0.9.3 wants `transformers==4.52`, vLLM 0.21 wants `>=5.6`. Use two virtual environments — one for fine-tuning, one for serving. The merged model is portable across them.
+You trained with `template: empty`, `template: llama3`, or another mismatched built-in. `empty` is not a delegation to the model's `chat_template.jinja`: it trains on a layout the model has never seen, and with tools it teaches ReAct `Action:` / `Action Input:` instead of MiniCPM5's XML. Switch to `template: minicpm5` and retrain.
+
+### `transformers` version conflicts (when also using vLLM in the same env)
+
+From source, LLaMA-Factory requires `transformers>=4.55.0,<=5.8.0` (excluding 4.57.0 and 5.6.0), which can clash with your serving stack. Use two virtual environments — one for fine-tuning, one for serving. The merged model is portable across them.
 
 ### Multi-GPU
 
