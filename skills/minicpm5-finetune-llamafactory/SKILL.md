@@ -23,10 +23,12 @@ YAML-driven SFT / DPO with WebUI. Most-documented community framework.
 
 ```bash
 python -m venv .venv-lf && source .venv-lf/bin/activate
-pip install "llamafactory==0.9.3"
+# `template: minicpm5` landed after v0.9.5 (the latest PyPI release) — install from source.
+git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
+pip install -e LLaMA-Factory
 ```
 
-> ⚠️ LLaMA-Factory pins `transformers==4.52`. Do NOT install it into a vLLM env (vLLM 0.21 wants `transformers>=5.6`). Always use a separate venv.
+> ⚠️ LLaMA-Factory requires `transformers>=4.55.0,<=5.8.0` (excluding 4.57.0 and 5.6.0), which can clash with a serving stack such as vLLM. Always install it into its own venv.
 
 ### 2. Register the dataset (sharegpt / messages format)
 
@@ -72,7 +74,7 @@ lora_target: all                      # all linear layers
 ### dataset
 dataset: ${DATASET_NAME}
 dataset_dir: ${DATA_DIR}
-template: empty                       # 🔑 MANDATORY for MiniCPM5 — delegates to model's own jinja
+template: minicpm5                    # 🔑 MANDATORY for MiniCPM5 — ChatML + XML tool calling
 cutoff_len: 4096
 max_samples: 100000
 overwrite_cache: true
@@ -96,7 +98,9 @@ bf16: true
 ddp_timeout: 180000000
 ```
 
-> 🔑 **`template: empty` is MANDATORY.** It delegates to the model's own `chat_template.jinja` (which is the MiniCPM5 ChatML template with think / nothink / tools support). Do NOT set `template: llama3` / `qwen` / etc. — those produce a corrupted token layout.
+> 🔑 **`template: minicpm5` is MANDATORY.** It reproduces the model's own `chat_template.jinja` byte-for-byte — ChatML with think / nothink, plus XML tool calling.
+>
+> Do NOT use `template: empty`. LLaMA-Factory does not delegate to the tokenizer's jinja; `empty` is a genuinely empty template (bare `{{content}}` slots, no role markers, no EOS replacement, ReAct-style tools) that trains on a layout the model has never seen. `llama3` / `qwen` / etc. are equally wrong. Requires LLaMA-Factory from source — see step 1.
 
 ### 4. Train
 
@@ -128,7 +132,7 @@ inputs = tok.apply_chat_template([{"role":"user","content":"1+1=?"}], add_genera
 print(tok.decode(model.generate(inputs, max_new_tokens=32, do_sample=False)[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
 
-Coherent answer ⇒ ✅. Gibberish ⇒ check `template: empty` in the YAML.
+Coherent answer ⇒ ✅. Gibberish ⇒ check `template: minicpm5` in the YAML. (A clean loss curve does **not** confirm the template is right — a mismatched template trains just as smoothly.)
 
 ## Merge LoRA for serving
 
@@ -136,7 +140,7 @@ Coherent answer ⇒ ✅. Gibberish ⇒ check `template: empty` in the YAML.
 cat > ${OUTPUT_DIR}/merge.yaml <<EOF
 model_name_or_path: ${BASE_MODEL}
 adapter_name_or_path: ${OUTPUT_DIR}
-template: empty
+template: minicpm5
 finetuning_type: lora
 export_dir: ./minicpm5-merged
 export_size: 4
