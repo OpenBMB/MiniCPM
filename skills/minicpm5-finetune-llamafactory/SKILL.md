@@ -1,9 +1,9 @@
 ---
 name: minicpm5-finetune-llamafactory
-description: Fine-tune MiniCPM5-1B with LLaMA-Factory (YAML-driven SFT / DPO / WebUI). Use when the user wants to fine-tune via LLaMA-Factory, llamafactory-cli, mentions YAML configs, WebUI, or asks for the most-documented community framework.
+description: Fine-tune MiniCPM5-1B or MiniCPM5-2B with LLaMA-Factory (YAML-driven SFT / DPO / WebUI). Use when the user wants to fine-tune via LLaMA-Factory, llamafactory-cli, mentions YAML configs, WebUI, or asks for the most-documented community framework.
 ---
 
-# Fine-tune MiniCPM5-1B with LLaMA-Factory
+# Fine-tune MiniCPM5-1B and MiniCPM5-2B with LLaMA-Factory
 
 YAML-driven SFT / DPO with WebUI. Most-documented community framework.
 
@@ -11,7 +11,7 @@ YAML-driven SFT / DPO with WebUI. Most-documented community framework.
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `BASE_MODEL` | `openbmb/MiniCPM5-1B` | required |
+| `BASE_MODEL` | `openbmb/MiniCPM5-2B` | required; `openbmb/MiniCPM5-1B` also works |
 | `DATA_DIR` | dir containing `dataset_info.json` + jsonl | required |
 | `DATASET_NAME` | name registered in `dataset_info.json` | required |
 | `OUTPUT_DIR` | `./runs/minicpm5_lf` | required |
@@ -98,7 +98,7 @@ bf16: true
 ddp_timeout: 180000000
 ```
 
-> 🔑 **`template: minicpm5` is MANDATORY.** It reproduces the model's own `chat_template.jinja` byte-for-byte — ChatML with think / nothink, plus XML tool calling.
+> 🔑 **`template: minicpm5` is MANDATORY.** It reproduces the model's own `chat_template.jinja` byte-for-byte — ChatML with MiniCPM5-2B Think mode, MiniCPM5-1B Think / No-think modes, plus XML tool calling.
 >
 > Do NOT use `template: empty`. LLaMA-Factory does not delegate to the tokenizer's jinja; `empty` is a genuinely empty template (bare `{{content}}` slots, no role markers, no EOS replacement, ReAct-style tools) that trains on a layout the model has never seen. `llama3` / `qwen` / etc. are equally wrong. Requires LLaMA-Factory from source — see step 1.
 
@@ -128,8 +128,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 base = AutoModelForCausalLM.from_pretrained("${BASE_MODEL}", torch_dtype=torch.bfloat16, device_map="auto").eval()
 model = PeftModel.from_pretrained(base, "${OUTPUT_DIR}").eval()
 tok = AutoTokenizer.from_pretrained("${BASE_MODEL}")
-inputs = tok.apply_chat_template([{"role":"user","content":"1+1=?"}], add_generation_prompt=True, enable_thinking=False, return_tensors="pt").to(model.device)
-print(tok.decode(model.generate(inputs, max_new_tokens=32, do_sample=False)[0][inputs.shape[-1]:], skip_special_tokens=True))
+inputs = tok.apply_chat_template([{"role":"user","content":"1+1=?"}], add_generation_prompt=True, enable_thinking=True, return_tensors="pt", return_dict=True).to(model.device)
+print(tok.decode(model.generate(**inputs, max_new_tokens=32, do_sample=False)[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True))
 ```
 
 Coherent answer ⇒ ✅. Gibberish ⇒ check `template: minicpm5` in the YAML. (A clean loss curve does **not** confirm the template is right — a mismatched template trains just as smoothly.)

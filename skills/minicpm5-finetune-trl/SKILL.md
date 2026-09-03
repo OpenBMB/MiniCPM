@@ -1,9 +1,9 @@
 ---
 name: minicpm5-finetune-trl
-description: Fine-tune MiniCPM5-1B with bare-metal TRL + PEFT, including assistant-only loss via a chat-template patch. Use when the user wants minimal Python, no YAML, full control, or asks for "TRL", "SFTTrainer", "PEFT", "LoraConfig", "assistant_only_loss".
+description: Fine-tune MiniCPM5-1B or MiniCPM5-2B with bare-metal TRL + PEFT, including assistant-only loss via a chat-template patch. Use when the user wants minimal Python, no YAML, full control, or asks for "TRL", "SFTTrainer", "PEFT", "LoraConfig", "assistant_only_loss".
 ---
 
-# Fine-tune MiniCPM5-1B with TRL + PEFT
+# Fine-tune MiniCPM5-1B and MiniCPM5-2B with TRL + PEFT
 
 Bare-metal Python recipe with **assistant-only loss mask**. Minimal abstractions, full control.
 
@@ -11,7 +11,7 @@ Bare-metal Python recipe with **assistant-only loss mask**. Minimal abstractions
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `BASE_MODEL` | `openbmb/MiniCPM5-1B` | required |
+| `BASE_MODEL` | `openbmb/MiniCPM5-2B` | required; `openbmb/MiniCPM5-1B` also works |
 | `DATA` | path to messages-format jsonl | required |
 | `OUTPUT_DIR` | `./runs/minicpm5_trl` | required |
 
@@ -122,7 +122,7 @@ trainer.model.save_pretrained(f"{OUT}/adapter_final")
 ### 3. Train
 
 ```bash
-BASE_MODEL=openbmb/MiniCPM5-1B \
+BASE_MODEL=openbmb/MiniCPM5-2B \
 DATA=/path/to/messages.jsonl \
 OUTPUT_DIR=./runs/minicpm5_trl \
 CUDA_VISIBLE_DEVICES=0 python train_lora.py
@@ -133,7 +133,7 @@ CUDA_VISIBLE_DEVICES=0 python train_lora.py
 You should see:
 
 ```
-trainable params: 11,206,656 || all params: 1,091,839,488 || trainable%: 1.0264
+trainable params: model-size dependent (about 1% with the recipe below)
 {'loss': 4.07, 'mean_token_accuracy': 0.29, 'epoch': 0.2}
 {'loss': 3.52, 'mean_token_accuracy': 0.36, 'epoch': 1.0}
 ```
@@ -147,14 +147,14 @@ from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
-base = AutoModelForCausalLM.from_pretrained("openbmb/MiniCPM5-1B", torch_dtype=torch.bfloat16, device_map="auto")
+base = AutoModelForCausalLM.from_pretrained("openbmb/MiniCPM5-2B", torch_dtype=torch.bfloat16, device_map="auto")
 model = PeftModel.from_pretrained(base, "./runs/minicpm5_trl/adapter_final").eval()
-tok = AutoTokenizer.from_pretrained("openbmb/MiniCPM5-1B")    # 🔑 reload original tokenizer for full chat_template
+tok = AutoTokenizer.from_pretrained("openbmb/MiniCPM5-2B")    # 🔑 reload original tokenizer for full chat_template
 
 inputs = tok.apply_chat_template([{"role":"user","content":"用一句话解释 GQA。"}],
-                                 add_generation_prompt=True, enable_thinking=True, return_tensors="pt").to(model.device)
-out = model.generate(inputs, max_new_tokens=512, do_sample=True, temperature=0.9, top_p=0.95)
-print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
+                                 add_generation_prompt=True, enable_thinking=True, return_tensors="pt",return_dict=True,).to(model.device)
+out = model.generate(**inputs, max_new_tokens=512, do_sample=True, temperature=1.0, top_p=0.95)
+print(tok.decode(out[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True))
 ```
 
 > 🔑 **Always reload the original tokenizer at inference time** — the patched chat template is for training only. The LoRA adapter is fully compatible with the original chat template (token sequence is identical).

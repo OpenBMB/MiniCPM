@@ -1,6 +1,6 @@
-# Fine-tune MiniCPM5-1B with LLaMA-Factory
+# Fine-tune MiniCPM5-1B and MiniCPM5-2B with LLaMA-Factory
 
-[LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) is the most-used community fine-tuning framework. MiniCPM5-1B is a vanilla `LlamaForCausalLM`, so it works out-of-the-box with LLaMA-Factory's standard recipe.
+[LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) is the most-used community fine-tuning framework. MiniCPM5-1B and MiniCPM5-2B are vanilla `LlamaForCausalLM` models, so they work out-of-the-box with LLaMA-Factory's standard recipe.
 
 ## Install
 
@@ -54,7 +54,7 @@ Save as `lora_sft.yaml`:
 
 ```yaml
 ### model
-model_name_or_path: openbmb/MiniCPM5-1B
+model_name_or_path: openbmb/MiniCPM5-2B
 trust_remote_code: false
 
 ### method
@@ -96,7 +96,7 @@ ddp_timeout: 180000000
 >
 > LLaMA-Factory does not delegate to the tokenizer's `chat_template.jinja`. `empty` is a real, empty template — bare `{{content}}` slots, no role markers, no EOS replacement, and tools falling back to ReAct `Action:` / `Action Input:` — so training under it silently produces a token layout the model has never seen.
 >
-> `template: minicpm5` reproduces the model's own template byte-for-byte, including think / no-think and XML tool calling. Do **not** set `template: llama3` or other built-ins either.
+> `template: minicpm5` reproduces the model's own template byte-for-byte, including MiniCPM5-2B Think mode and MiniCPM5-1B Think / No-think modes, plus XML tool calling. Do **not** set `template: llama3` or other built-ins either.
 
 ## 3. Train
 
@@ -130,7 +130,7 @@ llamafactory-cli export merge.yaml
 `merge.yaml`:
 
 ```yaml
-model_name_or_path: openbmb/MiniCPM5-1B
+model_name_or_path: openbmb/MiniCPM5-2B
 adapter_name_or_path: ./runs/minicpm5_lora
 template: minicpm5
 finetuning_type: lora

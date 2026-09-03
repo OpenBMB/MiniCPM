@@ -1,4 +1,4 @@
-# Fine-tune MiniCPM5-1B with TRL + PEFT (bare-metal recipe)
+# Fine-tune MiniCPM5-1B and MiniCPM5-2B with TRL + PEFT (bare-metal recipe)
 
 A minimal Python recipe that uses the [TRL](https://github.com/huggingface/trl) `SFTTrainer` + [PEFT](https://github.com/huggingface/peft) `LoraConfig` directly, with an **assistant-only loss mask** delivered via a small chat-template patch.
 
@@ -49,7 +49,7 @@ from peft import LoraConfig, get_peft_model
 from transformers import AutoModelForCausalLM, AutoTokenizer, set_seed
 from trl import SFTConfig, SFTTrainer
 
-BASE = "openbmb/MiniCPM5-1B"
+BASE = "openbmb/MiniCPM5-2B"  # or openbmb/MiniCPM5-1B
 DATA = "/path/to/my_chat_data.jsonl"
 OUT  = "./runs/minicpm5_trl"
 
@@ -108,7 +108,7 @@ trainer.model.save_pretrained(f"{OUT}/adapter_final")   # adapter_model.safetens
 ### Sample output
 
 ```
-trainable params: 11,206,656 || all params: 1,091,839,488 || trainable%: 1.0264
+trainable params: model-size dependent (about 1% with the recipe below)
 {'loss': 4.0696, 'mean_token_accuracy': 0.2944, 'epoch': 0.2}
 {'loss': 3.7437, 'mean_token_accuracy': 0.3315, 'epoch': 0.4}
 {'loss': 3.6741, 'mean_token_accuracy': 0.3392, 'epoch': 0.6}
@@ -125,13 +125,13 @@ trainable params: 11,206,656 || all params: 1,091,839,488 || trainable%: 1.0264
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-base = AutoModelForCausalLM.from_pretrained("openbmb/MiniCPM5-1B", torch_dtype=torch.bfloat16, device_map="auto")
+base = AutoModelForCausalLM.from_pretrained("openbmb/MiniCPM5-2B", torch_dtype=torch.bfloat16, device_map="auto")
 model = PeftModel.from_pretrained(base, "./runs/minicpm5_trl/adapter_final").eval()
-tok = AutoTokenizer.from_pretrained("openbmb/MiniCPM5-1B")  # 🔑 re-load original tokenizer (for full chat_template)
+tok = AutoTokenizer.from_pretrained("openbmb/MiniCPM5-2B")  # 🔑 re-load original tokenizer (for full chat_template)
 
 msgs = [{"role": "user", "content": "用一句话解释什么是 GQA。"}]
 inputs = tok.apply_chat_template(msgs, add_generation_prompt=True, enable_thinking=True, return_tensors="pt").to(model.device)
-out = model.generate(inputs, max_new_tokens=512, do_sample=True, temperature=0.9, top_p=0.95)
+out = model.generate(inputs, max_new_tokens=512, do_sample=True, temperature=1.0, top_p=0.95)
 print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
 
