@@ -6,7 +6,7 @@ ArcLight is a lightweight C/C++ LLM inference framework for unified-memory syste
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `MODEL` | `/path/to/MiniCPM5-1B-Q4_0.gguf` | required |
+| `MODEL` | `/path/to/MiniCPM5-2B-Q4_0.gguf` | required |
 | `PROMPT` | `"Hello!"` | `"Hello!"` |
 | `THREADS` | `4` | choose for the target CPU |
 | `NUMA_MODE` | `none` or `tp` | `none` for first run |
@@ -35,13 +35,13 @@ Use `ARCLIGHT_BACKEND=AUTO` by default. Set it explicitly only when needed:
 
 ArcLight uses GGUF checkpoints from `llama.cpp`. The `nnml` backend only loads `f32 / f16 / q4_0 / q8_0 / q6_K / q8_K` tensor types — **`Q4_K_M` is not supported**.
 
-Supported model families: MiniCPM5-1B, Qwen3, Llama2.
+Supported model families: MiniCPM5-2B, Qwen3, Llama2.
 
-For first validation use the released `Q8_0` (`openbmb/MiniCPM5-1B-GGUF`), or quantize an unreleased `Q4_0` yourself from the F16:
+For first validation use the released `Q8_0` (`openbmb/MiniCPM5-2B-GGUF`), or quantize an unreleased `Q4_0` yourself from the F16:
 
 ```bash
-huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-F16.gguf --local-dir .
-llama-quantize ./MiniCPM5-1B-F16.gguf ./MiniCPM5-1B-Q4_0.gguf Q4_0
+huggingface-cli download openbmb/MiniCPM5-2B-GGUF MiniCPM5-2B-F16.gguf --local-dir .
+llama-quantize ./MiniCPM5-2B-F16.gguf ./MiniCPM5-2B-Q4_0.gguf Q4_0
 ```
 
 ### 3A. One-shot generation
@@ -144,7 +144,7 @@ Increase `--kv_gb` for longer `--max_length`. Increase `--w_gb` for larger model
 Run:
 
 ```bash
-MODEL=/path/to/MiniCPM5-1B-Q4_0.gguf
+MODEL=/path/to/MiniCPM5-2B-Q4_0.gguf
 THREADS=4
 
 ./build/al-gen \
