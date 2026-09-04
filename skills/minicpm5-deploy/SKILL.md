@@ -21,7 +21,7 @@ Before picking a backend, you MUST know:
 
 | Variant | HF repo | Use with |
 | --- | --- | --- |
-| **HF fp16 (recommended)** | [`openbmb/MiniCPM5-2B`](https://huggingface.co/openbmb/MiniCPM5-2B) or [`openbmb/MiniCPM5-1B`](https://huggingface.co/openbmb/MiniCPM5-1B) | `transformers` / `vllm` (no `--quantization`) / `sglang` / any `minicpm5-finetune-*` |
+| **HF fp16 (recommended)** | [`openbmb/MiniCPM5-2B`](https://huggingface.co/openbmb/MiniCPM5-2B) or [`openbmb/MiniCPM5-1B`](https://huggingface.co/openbmb/MiniCPM5-1B) | `transformers` / `vllm` (no `--quantization`) / `vllm-ascend` / `sglang` / any `minicpm5-finetune-*` |
 | GGUF F16 / Q8_0 / Q4_K_M | [`openbmb/MiniCPM5-2B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) or [`openbmb/MiniCPM5-1B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | `minicpm5-deploy-llama-cpp` / `-ollama` / `-lmstudio` |
 | MLX (Apple Silicon) | [`openbmb/MiniCPM5-2B-MLX`](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) or [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | `minicpm5-deploy-mlx` |
 
@@ -33,6 +33,7 @@ If the user has a local copy, accept any directory path that contains `config.js
 | --- | --- | --- | --- |
 | "Quick Python script" / "one-shot generation" / "no server" | any GPU or CPU | HF safetensors | **`minicpm5-deploy-transformers`** |
 | "OpenAI server" / "production serving" / "high QPS" | NVIDIA GPU | HF safetensors | **`minicpm5-deploy-vllm`** |
+| "vLLM-Ascend" / "Ascend NPU" / "CANN" / "torch_npu" | Huawei Ascend NPU | HF safetensors | **`minicpm5-deploy-vllm-ascend`** |
 | "RadixAttention" / "prefix cache" / "batched eval" | NVIDIA GPU | HF safetensors | **`minicpm5-deploy-sglang`** |
 | "GGUF" / "llama.cpp" / "llama-cli" / "CPU only" | any CPU + optional GPU | GGUF | **`minicpm5-deploy-llama-cpp`** |
 | "Ollama" / "ollama run" / "Modelfile" | macOS / Linux laptop | GGUF | **`minicpm5-deploy-ollama`** |
@@ -42,6 +43,7 @@ If the user has a local copy, accept any directory path that contains `config.js
 If the user **has not specified** any of the above and asks "how do I run this?":
 
 - **CUDA box, want fastest server**: pick `minicpm5-deploy-vllm`.
+- **Ascend NPU, want an OpenAI-compatible server**: pick `minicpm5-deploy-vllm-ascend`.
 - **CUDA box, want minimal Python**: pick `minicpm5-deploy-transformers`.
 - **Apple Silicon laptop**: pick `minicpm5-deploy-ollama` (easiest) or `minicpm5-deploy-mlx` (fastest).
 - **CPU only / Windows / low-VRAM**: pick `minicpm5-deploy-llama-cpp` (Q4_K_M).
