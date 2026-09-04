@@ -412,6 +412,10 @@ vllm serve ${model_path} \
 
 </details>
 
+#### Apple Core AI (community)
+
+A community conversion of MiniCPM5-1B to Apple's [Core AI](https://developer.apple.com/documentation/coreai) `.aimodel` format (iOS 27 / macOS 27) is available at [MiniCPM5-1B-CoreAI](https://huggingface.co/mlboydaisuke/MiniCPM5-1B-CoreAI): int8, 1.0 GB, 66.8 tok/s decode on iPhone 17 Pro, token-exact against the HF fp32 reference on the benchmark prompts; the Swift recipe is in the card.
+
 ### Desktop Pet
 
 We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, a desktop pet driven locally by MiniCPM5-1B. It uses a thin `llama.cpp` `llama-server` sidecar to load the GGUF model and serves an OpenAI-compatible local endpoint to an Electron pet UI.

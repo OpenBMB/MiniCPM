@@ -414,6 +414,10 @@ vllm serve ${model_path} \
 
 </details>
 
+#### Apple Core AI（社区）
+
+MiniCPM5-1B 的 Apple [Core AI](https://developer.apple.com/documentation/coreai) `.aimodel` 社区转换版本（iOS 27 / macOS 27）见 [MiniCPM5-1B-CoreAI](https://huggingface.co/mlboydaisuke/MiniCPM5-1B-CoreAI)：int8，1.0 GB，iPhone 17 Pro 上解码 66.8 tok/s，在基准提示上与 HF fp32 参考逐 token 一致；Swift 用法见模型卡。
+
 ### 桌宠
 
 我们同步发布了 **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**，一个由 MiniCPM5-1B 本地驱动的桌宠应用。它通过轻量 `llama.cpp` `llama-server` sidecar 加载 GGUF 模型，并向 Electron 桌宠 UI 提供 OpenAI 兼容的本地接口。
