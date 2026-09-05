@@ -333,7 +333,7 @@ During **base training**, the model goes through stable training and decay train
 
 During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **400B tokens of deep-thinking SFT** to establish deep-thinking and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, agentic tasks, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
 
-![MiniCPM5-2B Training Recipe](./training_recipe.jpg)
+![MiniCPM5-2B Training Recipe](./assets/minicpm5/minicpm5_2b_training_recipe.jpg)
 
 #### What does RL + OPD bring?
 
@@ -341,7 +341,7 @@ During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD*
 
 **OPD** merges the capabilities of 16 expert models produced by RL training, including 5 agentic expert models. At each response position, we compute the full-vocabulary reverse KL divergence between student and teacher logits as the advantage estimate, replacing the original verification-based advantage. OPD directly reuses the prompts used to train each RL teacher as distillation data, so no additional corpus construction is required.
 
-![MiniCPM5-2B RL + OPD Gains](./rl_opd_score_gains.png)
+![MiniCPM5-2B RL + OPD Gains](./assets/minicpm5/minicpm5_2b_rl_opd_score_gains.png)
 
 ### Quickstart
 
