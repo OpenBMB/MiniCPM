@@ -12,7 +12,8 @@
 <a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM Tech Report</a> |
 <a href="https://modelbest.feishu.cn/wiki/UtWxwcERfiRIpIkBOjuc3h9tn1D?fromScene=spaceOverview" target="_blank">MiniCPM Wiki (in Chinese)</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V Repo</a> |
-<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a>
+<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a> |
+<a href="https://huggingface.co/spaces/openbmb/MiniCPM5-2B-Demo" target="_blank">Online Demo</a>
 </p>
 
 <p align="center">
@@ -157,7 +158,15 @@ We are releasing **MiniCPM5-2B**, the second model in the **MiniCPM5** series, f
 
 ### Introduction
 
-MiniCPM5-2B is the second checkpoint in the MiniCPM5 series. It is designed for local assistants, coding agents, tool-use workflows, and reasoning scenarios where a compact model is preferred. The model keeps a small deployment footprint while providing native long-context support.
+MiniCPM5-2B is the second checkpoint in the MiniCPM5 series, scaling the MiniCPM5-1B recipe up to 2B parameters for users who can afford a larger footprint in exchange for stronger capability. It is designed for local assistants, coding agents, tool-use workflows, and reasoning scenarios where a compact model is preferred. The model keeps a small deployment footprint while providing native long-context support and both Think / No Think chat modes through the same checkpoint.
+
+| | |
+|---|---|
+| **Architecture** | Standard `LlamaForCausalLM` |
+| **Parameters** | 2,516,756,480 (non-embedding: 1,981,982,720) |
+| **Layers** | 42 |
+| **Attention Heads (GQA)** | 16 Q / 2 KV |
+| **Context Length** | 131,072 |
 
 ### Evaluation Results
 
@@ -201,7 +210,7 @@ curl http://localhost:8000/v1/chat/completions \
     "model": "openbmb/MiniCPM5-2B",
     "messages": [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}],
     "max_tokens": 128,
-    "temperature": 1.0
+    "temperature": 1.0, "top_p": 0.95
   }'
 ```
 
@@ -219,7 +228,7 @@ curl http://localhost:30000/v1/chat/completions \
     "model": "openbmb/MiniCPM5-2B",
     "messages": [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}],
     "max_tokens": 128,
-    "temperature": 1.0
+    "temperature": 1.0, "top_p": 0.95
   }'
 ```
 
