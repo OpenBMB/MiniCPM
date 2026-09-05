@@ -158,7 +158,7 @@ We are releasing **MiniCPM5-2B**, the second model in the **MiniCPM5** series, f
 
 ### Introduction
 
-MiniCPM5-2B is the second checkpoint in the MiniCPM5 series, scaling the MiniCPM5-1B recipe up to 2B parameters for users who can afford a larger footprint in exchange for stronger capability. It is designed for local assistants, coding agents, tool-use workflows, and reasoning scenarios where a compact model is preferred. The model keeps a small deployment footprint while providing native long-context support and both Think / No Think chat modes through the same checkpoint.
+MiniCPM5-2B is the second checkpoint in the MiniCPM5 series, scaling the MiniCPM5-1B recipe up to 2B parameters for users who can afford a larger footprint in exchange for stronger capability. It is designed for local assistants, coding agents, tool-use workflows, and reasoning scenarios where a compact model is preferred. The model keeps a small deployment footprint while providing native long-context support.
 
 | | |
 |---|---|
