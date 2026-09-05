@@ -13,7 +13,8 @@
 <a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM 技术报告</a> |
 <a href="https://modelbest.feishu.cn/wiki/UtWxwcERfiRIpIkBOjuc3h9tn1D?fromScene=spaceOverview" target="_blank">MiniCPM 知识库</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V 仓库</a> |
-<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a>
+<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a> |
+<a href="https://huggingface.co/spaces/openbmb/MiniCPM5-2B-Demo" target="_blank">在线 Demo</a>
 </p>
 
 <p align="center">
@@ -157,7 +158,15 @@
 
 ### 简介
 
-MiniCPM5-2B 是 MiniCPM5 系列的第二个模型，面向本地助手、coding agent、工具调用流程以及需要紧凑模型的推理场景。它在较小部署成本下提供原生长上下文能力。
+MiniCPM5-2B 是 MiniCPM5 系列的第二个模型，将 MiniCPM5-1B 的训练方案扩展到 2B 参数规模，为愿意以更大体积换取更强能力的用户提供选择。它面向本地助手、coding agent、工具调用流程以及需要紧凑模型的推理场景，在较小部署成本下提供原生长上下文能力，并通过同一个 checkpoint 同时支持 Think / No Think 两种对话模式。
+
+| | |
+|---|---|
+| **架构** | 标准 `LlamaForCausalLM` |
+| **参数量** | 2,516,756,480（非 Embedding：1,981,982,720） |
+| **层数** | 42 |
+| **注意力头（GQA）** | Q 16 / KV 2 |
+| **上下文长度** | 131,072 |
 
 ### 评测结果
 
@@ -206,11 +215,9 @@ curl http://localhost:8000/v1/chat/completions \
     "model": "openbmb/MiniCPM5-2B",
     "messages": [{"role": "user", "content": "你是谁？可以简单介绍一下自己吗？"}],
     "max_tokens": 128,
-    "temperature": 1.0
+    "temperature": 1.0, "top_p": 0.95
   }'
 ```
-
-
 
 #### SGLang
 
@@ -226,7 +233,7 @@ curl http://localhost:30000/v1/chat/completions \
     "model": "openbmb/MiniCPM5-2B",
     "messages": [{"role": "user", "content": "你是谁？可以简单介绍一下自己吗？"}],
     "max_tokens": 128,
-    "temperature": 1.0
+    "temperature": 1.0, "top_p": 0.95
   }'
 ```
 
