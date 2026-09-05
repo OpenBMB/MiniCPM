@@ -22,20 +22,123 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 ## ✨ Highlights
 
-We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA.
+We are releasing **MiniCPM5-2B**, the second model in the **MiniCPM5** series, following [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B). It is a dense 2B Transformer that scales up the same training recipe, built for on-device, local deployment, and resource-constrained scenarios, reaching 2B-class open-source SOTA.
 
-🏆 **1B-class open-source SOTA**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks, above the highest average score of 35.61 among strong open-source models in the same size class; its strengths are most visible in agentic tool use, code, and competition math.
+🏆 **2B-class open-source SOTA**: compared with strong open-source models of similar size, MiniCPM5-2B achieves SOTA performance within this comparison set. It remains competitive with 4B-class models overall, while showing its advantages over models of comparable size in coding, mathematics, long-context understanding, tool use, and agentic tasks.
 
-![MiniCPM5-1B capability comparison by domain](./assets/minicpm5/public_leaderboard_radar_en.png)
+<div id="capability-comparison-radar" class="radar-visual" role="img" aria-label="Capability radar chart comparing MiniCPM5-2B with 4B-class models. Each axis is normalized independently to 100 percent.">
+  <style>
+    #capability-comparison-radar {
+      --foreground: #171717;
+      display: block; width: 100%; max-width: 620px; margin: 0 auto; background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+    #capability-comparison-radar svg { display: block; width: 100%; height: auto; background: #fff; }
+    #capability-comparison-radar .title { fill: var(--foreground); font-size: 16px; font-weight: 600; letter-spacing: 0; }
+    #capability-comparison-radar .axis-label { fill: #333; font-size: 12px; font-weight: 600; }
+    #capability-comparison-radar .ring { fill: none; stroke: rgba(128,128,128,.18); stroke-width: .8; }
+    #capability-comparison-radar .spoke { stroke: rgba(128,128,128,.25); stroke-width: .8; }
+    #capability-comparison-radar .ring-label { fill: #8a8a8a; font-size: 9px; }
+    #capability-comparison-radar .series { stroke-linejoin: round; }
+    #capability-comparison-radar .series.primary { stroke-width: 2.4; }
+    #capability-comparison-radar .legend-label { fill: #171717; font-size: 12px; font-weight: 600; }
+    #capability-comparison-radar .legend-average { fill: #666; font-size: 11px; }
+    #capability-comparison-radar .legend-swatch { rx: 3; }
+    @media (max-width: 900px) { #capability-comparison-radar { overflow-x: auto; } #capability-comparison-radar svg { min-width: 620px; } }
+  </style>
+  <svg viewBox="0 0 680 560" aria-hidden="true">
+    <g transform="translate(-20 0)">
+      <text x="40" y="28" class="title" text-anchor="start">Capability Radar by Dimension</text>
+      <polygon points="340.0,235.0 362.5,243.2 374.5,263.9 370.3,287.5 352.0,302.9 328.0,302.9 309.7,287.5 305.5,263.9 317.5,243.2" class="ring" stroke="rgba(128,128,128,.18)" stroke-width=".8"/>
+      <text x="344.0" y="238.0" class="ring-label">20%</text>
+      <polygon points="340.0,200.0 385.0,216.4 408.9,257.8 400.6,305.0 363.9,335.8 316.1,335.8 279.4,305.0 271.1,257.8 295.0,216.4" class="ring" stroke="rgba(128,128,128,.18)" stroke-width=".8"/>
+      <text x="344.0" y="203.0" class="ring-label">40%</text>
+      <polygon points="340.0,165.0 407.5,189.6 443.4,251.8 430.9,322.5 375.9,368.7 304.1,368.7 249.1,322.5 236.6,251.8 272.5,189.6" class="ring" stroke="rgba(128,128,128,.18)" stroke-width=".8"/>
+      <text x="344.0" y="168.0" class="ring-label">60%</text>
+      <polygon points="340.0,130.0 430.0,162.8 477.9,245.7 461.2,340.0 387.9,401.6 292.1,401.6 218.8,340.0 202.1,245.7 250.0,162.8" class="ring" stroke="rgba(128,128,128,.18)" stroke-width=".8"/>
+      <text x="344.0" y="133.0" class="ring-label">80%</text>
+      <polygon points="340.0,95.0 452.5,135.9 512.3,239.6 491.6,357.5 399.9,434.4 280.1,434.4 188.4,357.5 167.7,239.6 227.5,135.9" class="ring" stroke="rgba(29,111,208,.28)" stroke-width="1"/>
+      <text x="344.0" y="98.0" class="ring-label">100%</text>
+      <line x1="340" y1="270" x2="340.0" y2="95.0" class="spoke"/>
+      <text x="340.0" y="63.5" class="axis-label" text-anchor="middle">Code Reasoning</text>
+      <line x1="340" y1="270" x2="452.5" y2="135.9" class="spoke"/>
+      <text x="472.7" y="111.8" class="axis-label" text-anchor="start">Math Reasoning</text>
+      <line x1="340" y1="270" x2="512.3" y2="239.6" class="spoke"/>
+      <text x="543.4" y="234.1" class="axis-label" text-anchor="start">Instruction Following</text>
+      <line x1="340" y1="270" x2="491.6" y2="357.5" class="spoke"/>
+      <text x="518.8" y="373.2" class="axis-label" text-anchor="start">General Knowledge</text>
+      <line x1="340" y1="270" x2="399.9" y2="434.4" class="spoke"/>
+      <text x="410.6" y="464.0" class="axis-label" text-anchor="start">Long Context</text>
+      <line x1="340" y1="270" x2="280.1" y2="434.4" class="spoke"/>
+      <text x="269.4" y="464.0" class="axis-label" text-anchor="end">Tool Use</text>
+      <line x1="340" y1="270" x2="188.4" y2="357.5" class="spoke"/>
+      <text x="161.2" y="373.3" class="axis-label" text-anchor="end">Coding Agent</text>
+      <line x1="340" y1="270" x2="167.7" y2="239.6" class="spoke"/>
+      <text x="136.6" y="234.1" class="axis-label" text-anchor="end">Search Agent</text>
+      <line x1="340" y1="270" x2="227.5" y2="135.9" class="spoke"/>
+      <text x="207.3" y="111.8" class="axis-label" text-anchor="end">General Agent</text>
+      <polygon points="340.0,136.7 450.1,138.8 498.4,242.1 491.6,357.5 398.4,430.3 289.5,408.8 188.4,357.5 188.2,243.2 249.3,161.9" class="series" fill="#E85D4C" fill-opacity=".10" stroke="#E85D4C" stroke-width="1.5"/>
+      <circle cx="340.0" cy="136.7" r="3" fill="#E85D4C"/>
+      <circle cx="450.1" cy="138.8" r="3" fill="#E85D4C"/>
+      <circle cx="498.4" cy="242.1" r="3" fill="#E85D4C"/>
+      <circle cx="491.6" cy="357.5" r="3" fill="#E85D4C"/>
+      <circle cx="398.4" cy="430.3" r="3" fill="#E85D4C"/>
+      <circle cx="289.5" cy="408.8" r="3" fill="#E85D4C"/>
+      <circle cx="188.4" cy="357.5" r="3" fill="#E85D4C"/>
+      <circle cx="188.2" cy="243.2" r="3" fill="#E85D4C"/>
+      <circle cx="249.3" cy="161.9" r="3" fill="#E85D4C"/>
+      <polygon points="340.0,134.4 448.9,140.2 512.3,239.6 462.2,340.5 367.8,346.5 308.0,358.0 231.0,332.9 242.3,252.8 250.1,162.9" class="series" fill="#2A9D8F" fill-opacity=".10" stroke="#2A9D8F" stroke-width="1.5"/>
+      <circle cx="340.0" cy="134.4" r="3" fill="#2A9D8F"/>
+      <circle cx="448.9" cy="140.2" r="3" fill="#2A9D8F"/>
+      <circle cx="512.3" cy="239.6" r="3" fill="#2A9D8F"/>
+      <circle cx="462.2" cy="340.5" r="3" fill="#2A9D8F"/>
+      <circle cx="367.8" cy="346.5" r="3" fill="#2A9D8F"/>
+      <circle cx="308.0" cy="358.0" r="3" fill="#2A9D8F"/>
+      <circle cx="231.0" cy="332.9" r="3" fill="#2A9D8F"/>
+      <circle cx="242.3" cy="252.8" r="3" fill="#2A9D8F"/>
+      <circle cx="250.1" cy="162.9" r="3" fill="#2A9D8F"/>
+      <polygon points="340.0,189.3 411.4,184.9 502.9,241.3 455.3,336.6 356.7,315.9 288.5,411.4 320.8,281.1 266.8,257.1 298.8,220.9" class="series" fill="#E09F3E" fill-opacity=".10" stroke="#E09F3E" stroke-width="1.5"/>
+      <circle cx="340.0" cy="189.3" r="3" fill="#E09F3E"/>
+      <circle cx="411.4" cy="184.9" r="3" fill="#E09F3E"/>
+      <circle cx="502.9" cy="241.3" r="3" fill="#E09F3E"/>
+      <circle cx="455.3" cy="336.6" r="3" fill="#E09F3E"/>
+      <circle cx="356.7" cy="315.9" r="3" fill="#E09F3E"/>
+      <circle cx="288.5" cy="411.4" r="3" fill="#E09F3E"/>
+      <circle cx="320.8" cy="281.1" r="3" fill="#E09F3E"/>
+      <circle cx="266.8" cy="257.1" r="3" fill="#E09F3E"/>
+      <circle cx="298.8" cy="220.9" r="3" fill="#E09F3E"/>
+      <polygon points="340.0,95.0 452.5,135.9 499.8,241.8 476.2,348.7 399.9,434.4 280.1,434.4 220.0,339.3 167.7,239.6 227.5,135.9" class="series primary" fill="#1D6FD0" fill-opacity=".22" stroke="#1D6FD0" stroke-width="2.4"/>
+      <circle cx="340.0" cy="95.0" r="3" fill="#1D6FD0"/>
+      <circle cx="452.5" cy="135.9" r="3" fill="#1D6FD0"/>
+      <circle cx="499.8" cy="241.8" r="3" fill="#1D6FD0"/>
+      <circle cx="476.2" cy="348.7" r="3" fill="#1D6FD0"/>
+      <circle cx="399.9" cy="434.4" r="3" fill="#1D6FD0"/>
+      <circle cx="280.1" cy="434.4" r="3" fill="#1D6FD0"/>
+      <circle cx="220.0" cy="339.3" r="3" fill="#1D6FD0"/>
+      <circle cx="167.7" cy="239.6" r="3" fill="#1D6FD0"/>
+      <circle cx="227.5" cy="135.9" r="3" fill="#1D6FD0"/>
+      <rect x="40" y="490" width="18" height="18" class="legend-swatch" fill="#1D6FD0"/>
+      <text x="66" y="504" class="legend-label">MiniCPM5-2B</text>
+      <text x="66" y="520" class="legend-average">avg 53.9</text>
+      <rect x="195" y="490" width="18" height="18" class="legend-swatch" fill="#E85D4C"/>
+      <text x="221" y="504" class="legend-label">Qwen3.5-4B</text>
+      <text x="221" y="520" class="legend-average">avg 51.1</text>
+      <rect x="350" y="490" width="18" height="18" class="legend-swatch" fill="#2A9D8F"/>
+      <text x="376" y="504" class="legend-label">granite-4.2-3B</text>
+      <text x="376" y="520" class="legend-average">avg 42.7</text>
+      <rect x="505" y="490" width="18" height="18" class="legend-swatch" fill="#E09F3E"/>
+      <text x="531" y="504" class="legend-label">LFM2.5-2.6B</text>
+      <text x="531" y="520" class="legend-average">avg 33.2</text>
+      <text x="340" y="548" class="legend-average" text-anchor="middle">each axis: max = 100%</text>
+    </g>
+  </svg>
+</div>
 
-🧠 **Hybrid Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
-
-🛠️ **Deployment / Fine-tuning Agent Skills**: the repo provides single-page cookbooks for major inference backends and fine-tuning frameworks, each paired with an [Agent Skill](./skills/) to help developers reproduce deployment and fine-tuning workflows.
-
-🐱 **Desktop Pet**: a local-LLM desktop pet driven by MiniCPM5-1B — see [Desktop Pet](#desktop-pet) below.
+📂 **Open High-Quality Data**: Alongside the model, we are releasing the high-quality training datasets behind it as part of the [UltraData](https://ultradata.openbmb.cn/) family: [UltraX](https://huggingface.co/datasets/openbmb/UltraX-Preview), a high-quality web pre-training dataset; [UltraData-Code](https://huggingface.co/datasets/openbmb/UltraData-Code), featuring L0–L3 tiered code data governance to drive a significant leap in coding capabilities; [UltraData-SFT-Agent-2609](https://huggingface.co/datasets/openbmb/UltraData-SFT-Agent-2609), comprising 500K agent training samples to enhance comprehensive on-device agent capabilities; and [UltraData-RL-2609](https://huggingface.co/datasets/openbmb/UltraData-RL-2609), with 80K+ high-quality RL training samples covering mathematics, code, general knowledge, and long-context reasoning.
 
 ## 🔥 Changelog
-- 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
+- 📌 [2026.09.07] **[MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B)** is released: a compact 2B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
+- [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** is released: a sparse-and-linear hybrid attention model for million-token context modeling and efficient inference.
 - [2025.09.05] **[MiniCPM4.1 series](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** is released: a trainable sparse-attention model with hybrid reasoning.
 - [2025.06.06] **[MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** is released: an end-side model with over 5x generation acceleration on typical edge chips.
@@ -56,7 +159,7 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 - [✨ Highlights](#-highlights)
 - [🔥 Changelog](#-changelog)
 - [📦 Model Downloads](#-model-downloads)
-- [🚀 MiniCPM5-1B](#-minicpm5-1b)
+- [🚀 MiniCPM5-2B](#-minicpm5-2b)
   - [Introduction](#introduction)
   - [Evaluation Results](#evaluation-results)
   - [Training Recipe](#training-recipe)
@@ -64,7 +167,7 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
   - [Quickstart](#quickstart)
   - [Deployment and Fine-tuning Cookbooks and Agent Skills](#deployment-and-fine-tuning-cookbooks-and-agent-skills)
   - [Other Supported Frameworks](#other-supported-frameworks)
-  - [Desktop Pet](#desktop-pet)
+- [🚀 MiniCPM5-1B](#-minicpm5-1b)
 - [🧪 MiniCPM-SALA](#-minicpm-sala)
 - [⚡ MiniCPM4 & MiniCPM4.1 Series](#-minicpm4-and-minicpm41-series)
 - [Legacy topics →](./docs/README-legacy.md): BitCPM4 quantization, MiniCPM4 applications
@@ -73,7 +176,22 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 
 ## 📦 Model Downloads
 
-**Current release: MiniCPM5-1B** (BF16, GGUF, MLX):
+**Current release: MiniCPM5-2B / MiniCPM5-1B**（BF16 / GGUF / MLX）：
+
+**MiniCPM5-2B**
+
+| HuggingFace | ModelScope |
+|---|---|
+| [MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B) | [MiniCPM5-2B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B) |
+| [MiniCPM5-2B-SFT](https://huggingface.co/openbmb/MiniCPM5-2B-SFT) | [MiniCPM5-2B-SFT](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-SFT) |
+| [MiniCPM5-2B-Midtrain](https://huggingface.co/openbmb/MiniCPM5-2B-Midtrain) | [MiniCPM5-2B-Midtrain](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-Midtrain) |
+| [MiniCPM5-2B-Base](https://huggingface.co/openbmb/MiniCPM5-2B-Base) | [MiniCPM5-2B-Base](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-Base) |
+| [MiniCPM5-2B-GGUF](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) | [MiniCPM5-2B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GGUF) |
+| [MiniCPM5-2B-MLX](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) | [MiniCPM5-2B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-MLX) |
+| [MiniCPM5-2B-GPTQ-Int4](https://huggingface.co/openbmb/MiniCPM5-2B-GPTQ-Int4) | [MiniCPM5-2B-GPTQ-Int4](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GPTQ-Int4) |
+| [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark) | [MiniCPM5-2B-DSpark](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-DSpark) |
+
+**MiniCPM5-1B**
 
 | HuggingFace | ModelScope |
 |---|---|
@@ -140,7 +258,327 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 
 </details>
 
+
+## 🚀 MiniCPM5-2B
+
+### Introduction
+
+MiniCPM5-2B is the second checkpoint in the MiniCPM5 series. It is designed for local assistants, coding agents, tool-use workflows, and reasoning scenarios where a compact model is preferred. The model keeps a small deployment footprint while providing native long-context support.
+
+### Evaluation Results
+
+We compare **MiniCPM5-2B** with strong open-source models in the same size class, including **LFM2.5-2.6B**, **Qwen3.5-2B**, and **Gemma-4-E2B-it**, while also listing larger models such as **Qwen3.5-4B**, **granite-4.2-3B**, **Nemotron-3-Nano-4B**, **Gemma-4-E4B-it**, and **LFM2.5-8B-A1B** for reference.
+
+Within this comparison set, MiniCPM5-2B reaches 2B-class open-source SOTA with an average score of **53.9**, and also exceeds all of the larger models included here (the highest is **51.1**). Its advantages are most visible in code reasoning, math reasoning, long-context understanding, tool use, and multiple agentic tasks.
+
+<div style="width:100%;max-width:1080px;margin:0 auto;padding:16px 0;background:#fff;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'PingFang SC',
+'Hiragino Sans GB','Microsoft YaHei',sans-serif;color:#171717">
+  <h1 style="margin:0 0 14px;font-size:22px;font-weight:700;color:#1D6FD0;
+  letter-spacing:0.02em">Evaluation Results of MiniCPM5-2B and Baselines</h1>
+  <table class="vl-table" style="width:100%;margin:0;table-layout:fixed;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums"><thead><tr><th rowspan="2" style="padding:7px 5px;text-align:left;font-weight:600;border-bottom:2px solid #1D6FD0;color:#1D6FD0;width:18%"></th><th rowspan="2" style="padding:7px 4px;text-align:center;font-weight:600;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:12px;width:9.111%;background:rgba(29, 111, 208, 0.08);vertical-align:middle;word-break:normal;">MiniCPM5-2B</th><th colspan="3" style="padding:6px 4px;text-align:center;font-weight:600;color:#1D6FD0;font-size:13px;border-bottom:1px solid rgba(29, 111, 208, 0.2);border-left:1px solid rgba(29, 111, 208, 0.25);">2B-class Models</th><th colspan="5" style="padding:6px 4px;text-align:center;font-weight:600;color:#1D6FD0;font-size:13px;border-bottom:1px solid rgba(29, 111, 208, 0.2);border-left:1px solid rgba(29, 111, 208, 0.25);">4B-class Models</th></tr><tr><th style="padding:6px 4px;text-align:center;font-weight:500;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:11px;width:9.111%;border-left:1px solid rgba(29, 111, 208, 0.25);word-break:normal;vertical-align:middle;">LFM2.5-2.6B</th><th style="padding:6px 4px;text-align:center;font-weight:500;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:11px;width:9.111%;word-break:normal;vertical-align:middle;">Qwen3.5-2B</th><th style="padding:6px 4px;text-align:center;font-weight:500;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:11px;width:9.111%;word-break:normal;vertical-align:middle;">Gemma-4-E2B-it</th><th style="padding:6px 4px;text-align:center;font-weight:500;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:11px;width:9.111%;border-left:1px solid rgba(29, 111, 208, 0.25);word-break:normal;vertical-align:middle;">Qwen3.5-4B</th><th style="padding:6px 4px;text-align:center;font-weight:500;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:11px;width:9.111%;word-break:normal;vertical-align:middle;">granite-4.2-3B</th><th style="padding:6px 4px;text-align:center;font-weight:500;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:11px;width:9.111%;word-break:normal;vertical-align:middle;">Nemotron-3-Nano-4B</th><th style="padding:6px 4px;text-align:center;font-weight:500;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:11px;width:9.111%;word-break:normal;vertical-align:middle;">Gemma-4-E4B-it</th><th style="padding:6px 4px;text-align:center;font-weight:500;border-bottom:2px solid #1D6FD0;color:#1D6FD0;font-size:11px;width:9.111%;word-break:normal;vertical-align:middle;">LFM2.5-8B-A1B</th></tr></thead><tbody>
+<tr style="background:rgba(29, 111, 208, 0.03)"><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">Average</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;"><strong style="color:#1D6FD0">53.9</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;">33.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;">28.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;">24.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;">51.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;">42.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;">32.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;">31.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;font-weight:600;">28.4</td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">Code Reasoning</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">LiveCodeBench v6</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">69.1</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">42.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">20.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">42.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">56.4</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">58.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">50.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">53.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">39.8</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">LCB-Pro 25Q2 (Easy)</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">68.0</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">30.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">10.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">27.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">58.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">54.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">51.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">45.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">27.8</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">LCB-Pro 25Q2 (Medium)</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">17.5</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">7.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">5.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">5.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">1.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">OJBench</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">32.5</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">11.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">2.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">11.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">24.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">21.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">20.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">19.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">8.2</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">SciCode (wbg)</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">26.3</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">14.2<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">2.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">20.9<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">16.1<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">24.9<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">16.4<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">24.4<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">7.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">Math Reasoning</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">AIME 2025</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">86.5</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">41.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">29.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">31.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">78.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">79.4</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">56.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">37.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">46.0</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">AIME 2026</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">86.5</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">45.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">29.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">39.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">82.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">83.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">62.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">45.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">56.7</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">HMMT Feb 2026</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>63.8</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">33.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">20.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">17.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">64.0</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">60.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">51.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">30.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">38.5</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">MATH-500</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>94.6</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">89.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">85.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">85.4</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">99.0</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">97.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">91.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">88.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">93.2</td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">Instruction Following</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">IFBench</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>66.3</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">59.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">46.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">25.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">59.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">73.0</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">58.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">28.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">51.0</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">IFEval</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;">86.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>93.4</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">77.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">31.4</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">90.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">93.7</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">88.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">44.4</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">90.8</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">Multi-IF</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;">71.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">76.8</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">57.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">40.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">73.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">75.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">65.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">45.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">71.4</td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">General Knowledge</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">MMLU-Pro</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>70.8</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">65.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">64.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">56.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">78.0</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">65.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">65.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">68.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">63.1</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">MMLU-Redux</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>84.7</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">80.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">80.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">71.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">88.7</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">78.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">79.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">83.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">80.0</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">HLE</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>8.9</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">6.2<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">2.6<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">4.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">9.9</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">6.6<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">4.9<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">6.9<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">GPQA-Diamond</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>70.2</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">55.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">45.6<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">43.3<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">77.1</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">55.9<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">51.3<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">57.6<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">51.3<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">SuperGPQA</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>40.8</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">26.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">38.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">30.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">52.8</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">39.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">37.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">38.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">34.5</td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">Long Context</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">AA-LCR</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>59.0</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">5.3<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">28.7<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">17.0<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">61.0</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">24.3<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">17.3<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">33.0<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">NoLiMa</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">68.1</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">0.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">17.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">43.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">5.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">1.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">2.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.5</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">LongBenchPro</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>44.8</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">23.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">8.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">42.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">58.4</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">34.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">27.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">53.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">19.6</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">LongBench v2</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>43.7</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">30.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">24.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">33.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">47.3</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">36.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">32.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">42.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">30.4</td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">Tool Use</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">τ³-Bench Banking</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">20.8</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">7.2<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">2.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">6.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">5.6<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">1.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">4.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.4</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">τ²-Bench Telecom</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">97.1</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">90.4</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">69.0<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">20.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">92.1<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">40.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">28.1<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">20.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">16.1<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">BFCL v4</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">66.6</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">61.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">43.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">36.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">56.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">52.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">43.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">47.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">49.2</td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">Coding Agent</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">SWE-bench Verified</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">46.4</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">6.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">5.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">2.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">33.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">36.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">15.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.4</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">SWE-bench Pro</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>14.4</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">0.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">28.2</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">12.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.4</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">Terminal-Bench v2.1</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>8.6</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">4.5<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.0<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.4<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">25.8</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">13.9<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.8<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">1.9<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">1.9</td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">Search Agent</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">BrowseComp-ZH</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">43.5</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">9.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">18.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">4.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">39.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">21.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">3.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">7.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">13.2</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">BrowseComp Top100</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">39.7</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">13.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">19.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">6.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">33.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">19.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">4.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">6.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">9.7</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">GAIA Text-103</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">88.7</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">49.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">47.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">30.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">78.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">57.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">26.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">39.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">41.1</td></tr>
+<tr><td colspan="10" style="padding:5px 10px;font-weight:600;color:#1D6FD0;border-bottom:1px solid rgba(29, 111, 208, 0.2);background:rgba(29, 111, 208, 0.14)">General Agent</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">GDPval-AA v2</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">19.6</strong><sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">4.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">11.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0<sup style="font-size:0.72em;opacity:0.7">&dagger;</sup></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">0.0</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">Claw-Gym</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong>59.2</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">19.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">25.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">31.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">51.6</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">60.0</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">33.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">37.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">2.7</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">WildClaw</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">23.9</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">10.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">9.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">8.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">17.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">20.0</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">8.9</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">14.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">4.5</td></tr>
+<tr><td class="benchmark-cell" style="padding:5px 5px;padding-left:14px;border-bottom:1px solid rgba(128, 128, 128, 0.15);"><div class="benchmark-capability" style="font-size:14px;font-weight:600;line-height:1.22;color:#171717">QwenClaw</div></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);background:rgba(29, 111, 208, 0.08);vertical-align:middle;font-size:14px;line-height:1.2;"><strong style="color:#1D6FD0">42.9</strong></td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">19.3</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">18.2</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">14.5</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);border-left:1px solid rgba(29, 111, 208, 0.25);vertical-align:middle;font-size:14px;line-height:1.2;">37.1</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">36.4</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">16.8</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">16.7</td><td style="padding:5px 3px;text-align:center;border-bottom:1px solid rgba(128, 128, 128, 0.15);vertical-align:middle;font-size:14px;line-height:1.2;">4.5</td></tr>
+</tbody></table>
+  <p style="margin:6px 0 0;font-size:11px;line-height:1.55;opacity:0.75">1. <strong style="color:#1D6FD0">Blue bold</strong> indicates the best result across all models in the row (including 4B-class models); <strong>Black bold</strong> indicates the best result among 2B-class models.<br>2. Scores marked <sup style="font-size:0.72em;opacity:0.7">&dagger;</sup> come from the official Artificial Analysis release; all others are reproduced internally.</p>
+</div>
+
+### Training Recipe
+
+The training of MiniCPM5-2B is a full-stack practice of **[UltraData Tiered Data Management](https://arxiv.org/pdf/2602.09003)**, covering three stages: base training, mid-training, and post-training.
+
+During **base training**, the model goes through stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb), [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3), and [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math).
+
+During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **400B tokens of deep-thinking SFT** to establish deep-thinking and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, agentic tasks, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
+
+![MiniCPM5-2B Training Recipe](./training_recipe.jpg)
+
+#### What does RL + OPD bring?
+
+**RL + OPD** is a key part of MiniCPM5-2B post-training. During the **RL** stage, we adopted the critic-based algorithm described in [JustRL II](https://app.notion.com/p/panhaoxuan/JustRL-II-Scaling-Small-LLMs-to-128K-Reasoning-with-a-Critic-3c77e972297c80adb8b5f4b05d267012#5f3eb56b29f048ebab5f71138f12e36f), substantially improving training stability and achieving significant gains across multiple domains. On the benchmarks listed below, RL + OPD improves reasoning and general capabilities by an average of **↑10.96 points**, and agentic capabilities by **↑6.96 points**.
+
+**OPD** merges the capabilities of 16 expert models produced by RL training, including 5 agentic expert models. At each response position, we compute the full-vocabulary reverse KL divergence between student and teacher logits as the advantage estimate, replacing the original verification-based advantage. OPD directly reuses the prompts used to train each RL teacher as distillation data, so no additional corpus construction is required.
+
+![MiniCPM5-2B RL + OPD Gains](./rl_opd_score_gains.png)
+
+### Quickstart
+
+#### vLLM
+
+```bash
+pip install "vllm>=0.21"
+vllm serve openbmb/MiniCPM5-2B --port 8000
+```
+
+```bash
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openbmb/MiniCPM5-2B",
+    "messages": [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}],
+    "max_tokens": 128,
+    "temperature": 1.0
+  }'
+```
+
+#### SGLang
+
+```bash
+pip install "sglang[srt]>=0.5.12"
+python -m sglang.launch_server --model-path openbmb/MiniCPM5-2B --port 30000
+```
+
+```bash
+curl http://localhost:30000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openbmb/MiniCPM5-2B",
+    "messages": [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}],
+    "max_tokens": 128,
+    "temperature": 1.0
+  }'
+```
+
+**Speculative decoding (DSpark)**: we also release [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark), a DSpark draft model trained for MiniCPM5-2B. Enable it in SGLang to accelerate decoding while keeping the target model's outputs unchanged:
+
+```bash
+python -m sglang.launch_server \
+  --model-path openbmb/MiniCPM5-2B \
+  --trust-remote-code \
+  --speculative-algorithm DSPARK \
+  --speculative-draft-model-path openbmb/MiniCPM5-2B-DSpark \
+  --speculative-dspark-block-size 7 \
+  --port 30000
+```
+
+#### Transformers
+
+```bash
+pip install -U "transformers>=5.6" accelerate torch
+```
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+model_id = "openbmb/MiniCPM5-2B"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    torch_dtype="auto",
+    device_map="auto",
+)
+messages = [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}]
+inputs = tokenizer.apply_chat_template(
+    messages,
+    tokenize=True,
+    add_generation_prompt=True,
+    enable_thinking=True,
+    return_dict=True,
+    return_tensors="pt",
+).to(model.device)
+outputs = model.generate(**inputs, max_new_tokens=128)
+print(tokenizer.decode(outputs[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True))
+```
+
+Recommended sampling params: `temperature=1.0, top_p=0.95`
+
+### Tool Calling
+
+For tool / function calling, **SGLang is the recommended backend**. MiniCPM5-2B emits XML-style tool calls and SGLang's built-in `minicpm5` parser converts them to OpenAI-compatible `tool_calls` natively:
+
+```bash
+python -m sglang.launch_server --model-path openbmb/MiniCPM5-2B --port 30000 \
+    --tool-call-parser minicpm5      # or: --tool-call-parser auto
+```
+
+### GitHub Cookbooks and Agent Skills
+
+MiniCPM5-2B uses the **standard `LlamaForCausalLM` architecture**, so mainstream inference engines can load it directly: **no custom kernels, no model-code fork**. For step-by-step deployment and fine-tuning instructions, use the GitHub cookbooks below. Agent Skills are linked as GitHub resources for users working with Cursor / Claude Code style coding agents.
+
+#### Deployment
+
+| Backend | Model format / use case | Cookbook | Agent Skill |
+| --- | --- | --- | --- |
+| Transformers | BF16 / FP16 local Python inference, GPU + CPU | [transformers.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/transformers.md) | [minicpm5-deploy-transformers](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-transformers/SKILL.md) |
+| vLLM | BF16 / FP16 OpenAI server | [vllm.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm.md) | [minicpm5-deploy-vllm](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-vllm/SKILL.md) |
+| SGLang | BF16 / FP16 OpenAI server, recommended for tool calling | [sglang.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md) | [minicpm5-deploy-sglang](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-sglang/SKILL.md) |
+| llama.cpp | GGUF local inference, CPU/GPU | [llama_cpp.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/llama_cpp.md) | [minicpm5-deploy-llama-cpp](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-llama-cpp/SKILL.md) |
+| Ollama | GGUF local on-device runtime | [ollama.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/ollama.md) | [minicpm5-deploy-ollama](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-ollama/SKILL.md) |
+| LM Studio | GGUF Mac desktop app and OpenAI server | [lmstudio.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/lmstudio.md) | [minicpm5-deploy-lmstudio](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-lmstudio/SKILL.md) |
+| MLX | MLX / 4bit local inference on Apple Silicon | [mlx.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/mlx.md) | [minicpm5-deploy-mlx](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-mlx/SKILL.md) |
+| ArcLight | GGUF local on-device, CPU, Desktop & Server | [arclight.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/arclight.md) | [minicpm5-deploy-arclight](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-arclight/SKILL.md) |
+| vLLM Ascend         | BF16 / FP16 OpenAI server                   | [vllm_ascend.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm_ascend.md)                 | [minicpm5-deploy-vllm-ascend](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-vllm-ascend/SKILL.md)  |
+
+#### Fine-tuning
+
+| Framework | Use case | Cookbook | Agent Skill |
+| --- | --- | --- | --- |
+| TRL + PEFT | LoRA / SFT fine-tuning | [trl.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/trl.md) | [minicpm5-finetune-trl](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-trl/SKILL.md) |
+| LLaMA-Factory | Fine-tuning | [llamafactory.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/llamafactory.md) | [minicpm5-finetune-llamafactory](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-llamafactory/SKILL.md) |
+| ms-swift | Fine-tuning | [ms_swift.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/ms_swift.md) | [minicpm5-finetune-ms-swift](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-ms-swift/SKILL.md) |
+| unsloth | Fine-tuning | [unsloth.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/unsloth.md) | [minicpm5-finetune-unsloth](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-unsloth/SKILL.md) |
+
+#### Other Supported Frameworks
+
+In addition to the deployment and fine-tuning frameworks listed above, MiniCPM5-2B is also supported by FlagOS for multi-chip deployment.
+
+##### FlagOS Overview
+
+To enable large-scale deployment across different AI chips, Beijing Zhiyuan Research Institute, together with numerous research institutions, chip manufacturers, system vendors, and algorithm and software organizations both domestically and internationally, jointly initiated and established the FlagOS Open Source Community.
+
+The FlagOS community is dedicated to building a unified, open-source system software stack for various AI chips, encompassing core open-source projects such as a large-scale operator library, a unified AI compiler, parallel training and inference frameworks, and a unified communication library. It aims to create an open technology ecosystem connecting the “model-system-chip” layers. By enabling “develop once, deploy across chips”, FlagOS unlocks the computational potential of hardware, breaks down the ecosystem silos between different chip software stacks, and effectively reduces migration costs for developers.The FlagOS community fosters an AI hardware and software ecosystem, overcomes single-vendor closed-source monopolies, promotes widespread deployment of AI hardware technologies, and is committed to rooted in China while embracing global collaboration.
+
+Official website express: [https://flagos.io](https://flagos.io/)
+
+<details>
+<summary>FlagOS multi-chip support and usage</summary>
+
+##### FlagOS: Supporting Multiple AI Chips
+
+Thanks to FlagOS’s unified multi-chip AI system software stack, MiniCPM5-2B was adapted to 9 different AI chips in an extremely short time. Currently, the multi-chip version of MiniCPM5-2B has been released on FlagRelease, FlagOS’s platform for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. Details are as follows:
+
+|Vendor|ModelScope|Huggingface|
+|---|---|---|
+|Nvidia|[MiniCPM5-2B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|[MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|
+|Hygon|[MiniCPM5-2B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-hygon-FlagOS)|[MiniCPM5-2B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-hygon-FlagOS)|
+|Metax|[MiniCPM5-2B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-metax-FlagOS)|[MiniCPM5-2B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-metax-FlagOS)|
+|Iluvatar|[MiniCPM5-2B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)|[MiniCPM5-2B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)|
+|Zhenwu|[MiniCPM5-2B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)|[MiniCPM5-2B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)|
+|Mthreads|[MiniCPM5-2B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)|[MiniCPM5-2B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)|
+|Kunlunxin|[MiniCPM5-2B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS)|[MiniCPM5-2B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS)|
+|Ascend|[MiniCPM5-2B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|[MiniCPM5-2B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|
+|ARM-v9|[MiniCPM5-2B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|[MiniCPM5-2B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|
+
+##### FlagOS Usage
+
+###### FlagOS Performance Acceleration on Nvidia
+
+####### From FlagRelease (**Recommendation**)
+
+FlagRelease is a platform developed by the FlagOS team for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. The multi-chip version of MiniCPM5-2B has already been released on FlagRelease. All necessary software packages are pre-installed on the platform, so users do not need to install anything.
+
+####### FlagRelease Image Key Versions
+
+####### FlagRelease Quick Start
+
+|Vendor|ModelScope|Huggingface|
+|---|---|---|
+|Nvidia|[MiniCPM5-2B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|[MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|
+|Hygon|[MiniCPM5-2B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-hygon-FlagOS)|[MiniCPM5-2B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-hygon-FlagOS)|
+|Metax|[MiniCPM5-2B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-metax-FlagOS)|[MiniCPM5-2B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-metax-FlagOS)|
+|Iluvatar|[MiniCPM5-2B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)|[MiniCPM5-2B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)|
+|Zhenwu|[MiniCPM5-2B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)|[MiniCPM5-2B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)|
+|Mthreads|[MiniCPM5-2B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)|[MiniCPM5-2B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)|
+|Kunlunxin|[MiniCPM5-2B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS)|[MiniCPM5-2B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS)|
+|Ascend|[MiniCPM5-2B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|[MiniCPM5-2B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|
+|ARM-v9|[MiniCPM5-2B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|[MiniCPM5-2B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|
+
+####### From Scratch
+
+- Dependencies: Python 3.12, GLIBC 2.39, GLIBCXX 3.4.33, CXXABI 1.3.15
+
+####### Vllm Version
+
+####### Installing the FlagOS Operator Library
+
+Official Repository: https://github.com/flagos-ai/FlagGems
+
+```PowerShell
+pip install flag-gems==4.2.1rc0
+pip install triton==3.5.1
+```
+
+####### Activating Acceleration
+
+You can enable flagGems acceleration by adding the import of flagGems in the source code of vllm where inference is performed.
+
+```Bash
+import flag_gems
+flag_gems.enable(record=True, once=True, path="/root/gems.txt")
+```
+
+```PowerShell
+vllm serve ${model_path} \
+--trust-remote-code \
+--dtype bfloat16 \
+--enforce-eager \
+--port ${Port} \
+--served-model-name ${model_name} \
+--gpu-memory-utilization 0.85
+```
+
+###### Using FlagOS Unified Multi-Chip Backend Plugin
+
+[**vllm-plugin-FL**](https://github.com/flagos-ai/vllm-plugin-FL) is a plugin built for the vLLM inference/service framework. Developed on top of FlagOS’s unified multi-chip backend, it is designed to extend vLLM’s capabilities and performance across a variety of hardware environments.
+
+####### Using vllm-plugin-FL
+
+|Vendor|From Scratch|From FlagRelease||
+|---|---|---|---|
+|Nvidia|[vllm-plugin-FL/MiniCPM5-2B](https://github.com/flagos-ai/vllm-plugin-FL/blob/main/examples/minicpm/README.md)|[MiniCPM5-2B-ModelScope](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|[MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|
+
+</details>
+
 ## 🚀 MiniCPM5-1B
+
+
+> **MiniCPM5-1B** is the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA.
+
+<details>
+<summary>Click to expand: highlights, introduction, evaluation, inference setup</summary>
+
+### Highlights
+
+🏆 **1B-class open-source SOTA**: compared with strong open-source models in the same size class, MiniCPM5-1B reaches SOTA within this comparison set. Its advantage is most visible in agentic tool use, code generation, and difficult reasoning.
+
+![MiniCPM5-1B capability comparison by domain](./assets/minicpm5/public_leaderboard_radar_en.png)
+
+🧠 **Hybrid Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
+
+🛠️ **Deployment / Fine-tuning Resources**: the MiniCPM GitHub repo provides single-page cookbooks and Agent Skills for major inference backends and fine-tuning frameworks.
+
+🐱 **Desktop Pet**: a local-LLM desktop pet driven by MiniCPM5-1B.
 
 ### Introduction
 
@@ -315,103 +753,6 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 
 In addition to the deployment and fine-tuning frameworks listed above, MiniCPM5-1B is also supported by FlagOS for multi-chip deployment.
 
-#### FlagOS Overview
-
-To enable large-scale deployment across different AI chips, Beijing Zhiyuan Research Institute, together with numerous research institutions, chip manufacturers, system vendors, and algorithm and software organizations both domestically and internationally, jointly initiated and established the FlagOS Open Source Community.
-
-The FlagOS community is dedicated to building a unified, open-source system software stack for various AI chips, encompassing core open-source projects such as a large-scale operator library, a unified AI compiler, parallel training and inference frameworks, and a unified communication library. It aims to create an open technology ecosystem connecting the “model-system-chip” layers. By enabling “develop once, deploy across chips”, FlagOS unlocks the computational potential of hardware, breaks down the ecosystem silos between different chip software stacks, and effectively reduces migration costs for developers.The FlagOS community fosters an AI hardware and software ecosystem, overcomes single-vendor closed-source monopolies, promotes widespread deployment of AI hardware technologies, and is committed to rooted in China while embracing global collaboration.
-
-Official website express: [https://flagos.io](https://flagos.io/)
-
-<details>
-<summary>FlagOS multi-chip support and usage</summary>
-
-#### FlagOS: Supporting Multiple AI Chips
-
-Thanks to FlagOS’s unified multi-chip AI system software stack, MiniCPM5-1B was adapted to 4–5 different AI chips in an extremely short time. Currently, the multi-chip version of MiniCPM5-1B has been released on FlagRelease, FlagOS’s platform for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. Details are as follows:
-
-|Vendor|ModelScope|Huggingface|
-|---|---|---|
-|Nvidia|[MiniCPM5-1B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-|Hygon|[MiniCPM5-1B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|[MiniCPM5-1B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|
-|Metax|[MiniCPM5-1B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-metax-FlagOS)|[MiniCPM5-1B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-metax-FlagOS)|
-|Iluvatar|[MiniCPM5-1B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|[MiniCPM5-1B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|
-|Zhenwu|[MiniCPM5-1B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|[MiniCPM5-1B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|
-|Mthreads|[MiniCPM5-1B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|[MiniCPM5-1B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|
-|Kunlunxin|[MiniCPM5-1B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|[MiniCPM5-1B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|
-|Ascend|[MiniCPM5-1B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|[MiniCPM5-1B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|
-|ARM-v9|[MiniCPM5-1B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|[MiniCPM5-1B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|
-
-#### FlagOS Usage
-
-##### FlagOS Performance Acceleration on Nvidia
-
-###### From FlagRelease (**Recommendation**)
-
-FlagRelease is a platform developed by the FlagOS team for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. The multi-chip version of MiniCPM5-1B has already been released on FlagRelease. All necessary software packages are pre-installed on the platform, so users do not need to install anything.
-
-###### FlagRelease Image Key Versions
-
-###### FlagRelease Quick Start
-
-|Vendor|ModelScope|Huggingface|
-|---|---|---|
-|Nvidia|[MiniCPM5-1B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-|Hygon|[MiniCPM5-1B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|[MiniCPM5-1B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|
-|Metax|[MiniCPM5-1B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-metax-FlagOS)|[MiniCPM5-1B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-metax-FlagOS)|
-|Iluvatar|[MiniCPM5-1B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|[MiniCPM5-1B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|
-|Zhenwu|[MiniCPM5-1B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|[MiniCPM5-1B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|
-|Mthreads|[MiniCPM5-1B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|[MiniCPM5-1B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|
-|Kunlunxin|[MiniCPM5-1B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|[MiniCPM5-1B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|
-|Ascend|[MiniCPM5-1B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|[MiniCPM5-1B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|
-|ARM-v9|[MiniCPM5-1B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|[MiniCPM5-1B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|
-
-###### From Scratch
-
-- Dependencies: Python 3.12, GLIBC 2.39, GLIBCXX 3.4.33, CXXABI 1.3.15
-
-###### Vllm Version
-
-###### Installing the FlagOS Operator Library
-
-Official Repository: https://github.com/flagos-ai/FlagGems
-
-```PowerShell
-pip install flag-gems==4.2.1rc0
-pip install triton==3.5.1
-```
-
-###### Activating Acceleration
-
-You can enable flagGems acceleration by adding the import of flagGems in the source code of vllm where inference is performed.
-
-```Bash
-import flag_gems
-flag_gems.enable(record=True, once=True, path="/root/gems.txt")
-```
-
-```PowerShell
-vllm serve ${model_path} \
---trust-remote-code \
---dtype bfloat16 \
---enforce-eager \
---port ${Port} \
---served-model-name ${model_name} \
---gpu-memory-utilization 0.85
-```
-
-##### Using FlagOS Unified Multi-Chip Backend Plugin
-
-[**vllm-plugin-FL**](https://github.com/flagos-ai/vllm-plugin-FL) is a plugin built for the vLLM inference/service framework. Developed on top of FlagOS’s unified multi-chip backend, it is designed to extend vLLM’s capabilities and performance across a variety of hardware environments.
-
-###### Using vllm-plugin-FL
-
-|Vendor|From Scratch|From FlagRelease||
-|---|---|---|---|
-|Nvidia|[vllm-plugin-FL/MiniCPM5-1B](https://github.com/flagos-ai/vllm-plugin-FL/blob/main/examples/minicpm/README.md)|[MiniCPM5-1B-ModelScope](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-
-</details>
-
 ### Desktop Pet
 
 We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, a desktop pet driven locally by MiniCPM5-1B. It uses a thin `llama.cpp` `llama-server` sidecar to load the GGUF model and serves an OpenAI-compatible local endpoint to an Electron pet UI.
@@ -424,6 +765,9 @@ The pet supports Apple Silicon / NVIDIA GPU / CPU paths, can work with coding ag
 - **Developer run**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
 
 > The pet UI layer is forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk) (AGPL-3.0). On top of the upstream pet runtime, animation packs, and multi-agent integrations, we add the local MiniCPM5-1B sidecar, onboarding flow, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
+
+
+</details>
 
 ## 🧪 MiniCPM-SALA
 
