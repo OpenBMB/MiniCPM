@@ -363,15 +363,14 @@ FlagOS 社区致力于打造面向多种 AI 芯片的统一、开源的系统软
 
 
 
-####### From FlagRelease（**推荐**）
+**From FlagRelease（推荐）**
 
 FlagRelease是FlagOS团队构建的一套面向多架构人工智能芯片的大模型自动迁移、适配与发布平台，已发布MiniCPM5-2B的多芯片版本。FlagRelease 已内置相关软件包，无需用户安装。
 
-####### FlagRelease 镜像关键版本信息
 
 
 
-####### FlagRelease 使用速递
+**FlagRelease 使用速递**
 
 
 | Vendor    | ModelScope                                                                                                    | Huggingface                                                                                         |
@@ -389,17 +388,16 @@ FlagRelease是FlagOS团队构建的一套面向多架构人工智能芯片的大
 
 
 
-####### 从零开始
+**从零开始**
 
 - 依赖Python3.12, GLIBC_2.39, GLIBCXX_3.4.33, CXXABI_1.3.15 环境
 
 
 
-####### Vllm 版本
 
 
 
-####### 安装 FlagOS 算子库
+**安装 FlagOS 算子库**
 
 官方仓库：[https://github.com/flagos-ai/FlagGems](https://github.com/flagos-ai/FlagGems)
 
@@ -410,7 +408,7 @@ pip install triton==3.5.1
 
 
 
-####### 开启加速
+**开启加速**
 
 通过在vllm执行推理的源码中增加flagGems的导入即可开启flagGems加速
 
@@ -435,7 +433,7 @@ vllm serve ${model_path} \
 
 **[vllm-plugin-FL](https://github.com/flagos-ai/vllm-plugin-FL)** 是一个为 **vLLM** 推理/服务框架构建的插件，它基于 **FlagOS 的统一多芯片后端**开发，旨在扩展 vLLM 在多种硬件环境下的功能和性能表现。
 
-####### vllm-plugin-FL 使用
+**vllm-plugin-FL 使用**
 
 
 | 厂商  | 从零开始                                                                                                             | 从 FlagRelease 开始                                                                                     |                                                                                               |

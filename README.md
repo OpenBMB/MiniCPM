@@ -336,13 +336,12 @@ Thanks to FlagOS’s unified multi-chip AI system software stack, MiniCPM5-2B wa
 
 ###### FlagOS Performance Acceleration on Nvidia
 
-####### From FlagRelease (**Recommendation**)
+**From FlagRelease (Recommendation)**
 
 FlagRelease is a platform developed by the FlagOS team for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. The multi-chip version of MiniCPM5-2B has already been released on FlagRelease. All necessary software packages are pre-installed on the platform, so users do not need to install anything.
 
-####### FlagRelease Image Key Versions
 
-####### FlagRelease Quick Start
+**FlagRelease Quick Start**
 
 |Vendor|ModelScope|Huggingface|
 |---|---|---|
@@ -356,13 +355,12 @@ FlagRelease is a platform developed by the FlagOS team for automatic migration, 
 |Ascend|[MiniCPM5-2B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|[MiniCPM5-2B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|
 |ARM-v9|[MiniCPM5-2B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|[MiniCPM5-2B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|
 
-####### From Scratch
+**From Scratch**
 
 - Dependencies: Python 3.12, GLIBC 2.39, GLIBCXX 3.4.33, CXXABI 1.3.15
 
-####### Vllm Version
 
-####### Installing the FlagOS Operator Library
+**Installing the FlagOS Operator Library**
 
 Official Repository: https://github.com/flagos-ai/FlagGems
 
@@ -371,7 +369,7 @@ pip install flag-gems==4.2.1rc0
 pip install triton==3.5.1
 ```
 
-####### Activating Acceleration
+**Activating Acceleration**
 
 You can enable flagGems acceleration by adding the import of flagGems in the source code of vllm where inference is performed.
 
@@ -394,7 +392,7 @@ vllm serve ${model_path} \
 
 [**vllm-plugin-FL**](https://github.com/flagos-ai/vllm-plugin-FL) is a plugin built for the vLLM inference/service framework. Developed on top of FlagOS’s unified multi-chip backend, it is designed to extend vLLM’s capabilities and performance across a variety of hardware environments.
 
-####### Using vllm-plugin-FL
+**Using vllm-plugin-FL**
 
 |Vendor|From Scratch|From FlagRelease||
 |---|---|---|---|
