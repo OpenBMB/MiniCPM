@@ -23,7 +23,7 @@ OpenAI-compatible server with RadixAttention prefix cache. Best fit for **tool c
 ### 1. Install (once)
 
 ```bash
-pip install "sglang[srt]>=0.5.12"          # latest, requires CUDA 13.x driver
+pip install "sglang[srt]>=0.5.16"          # latest, requires CUDA 13.x driver
 # pip install "sglang==0.5.6.post3"        # fallback for CUDA 12.x driver hosts
 ```
 
@@ -56,6 +56,23 @@ CUDA_VISIBLE_DEVICES=${GPU_ID} python -m sglang.launch_server \
 ```
 
 Wait for `The server is fired up and ready to roll!` .
+
+**Speculative decoding (DSpark)**: we also release [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark), a DSpark draft model trained for MiniCPM5-2B. Enable it in SGLang to accelerate decoding while keeping the target model's outputs unchanged:
+
+```bash
+CUDA_VISIBLE_DEVICES=${GPU_ID} python -m sglang.launch_server \
+    --model-path "${MODEL_PATH}" \
+    --served-model-name MiniCPM5-2B \
+    --dtype bfloat16 \
+    --context-length ${CTX_LEN} \
+    --mem-fraction-static ${MEM_FRAC} \
+    --tool-call-parser ${TOOL_PARSER} \
+    --host 0.0.0.0 \
+    --port ${PORT} \
+    --speculative-algorithm DSPARK \
+    --speculative-draft-model-path openbmb/MiniCPM5-2B-DSpark \
+    --speculative-dspark-block-size 7
+```
 
 ### 4. Validate
 
