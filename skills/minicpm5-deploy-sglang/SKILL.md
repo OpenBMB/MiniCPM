@@ -1,9 +1,9 @@
 ---
 name: minicpm5-deploy-sglang
-description: Serve MiniCPM5-1B via SGLang as an OpenAI-compatible HTTP server with RadixAttention prefix cache and built-in MiniCPM5 tool-call parsing. Use when the user asks for "SGLang", "RadixAttention", "prefix cache", batch evaluation, tool calling, or wants a high-concurrency NVIDIA-GPU server alternative to vLLM.
+description: Serve MiniCPM5-1B or MiniCPM5-2B via SGLang as an OpenAI-compatible HTTP server with RadixAttention prefix cache and built-in MiniCPM5 tool-call parsing. Use when the user asks for "SGLang", "RadixAttention", "prefix cache", batch evaluation, tool calling, or wants a high-concurrency NVIDIA-GPU server alternative to vLLM.
 ---
 
-# Deploy MiniCPM5-1B with SGLang
+# Deploy MiniCPM5-1B and MiniCPM5-2B with SGLang
 
 OpenAI-compatible server with RadixAttention prefix cache. Best fit for **tool calling**, batched eval pipelines, and high-concurrency serving.
 
@@ -11,7 +11,7 @@ OpenAI-compatible server with RadixAttention prefix cache. Best fit for **tool c
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `MODEL_PATH` | `openbmb/MiniCPM5-1B` | required |
+| `MODEL_PATH` | `openbmb/MiniCPM5-2B` or `openbmb/MiniCPM5-1B`| required; |
 | `PORT` | `30000` | `30000` |
 | `GPU_ID` | `0` | `0` |
 | `CTX_LEN` | `131072` (128 K) | `131072` |
@@ -23,7 +23,7 @@ OpenAI-compatible server with RadixAttention prefix cache. Best fit for **tool c
 ### 1. Install (once)
 
 ```bash
-pip install "sglang[srt]>=0.5.12"          # latest, requires CUDA 13.x driver
+pip install "sglang[srt]>=0.5.16"          # latest, requires CUDA 13.x driver
 # pip install "sglang==0.5.6.post3"        # fallback for CUDA 12.x driver hosts
 ```
 
@@ -46,7 +46,7 @@ export SGLANG_DISABLE_CUDNN_CHECK=1
 ```bash
 CUDA_VISIBLE_DEVICES=${GPU_ID} python -m sglang.launch_server \
     --model-path "${MODEL_PATH}" \
-    --served-model-name MiniCPM5-1B \
+    --served-model-name MiniCPM5-2B \
     --dtype bfloat16 \
     --context-length ${CTX_LEN} \
     --mem-fraction-static ${MEM_FRAC} \
@@ -57,16 +57,33 @@ CUDA_VISIBLE_DEVICES=${GPU_ID} python -m sglang.launch_server \
 
 Wait for `The server is fired up and ready to roll!` .
 
+**Speculative decoding (DSpark)**: we also release [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark), a DSpark draft model trained for MiniCPM5-2B. Enable it in SGLang to accelerate decoding while keeping the target model's outputs unchanged:
+
+```bash
+CUDA_VISIBLE_DEVICES=${GPU_ID} python -m sglang.launch_server \
+    --model-path "${MODEL_PATH}" \
+    --served-model-name MiniCPM5-2B \
+    --dtype bfloat16 \
+    --context-length ${CTX_LEN} \
+    --mem-fraction-static ${MEM_FRAC} \
+    --tool-call-parser ${TOOL_PARSER} \
+    --host 0.0.0.0 \
+    --port ${PORT} \
+    --speculative-algorithm DSPARK \
+    --speculative-draft-model-path openbmb/MiniCPM5-2B-DSpark \
+    --speculative-dspark-block-size 7
+```
+
 ### 4. Validate
 
 ```bash
 curl http://localhost:${PORT}/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "MiniCPM5-1B",
+        "model": "MiniCPM5-2B",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64,
-        "chat_template_kwargs": {"enable_thinking": false}
+        "temperature": 1.0, "top_p": 0.95, "max_tokens": 64,
+        "chat_template_kwargs": {"enable_thinking": true}
     }'
 ```
 
@@ -80,7 +97,7 @@ SGLang includes a native MiniCPM5 XML tool-call parser. Keep `TOOL_PARSER=minicp
 curl http://localhost:${PORT}/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "MiniCPM5-1B",
+        "model": "MiniCPM5-2B",
         "messages": [{"role": "user", "content": "What is the weather in Beijing?"}],
         "tools": [{
             "type": "function",
@@ -95,7 +112,7 @@ curl http://localhost:${PORT}/v1/chat/completions \
             }
         }],
         "tool_choice": "auto",
-        "temperature": 0.7,
+        "temperature": 1.0, "top_p": 0.95,
         "max_tokens": 256
     }'
 ```
@@ -109,7 +126,7 @@ llm = sgl.Engine(model_path="${MODEL_PATH}", tp_size=1, mem_fraction_static=0.8,
 
 outputs = llm.generate(
     ["用一句话解释什么是 GQA。"],
-    sampling_params={"temperature": 0.9, "top_p": 0.95, "max_new_tokens": 1024,
+    sampling_params={"temperature": 1.0, "top_p": 0.95, "max_new_tokens": 1024,
                      "skip_special_tokens": False},
 )
 print(outputs)

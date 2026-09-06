@@ -12,7 +12,8 @@
 <a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM Tech Report</a> |
 <a href="https://modelbest.feishu.cn/wiki/UtWxwcERfiRIpIkBOjuc3h9tn1D?fromScene=spaceOverview" target="_blank">MiniCPM Wiki (in Chinese)</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V Repo</a> |
-<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a>
+<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a> |
+<a href="https://huggingface.co/spaces/openbmb/MiniCPM5-2B-Demo" target="_blank">Online Demo</a>
 </p>
 
 <p align="center">
@@ -22,20 +23,17 @@ Join our <a href="https://discord.gg/3cGQn9b3YM" target="_blank">discord</a> and
 
 ## ✨ Highlights
 
-We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA.
+We are releasing **MiniCPM5-2B**, the second model in the **MiniCPM5** series, following [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B). It is a dense 2B Transformer that scales up the same training recipe, built for on-device, local deployment, and resource-constrained scenarios, reaching 2B-class open-source SOTA.
 
-🏆 **1B-class open-source SOTA**: MiniCPM5-1B reaches an average score of 42.57 across reasoning, knowledge, code, instruction-following, math, logic and agentic benchmarks, above the highest average score of 35.61 among strong open-source models in the same size class; its strengths are most visible in agentic tool use, code, and competition math.
+🏆 **2B-class open-source SOTA**: compared with strong open-source models of similar size, MiniCPM5-2B achieves SOTA performance within this comparison set. It remains competitive with 4B-class models overall, while showing its advantages over models of comparable size in coding, mathematics, long-context understanding, tool use, and agentic tasks.
 
-![MiniCPM5-1B capability comparison by domain](./assets/minicpm5/public_leaderboard_radar_en.png)
+![MiniCPM5-2B capability comparison by domain](./assets/minicpm5/minicpm5_2b_public_leaderboard_radar_en.png)
 
-🧠 **Hybrid Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
-
-🛠️ **Deployment / Fine-tuning Agent Skills**: the repo provides single-page cookbooks for major inference backends and fine-tuning frameworks, each paired with an [Agent Skill](./skills/) to help developers reproduce deployment and fine-tuning workflows.
-
-🐱 **Desktop Pet**: a local-LLM desktop pet driven by MiniCPM5-1B — see [Desktop Pet](#desktop-pet) below.
+📂 **Open High-Quality Data**: Alongside the model, we are releasing the high-quality training datasets behind it as part of the [UltraData](https://ultradata.openbmb.cn/) family: [UltraX](https://huggingface.co/datasets/openbmb/UltraX-Preview), a high-quality web pre-training dataset; [UltraData-Code](https://huggingface.co/datasets/openbmb/UltraData-Code), featuring L0–L3 tiered code data governance to drive a significant leap in coding capabilities; [UltraData-SFT-Agent-2609](https://huggingface.co/datasets/openbmb/UltraData-SFT-Agent-2609), comprising 500K agent training samples to enhance comprehensive on-device agent capabilities; and [UltraData-RL-2609](https://huggingface.co/datasets/openbmb/UltraData-RL-2609), with 80K+ high-quality RL training samples covering mathematics, code, general knowledge, and long-context reasoning.
 
 ## 🔥 Changelog
-- 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
+- 📌 [2026.09.07] **[MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B)** is released: a compact 2B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
+- [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** is released: a compact 1B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** is released: a sparse-and-linear hybrid attention model for million-token context modeling and efficient inference.
 - [2025.09.05] **[MiniCPM4.1 series](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** is released: a trainable sparse-attention model with hybrid reasoning.
 - [2025.06.06] **[MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** is released: an end-side model with over 5x generation acceleration on typical edge chips.
@@ -56,7 +54,7 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 - [✨ Highlights](#-highlights)
 - [🔥 Changelog](#-changelog)
 - [📦 Model Downloads](#-model-downloads)
-- [🚀 MiniCPM5-1B](#-minicpm5-1b)
+- [🚀 MiniCPM5-2B](#-minicpm5-2b)
   - [Introduction](#introduction)
   - [Evaluation Results](#evaluation-results)
   - [Training Recipe](#training-recipe)
@@ -64,7 +62,7 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
   - [Quickstart](#quickstart)
   - [Deployment and Fine-tuning Cookbooks and Agent Skills](#deployment-and-fine-tuning-cookbooks-and-agent-skills)
   - [Other Supported Frameworks](#other-supported-frameworks)
-  - [Desktop Pet](#desktop-pet)
+- [🚀 MiniCPM5-1B](#-minicpm5-1b)
 - [🧪 MiniCPM-SALA](#-minicpm-sala)
 - [⚡ MiniCPM4 & MiniCPM4.1 Series](#-minicpm4-and-minicpm41-series)
 - [Legacy topics →](./docs/README-legacy.md): BitCPM4 quantization, MiniCPM4 applications
@@ -73,7 +71,22 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 
 ## 📦 Model Downloads
 
-**Current release: MiniCPM5-1B** (BF16, GGUF, MLX):
+**Current release: MiniCPM5-2B / MiniCPM5-1B**（BF16 / GGUF / MLX）：
+
+**MiniCPM5-2B**
+
+| HuggingFace | ModelScope |
+|---|---|
+| [MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B) | [MiniCPM5-2B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B) |
+| [MiniCPM5-2B-SFT](https://huggingface.co/openbmb/MiniCPM5-2B-SFT) | [MiniCPM5-2B-SFT](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-SFT) |
+| [MiniCPM5-2B-Midtrain](https://huggingface.co/openbmb/MiniCPM5-2B-Midtrain) | [MiniCPM5-2B-Midtrain](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-Midtrain) |
+| [MiniCPM5-2B-Base](https://huggingface.co/openbmb/MiniCPM5-2B-Base) | [MiniCPM5-2B-Base](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-Base) |
+| [MiniCPM5-2B-GGUF](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) | [MiniCPM5-2B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GGUF) |
+| [MiniCPM5-2B-MLX](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) | [MiniCPM5-2B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-MLX) |
+| [MiniCPM5-2B-GPTQ-Int4](https://huggingface.co/openbmb/MiniCPM5-2B-GPTQ-Int4) | [MiniCPM5-2B-GPTQ-Int4](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GPTQ-Int4) |
+| [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark) | [MiniCPM5-2B-DSpark](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-DSpark) |
+
+**MiniCPM5-1B**
 
 | HuggingFace | ModelScope |
 |---|---|
@@ -140,7 +153,281 @@ We are releasing **MiniCPM5-1B**, the first model in the **MiniCPM5** series. It
 
 </details>
 
+
+## 🚀 MiniCPM5-2B
+
+### Introduction
+
+MiniCPM5-2B is the second checkpoint in the MiniCPM5 series, scaling the MiniCPM5-1B recipe up to 2B parameters for users who can afford a larger footprint in exchange for stronger capability. It is designed for local assistants, coding agents, tool-use workflows, and reasoning scenarios where a compact model is preferred. The model keeps a small deployment footprint while providing native long-context support.
+
+| | |
+|---|---|
+| **Architecture** | Standard `LlamaForCausalLM` |
+| **Parameters** | 2,516,756,480 (non-embedding: 1,981,982,720) |
+| **Layers** | 42 |
+| **Attention Heads (GQA)** | 16 Q / 2 KV |
+| **Context Length** | 131,072 |
+
+### Evaluation Results
+
+We compare **MiniCPM5-2B** with strong open-source models in the same size class, including **LFM2.5-2.6B**, **Qwen3.5-2B**, and **Gemma-4-E2B-it**, while also listing larger models such as **Qwen3.5-4B**, **granite-4.2-3B**, **Nemotron-3-Nano-4B**, **Gemma-4-E4B-it**, and **LFM2.5-8B-A1B** for reference.
+
+Within this comparison set, MiniCPM5-2B reaches 2B-class open-source SOTA with an average score of **53.9**, and also exceeds all of the larger models included here (the highest is **51.1**). Its advantages are most visible in code reasoning, math reasoning, long-context understanding, tool use, and multiple agentic tasks.
+
+![MiniCPM5-2B public leaderboard](./assets/minicpm5/minicpm5_2b_public_leaderboard_en.png)
+
+### Training Recipe
+
+The training of MiniCPM5-2B is a full-stack practice of **[UltraData Tiered Data Management](https://arxiv.org/pdf/2602.09003)**, covering three stages: base training, mid-training, and post-training.
+
+During **base training**, the model goes through stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb), [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3), and [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math).
+
+During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **400B tokens of deep-thinking SFT** to establish deep-thinking and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, agentic tasks, writing, and related domains, and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
+
+![MiniCPM5-2B Training Recipe](./assets/minicpm5/minicpm5_2b_training_recipe.jpg)
+
+#### What does RL + OPD bring?
+
+**RL + OPD** is a key part of MiniCPM5-2B post-training. During the **RL** stage, we adopted the critic-based algorithm described in [JustRL II](https://app.notion.com/p/panhaoxuan/JustRL-II-Scaling-Small-LLMs-to-128K-Reasoning-with-a-Critic-3c77e972297c80adb8b5f4b05d267012#5f3eb56b29f048ebab5f71138f12e36f), substantially improving training stability and achieving significant gains across multiple domains. On the benchmarks listed below, RL + OPD improves reasoning and general capabilities by an average of **↑10.96 points**, and agentic capabilities by **↑6.96 points**.
+
+**OPD** merges the capabilities of 16 expert models produced by RL training, including 5 agentic expert models. At each response position, we compute the full-vocabulary reverse KL divergence between student and teacher logits as the advantage estimate, replacing the original verification-based advantage. OPD directly reuses the prompts used to train each RL teacher as distillation data, so no additional corpus construction is required.
+
+![MiniCPM5-2B RL + OPD Gains](./assets/minicpm5/minicpm5_2b_rl_opd_score_gains.png)
+
+### Quickstart
+
+#### vLLM
+
+```bash
+pip install "vllm>=0.21"
+vllm serve openbmb/MiniCPM5-2B --port 8000
+```
+
+```bash
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openbmb/MiniCPM5-2B",
+    "messages": [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}],
+    "max_tokens": 128,
+    "temperature": 1.0, "top_p": 0.95
+  }'
+```
+
+#### SGLang
+
+```bash
+pip install "sglang[srt]>=0.5.12"
+python -m sglang.launch_server --model-path openbmb/MiniCPM5-2B --port 30000
+```
+
+```bash
+curl http://localhost:30000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openbmb/MiniCPM5-2B",
+    "messages": [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}],
+    "max_tokens": 128,
+    "temperature": 1.0, "top_p": 0.95
+  }'
+```
+
+**Speculative decoding (DSpark)**: we also release [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark), a DSpark draft model trained for MiniCPM5-2B. Enable it in SGLang to accelerate decoding while keeping the target model's outputs unchanged:
+
+```bash
+python -m sglang.launch_server \
+  --model-path openbmb/MiniCPM5-2B \
+  --trust-remote-code \
+  --speculative-algorithm DSPARK \
+  --speculative-draft-model-path openbmb/MiniCPM5-2B-DSpark \
+  --speculative-dspark-block-size 7 \
+  --port 30000
+```
+
+#### Transformers
+
+```bash
+pip install -U "transformers>=5.6" accelerate torch
+```
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+model_id = "openbmb/MiniCPM5-2B"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    torch_dtype="auto",
+    device_map="auto",
+)
+messages = [{"role": "user", "content": "Who are you? Please briefly introduce yourself."}]
+inputs = tokenizer.apply_chat_template(
+    messages,
+    tokenize=True,
+    add_generation_prompt=True,
+    enable_thinking=True,
+    return_dict=True,
+    return_tensors="pt",
+).to(model.device)
+outputs = model.generate(**inputs, max_new_tokens=128)
+print(tokenizer.decode(outputs[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True))
+```
+
+Recommended sampling params: `temperature=1.0, top_p=0.95`
+
+### Tool Calling
+
+For tool / function calling, **SGLang is the recommended backend**. MiniCPM5-2B emits XML-style tool calls and SGLang's built-in `minicpm5` parser converts them to OpenAI-compatible `tool_calls` natively:
+
+```bash
+python -m sglang.launch_server --model-path openbmb/MiniCPM5-2B --port 30000 \
+    --tool-call-parser minicpm5      # or: --tool-call-parser auto
+```
+
+### GitHub Cookbooks and Agent Skills
+
+MiniCPM5-2B uses the **standard `LlamaForCausalLM` architecture**, so mainstream inference engines can load it directly: **no custom kernels, no model-code fork**. For step-by-step deployment and fine-tuning instructions, use the GitHub cookbooks below. Agent Skills are linked as GitHub resources for users working with Cursor / Claude Code style coding agents.
+
+#### Deployment
+
+| Backend | Model format / use case | Cookbook | Agent Skill |
+| --- | --- | --- | --- |
+| Transformers | BF16 / FP16 local Python inference, GPU + CPU | [transformers.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/transformers.md) | [minicpm5-deploy-transformers](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-transformers/SKILL.md) |
+| vLLM | BF16 / FP16 OpenAI server | [vllm.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm.md) | [minicpm5-deploy-vllm](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-vllm/SKILL.md) |
+| SGLang | BF16 / FP16 OpenAI server, recommended for tool calling | [sglang.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md) | [minicpm5-deploy-sglang](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-sglang/SKILL.md) |
+| llama.cpp | GGUF local inference, CPU/GPU | [llama_cpp.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/llama_cpp.md) | [minicpm5-deploy-llama-cpp](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-llama-cpp/SKILL.md) |
+| Ollama | GGUF local on-device runtime | [ollama.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/ollama.md) | [minicpm5-deploy-ollama](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-ollama/SKILL.md) |
+| LM Studio | GGUF Mac desktop app and OpenAI server | [lmstudio.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/lmstudio.md) | [minicpm5-deploy-lmstudio](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-lmstudio/SKILL.md) |
+| MLX | MLX / 4bit local inference on Apple Silicon | [mlx.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/mlx.md) | [minicpm5-deploy-mlx](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-mlx/SKILL.md) |
+| ArcLight | GGUF local on-device, CPU, Desktop & Server | [arclight.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/arclight.md) | [minicpm5-deploy-arclight](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-arclight/SKILL.md) |
+| vLLM Ascend         | BF16 / FP16 OpenAI server                   | [vllm_ascend.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm_ascend.md)                 | [minicpm5-deploy-vllm-ascend](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-vllm-ascend/SKILL.md)  |
+
+#### Fine-tuning
+
+| Framework | Use case | Cookbook | Agent Skill |
+| --- | --- | --- | --- |
+| TRL + PEFT | LoRA / SFT fine-tuning | [trl.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/trl.md) | [minicpm5-finetune-trl](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-trl/SKILL.md) |
+| LLaMA-Factory | Fine-tuning | [llamafactory.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/llamafactory.md) | [minicpm5-finetune-llamafactory](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-llamafactory/SKILL.md) |
+| ms-swift | Fine-tuning | [ms_swift.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/ms_swift.md) | [minicpm5-finetune-ms-swift](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-ms-swift/SKILL.md) |
+| unsloth | Fine-tuning | [unsloth.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/unsloth.md) | [minicpm5-finetune-unsloth](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-unsloth/SKILL.md) |
+
+#### Other Supported Frameworks
+
+In addition to the deployment and fine-tuning frameworks listed above, MiniCPM5-2B is also supported by FlagOS for multi-chip deployment.
+
+##### FlagOS Overview
+
+To enable large-scale deployment across different AI chips, Beijing Zhiyuan Research Institute, together with numerous research institutions, chip manufacturers, system vendors, and algorithm and software organizations both domestically and internationally, jointly initiated and established the FlagOS Open Source Community.
+
+The FlagOS community is dedicated to building a unified, open-source system software stack for various AI chips, encompassing core open-source projects such as a large-scale operator library, a unified AI compiler, parallel training and inference frameworks, and a unified communication library. It aims to create an open technology ecosystem connecting the “model-system-chip” layers. By enabling “develop once, deploy across chips”, FlagOS unlocks the computational potential of hardware, breaks down the ecosystem silos between different chip software stacks, and effectively reduces migration costs for developers.The FlagOS community fosters an AI hardware and software ecosystem, overcomes single-vendor closed-source monopolies, promotes widespread deployment of AI hardware technologies, and is committed to rooted in China while embracing global collaboration.
+
+Official website express: [https://flagos.io](https://flagos.io/)
+
+<details>
+<summary>FlagOS multi-chip support and usage</summary>
+
+##### FlagOS: Supporting Multiple AI Chips
+
+Thanks to FlagOS’s unified multi-chip AI system software stack, MiniCPM5-2B was adapted to 9 different AI chips in an extremely short time. Currently, the multi-chip version of MiniCPM5-2B has been released on FlagRelease, FlagOS’s platform for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. Details are as follows:
+
+|Vendor|ModelScope|Huggingface|
+|---|---|---|
+|Nvidia|[MiniCPM5-2B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|[MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|
+|Hygon|[MiniCPM5-2B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-hygon-FlagOS)|[MiniCPM5-2B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-hygon-FlagOS)|
+|Metax|[MiniCPM5-2B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-metax-FlagOS)|[MiniCPM5-2B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-metax-FlagOS)|
+|Iluvatar|[MiniCPM5-2B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)|[MiniCPM5-2B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)|
+|Zhenwu|[MiniCPM5-2B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)|[MiniCPM5-2B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)|
+|Mthreads|[MiniCPM5-2B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)|[MiniCPM5-2B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)|
+|Kunlunxin|[MiniCPM5-2B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS)|[MiniCPM5-2B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS)|
+|Ascend|[MiniCPM5-2B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|[MiniCPM5-2B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|
+|ARM-v9|[MiniCPM5-2B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|[MiniCPM5-2B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|
+
+##### FlagOS Usage
+
+###### FlagOS Performance Acceleration on Nvidia
+
+**From FlagRelease (Recommendation)**
+
+FlagRelease is a platform developed by the FlagOS team for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. The multi-chip version of MiniCPM5-2B has already been released on FlagRelease. All necessary software packages are pre-installed on the platform, so users do not need to install anything.
+
+
+**FlagRelease Quick Start**
+
+|Vendor|ModelScope|Huggingface|
+|---|---|---|
+|Nvidia|[MiniCPM5-2B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|[MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|
+|Hygon|[MiniCPM5-2B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-hygon-FlagOS)|[MiniCPM5-2B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-hygon-FlagOS)|
+|Metax|[MiniCPM5-2B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-metax-FlagOS)|[MiniCPM5-2B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-metax-FlagOS)|
+|Iluvatar|[MiniCPM5-2B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)|[MiniCPM5-2B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)|
+|Zhenwu|[MiniCPM5-2B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)|[MiniCPM5-2B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)|
+|Mthreads|[MiniCPM5-2B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)|[MiniCPM5-2B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)|
+|Kunlunxin|[MiniCPM5-2B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS)|[MiniCPM5-2B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS)|
+|Ascend|[MiniCPM5-2B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|[MiniCPM5-2B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-ascend-FlagOS)|
+|ARM-v9|[MiniCPM5-2B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|[MiniCPM5-2B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)|
+
+**From Scratch**
+
+- Dependencies: Python 3.12, GLIBC 2.39, GLIBCXX 3.4.33, CXXABI 1.3.15
+
+
+**Installing the FlagOS Operator Library**
+
+Official Repository: https://github.com/flagos-ai/FlagGems
+
+```PowerShell
+pip install flag-gems==4.2.1rc0
+pip install triton==3.5.1
+```
+
+**Activating Acceleration**
+
+You can enable flagGems acceleration by adding the import of flagGems in the source code of vllm where inference is performed.
+
+```Bash
+import flag_gems
+flag_gems.enable(record=True, once=True, path="/root/gems.txt")
+```
+
+```PowerShell
+vllm serve ${model_path} \
+--trust-remote-code \
+--dtype bfloat16 \
+--enforce-eager \
+--port ${Port} \
+--served-model-name ${model_name} \
+--gpu-memory-utilization 0.85
+```
+
+###### Using FlagOS Unified Multi-Chip Backend Plugin
+
+[**vllm-plugin-FL**](https://github.com/flagos-ai/vllm-plugin-FL) is a plugin built for the vLLM inference/service framework. Developed on top of FlagOS’s unified multi-chip backend, it is designed to extend vLLM’s capabilities and performance across a variety of hardware environments.
+
+**Using vllm-plugin-FL**
+
+|Vendor|From Scratch|From FlagRelease||
+|---|---|---|---|
+|Nvidia|[vllm-plugin-FL/MiniCPM5-2B](https://github.com/flagos-ai/vllm-plugin-FL/blob/main/examples/minicpm/README.md)|[MiniCPM5-2B-ModelScope](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|[MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)|
+
+</details>
+
 ## 🚀 MiniCPM5-1B
+
+
+> **MiniCPM5-1B** is the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA.
+
+<details>
+<summary>Click to expand: highlights, introduction, evaluation, inference setup</summary>
+
+### Highlights
+
+🏆 **1B-class open-source SOTA**: compared with strong open-source models in the same size class, MiniCPM5-1B reaches SOTA within this comparison set. Its advantage is most visible in agentic tool use, code generation, and difficult reasoning.
+
+![MiniCPM5-1B capability comparison by domain](./assets/minicpm5/public_leaderboard_radar_en.png)
+
+🧠 **Hybrid Reasoning**: built-in `<think>` chat template, switch via `enable_thinking`. The same checkpoint serves as both a fast assistant and a deliberate reasoner.
+
+🛠️ **Deployment / Fine-tuning Resources**: the MiniCPM GitHub repo provides single-page cookbooks and Agent Skills for major inference backends and fine-tuning frameworks.
+
+🐱 **Desktop Pet**: a local-LLM desktop pet driven by MiniCPM5-1B.
 
 ### Introduction
 
@@ -315,103 +602,6 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 
 In addition to the deployment and fine-tuning frameworks listed above, MiniCPM5-1B is also supported by FlagOS for multi-chip deployment.
 
-#### FlagOS Overview
-
-To enable large-scale deployment across different AI chips, Beijing Zhiyuan Research Institute, together with numerous research institutions, chip manufacturers, system vendors, and algorithm and software organizations both domestically and internationally, jointly initiated and established the FlagOS Open Source Community.
-
-The FlagOS community is dedicated to building a unified, open-source system software stack for various AI chips, encompassing core open-source projects such as a large-scale operator library, a unified AI compiler, parallel training and inference frameworks, and a unified communication library. It aims to create an open technology ecosystem connecting the “model-system-chip” layers. By enabling “develop once, deploy across chips”, FlagOS unlocks the computational potential of hardware, breaks down the ecosystem silos between different chip software stacks, and effectively reduces migration costs for developers.The FlagOS community fosters an AI hardware and software ecosystem, overcomes single-vendor closed-source monopolies, promotes widespread deployment of AI hardware technologies, and is committed to rooted in China while embracing global collaboration.
-
-Official website express: [https://flagos.io](https://flagos.io/)
-
-<details>
-<summary>FlagOS multi-chip support and usage</summary>
-
-#### FlagOS: Supporting Multiple AI Chips
-
-Thanks to FlagOS’s unified multi-chip AI system software stack, MiniCPM5-1B was adapted to 4–5 different AI chips in an extremely short time. Currently, the multi-chip version of MiniCPM5-1B has been released on FlagRelease, FlagOS’s platform for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. Details are as follows:
-
-|Vendor|ModelScope|Huggingface|
-|---|---|---|
-|Nvidia|[MiniCPM5-1B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-|Hygon|[MiniCPM5-1B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|[MiniCPM5-1B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|
-|Metax|[MiniCPM5-1B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-metax-FlagOS)|[MiniCPM5-1B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-metax-FlagOS)|
-|Iluvatar|[MiniCPM5-1B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|[MiniCPM5-1B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|
-|Zhenwu|[MiniCPM5-1B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|[MiniCPM5-1B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|
-|Mthreads|[MiniCPM5-1B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|[MiniCPM5-1B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|
-|Kunlunxin|[MiniCPM5-1B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|[MiniCPM5-1B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|
-|Ascend|[MiniCPM5-1B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|[MiniCPM5-1B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|
-|ARM-v9|[MiniCPM5-1B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|[MiniCPM5-1B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|
-
-#### FlagOS Usage
-
-##### FlagOS Performance Acceleration on Nvidia
-
-###### From FlagRelease (**Recommendation**)
-
-FlagRelease is a platform developed by the FlagOS team for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. The multi-chip version of MiniCPM5-1B has already been released on FlagRelease. All necessary software packages are pre-installed on the platform, so users do not need to install anything.
-
-###### FlagRelease Image Key Versions
-
-###### FlagRelease Quick Start
-
-|Vendor|ModelScope|Huggingface|
-|---|---|---|
-|Nvidia|[MiniCPM5-1B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-|Hygon|[MiniCPM5-1B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|[MiniCPM5-1B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|
-|Metax|[MiniCPM5-1B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-metax-FlagOS)|[MiniCPM5-1B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-metax-FlagOS)|
-|Iluvatar|[MiniCPM5-1B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|[MiniCPM5-1B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|
-|Zhenwu|[MiniCPM5-1B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|[MiniCPM5-1B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|
-|Mthreads|[MiniCPM5-1B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|[MiniCPM5-1B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|
-|Kunlunxin|[MiniCPM5-1B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|[MiniCPM5-1B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|
-|Ascend|[MiniCPM5-1B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|[MiniCPM5-1B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|
-|ARM-v9|[MiniCPM5-1B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|[MiniCPM5-1B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|
-
-###### From Scratch
-
-- Dependencies: Python 3.12, GLIBC 2.39, GLIBCXX 3.4.33, CXXABI 1.3.15
-
-###### Vllm Version
-
-###### Installing the FlagOS Operator Library
-
-Official Repository: https://github.com/flagos-ai/FlagGems
-
-```PowerShell
-pip install flag-gems==4.2.1rc0
-pip install triton==3.5.1
-```
-
-###### Activating Acceleration
-
-You can enable flagGems acceleration by adding the import of flagGems in the source code of vllm where inference is performed.
-
-```Bash
-import flag_gems
-flag_gems.enable(record=True, once=True, path="/root/gems.txt")
-```
-
-```PowerShell
-vllm serve ${model_path} \
---trust-remote-code \
---dtype bfloat16 \
---enforce-eager \
---port ${Port} \
---served-model-name ${model_name} \
---gpu-memory-utilization 0.85
-```
-
-##### Using FlagOS Unified Multi-Chip Backend Plugin
-
-[**vllm-plugin-FL**](https://github.com/flagos-ai/vllm-plugin-FL) is a plugin built for the vLLM inference/service framework. Developed on top of FlagOS’s unified multi-chip backend, it is designed to extend vLLM’s capabilities and performance across a variety of hardware environments.
-
-###### Using vllm-plugin-FL
-
-|Vendor|From Scratch|From FlagRelease||
-|---|---|---|---|
-|Nvidia|[vllm-plugin-FL/MiniCPM5-1B](https://github.com/flagos-ai/vllm-plugin-FL/blob/main/examples/minicpm/README.md)|[MiniCPM5-1B-ModelScope](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-
-</details>
-
 ### Desktop Pet
 
 We also ship **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**, a desktop pet driven locally by MiniCPM5-1B. It uses a thin `llama.cpp` `llama-server` sidecar to load the GGUF model and serves an OpenAI-compatible local endpoint to an Electron pet UI.
@@ -424,6 +614,9 @@ The pet supports Apple Silicon / NVIDIA GPU / CPU paths, can work with coding ag
 - **Developer run**: `git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh` — see [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者) for the full setup.
 
 > The pet UI layer is forked from [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk) (AGPL-3.0). On top of the upstream pet runtime, animation packs, and multi-agent integrations, we add the local MiniCPM5-1B sidecar, onboarding flow, and LoRA persona switching. Full attribution in [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md).
+
+
+</details>
 
 ## 🧪 MiniCPM-SALA
 

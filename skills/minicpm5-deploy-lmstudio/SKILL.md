@@ -1,9 +1,9 @@
 ---
 name: minicpm5-deploy-lmstudio
-description: Run MiniCPM5-1B in LM Studio (desktop GUI) using either the GGUF runtime (cross-platform) or the MLX runtime (Apple Silicon, faster). Includes OpenAI-compatible local server. Use when the user mentions "LM Studio", desktop GUI inference, "lms" CLI, or wants a no-code chat UI for MiniCPM5.
+description: Run MiniCPM5-1B or MiniCPM5-2B in LM Studio (desktop GUI) using either the GGUF runtime (cross-platform) or the MLX runtime (Apple Silicon, faster). Includes OpenAI-compatible local server. Use when the user mentions "LM Studio", desktop GUI inference, "lms" CLI, or wants a no-code chat UI for MiniCPM5.
 ---
 
-# Deploy MiniCPM5-1B with LM Studio
+# Deploy MiniCPM5-1B and MiniCPM5-2B with LM Studio
 
 Desktop GUI + OpenAI-compatible local server. On Apple Silicon ships **two runtimes**:
 
@@ -18,7 +18,7 @@ Desktop GUI + OpenAI-compatible local server. On Apple Silicon ships **two runti
 | --- | --- | --- |
 | Runtime | `gguf` or `mlx` | `mlx` on Apple Silicon, `gguf` elsewhere |
 | `QUANT` | `Q4_K_M` (GGUF) or `4bit` (MLX) | `Q4_K_M` / `4bit` |
-| `MODEL_NAME` | `minicpm5-1b` | `minicpm5-1b` |
+| `MODEL_NAME` | `minicpm5-2b` | `minicpm5-2b` |
 
 ## Steps
 
@@ -34,31 +34,31 @@ open -a "LM Studio"     # accept EULA + pick model source
 ### 2A. GGUF runtime path
 
 ```bash
-mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-1B-GGUF
-huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-${QUANT}.gguf \
-    --local-dir ~/.lmstudio/models/openbmb/MiniCPM5-1B-GGUF/
+mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-2B-GGUF
+huggingface-cli download openbmb/MiniCPM5-2B-GGUF MiniCPM5-2B-${QUANT}.gguf \
+    --local-dir ~/.lmstudio/models/openbmb/MiniCPM5-2B-GGUF/
 
 LMS="/Applications/LM Studio.app/Contents/Resources/app/.webpack/lms"
 "$LMS" server start                              # binds 127.0.0.1:1234
-"$LMS" load minicpm5-1b --gpu max --context-length 8192 -y
+"$LMS" load minicpm5-2b --gpu max --context-length 8192 -y
 "$LMS" ps                                        # verify the model is loaded
 ```
 
 ### 2B. MLX runtime path (Apple Silicon, recommended on Mac)
 
-The MLX runtime needs an MLX-format checkpoint. The only published MLX repo is [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) (4-bit affine); there is no separate `-bf16` / `-4bit` variant. Either drop that one in as-is, or convert locally from `openbmb/MiniCPM5-1B` (see `minicpm5-deploy-mlx`). Then:
+The MLX runtime needs an MLX-format checkpoint. The published MiniCPM5-2B MLX repo is [`openbmb/MiniCPM5-2B-MLX`](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) (4-bit affine); there is no separate `-bf16` / `-4bit` variant. Either drop that one in as-is, or convert locally from `openbmb/MiniCPM5-2B` (see `minicpm5-deploy-mlx`). Then:
 
 ```bash
 # Option A — use the official pre-quantized repo
-huggingface-cli download openbmb/MiniCPM5-1B-MLX \
-    --local-dir ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX
+huggingface-cli download openbmb/MiniCPM5-2B-MLX \
+    --local-dir ~/.lmstudio/models/openbmb/MiniCPM5-2B-MLX
 
 # Option B — drop a locally converted directory in
-mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX-${QUANT}
-cp -r ./minicpm5-mlx-${QUANT}/* ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX-${QUANT}/
+mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-2B-MLX-${QUANT}
+cp -r ./minicpm5-mlx-${QUANT}/* ~/.lmstudio/models/openbmb/MiniCPM5-2B-MLX-${QUANT}/
 
 "$LMS" server start
-"$LMS" load minicpm5-1b-mlx${QUANT:+-${QUANT}} --gpu max -y
+"$LMS" load minicpm5-2b-mlx${QUANT:+-${QUANT}} --gpu max -y
 ```
 
 ### 3. Validate
@@ -67,9 +67,9 @@ cp -r ./minicpm5-mlx-${QUANT}/* ~/.lmstudio/models/openbmb/MiniCPM5-1B-MLX-${QUA
 curl http://127.0.0.1:1234/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "minicpm5-1b",
+        "model": "minicpm5-2b",
         "messages": [{"role":"user","content":"1+1=?"}],
-        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64
+        "temperature": 1.0, "top_p": 0.95, "max_tokens": 64
     }'
 ```
 
@@ -77,7 +77,7 @@ Expected: `"2"` in the reply.
 
 For the MLX runtime, a think prompt produces output split into `message.reasoning_content` (the `<think>` block) and `message.content` (the final answer) automatically — that's an MLX-runtime feature, not a model setting.
 
-## Think vs nothink
+## Think vs nothink (MiniCPM5-1B)
 
 LM Studio 0.4.13's chat-completion endpoint does **not** propagate `chat_template_kwargs.enable_thinking` to the GGUF runtime. Instead:
 

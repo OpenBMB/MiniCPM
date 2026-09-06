@@ -13,7 +13,8 @@
 <a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM 技术报告</a> |
 <a href="https://modelbest.feishu.cn/wiki/UtWxwcERfiRIpIkBOjuc3h9tn1D?fromScene=spaceOverview" target="_blank">MiniCPM 知识库</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V 仓库</a> |
-<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a>
+<a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a> |
+<a href="https://huggingface.co/spaces/openbmb/MiniCPM5-2B-Demo" target="_blank">在线 Demo</a>
 </p>
 
 <p align="center">
@@ -23,20 +24,17 @@
 
 ## ✨ 亮点
 
-我们正式发布 **MiniCPM5** 系列首个模型 **MiniCPM5-1B**。这是面向端侧、本地部署和资源受限场景打造的 1B 稠密 Transformer，能够达到同尺寸开源模型 SOTA 水平。
+我们正式发布 **MiniCPM5-2B**，这是继 [MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B) 之后 **MiniCPM5** 系列的第二个模型。它是一款面向端侧、本地部署和资源受限场景的 2B 稠密 Transformer，能够达到同尺寸开源模型 SOTA 水平。
 
-🏆 **同尺寸开源模型 SOTA**：在推理 / 知识 / 代码 / 指令跟随 / 数学 / 逻辑 / Agentic 评测中，MiniCPM5-1B 平均分 42.57，高于同尺寸优秀开源模型中的最高平均分 35.61；优势主要体现在 Agentic 工具调用、代码和竞赛数学。
+🏆 **同尺寸开源模型 SOTA**：与同尺寸优秀开源模型相比，MiniCPM5-2B 在该对比范围内达到 SOTA 水平，整体表现可与 4B 级模型竞争，并在代码、数学、长文本、工具调用和 Agent 任务上展现出明显优势。
 
-![MiniCPM5-1B 各领域能力对比](./assets/minicpm5/public_leaderboard_radar_cn.png)
+![MiniCPM5-2B 各领域能力对比](./assets/minicpm5/minicpm5_2b_public_leaderboard_radar_cn.png)
 
-🧠 **双模式推理**：内置 `<think>` chat template，通过 `enable_thinking` 切换思考 / 非思考模式，同一份权重既能做快速助手，也能做深度推理。
-
-🛠️ **部署 / 微调 Agent Skills**：仓库为主要推理后端和微调框架提供单页 cookbook，并配套一一对应的 [Agent Skill](./skills/)，方便开发者复现部署和微调流程。
-
-🐱 **桌宠**：以 MiniCPM5-1B 作为本地大脑的桌宠应用，详见下方 [桌宠](#桌宠) 章节。
+📂 **开放高质量数据**：与模型一同开源其背后的高质量训练数据，均属于 [UltraData](https://ultradata.openbmb.cn/) 数据体系：[UltraX](https://huggingface.co/datasets/openbmb/UltraX-Preview)，高质量网页预训练数据集；[UltraData-Code](https://huggingface.co/datasets/openbmb/UltraData-Code)，L0–L3 分级代码治理，推动代码能力显著跃升；[UltraData-SFT-Agent-2609](https://huggingface.co/datasets/openbmb/UltraData-SFT-Agent-2609)，50 万 Agent 训练样本，赋能端侧 Agent 综合能力提升；[UltraData-RL-2609](https://huggingface.co/datasets/openbmb/UltraData-RL-2609)，超 8 万条高质量 RL 训练样本，覆盖数学、代码、通用知识与长文本推理。
 
 ## 🔥 更新日志
-- 📌 [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** 发布：面向端侧与资源受限场景的 1B 稠密模型，并配套部署 / 微调 [Agent Skills](./skills/)。
+- 📌 [2026.09.07] **[MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B)** 发布：面向端侧与资源受限场景的 2B 稠密模型，并配套部署 / 微调 [Agent Skills](./skills/)。
+- [2026.05.19] **[MiniCPM5-1B](https://huggingface.co/openbmb/MiniCPM5-1B)** 发布：面向端侧与资源受限场景的 1B 稠密模型，并配套部署 / 微调 [Agent Skills](./skills/)。
 - [2026.02.11] **[MiniCPM-SALA](https://huggingface.co/openbmb/MiniCPM-SALA)** 发布：稀疏与线性混合注意力模型，支持百万词元上下文和高效推理。
 - [2025.09.05] **[MiniCPM4.1](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** 发布：基于原生稀疏注意力架构（InfLLM-V2），支持混合思考。
 - [2025.06.06] **[MiniCPM4](https://huggingface.co/collections/openbmb/minicpm-4-6841ab29d180257e940baa9b)** 发布：面向端侧场景，在典型端侧芯片上提供 5 倍以上生成加速。
@@ -57,7 +55,7 @@
 - [✨ 亮点](#-亮点)
 - [🔥 更新日志](#-更新日志)
 - [📦 模型下载](#-模型下载)
-- [🚀 MiniCPM5-1B](#-minicpm5-1b)
+- [🚀 MiniCPM5-2B](#-minicpm5-2b)
   - [简介](#简介)
   - [评测结果](#评测结果)
   - [训练流程](#训练流程)
@@ -65,7 +63,7 @@
   - [快速上手](#快速上手)
   - [部署与微调 Cookbook 与 Agent Skills](#部署与微调-cookbook-与-agent-skills)
   - [其他支持的框架](#其他支持的框架)
-  - [桌宠](#桌宠)
+- [🚀 MiniCPM5-1B](#-minicpm5-1b)
 - [🧪 MiniCPM-SALA](#-minicpm-sala)
 - [⚡ MiniCPM4 和 MiniCPM4.1 系列](#-minicpm4-和-minicpm41-系列)
 - [历史专题 →](./docs/README-legacy-cn.md)：BitCPM4 量化、MiniCPM4 应用
@@ -74,7 +72,22 @@
 
 ## 📦 模型下载
 
-**当前主推版本：MiniCPM5-1B**（BF16 / GGUF / MLX）：
+**当前发布版本：MiniCPM5-2B / MiniCPM5-1B**（BF16 / GGUF / MLX）：
+
+**MiniCPM5-2B**
+
+| HuggingFace | ModelScope |
+|---|---|
+| [MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B) | [MiniCPM5-2B](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B) |
+| [MiniCPM5-2B-SFT](https://huggingface.co/openbmb/MiniCPM5-2B-SFT) | [MiniCPM5-2B-SFT](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-SFT) |
+| [MiniCPM5-2B-Midtrain](https://huggingface.co/openbmb/MiniCPM5-2B-Midtrain) | [MiniCPM5-2B-Midtrain](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-Midtrain) |
+| [MiniCPM5-2B-Base](https://huggingface.co/openbmb/MiniCPM5-2B-Base) | [MiniCPM5-2B-Base](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-Base) |
+| [MiniCPM5-2B-GGUF](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) | [MiniCPM5-2B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GGUF) |
+| [MiniCPM5-2B-MLX](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) | [MiniCPM5-2B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-MLX) |
+| [MiniCPM5-2B-GPTQ-Int4](https://huggingface.co/openbmb/MiniCPM5-2B-GPTQ-Int4) | [MiniCPM5-2B-GPTQ-Int4](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GPTQ-Int4) |
+| [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark) | [MiniCPM5-2B-DSpark](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-DSpark) |
+
+**MiniCPM5-1B**
 
 | HuggingFace | ModelScope |
 |---|---|
@@ -141,7 +154,321 @@
 
 </details>
 
+## 🚀 MiniCPM5-2B
+
+### 简介
+
+MiniCPM5-2B 是 MiniCPM5 系列的第二个模型，将 MiniCPM5-1B 的训练方案扩展到 2B 参数规模，为愿意以更大体积换取更强能力的用户提供选择。它面向本地助手、coding agent、工具调用流程以及需要紧凑模型的推理场景，在较小部署成本下提供原生长上下文能力。
+
+| | |
+|---|---|
+| **架构** | 标准 `LlamaForCausalLM` |
+| **参数量** | 2,516,756,480（非 Embedding：1,981,982,720） |
+| **层数** | 42 |
+| **注意力头（GQA）** | Q 16 / KV 2 |
+| **上下文长度** | 131,072 |
+
+### 评测结果
+
+我们选取 **LFM2.5-2.6B**、**Qwen3.5-2B**、**Gemma-4-E2B-it** 等同尺寸开源模型进行横向比较，并同时列出 **Qwen3.5-4B**、**granite-4.2-3B**、**Nemotron-3-Nano-4B**、**Gemma-4-E4B-it**、**LFM2.5-8B-A1B** 等更大规模模型作为参考。
+
+在这组对比中，MiniCPM5-2B 达到同尺寸开源模型 SOTA 水平（平均分 53.9 ），也超过了参与对比的全部更大规模模型（最高 51.1）。其优势主要体现在代码推理、数学推理、长文本、工具调用与多个智能体任务上。
+
+
+![MiniCPM5-2B 公开评测结果](./assets/minicpm5/minicpm5_2b_public_leaderboard_cn.png)
+
+### 训练流程
+
+MiniCPM5-2B 的训练过程是 **[UltraData 分级数据管理体系](https://arxiv.org/pdf/2602.09003)** 的一次完整实践，覆盖 base training、mid-training 与后训练三个阶段。
+
+**Base training** 采用逐级推进的训练配方，包含 stable training 与 decay training，用于建立基础语言能力与训练稳定性。随后进入 **mid-training**，进一步强化目标能力并适配数据分布。训练语料来自我们同步开源的 [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)、[Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3) 与 [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math)。
+
+**后训练阶段**分为 **SFT**、**RL** 与 **OPD** 三步。我们先使用 **400B tokens deep-thinking SFT** 建立深度思考和通用对话能力，相关 SFT 数据已同步开源为 [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605)。随后针对数学、代码、Agent 和写作等方向训练专用 **RL teacher**，并通过 **On-Policy Distillation (OPD)** 将这些 teacher 的能力蒸馏回同一个发布模型。
+
+![MiniCPM5-2B 训练流程](assets/minicpm5/minicpm5_2b_training_recipe.jpg)
+
+#### RL + OPD 带来了什么？
+
+**RL + OPD** 是 MiniCPM5-2B 后训练中的关键环节。**RL** 阶段，使用了 [JustRL II](https://app.notion.com/p/panhaoxuan/JustRL-II-Scaling-Small-LLMs-to-128K-Reasoning-with-a-Critic-3c77e972297c80adb8b5f4b05d267012#5f3eb56b29f048ebab5f71138f12e36f) 阐述的 critic-based 算法，大幅提升训练稳定性，并在多个领域取得了显著的收益。在下面列出的基准中，RL + OPD 在推理与通用能力上平均提升 **↑ 10.96 分**，Agent 能力平均提升 **↑ 6.96 分**。
+
+
+**OPD** 阶段对 16 个 RL 训练所得到的专家模型（含 5 个 agentic 专家模型）实现了能力合并。训练方式上，我们在 response 序列的每个位置分别对学生模型和教师模型 logits 计算全词表的反向 KL 散度作为优势估计值，替代原有的 verification-based advantage；训练数据上，我们的 OPD 直接复用各 RL teacher 训练时 prompt 作为蒸馏数据，无需额外构造语料。
+
+![MiniCPM5-2B RL + OPD 增益](assets/minicpm5/minicpm5_2b_rl_opd_score_gains.png)
+
+
+### 快速上手
+
+
+
+#### vLLM
+
+```bash
+pip install "vllm>=0.21"
+vllm serve openbmb/MiniCPM5-2B --port 8000
+```
+
+```bash
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openbmb/MiniCPM5-2B",
+    "messages": [{"role": "user", "content": "你是谁？可以简单介绍一下自己吗？"}],
+    "max_tokens": 128,
+    "temperature": 1.0, "top_p": 0.95
+  }'
+```
+
+#### SGLang
+
+```bash
+pip install "sglang[srt]>=0.5.12"
+python -m sglang.launch_server --model-path openbmb/MiniCPM5-2B --port 30000
+```
+
+```bash
+curl http://localhost:30000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openbmb/MiniCPM5-2B",
+    "messages": [{"role": "user", "content": "你是谁？可以简单介绍一下自己吗？"}],
+    "max_tokens": 128,
+    "temperature": 1.0, "top_p": 0.95
+  }'
+```
+
+**投机采样（DSpark）**：我们同步开源了为 MiniCPM5-2B 训练的 DSpark 草稿模型 [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark)。在 SGLang 中启用后可加速解码，且不改变目标模型的输出：
+
+```bash
+python -m sglang.launch_server \
+  --model-path openbmb/MiniCPM5-2B \
+  --trust-remote-code \
+  --speculative-algorithm DSPARK \
+  --speculative-draft-model-path openbmb/MiniCPM5-2B-DSpark \
+  --speculative-dspark-block-size 7 \
+  --port 30000
+```
+
+
+
+#### Transformers
+
+```bash
+pip install -U "transformers>=5.6" accelerate torch
+```
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+model_id = "openbmb/MiniCPM5-2B"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    torch_dtype="auto",
+    device_map="auto",
+)
+messages = [{"role": "user", "content": "你是谁？可以简单介绍一下自己吗？"}]
+inputs = tokenizer.apply_chat_template(
+    messages,
+    tokenize=True,
+    add_generation_prompt=True,
+    enable_thinking=True,
+    return_dict=True,
+    return_tensors="pt",
+).to(model.device)
+outputs = model.generate(**inputs, max_new_tokens=128)
+print(tokenizer.decode(outputs[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True))
+```
+
+推荐的采样参数：`temperature=1.0, top_p=0.95`
+
+### 工具调用
+
+工具调用**推荐使用 SGLang**。MiniCPM5-2B 以 XML 格式产出工具调用，SGLang 内置的 `minicpm5` parser 会自动将其转换为 OpenAI 兼容的 `tool_calls` 字段。
+
+```bash
+python -m sglang.launch_server --model-path openbmb/MiniCPM5-2B --port 30000 \
+    --tool-call-parser minicpm5      # 或：--tool-call-parser auto
+```
+
+
+
+### GitHub Cookbooks 与 Agent Skills
+
+MiniCPM5-2B 使用**标准** `LlamaForCausalLM` **架构**，主流推理引擎可直接加载，**无需自定义算子，也无模型代码 fork**。逐步部署和微调说明请参考下方 GitHub cookbooks；Agent Skills 作为 GitHub 资源提供给使用 Cursor / Claude Code 类 coding agent 的用户。
+
+#### 部署
+
+
+| 后端           | 模型格式 / 适用场景                                 | Cookbook                                                                                        | Agent Skill                                                                                                               |
+| ------------ | ------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Transformers | BF16 / FP16，本地 Python 推理，GPU + CPU          | [transformers.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/transformers.md) | [minicpm5-deploy-transformers](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-transformers/SKILL.md) |
+| vLLM         | BF16 / FP16 OpenAI server                   | [vllm.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm.md)                 | [minicpm5-deploy-vllm](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-vllm/SKILL.md)                 |
+| SGLang       | BF16 / FP16 OpenAI server，推荐用于 tool calling | [sglang.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md)             | [minicpm5-deploy-sglang](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-sglang/SKILL.md)             |
+| llama.cpp    | GGUF，CPU/GPU 本地推理                           | [llama_cpp.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/llama_cpp.md)       | [minicpm5-deploy-llama-cpp](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-llama-cpp/SKILL.md)       |
+| Ollama       | GGUF，本地端侧运行                                 | [ollama.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/ollama.md)             | [minicpm5-deploy-ollama](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-ollama/SKILL.md)             |
+| LM Studio    | GGUF，Mac 桌面应用与 OpenAI server                | [lmstudio.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/lmstudio.md)         | [minicpm5-deploy-lmstudio](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-lmstudio/SKILL.md)         |
+| MLX          | MLX / 4bit，Apple Silicon 本地推理               | [mlx.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/mlx.md)                   | [minicpm5-deploy-mlx](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-mlx/SKILL.md)                   |
+| ArcLight     | GGUF 本地端侧 / CPU / 桌面 / 服务器                  | [arclight.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/arclight.md)         | [minicpm5-deploy-arclight](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-arclight/SKILL.md)         |
+| vLLM Ascend         | BF16 / FP16 OpenAI server                   | [vllm_ascend.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm_ascend.md)                 | [minicpm5-deploy-vllm-ascend](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-vllm-ascend/SKILL.md)  | 
+
+
+
+
+#### 微调
+
+
+| 框架            | 适用场景          | Cookbook                                                                                      | Agent Skill                                                                                                                   |
+| ------------- | ------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| TRL + PEFT    | LoRA / SFT 微调 | [trl.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/trl.md)                   | [minicpm5-finetune-trl](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-trl/SKILL.md)                   |
+| LLaMA-Factory | 微调            | [llamafactory.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/llamafactory.md) | [minicpm5-finetune-llamafactory](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-llamafactory/SKILL.md) |
+| ms-swift      | 微调            | [ms_swift.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/ms_swift.md)         | [minicpm5-finetune-ms-swift](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-ms-swift/SKILL.md)         |
+| unsloth       | 微调            | [unsloth.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/finetune/unsloth.md)           | [minicpm5-finetune-unsloth](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-finetune-unsloth/SKILL.md)           |
+
+
+
+
+#### 其他支持的框架
+
+除上文列出的部署与微调框架外，MiniCPM5-2B 也支持通过 FlagOS 进行多芯片部署。
+
+##### FlagOS 介绍
+
+为解决不同 AI 芯片大规模落地应用，北京智源研究院联合众多科研机构、芯片企业、系统厂商、算法和软件相关单位等国内外机构共同发起并创立了 FlagOS 开源社区。
+
+FlagOS 社区致力于打造面向多种 AI 芯片的统一、开源的系统软件栈，包括大型算子库、统一AI编译器、并行训推框架、统一通信库等核心开源项目，构建「模型-系统-芯片」三层贯通的开放技术生态，通过“一次开发跨芯迁移”释放硬件计算潜力，打破不同芯片软件栈之间生态隔离，有效降低开发者的迁移成本。FlagOS 社区构建人工智能软硬件生态，突破单一闭源垄断，推动AI硬件技术大范围落地发展，立足中国、拥抱全球合作。
+
+官网速递：[https://flagos.io](https://flagos.io/)
+
+<details>
+<summary>FlagOS 多 AI 芯片支持与使用方式</summary>
+
+##### FlagOS 多 AI 芯片支持
+
+基于 FlagOS 极短时间内适配 MiniCPM5-2B 到 9 种不同的 AI 芯片，得益于众智 FlagOS 的多芯片统一 AI 系统软件栈的能力。目前，在 FlagOS 团队构建的面向多架构人工智能芯片的大模型自动迁移、适配与发布平台 FlagRelease 上，已发布 MiniCPM5-2B 的多芯片版本。细节如下：
+
+
+| Vendor    | ModelScope                                                                                                    | Huggingface                                                                                         |
+| --------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Nvidia    | [MiniCPM5-2B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)       | [MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)       |
+| Hygon     | [MiniCPM5-2B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-hygon-FlagOS)         | [MiniCPM5-2B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-hygon-FlagOS)         |
+| Metax     | [MiniCPM5-2B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-metax-FlagOS)         | [MiniCPM5-2B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-metax-FlagOS)         |
+| Iluvatar  | [MiniCPM5-2B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)   | [MiniCPM5-2B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)   |
+| Zhenwu    | [MiniCPM5-2B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)       | [MiniCPM5-2B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)       |
+| Mthreads  | [MiniCPM5-2B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)   | [MiniCPM5-2B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)   |
+| Kunlunxin | [MiniCPM5-2B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS) | [MiniCPM5-2B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS) |
+| Ascend    | [MiniCPM5-2B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-ascend-FlagOS)           | [MiniCPM5-2B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-ascend-FlagOS)       |
+| ARM-v9    | [MiniCPM5-2B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)             | [MiniCPM5-2B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)         |
+
+
+
+
+##### FlagOS 使用方式
+
+
+
+###### 使用 FlagOS 在 Nvidia 体验性能加速
+
+
+
+**From FlagRelease（推荐）**
+
+FlagRelease是FlagOS团队构建的一套面向多架构人工智能芯片的大模型自动迁移、适配与发布平台，已发布MiniCPM5-2B的多芯片版本。FlagRelease 已内置相关软件包，无需用户安装。
+
+
+
+
+**FlagRelease 使用速递**
+
+
+| Vendor    | ModelScope                                                                                                    | Huggingface                                                                                         |
+| --------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Nvidia    | [MiniCPM5-2B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)       | [MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS)       |
+| Hygon     | [MiniCPM5-2B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-hygon-FlagOS)         | [MiniCPM5-2B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-hygon-FlagOS)         |
+| Metax     | [MiniCPM5-2B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-metax-FlagOS)         | [MiniCPM5-2B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-metax-FlagOS)         |
+| Iluvatar  | [MiniCPM5-2B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)   | [MiniCPM5-2B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS)   |
+| Zhenwu    | [MiniCPM5-2B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)       | [MiniCPM5-2B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS)       |
+| Mthreads  | [MiniCPM5-2B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)   | [MiniCPM5-2B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-mthreads-FlagOS)   |
+| Kunlunxin | [MiniCPM5-2B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS) | [MiniCPM5-2B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS) |
+| Ascend    | [MiniCPM5-2B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-ascend-FlagOS)           | [MiniCPM5-2B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-ascend-FlagOS)       |
+| ARM-v9    | [MiniCPM5-2B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)             | [MiniCPM5-2B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-Armv9-FlagOS)         |
+
+
+
+
+**从零开始**
+
+- 依赖Python3.12, GLIBC_2.39, GLIBCXX_3.4.33, CXXABI_1.3.15 环境
+
+
+
+
+
+
+**安装 FlagOS 算子库**
+
+官方仓库：[https://github.com/flagos-ai/FlagGems](https://github.com/flagos-ai/FlagGems)
+
+```PowerShell
+pip install flag-gems==4.2.1rc0
+pip install triton==3.5.1
+```
+
+
+
+**开启加速**
+
+通过在vllm执行推理的源码中增加flagGems的导入即可开启flagGems加速
+
+```Bash
+import flag_gems
+flag_gems.enable(record=True, once=True, path="/root/gems.txt")
+```
+
+```Bash
+vllm serve ${model_path} \
+--trust-remote-code \
+--dtype bfloat16 \
+--enforce-eager \
+--port ${Port} \
+--served-model-name ${model_name} \
+--gpu-memory-utilization 0.85
+```
+
+
+
+###### 使用 FlagOS 统一多芯片后端插件
+
+**[vllm-plugin-FL](https://github.com/flagos-ai/vllm-plugin-FL)** 是一个为 **vLLM** 推理/服务框架构建的插件，它基于 **FlagOS 的统一多芯片后端**开发，旨在扩展 vLLM 在多种硬件环境下的功能和性能表现。
+
+**vllm-plugin-FL 使用**
+
+
+| 厂商  | 从零开始                                                                                                             | 从 FlagRelease 开始                                                                                     |                                                                                               |
+| --- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 英伟达 | [vllm-plugin-FL/MiniCPM5-2B](https://github.com/flagos-ai/vllm-plugin-FL/blob/main/examples/minicpm/README.md) | [MiniCPM5-2B-ModelScope](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-2B-nvidia-FlagOS) | [MiniCPM5-2B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS) |
+
+</details>
+
 ## 🚀 MiniCPM5-1B
+
+> **MiniCPM5-1B** 是 **MiniCPM5** 系列的首个模型。它是一款面向端侧、本地部署和资源受限场景的 1B 稠密 Transformer，能够达到同尺寸开源模型 SOTA 水平。
+
+
+<details>
+<summary>点击展开：亮点、简介、评测、推理</summary>
+
+### 亮点
+
+🏆 **同尺寸开源模型 SOTA**：与同尺寸优秀开源模型相比，MiniCPM5-1B 在该对比范围内达到 SOTA 水平，优势主要体现在 Agentic 工具调用、代码生成和高难推理。
+
+![MiniCPM5-1B 各领域能力对比](./assets/minicpm5/public_leaderboard_radar_cn.png)
+
+🧠 **双模式推理**：内置 `<think>` chat template，可通过 `enable_thinking` 在思考模式和非思考模式之间切换。同一份权重既可以作为快速助手，也可以承担更复杂的推理任务。
+
+🛠️ **部署 / 微调资源**：MiniCPM GitHub 仓库提供面向主要推理后端和微调框架的单页 cookbook，并配套 Agent Skills，方便复现部署和微调流程。
+
+🐱 **桌宠**：我们也提供了由 MiniCPM5-1B 本地驱动的桌宠应用。
+
 
 ### 简介
 
@@ -317,103 +644,6 @@ MiniCPM5-1B 使用**标准 `LlamaForCausalLM` 架构**，主流推理引擎可�
 
 除上文列出的部署与微调框架外，MiniCPM5-1B 也支持通过 FlagOS 进行多芯片部署。
 
-#### FlagOS 介绍
-
-为解决不同 AI 芯片大规模落地应用，北京智源研究院联合众多科研机构、芯片企业、系统厂商、算法和软件相关单位等国内外机构共同发起并创立了 FlagOS 开源社区。
-
-FlagOS 社区致力于打造面向多种 AI 芯片的统一、开源的系统软件栈，包括大型算子库、统一AI编译器、并行训推框架、统一通信库等核心开源项目，构建「模型-系统-芯片」三层贯通的开放技术生态，通过“一次开发跨芯迁移”释放硬件计算潜力，打破不同芯片软件栈之间生态隔离，有效降低开发者的迁移成本。FlagOS 社区构建人工智能软硬件生态，突破单一闭源垄断，推动AI硬件技术大范围落地发展，立足中国、拥抱全球合作。
-
-官网速递：[https://flagos.io](https://flagos.io/)
-
-<details>
-<summary>FlagOS 多 AI 芯片支持与使用方式</summary>
-
-#### FlagOS 多 AI 芯片支持
-
-基于 FlagOS 极短时间内适配 MiniCPM5-1B 到 9 种不同的 AI 芯片，得益于众智 FlagOS 的多芯片统一 AI 系统软件栈的能力。目前，在 FlagOS 团队构建的面向多架构人工智能芯片的大模型自动迁移、适配与发布平台 FlagRelease 上，已发布 MiniCPM5-1B 的多芯片版本。细节如下：
-
-|Vendor|ModelScope|Huggingface|
-|---|---|---|
-|Nvidia|[MiniCPM5-1B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-|Hygon|[MiniCPM5-1B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|[MiniCPM5-1B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|
-|Metax|[MiniCPM5-1B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-metax-FlagOS)|[MiniCPM5-1B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-metax-FlagOS)|
-|Iluvatar|[MiniCPM5-1B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|[MiniCPM5-1B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|
-|Zhenwu|[MiniCPM5-1B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|[MiniCPM5-1B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|
-|Mthreads|[MiniCPM5-1B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|[MiniCPM5-1B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|
-|Kunlunxin|[MiniCPM5-1B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|[MiniCPM5-1B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|
-|Ascend|[MiniCPM5-1B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|[MiniCPM5-1B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|
-|ARM-v9|[MiniCPM5-1B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|[MiniCPM5-1B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|
-
-#### FlagOS 使用方式
-
-##### 使用 FlagOS 在 Nvidia 体验性能加速
-
-###### From FlagRelease（**推荐**）
-
-FlagRelease是FlagOS团队构建的一套面向多架构人工智能芯片的大模型自动迁移、适配与发布平台，已发布MiniCPM-1B的多芯片版本。FlagRelase已内置相关软件包，无需用户安装。
-
-###### FlagRelease 镜像关键版本信息
-
-###### FlagRelease 使用速递
-
-|Vendor|ModelScope|Huggingface|
-|---|---|---|
-|Nvidia|[MiniCPM5-1B-nvidia-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-|Hygon|[MiniCPM5-1B-hygon-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|[MiniCPM5-1B-hygon-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-hygon-FlagOS)|
-|Metax|[MiniCPM5-1B-metax-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-metax-FlagOS)|[MiniCPM5-1B-metax-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-metax-FlagOS)|
-|Iluvatar|[MiniCPM5-1B-iluvatar-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|[MiniCPM5-1B-iluvatar-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-iluvatar-FlagOS)|
-|Zhenwu|[MiniCPM5-1B-zhenwu-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|[MiniCPM5-1B-zhenwu-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-zhenwu-FlagOS)|
-|Mthreads|[MiniCPM5-1B-mthreads-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|[MiniCPM5-1B-mthreads-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-mthreads-FlagOS)|
-|Kunlunxin|[MiniCPM5-1B-kunlunxin-FlagOS](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|[MiniCPM5-1B-kunlunxin-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-kunlunxin-FlagOS)|
-|Ascend|[MiniCPM5-1B-ascend-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|[MiniCPM5-1B-ascend-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-ascend-FlagOS)|
-|ARM-v9|[MiniCPM5-1B-Armv9-FlagOS](https://modelscope.cn/models/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|[MiniCPM5-1B-Armv9-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-Armv9-FlagOS)|
-
-###### 从零开始
-
-- 依赖Python3.12, GLIBC_2.39, GLIBCXX_3.4.33, CXXABI_1.3.15 环境
-
-###### Vllm 版本 
-
-###### 安装 FlagOS 算子库
-
-官方仓库：https://github.com/flagos-ai/FlagGems
-
-```PowerShell
-pip install flag-gems==4.2.1rc0
-pip install triton==3.5.1
-```
-
-###### 开启加速
-
-通过在vllm执行推理的源码中增加flagGems的导入即可开启flagGems加速
-
-```Bash
-import flag_gems
-flag_gems.enable(record=True, once=True, path="/root/gems.txt")
-```
-
-```Bash
-vllm serve ${model_path} \
---trust-remote-code \
---dtype bfloat16 \
---enforce-eager \
---port ${Port} \
---served-model-name ${model_name} \
---gpu-memory-utilization 0.85
-```
-
-##### 使用 FlagOS 统一多芯片后端插件
-
-**[vllm-plugin-FL](https://github.com/flagos-ai/vllm-plugin-FL)** 是一个为 **vLLM** 推理/服务框架构建的插件，它基于 **FlagOS 的统一多芯片后端**开发，旨在扩展 vLLM 在多种硬件环境下的功能和性能表现。
-
-###### vllm-plugin-FL 使用
-
-|厂商|从零开始|从 FlagRelease 开始||
-|---|---|---|---|
-|英伟达|[vllm-plugin-FL/MiniCPM5-1B](https://github.com/flagos-ai/vllm-plugin-FL/blob/main/examples/minicpm/README.md)|[MiniCPM5-1B-ModelScope](https://www.modelscope.cn/models/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|[MiniCPM5-1B-nvidia-FlagOS](https://huggingface.co/FlagRelease/MiniCPM5-1B-nvidia-FlagOS)|
-
-</details>
-
 ### 桌宠
 
 我们同步发布了 **[OpenBMB/MiniCPM-Desk-Pet](https://github.com/OpenBMB/MiniCPM-Desk-Pet)**，一个由 MiniCPM5-1B 本地驱动的桌宠应用。它通过轻量 `llama.cpp` `llama-server` sidecar 加载 GGUF 模型，并向 Electron 桌宠 UI 提供 OpenAI 兼容的本地接口。
@@ -426,6 +656,10 @@ vllm serve ${model_path} \
 - **开发者运行**：`git clone git@github.com:OpenBMB/MiniCPM-Desk-Pet.git && ./go.sh`，详见 [`MiniCPM-Desk-Pet/README.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet#给开发者)。
 
 > 桌宠 UI 层 fork 自 [@rullerzhou-afk/clawd-on-desk](https://github.com/rullerzhou-afk/clawd-on-desk)（AGPL-3.0）。我们在上游桌宠运行时、动画包和多 agent 集成基础上，加入本地 MiniCPM5-1B sidecar、Onboarding 和 LoRA 人格切换。完整致谢见 [`NOTICE.md`](https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/main/NOTICE.md)。
+
+
+</details>
+
 
 ## 🧪 MiniCPM-SALA
 

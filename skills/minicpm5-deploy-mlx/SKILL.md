@@ -1,9 +1,9 @@
 ---
 name: minicpm5-deploy-mlx
-description: Run MiniCPM5-1B natively on Apple Silicon with Apple's MLX framework. Use when the user has an Apple Silicon Mac and asks for "MLX", "mlx_lm", "mlx_lm.convert", "mlx_lm.generate", or wants the fastest path on Apple Silicon.
+description: Run MiniCPM5-1B or MiniCPM5-2B natively on Apple Silicon with Apple's MLX framework. Use when the user has an Apple Silicon Mac and asks for "MLX", "mlx_lm", "mlx_lm.convert", "mlx_lm.generate", or wants the fastest path on Apple Silicon.
 ---
 
-# Deploy MiniCPM5-1B with MLX (Apple Silicon)
+# Deploy MiniCPM5-1B and MiniCPM5-2B with MLX (Apple Silicon)
 
 Apple's on-device tensor framework. Highest throughput on M-series. Stays inside one Python process — no separate server, no `llama.cpp` build chain.
 
@@ -11,8 +11,8 @@ Apple's on-device tensor framework. Highest throughput on M-series. Stays inside
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `MLX_REPO` | `openbmb/MiniCPM5-1B-MLX` (pre-converted 4-bit affine) | required |
-| OR `HF_REPO` + `QUANT` | `openbmb/MiniCPM5-1B`, `4bit` or `bf16` | for local conversion |
+| `MLX_REPO` | `openbmb/MiniCPM5-2B-MLX` (pre-converted 4-bit affine) | required; `openbmb/MiniCPM5-1B-MLX` also works |
+| OR `HF_REPO` + `QUANT` | `openbmb/MiniCPM5-2B`, `4bit` or `bf16` | for local conversion |
 | `MAX_TOKENS` | `200` | `200` |
 
 ## Steps
@@ -31,7 +31,7 @@ mlx_lm.generate --model "${MLX_REPO}" \
 1+1=?<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens ${MAX_TOKENS} --temp 0.7 --top-p 0.95
+    --max-tokens ${MAX_TOKENS} --temp 1.0 --top-p 0.95
 ```
 
 ### 2B. Convert from a HF checkpoint locally (advanced)
@@ -64,7 +64,7 @@ curl http://127.0.0.1:8000/v1/chat/completions \
     -d '{
         "model": "default",
         "messages": [{"role":"user","content":"1+1=?"}],
-        "temperature": 0.7, "top_p": 0.95, "max_tokens": 64
+        "temperature": 1.0, "top_p": 0.95, "max_tokens": 64
     }'
 ```
 

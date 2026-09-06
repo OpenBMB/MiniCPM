@@ -1,4 +1,4 @@
-# Deploy MiniCPM5-1B with llama.cpp
+# Deploy MiniCPM5-1B and MiniCPM5-2B with llama.cpp
 
 `llama.cpp` is the recommended path for **CPU / edge / consumer-GPU** deployment. The released GGUF builds run on laptops, single-board computers, Apple Silicon, and Windows boxes with no Python at all.
 
@@ -6,6 +6,9 @@
 
 | File | Size | Use case |
 | --- | --- | --- |
+| `MiniCPM5-2B-F16.gguf` | 5.04 GB | reference quality, uniform CPU/GPU performance |
+| `MiniCPM5-2B-Q8_0.gguf` | 2.68 GB | very small quality drop vs F16, half the disk |
+| `MiniCPM5-2B-Q4_K_M.gguf` | 1.56 GB | edge / mobile-class hardware, minimal VRAM |
 | `MiniCPM5-1B-F16.gguf` | 2.1 GB | reference quality, uniform CPU/GPU performance |
 | `MiniCPM5-1B-Q8_0.gguf` | 1.1 GB | very small quality drop vs F16, half the disk |
 | `MiniCPM5-1B-Q4_K_M.gguf` | 657 MB | edge / mobile-class hardware, minimal VRAM |
@@ -15,23 +18,23 @@ These artifacts work directly with vanilla `llama.cpp` and every `llama.cpp`-bas
 ## TL;DR — run a release GGUF
 
 ```bash
-huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-Q4_K_M.gguf --local-dir ./minicpm5
+huggingface-cli download openbmb/MiniCPM5-2B-GGUF MiniCPM5-2B-Q4_K_M.gguf --local-dir ./minicpm5
 
 # Interactive chat (auto-applies the chat template)
-llama-cli -m ./minicpm5/MiniCPM5-1B-Q4_K_M.gguf -n 2048 --temp 0.7 --top-p 0.95 -ngl 99
+llama-cli -m ./minicpm5/MiniCPM5-2B-Q4_K_M.gguf -n 2048 --temp 1.0 --top-p 0.95 -ngl 99
 ```
 
 ## OpenAI-compatible server
 
 ```bash
-llama-server -m MiniCPM5-1B-Q4_K_M.gguf --port 8080 -ngl 99 -c 8192 --jinja
+llama-server -m MiniCPM5-2B-Q4_K_M.gguf --port 8080 -ngl 99 -c 8192 --jinja
 
 curl http://localhost:8080/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "MiniCPM5-1B",
+        "model": "MiniCPM5-2B",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 0.7, "top_p": 0.95, "max_tokens": 256
+        "temperature": 1.0, "top_p": 0.95, "max_tokens": 256
     }'
 ```
 
@@ -39,12 +42,13 @@ curl http://localhost:8080/v1/chat/completions \
 
 | Mode | `--temp` | `--top-p` | When to use |
 | --- | --- | --- | --- |
-| Think | 0.9 | 0.95 | reasoning, math, code, multi-step |
-| No-think | 0.7 | 0.95 | fast assistant, latency-bound |
+| MiniCPM5-2B Think | 1.0 | 0.95 | reasoning, math, code, multi-step |
+| MiniCPM5-1B Think | 0.9 | 0.95 | reasoning, math, code, multi-step |
+| MiniCPM5-1B No-think | 0.7 | 0.95 | fast assistant, latency-bound |
 
 ## Build a GGUF from your own checkpoint
 
-If you've trained your own MiniCPM5-1B variant (continue-pretraining, domain SFT, …) and want to publish a GGUF, the pipeline is:
+If you've trained your own MiniCPM5-1B or MiniCPM5-2B variant (continue-pretraining, domain SFT, …) and want to publish a GGUF, the pipeline is:
 
 ```bash
 git clone --depth=1 https://github.com/ggerganov/llama.cpp.git

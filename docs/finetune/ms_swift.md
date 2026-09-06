@@ -1,6 +1,6 @@
-# Fine-tune MiniCPM5-1B with ms-swift
+# Fine-tune MiniCPM5-1B and MiniCPM5-2B with ms-swift
 
-[ms-swift](https://github.com/modelscope/ms-swift) is the ModelScope team's official fine-tuning + serving toolkit. MiniCPM5-1B works with the standard `llama` model_type and ChatML template — no model-code patch.
+[ms-swift](https://github.com/modelscope/ms-swift) is the ModelScope team's official fine-tuning + serving toolkit. MiniCPM5-1B and MiniCPM5-2B work with the standard `llama` model_type and ChatML template — no model-code patch.
 
 > 🔑 **Two flags are mandatory** for MiniCPM5: `--model_type llama --template chatml`. Without them ms-swift refuses to auto-detect the architecture / template (because the disk-level structure is shared with several other Llama-family models).
 
@@ -26,7 +26,7 @@ No `dataset_info.json`. Just point `--dataset` at the file.
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 swift sft \
-    --model openbmb/MiniCPM5-1B \
+    --model openbmb/MiniCPM5-2B \
     --model_type llama \
     --template chatml \
     --tuner_type lora \
@@ -71,7 +71,7 @@ Loss 4.52 → 3.57, token accuracy 0.26 → 0.35 — clean convergence.
 
 ```bash
 swift export \
-    --model openbmb/MiniCPM5-1B \
+    --model openbmb/MiniCPM5-2B \
     --adapters ./runs/minicpm5_swift/checkpoint-XXXX \
     --merge_lora true \
     --output_dir ./minicpm5-swift-merged
@@ -97,7 +97,7 @@ For the `chatml` template combined with MiniCPM5, all of `sft / dpo / kto / orpo
 
 ```bash
 NPROC_PER_NODE=8 swift sft \
-    --model openbmb/MiniCPM5-1B \
+    --model openbmb/MiniCPM5-2B \
     --model_type llama \
     --template chatml \
     --tuner_type lora \
