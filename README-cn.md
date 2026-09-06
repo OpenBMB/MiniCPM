@@ -181,9 +181,9 @@ MiniCPM5-2B 是 MiniCPM5 系列的第二个模型，将 MiniCPM5-1B 的训练方
 
 MiniCPM5-2B 的训练过程是 **[UltraData 分级数据管理体系](https://arxiv.org/pdf/2602.09003)** 的一次完整实践，覆盖 base training、mid-training 与后训练三个阶段。
 
-**Base training** 采用逐级推进的训练配方，包含 stable training 与 decay training，用于建立基础语言能力与训练稳定性。随后进入 **mid-training**，进一步强化目标能力并适配数据分布。训练语料来自我们同步开源的 [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)、[Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3) 与 [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math)。
+**Base training** 采用逐级推进的训练配方，包含 stable training 与 decay training，用于建立基础语言能力与训练稳定性。随后进入 **mid-training**，进一步强化目标能力并适配数据分布。训练语料来自我们同步开源的 [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)、[Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3)、[UltraX](https://huggingface.co/datasets/openbmb/UltraX-Preview)、[UltraData-Code](https://huggingface.co/datasets/openbmb/UltraData-Code) 与 [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math)。
 
-**后训练阶段**分为 **SFT**、**RL** 与 **OPD** 三步。我们先使用 **400B tokens deep-thinking SFT** 建立深度思考和通用对话能力，相关 SFT 数据已同步开源为 [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605)。随后针对数学、代码、Agent 和写作等方向训练专用 **RL teacher**，并通过 **On-Policy Distillation (OPD)** 将这些 teacher 的能力蒸馏回同一个发布模型。
+**后训练阶段**分为 **SFT**、**RL** 与 **OPD** 三步。我们先使用 **400B tokens deep-thinking SFT** 建立深度思考和通用对话能力，相关 SFT 数据已同步开源为 [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605)与[UltraData-SFT-Agent-2609](https://huggingface.co/datasets/openbmb/UltraData-SFT-Agent-2609)。随后针对数学、代码、Agent 和写作等方向训练专用 **RL teacher**（相关数据已同步开源为[UltraData-RL-2609](https://huggingface.co/datasets/openbmb/UltraData-RL-2609)），并通过 **On-Policy Distillation (OPD)** 将这些 teacher 的能力蒸馏回同一个发布模型。
 
 ![MiniCPM5-2B 训练流程](assets/minicpm5/minicpm5_2b_training_recipe.jpg)
 
