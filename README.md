@@ -217,7 +217,7 @@ curl http://localhost:8000/v1/chat/completions \
 #### SGLang
 
 ```bash
-pip install "sglang[srt]>=0.5.12"
+pip install "sglang[srt]>=0.5.16"
 python -m sglang.launch_server --model-path openbmb/MiniCPM5-2B --port 30000
 ```
 
