@@ -29,7 +29,7 @@ We are releasing **MiniCPM5-2B**, the second model in the **MiniCPM5** series, f
 
 ![MiniCPM5-2B capability comparison by domain](./assets/minicpm5/minicpm5_2b_public_leaderboard_radar_en.png)
 
-📂 **Open High-Quality Data**: Alongside the model, we are releasing the high-quality training datasets behind it as part of the [UltraData](https://ultradata.openbmb.cn/) family: [UltraX](https://huggingface.co/datasets/openbmb/UltraX-Preview), a high-quality web pre-training dataset; [UltraData-Code](https://huggingface.co/datasets/openbmb/UltraData-Code), featuring L0–L3 tiered code data governance to drive a significant leap in coding capabilities; [UltraData-SFT-Agent-2609](https://huggingface.co/datasets/openbmb/UltraData-SFT-Agent-2609), comprising 500K agent training samples to enhance comprehensive on-device agent capabilities; and [UltraData-RL-2609](https://huggingface.co/datasets/openbmb/UltraData-RL-2609), with 80K+ high-quality RL training samples covering mathematics, code, general knowledge, and long-context reasoning.
+📂 **Open High-Quality Data**: Alongside the model, we are releasing the high-quality training datasets behind it as part of the [UltraData](https://ultradata.openbmb.cn/) family: [UltraX](https://huggingface.co/datasets/openbmb/UltraX-Preview), a high-quality web pre-training dataset; [UltraData-Code](https://huggingface.co/datasets/openbmb/UltraData-Code), featuring L0–L3 tiered code data management to drive a significant leap in coding capabilities; [UltraData-SFT-Agent-2609](https://huggingface.co/datasets/openbmb/UltraData-SFT-Agent-2609), comprising 500K agent training samples to enhance comprehensive on-device agent capabilities; and [UltraData-RL-2609](https://huggingface.co/datasets/openbmb/UltraData-RL-2609), with 80K+ high-quality RL training samples covering mathematics, code, general knowledge, and long-context reasoning.
 
 ## 🔥 Changelog
 - 📌 [2026.09.07] **[MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B)** is released: a compact 2B-class dense model for on-device and resource-constrained use, paired with deployment / fine-tuning [Agent Skills](./skills/).
@@ -67,7 +67,6 @@ We are releasing **MiniCPM5-2B**, the second model in the **MiniCPM5** series, f
 - [⚡ MiniCPM4 & MiniCPM4.1 Series](#-minicpm4-and-minicpm41-series)
 - [Legacy topics →](./docs/README-legacy.md): BitCPM4 quantization, MiniCPM4 applications
 - [📄 LICENSE](#-license) · [🏛 Institutions](#-institutions) · [📚 Citation](#-citation)
-
 
 ## 📦 Model Downloads
 
@@ -153,7 +152,6 @@ We are releasing **MiniCPM5-2B**, the second model in the **MiniCPM5** series, f
 
 </details>
 
-
 ## 🚀 MiniCPM5-2B
 
 ### Introduction
@@ -182,7 +180,7 @@ The training of MiniCPM5-2B is a full-stack practice of **[UltraData Tiered Data
 
 During **base training**, the model goes through stable training and decay training to build core language capability and training stability. It then enters **mid-training** to further strengthen target capabilities and adapt to the target data distribution. The training corpus is released alongside the model as [Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb), [Ultra-FineWeb-L3](https://huggingface.co/datasets/openbmb/Ultra-FineWeb-L3), [UltraX](https://huggingface.co/datasets/openbmb/UltraX-Preview), [UltraData-Code](https://huggingface.co/datasets/openbmb/UltraData-Code) and [UltraData-Math](https://huggingface.co/datasets/openbmb/UltraData-Math).
 
-During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **400B tokens of deep-thinking SFT** to establish deep-thinking and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605). We then train specialized **RL teachers** for math, code, agentic tasks, writing, and related domains(with the corresponding data also open-sourced as [UltraData-RL-2609](https://huggingface.co/datasets/openbmb/UltraData-RL-2609)), and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
+During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD**. We first use **400B tokens of deep-thinking SFT** to establish deep-thinking and general chat abilities; the SFT data is released as [UltraData-SFT-2605](https://huggingface.co/datasets/openbmb/UltraData-SFT-2605) and Agent SFT data as [UltraData-SFT-Agent-2609](https://huggingface.co/datasets/openbmb/UltraData-SFT-Agent-2609). We then train specialized **RL teachers** for math, code, agentic tasks, writing, and related domains(with the corresponding data also open-sourced as [UltraData-RL-2609](https://huggingface.co/datasets/openbmb/UltraData-RL-2609)), and use **On-Policy Distillation (OPD)** to distill these teachers back into one release model.
 
 ![MiniCPM5-2B Training Recipe](./assets/minicpm5/minicpm5_2b_training_recipe.jpg)
 
@@ -349,7 +347,6 @@ Thanks to FlagOS’s unified multi-chip AI system software stack, MiniCPM5-2B wa
 
 FlagRelease is a platform developed by the FlagOS team for automatic migration, adaptation, and deployment of large models across multi-architecture AI chips. The multi-chip version of MiniCPM5-2B has already been released on FlagRelease. All necessary software packages are pre-installed on the platform, so users do not need to install anything.
 
-
 **FlagRelease Quick Start**
 
 |Vendor|ModelScope|Huggingface|
@@ -367,7 +364,6 @@ FlagRelease is a platform developed by the FlagOS team for automatic migration, 
 **From Scratch**
 
 - Dependencies: Python 3.12, GLIBC 2.39, GLIBCXX 3.4.33, CXXABI 1.3.15
-
 
 **Installing the FlagOS Operator Library**
 
@@ -410,7 +406,6 @@ vllm serve ${model_path} \
 </details>
 
 ## 🚀 MiniCPM5-1B
-
 
 > **MiniCPM5-1B** is the first model in the **MiniCPM5** series. It is a dense 1B Transformer built for on-device, local deployment, and resource-constrained scenarios, reaching 1B-class open-source SOTA.
 
