@@ -84,7 +84,7 @@
 | [MiniCPM5-2B-Base](https://huggingface.co/openbmb/MiniCPM5-2B-Base) | [MiniCPM5-2B-Base](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-Base) |
 | [MiniCPM5-2B-GGUF](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) | [MiniCPM5-2B-GGUF](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GGUF) |
 | [MiniCPM5-2B-MLX](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) | [MiniCPM5-2B-MLX](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-MLX) |
-| [MiniCPM5-2B-GPTQ-Int4](https://huggingface.co/openbmb/MiniCPM5-2B-GPTQ-Int4) | [MiniCPM5-2B-GPTQ-Int4](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GPTQ-Int4) |
+| [MiniCPM5-2B-GPTQ](https://huggingface.co/openbmb/MiniCPM5-2B-GPTQ) | [MiniCPM5-2B-GPTQ](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-GPTQ) |
 | [MiniCPM5-2B-DSpark](https://huggingface.co/openbmb/MiniCPM5-2B-DSpark) | [MiniCPM5-2B-DSpark](https://www.modelscope.cn/models/OpenBMB/MiniCPM5-2B-DSpark) |
 
 **MiniCPM5-1B**
