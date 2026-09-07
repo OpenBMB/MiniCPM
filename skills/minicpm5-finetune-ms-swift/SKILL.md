@@ -1,9 +1,9 @@
 ---
 name: minicpm5-finetune-ms-swift
-description: Fine-tune MiniCPM5-1B with ms-swift (ModelScope's SFT / DPO / KTO / ORPO toolkit). Use when the user mentions "ms-swift", "swift sft", "swift rlhf", or wants ModelScope-native training. The two mandatory flags `--model_type llama --template chatml` are baked in.
+description: Fine-tune MiniCPM5-1B or MiniCPM5-2B with ms-swift (ModelScope's SFT / DPO / KTO / ORPO toolkit). Use when the user mentions "ms-swift", "swift sft", "swift rlhf", or wants ModelScope-native training. The two mandatory flags `--model_type llama --template chatml` are baked in.
 ---
 
-# Fine-tune MiniCPM5-1B with ms-swift
+# Fine-tune MiniCPM5-1B and MiniCPM5-2B with ms-swift
 
 ModelScope-native SFT / DPO / KTO / ORPO. ChatML template + standard `llama` model_type.
 
@@ -13,7 +13,7 @@ ModelScope-native SFT / DPO / KTO / ORPO. ChatML template + standard `llama` mod
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `BASE_MODEL` | `openbmb/MiniCPM5-1B` | required |
+| `BASE_MODEL` | `openbmb/MiniCPM5-2B` | required; `openbmb/MiniCPM5-1B` also works |
 | `DATA` | path to messages-format jsonl | required |
 | `OUTPUT_DIR` | `./runs/minicpm5_swift` | required |
 | `GPU_ID` | `0` | `0` |

@@ -1,9 +1,9 @@
 ---
 name: minicpm5-finetune-unsloth
-description: Fine-tune MiniCPM5-1B with unsloth for tight-VRAM single-GPU LoRA / QLoRA. Use when the user wants "unsloth", "FastLanguageModel", QLoRA on a 24 GB consumer GPU, or asks for the smallest VRAM footprint.
+description: Fine-tune MiniCPM5-1B or MiniCPM5-2B with unsloth for tight-VRAM single-GPU LoRA / QLoRA. Use when the user wants "unsloth", "FastLanguageModel", QLoRA on a 24 GB consumer GPU, or asks for the smallest VRAM footprint.
 ---
 
-# Fine-tune MiniCPM5-1B with unsloth
+# Fine-tune MiniCPM5-1B and MiniCPM5-2B with unsloth
 
 Single-GPU LoRA / QLoRA. Heavy custom kernels for memory savings (~2× reduction at 4-bit).
 
@@ -19,7 +19,7 @@ Single-GPU LoRA / QLoRA. Heavy custom kernels for memory savings (~2× reduction
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `BASE_MODEL` | `openbmb/MiniCPM5-1B` | required |
+| `BASE_MODEL` | `openbmb/MiniCPM5-2B` | required; `openbmb/MiniCPM5-1B` also works |
 | `DATA` | path to messages-format jsonl | required |
 | `OUTPUT_DIR` | `./runs/minicpm5_unsloth` | required |
 | `LOAD_IN_4BIT` | `True` (QLoRA, lowest VRAM) / `False` (LoRA bf16) | `False` |
@@ -110,7 +110,7 @@ trainer.model.save_pretrained(f"{OUT}/adapter_final")
 ### 3. Run
 
 ```bash
-BASE_MODEL=openbmb/MiniCPM5-1B \
+BASE_MODEL=openbmb/MiniCPM5-2B \
 DATA=/path/to/messages.jsonl \
 OUTPUT_DIR=./runs/minicpm5_unsloth \
 LOAD_IN_4BIT=False \
@@ -126,7 +126,7 @@ You should see:
 ```
 ==((====))== Unsloth: Fast Llama patching. Transformers: 4.57.3.
 🦥 Unsloth: Padding-free auto-enabled, enabling faster training.
-trainable params: 11,206,656 of 1,091,839,488 (1.03 % trained)
+trainable params: model-size dependent (about 1% with the recipe below)
 
 {'loss': 4.67, 'epoch': 0.2}
 {'loss': 3.52, 'epoch': 1.0}
@@ -146,7 +146,7 @@ FastLanguageModel.for_inference(model)           # 2× faster generation
 
 inputs = tok.apply_chat_template([{"role":"user","content":"用一句话解释 GQA。"}],
                                  add_generation_prompt=True, enable_thinking=True, return_tensors="pt").to("cuda")
-out = model.generate(inputs, max_new_tokens=512, temperature=0.9, top_p=0.95)
+out = model.generate(inputs, max_new_tokens=512, temperature=1.0, top_p=0.95)
 print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
 

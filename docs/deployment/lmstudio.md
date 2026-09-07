@@ -1,6 +1,6 @@
-# Deploy MiniCPM5-1B with LM Studio
+# Deploy MiniCPM5-1B and MiniCPM5-2B with LM Studio
 
-[LM Studio](https://lmstudio.ai/) is the **GUI-first** path for running MiniCPM5-1B on a Mac / Windows / Linux laptop — drag a model in, click *Load*, chat, or expose an OpenAI-compatible REST endpoint with one toggle. On Apple Silicon it ships **two** inference runtimes that both work for MiniCPM5-1B:
+[LM Studio](https://lmstudio.ai/) is the **GUI-first** path for running MiniCPM5-1B or MiniCPM5-2B on a Mac / Windows / Linux laptop — drag a model in, click *Load*, chat, or expose an OpenAI-compatible REST endpoint with one toggle. On Apple Silicon it ships **two** inference runtimes that work for both models:
 
 | Runtime | Format | Version | When to use |
 | --- | --- | --- | --- |
@@ -18,14 +18,14 @@ open -a "LM Studio"          # accept EULA + pick model source
 
 # 2. Drop the released GGUF into LM Studio's model registry.
 #    The expected layout is <publisher>/<repo>/<file>.gguf:
-mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-1B-GGUF
-cp MiniCPM5-1B-Q4_K_M.gguf ~/.lmstudio/models/openbmb/MiniCPM5-1B-GGUF/
+mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-2B-GGUF
+cp MiniCPM5-2B-Q4_K_M.gguf ~/.lmstudio/models/openbmb/MiniCPM5-2B-GGUF/
 
 # 3. Use the bundled `lms` CLI to start the local OpenAI-compatible server.
 LMS="/Applications/LM Studio.app/Contents/Resources/app/.webpack/lms"
 "$LMS" ls
 "$LMS" server start                                   # binds 127.0.0.1:1234
-"$LMS" load minicpm5-1b --gpu max --context-length 8192 -y
+"$LMS" load minicpm5-2b --gpu max --context-length 8192 -y
 "$LMS" ps
 ```
 
@@ -37,8 +37,8 @@ LM Studio scans `~/.lmstudio/models/` recursively for `*.gguf`, **but only displ
 
 ```bash
 # Option A — drop into the registry directly (recommended for scripted envs)
-mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-1B-GGUF
-cp MiniCPM5-1B-Q4_K_M.gguf ~/.lmstudio/models/openbmb/MiniCPM5-1B-GGUF/
+mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-2B-GGUF
+cp MiniCPM5-2B-Q4_K_M.gguf ~/.lmstudio/models/openbmb/MiniCPM5-2B-GGUF/
 
 # Option B — drag-and-drop into the LM Studio GUI's "My Models" view.
 ```
@@ -46,8 +46,8 @@ cp MiniCPM5-1B-Q4_K_M.gguf ~/.lmstudio/models/openbmb/MiniCPM5-1B-GGUF/
 After either path, `lms ls` should show:
 
 ```text
-LLM              PARAMS    ARCH     SIZE         DEVICE
-minicpm5-1b    1B      Llama    688.07 MB    Local
+LLM              PARAMS    ARCH     SIZE       DEVICE
+minicpm5-2b       2B        Llama    1.56 GB    Local
 ```
 
 ## Loading and serving
@@ -56,7 +56,7 @@ minicpm5-1b    1B      Llama    688.07 MB    Local
 LMS="/Applications/LM Studio.app/Contents/Resources/app/.webpack/lms"
 
 "$LMS" server start
-"$LMS" load minicpm5-1b \
+"$LMS" load minicpm5-2b \
     --gpu max \
     --context-length 8192 \
     -y
@@ -68,23 +68,23 @@ Verify with:
 
 ```bash
 "$LMS" ps
-# IDENTIFIER       MODEL            STATUS    SIZE         CONTEXT    PARALLEL    DEVICE    TTL
-# minicpm5-1b    minicpm5-1b    IDLE      688.07 MB    8192       4           Local
+# IDENTIFIER       MODEL          STATUS    SIZE       CONTEXT    PARALLEL    DEVICE    TTL
+# minicpm5-2b      minicpm5-2b    IDLE      1.56 GB    8192       4           Local
 ```
 
 ## Inference
 
 LM Studio exposes an OpenAI-compatible API on `http://localhost:1234/v1`. The chat template baked into the GGUF is auto-applied:
 
-### No-think (fast)
+### Short prompt
 
 ```bash
 curl -sS http://localhost:1234/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "minicpm5-1b",
+        "model": "minicpm5-2b",
         "messages": [{"role": "user", "content": "用一句话解释什么是 GQA。"}],
-        "temperature": 0.7, "top_p": 0.95, "max_tokens": 200,
+        "temperature": 1.0, "top_p": 0.95, "max_tokens": 200,
         "stop": ["<|im_end|>", "<|im_start|>"]
     }'
 ```
@@ -95,9 +95,9 @@ curl -sS http://localhost:1234/v1/chat/completions \
 curl -sS http://localhost:1234/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "minicpm5-1b",
+        "model": "minicpm5-2b",
         "messages": [{"role": "user", "content": "鸡兔同笼，头共10个，脚共28只，问鸡和兔各几只？请逐步推理后给出答案。"}],
-        "temperature": 0.9, "top_p": 0.95, "max_tokens": 400,
+        "temperature": 1.0, "top_p": 0.95, "max_tokens": 400,
         "stop": ["<|im_end|>", "<|im_start|>"]
     }'
 ```
@@ -133,10 +133,11 @@ The GGUF runtime does not do this split — `<think>...</think>` is emitted inli
 
 | Mode | `temperature` | `top_p` | When to use |
 | --- | --- | --- | --- |
-| Think | 0.9 | 0.95 | reasoning, math, code (model auto-emits a `<think>` block) |
-| No-think | 0.7 | 0.95 | latency-bound assistant |
+| MiniCPM5-2B Think | 1.0 | 0.95 | reasoning, math, code (model auto-emits a `<think>` block) |
+| MiniCPM5-1B Think | 0.9 | 0.95 | reasoning, math, code (model auto-emits a `<think>` block) |
+| MiniCPM5-1B No-think | 0.7 | 0.95 | latency-bound assistant |
 
-## Toggling Think / No-think
+## Toggling Think / No-think (MiniCPM5-1B)
 
 As of 2026-05, LM Studio's OpenAI-compatible layer does not consistently honour the standard `chat_template_kwargs.enable_thinking` flag. Passing it in the request body may have no effect, and natural-language hints (`/no_think` suffix, system prompt saying "do not include reasoning", etc.) do not reliably suppress thinking either. So in the GUI chat pane there may be no built-in toggle.
 

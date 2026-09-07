@@ -1,6 +1,6 @@
-# Deploy MiniCPM5-1B with Ollama
+# Deploy MiniCPM5-1B and MiniCPM5-2B with Ollama
 
-[Ollama](https://ollama.com) is the easiest CLI / daemon path to run MiniCPM5-1B on a laptop or desktop — one binary, no Python, no CUDA toolkit. It consumes the same GGUF files we ship for `llama.cpp`.
+[Ollama](https://ollama.com) is the easiest CLI / daemon path to run MiniCPM5-1B or MiniCPM5-2B on a laptop or desktop — one binary, no Python, no CUDA toolkit. It consumes the same GGUF files we ship for `llama.cpp`.
 
 ## TL;DR
 
@@ -11,14 +11,14 @@ brew install ollama                 # macOS
 OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0 ollama serve &
 
 # Pull the released GGUF and create the Ollama model
-mkdir -p ~/minicpm5-1b && cd ~/minicpm5-1b
-huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-Q4_K_M.gguf --local-dir .
+mkdir -p ~/minicpm5-2b && cd ~/minicpm5-2b
+huggingface-cli download openbmb/MiniCPM5-2B-GGUF MiniCPM5-2B-Q4_K_M.gguf --local-dir .
 
 QUANT=Q4_K_M
 cat > Modelfile <<EOF
-FROM ./MiniCPM5-1B-${QUANT}.gguf
+FROM ./MiniCPM5-2B-${QUANT}.gguf
 
-# MiniCPM5 chat template
+# MiniCPM5 basic chat template
 TEMPLATE """{{- if .Messages -}}
 {{- range .Messages -}}
 <|im_start|>{{ .Role }}
@@ -31,23 +31,23 @@ TEMPLATE """{{- if .Messages -}}
 PARAMETER stop "<|im_end|>"
 PARAMETER stop "</s>"
 
-# Defaults are tuned for no-think mode
-PARAMETER temperature 0.7
+# Defaults are tuned for think mode
+PARAMETER temperature 1.0
 PARAMETER top_p 0.95
 PARAMETER num_ctx 8192
 EOF
 
-ollama create minicpm5-1b -f Modelfile
-ollama run minicpm5-1b
+ollama create minicpm5-2b -f Modelfile
+ollama run minicpm5-2b
 ```
 
 ## Choosing a quant
 
-| Quant | Disk | RAM @ 8K ctx | Quality | Ollama tag (suggested) |
-| --- | --- | --- | --- | --- |
-| F16 | 2.1 GB | ~3 GB | reference | `:fp16` |
-| Q8_0 | 1.1 GB | ~2 GB | ~indistinguishable from F16 | `:q8` |
-| **Q4_K_M** | **657 MB** | **~1.3 GB** | small drop, ideal for laptops | **`:q4_k_m`** *(default)* |
+| Quant | Disk | Quality | Ollama tag (suggested) |
+| --- | --- | --- | --- |
+| F16 | 5.04 GB | reference | `:fp16` |
+| Q8_0 | 2.68 GB | ~indistinguishable from F16 | `:q8` |
+| **Q4_K_M** | **1.56 GB** | small drop, ideal for laptops | **`:q4_k_m`** *(default)* |
 
 ## API access
 
@@ -57,9 +57,9 @@ Ollama serves an OpenAI-compatible REST endpoint on `http://localhost:11434/v1`:
 curl http://localhost:11434/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "minicpm5-1b",
+        "model": "minicpm5-2b",
         "messages": [{"role": "user", "content": "用一句话解释 GQA。"}],
-        "temperature": 0.9, "top_p": 0.95, "max_tokens": 1024
+        "temperature": 1.0, "top_p": 0.95, "max_tokens": 1024
     }'
 ```
 
@@ -67,16 +67,16 @@ Or use the Ollama-native API:
 
 ```bash
 curl http://localhost:11434/api/chat -d '{
-    "model": "minicpm5-1b",
+    "model": "minicpm5-2b",
     "messages": [{"role":"user","content":"1+1=?"}],
     "stream": false,
-    "options": {"temperature": 0.7, "top_p": 0.95}
+    "options": {"temperature": 1.0, "top_p": 0.95}
 }'
 ```
 
-## Think vs No-think
+## MiniCPM5-1B Think vs No-think
 
-The Modelfile above defaults to **no-think** (`temperature=0.7, top_p=0.95`). To switch a single conversation to **think** mode, override the sampling params at request time:
+A MiniCPM5-1B Modelfile configured with `temperature=0.7, top_p=0.95` defaults to **no-think**. To switch a single conversation to **think** mode, override the sampling params at request time:
 
 ```bash
 ollama run minicpm5-1b --temperature 0.9 --top-p 0.95
@@ -91,14 +91,14 @@ PARAMETER top_p 0.95
 
 Then `ollama create minicpm5-1b-think -f Modelfile.think`.
 
-> ℹ️ Ollama 0.24 does **not** auto-evaluate the GGUF-embedded Jinja chat template; it falls back to the Modelfile's Go `TEMPLATE` block. To force the think path with auto-injected `<think>\n`, use raw mode and prepend it manually:
+> ℹ️ Ollama 0.24 does **not** directly evaluate the GGUF-embedded Jinja chat template. It maps recognized Jinja templates to built-in Go templates, so MiniCPM5 uses the explicit Go `TEMPLATE` block above. To enter the MiniCPM5-2B think path, use raw mode and prepend `<think>\n` manually:
 >
 > ```bash
 > curl http://localhost:11434/api/generate -d '{
->     "model": "minicpm5-1b",
+>     "model": "minicpm5-2b",
 >     "raw": true,
 >     "prompt": "<|im_start|>user\n鸡兔同笼…<|im_end|>\n<|im_start|>assistant\n<think>\n",
->     "options": {"temperature": 0.9, "top_p": 0.95}
+>     "options": {"temperature": 1.0, "top_p": 0.95}
 > }'
 > ```
 

@@ -1,9 +1,9 @@
 ---
 name: minicpm5-deploy-transformers
-description: Run MiniCPM5-1B with Hugging Face Transformers for one-shot Python generation on GPU (bfloat16) or CPU (float32). Use when the user wants a quick Python script, no server, no extra deps, or asks for "Transformers", "AutoModelForCausalLM", "model.generate" with MiniCPM5.
+description: Run MiniCPM5-1B or MiniCPM5-2B with Hugging Face Transformers for one-shot Python generation on GPU (bfloat16) or CPU (float32). Use when the user wants a quick Python script, no server, no extra deps, or asks for "Transformers", "AutoModelForCausalLM", "model.generate" with MiniCPM5.
 ---
 
-# Deploy MiniCPM5-1B with HF Transformers
+# Deploy MiniCPM5-1B and MiniCPM5-2B with HF Transformers
 
 One-shot Python generation. No server. Works on a single GPU (bfloat16) or CPU only (fp32).
 
@@ -11,8 +11,8 @@ One-shot Python generation. No server. Works on a single GPU (bfloat16) or CPU o
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `MODEL_PATH` | `openbmb/MiniCPM5-1B` or local dir | required |
-| `MODE` | `think` or `nothink` | `think` |
+| `MODEL_PATH` | `openbmb/MiniCPM5-2B` or local dir | required; `openbmb/MiniCPM5-1B` also works |
+| `MODE` | `think` or `nothink` (`nothink` is 1B-only) | `think` |
 
 ## Steps
 
@@ -41,29 +41,33 @@ messages = [{"role": "user", "content": "用一句话解释什么是 GQA。"}]
 inputs = tok.apply_chat_template(
     messages,
     add_generation_prompt=True,
-    enable_thinking=True,          # set False for nothink mode
+    enable_thinking=True,
     return_tensors="pt",
+    return_dict=True,
 ).to(model.device)
 
 with torch.no_grad():
     out = model.generate(
-        inputs,
+        **inputs,
         max_new_tokens=1024,
         do_sample=True,
-        temperature=0.9,           # nothink: 0.7
+        temperature=1.0,
         top_p=0.95,
     )
-print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
+
+prompt_len = inputs["input_ids"].shape[-1]
+print(tok.decode(out[0][prompt_len:], skip_special_tokens=True))
 ```
 
-For CPU only: change `torch_dtype=torch.float32, device_map="cpu"` and drop `enable_thinking=True` (use False for latency).
+For CPU only: change `torch_dtype=torch.float32, device_map="cpu"`. Keep `enable_thinking=True` and `temperature=1.0` for MiniCPM5-2B; use `enable_thinking=False` and `temperature=0.7` only for MiniCPM5-1B No-think mode.
 
 ## Sampling defaults
 
 | Mode | `enable_thinking` | `temperature` | `top_p` |
 | --- | --- | --- | --- |
-| Think | `True` | 0.9 | 0.95 |
-| No-think | `False` | 0.7 | 0.95 |
+| MiniCPM5-2B Think | `True` | 1.0 | 0.95 |
+| MiniCPM5-1B Think | `True` | 0.9 | 0.95 |
+| MiniCPM5-1B No-think | `False` | 0.7 | 0.95 |
 
 ## Validate
 

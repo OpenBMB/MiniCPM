@@ -1,6 +1,6 @@
-# Fine-tune MiniCPM5-1B with unsloth
+# Fine-tune MiniCPM5-1B and MiniCPM5-2B with unsloth
 
-[unsloth](https://github.com/unslothai/unsloth) is the "single-GPU LoRA on a budget" framework — heavy custom kernels for memory savings, and a wrapper around TRL `SFTTrainer` for the actual training loop. MiniCPM5-1B is small enough that unsloth's kernel speedups are less critical, but the **2× memory reduction** is still useful for long-context fine-tuning on a 24 GB consumer GPU.
+[unsloth](https://github.com/unslothai/unsloth) is the "single-GPU LoRA on a budget" framework — heavy custom kernels for memory savings, and a wrapper around TRL `SFTTrainer` for the actual training loop. MiniCPM5-1B and MiniCPM5-2B can use the same recipe; the **2× memory reduction** is useful for long-context fine-tuning on a consumer GPU.
 
 > 🔑 If you're using unsloth alongside vLLM in the same env, pin `transformers==4.57.3` — unsloth's vLLM coexistence patch only handles transformers ≤ 4.57.x. Recipe baked in below.
 
@@ -28,7 +28,7 @@ from datasets import Dataset
 from unsloth import FastLanguageModel
 from trl import SFTTrainer, SFTConfig
 
-BASE = "openbmb/MiniCPM5-1B"
+BASE = "openbmb/MiniCPM5-2B"  # or openbmb/MiniCPM5-1B
 DATA = "/path/to/my_chat_data.jsonl"
 OUT  = "./runs/minicpm5_unsloth"
 
@@ -96,7 +96,7 @@ trainer.model.save_pretrained(f"{OUT}/adapter_final")
 ==((====))==  Unsloth 2026.5.2: Fast Llama patching. Transformers: 4.57.3.
    \\   /|    NVIDIA GPU. Num GPUs = 1.
 O^O/ \_/ \    Torch: 2.7.1+cu126. CUDA: 9.0. CUDA Toolkit: 12.6.
-\        /    Bfloat16 = TRUE. Trainable parameters = 11,206,656 (1.03 %)
+\        /    Bfloat16 = TRUE. Trainable parameters = model-size dependent (about 1% with the recipe below)
 
 🦥 Unsloth: Padding-free auto-enabled, enabling faster training.
 
@@ -122,7 +122,7 @@ model, tok = FastLanguageModel.from_pretrained(
 )
 ```
 
-With `load_in_4bit=True`, MiniCPM5-1B + LoRA can run on a low-VRAM consumer GPU for QLoRA at 4K context.
+With `load_in_4bit=True`, MiniCPM5-1B or MiniCPM5-2B + LoRA can run on a low-VRAM consumer GPU for QLoRA at 4K context.
 
 ## Inference with the LoRA adapter
 
@@ -140,7 +140,7 @@ inputs = tok.apply_chat_template(
     [{"role": "user", "content": "用一句话解释 GQA。"}],
     add_generation_prompt=True, enable_thinking=True, return_tensors="pt",
 ).to("cuda")
-out = model.generate(inputs, max_new_tokens=512, temperature=0.9, top_p=0.95)
+out = model.generate(inputs, max_new_tokens=512, temperature=1.0, top_p=0.95)
 print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))
 ```
 
@@ -173,7 +173,7 @@ unsloth's TRL wrapper expects a flat `text` column or an explicit `formatting_fu
 | WebUI / YAML pipeline | LLaMA-Factory |
 | Bare-metal Python + assistant-only loss | TRL direct (see [`trl.md`](./trl.md)) |
 
-For a 1B model, unsloth's headline 2× speedup is usually 1.2-1.5× in practice (smaller models give the kernels less room to amortize their fixed overhead). The memory savings are still real and matter for long-context (16K-128K).
+For these model sizes, unsloth's headline 2× speedup depends on the GPU and sequence length. The memory savings are still useful for long-context training (16K-128K).
 
 ## See also
 

@@ -14,7 +14,7 @@ cmake -B build -DARCLIGHT_BACKEND=AUTO -DNNML_USE_NUMA=OFF
 cmake --build build --config Release -j 32
 
 ./build/al-gen \
-    --model /path/to/MiniCPM5-1B-Q4_0.gguf \
+    --model /path/to/MiniCPM5-2B-Q4_0.gguf \
     --prompt "Hello!" \
     --numa none --nodes 1 \
     --threads 4
@@ -24,20 +24,20 @@ cmake --build build --config Release -j 32
 
 ArcLight uses the GGUF model format from [llama.cpp](https://github.com/ggml-org/llama.cpp). The current `nnml` backend only ships kernels for **`f32` / `f16` / `q4_0` / `q8_0` / `q6_K` / `q8_K`** (see `nnml/src/ops/types.cpp`); other quants such as `Q4_K_M` will not load.
 
-The official `openbmb/MiniCPM5-1B-GGUF` repo publishes `F16`, `Q8_0`, and `Q4_K_M` — note that **`Q4_0` is not included**. For a `q4_0` build you have to quantize it yourself from the released `F16`:
+The official `openbmb/MiniCPM5-2B-GGUF` repo publishes `F16`, `Q8_0`, and `Q4_K_M` — note that **`Q4_0` is not included**. For a `q4_0` build you have to quantize it yourself from the released `F16`:
 
 ```bash
-huggingface-cli download openbmb/MiniCPM5-1B-GGUF MiniCPM5-1B-F16.gguf --local-dir .
-llama-quantize ./MiniCPM5-1B-F16.gguf ./MiniCPM5-1B-Q4_0.gguf Q4_0
+huggingface-cli download openbmb/MiniCPM5-2B-GGUF MiniCPM5-2B-F16.gguf --local-dir .
+llama-quantize ./MiniCPM5-2B-F16.gguf ./MiniCPM5-2B-Q4_0.gguf Q4_0
 ```
 
 The current codebase includes model definitions for:
 
-- MiniCPM5-1B
+- MiniCPM5-2B
 - Qwen3
 - Llama2
 
-For first-time testing, start with MiniCPM5-1B or another small GGUF model, preferably the locally produced `Q4_0` (smallest) or the released `Q8_0`.
+For first-time testing, start with MiniCPM5-2B or another small GGUF model, preferably the locally produced `Q4_0` (smallest) or the released `Q8_0`.
 
 ## Building
 
@@ -90,7 +90,7 @@ If you build from source, run them from the build directory, for example `./buil
 
 ```bash
 ./build/al-gen \
-    --model /path/to/MiniCPM5-1B-Q4_0.gguf \
+    --model /path/to/MiniCPM5-2B-Q4_0.gguf \
     --prompt "Explain what unified memory means in one sentence." \
     --numa none --nodes 1 \
     --threads 4 \
@@ -102,7 +102,7 @@ For a Chinese prompt:
 
 ```bash
 ./build/al-gen \
-    --model /path/to/MiniCPM5-1B-Q4_0.gguf \
+    --model /path/to/MiniCPM5-2B-Q4_0.gguf \
     --prompt "用一句话解释什么是统一内存。" \
     --numa none --nodes 1 \
     --threads 4 \
@@ -113,7 +113,7 @@ For a Chinese prompt:
 
 ```bash
 ./build/al-chat \
-    --model /path/to/MiniCPM5-1B-Q4_0.gguf \
+    --model /path/to/MiniCPM5-2B-Q4_0.gguf \
     --numa none --nodes 1 \
     --threads 4 \
     --max_length 4096 \
@@ -126,7 +126,7 @@ Press `Ctrl+C` during generation to interrupt the current response. Press `Ctrl+
 
 ```bash
 ./build/al-ppl \
-    --model /path/to/MiniCPM5-1B-Q4_0.gguf \
+    --model /path/to/MiniCPM5-2B-Q4_0.gguf \
     --prompt "Good morning, Miss Lee!" \
     --numa none --nodes 1 \
     --threads 4
@@ -152,7 +152,7 @@ Example for a 4-node many-core machine:
 
 ```bash
 ./build/al-gen \
-    --model /path/to/MiniCPM5-1B-Q4_0.gguf\
+    --model /path/to/MiniCPM5-2B-Q4_0.gguf\
     --prompt "Hello!" \
     --numa tp --nodes 4 \
     --threads 32

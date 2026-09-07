@@ -1,6 +1,6 @@
-# Deploy MiniCPM5-1B with MLX (Apple Silicon)
+# Deploy MiniCPM5-1B and MiniCPM5-2B with MLX (Apple Silicon)
 
-[MLX](https://github.com/ml-explore/mlx) is Apple's on-device tensor framework. For MiniCPM5-1B it is the recommended path on Apple Silicon (M1–M4) when you want **highest throughput** and want to stay inside one Python process — no separate server, no `llama.cpp` build chain.
+[MLX](https://github.com/ml-explore/mlx) is Apple's on-device tensor framework. For MiniCPM5-1B and MiniCPM5-2B it is the recommended path on Apple Silicon (M1–M4) when you want **highest throughput** and want to stay inside one Python process — no separate server, no `llama.cpp` build chain.
 
 ## TL;DR
 
@@ -9,12 +9,12 @@ pip install "mlx-lm>=0.31"
 
 # Run the official pre-converted MLX repo directly
 # (config.json declares "quantization": {"bits": 4, "mode": "affine"})
-mlx_lm.generate --model openbmb/MiniCPM5-1B-MLX \
+mlx_lm.generate --model openbmb/MiniCPM5-2B-MLX \
     --prompt "<|im_start|>user
 1+1=?<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens 200 --temp 0.7 --top-p 0.95
+    --max-tokens 200 --temp 1.0 --top-p 0.95
 ```
 
 ## Building MLX weights from your own checkpoint (advanced)
@@ -43,7 +43,7 @@ mlx_lm.generate --model ./minicpm5-mlx-q4 \
 鸡兔同笼，头共10个，脚共28只，问鸡和兔各几只？<|im_end|>
 <|im_start|>assistant
 " \
-    --max-tokens 200 --temp 0.7 --top-p 0.95
+    --max-tokens 200 --temp 1.0 --top-p 0.95
 ```
 
 ```text
@@ -82,10 +82,11 @@ print()
 
 | Mode | `--temp` | `--top-p` | When to use |
 | --- | --- | --- | --- |
-| Think | 0.9 | 0.95 | reasoning, math, code, multi-step (model auto-emits `<think>` block) |
-| No-think | 0.7 | 0.95 | fast assistant, latency-bound |
+| MiniCPM5-2B Think | 1.0 | 0.95 | reasoning, math, code, multi-step (model auto-emits `<think>` block) |
+| MiniCPM5-1B Think | 0.9 | 0.95 | reasoning, math, code, multi-step (model auto-emits `<think>` block) |
+| MiniCPM5-1B No-think | 0.7 | 0.95 | fast assistant, latency-bound |
 
-Both modes are activated by sampling parameters only — the released chat template auto-injects `<think>\n` when no `system` message disables it, so you get think-mode behaviour by default.
+For MiniCPM5-1B, both modes are activated by sampling parameters only — the released chat template auto-injects `<think>\n` when no `system` message disables it, so you get think-mode behaviour by default.
 
 ## Q&A
 
