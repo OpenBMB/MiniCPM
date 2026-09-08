@@ -187,7 +187,7 @@ MiniCPM5-2B 的训练过程是 **[UltraData 分级数据管理体系](https://ar
 
 #### RL + OPD 带来了什么？
 
-**RL + OPD** 是 MiniCPM5-2B 后训练中的关键环节。**RL** 阶段，使用了 [JustRL II](https://app.notion.com/p/panhaoxuan/JustRL-II-Scaling-Small-LLMs-to-128K-Reasoning-with-a-Critic-3c77e972297c80adb8b5f4b05d267012#5f3eb56b29f048ebab5f71138f12e36f) 阐述的 critic-based 算法，大幅提升训练稳定性，并在多个领域取得了显著的收益。在下面列出的基准中，RL + OPD 在推理与通用能力上平均提升 **↑ 10.96 分**，Agent 能力平均提升 **↑ 6.96 分**。
+**RL + OPD** 是 MiniCPM5-2B 后训练中的关键环节。**RL** 阶段，使用了 [JustRL II](https://panhaoxuan.notion.site/justrl-ii-small-llms-to-128k-reasoning-with-a-critic-cn) 阐述的 critic-based 算法，大幅提升训练稳定性，并在多个领域取得了显著的收益。在下面列出的基准中，RL + OPD 在推理与通用能力上平均提升 **↑ 10.96 分**，Agent 能力平均提升 **↑ 6.96 分**。
 
 
 **OPD** 阶段对 16 个 RL 训练所得到的专家模型（含 5 个 agentic 专家模型）实现了能力合并。训练方式上，我们在 response 序列的每个位置分别对学生模型和教师模型 logits 计算全词表的反向 KL 散度作为优势估计值，替代原有的 verification-based advantage；训练数据上，我们的 OPD 直接复用各 RL teacher 训练时 prompt 作为蒸馏数据，无需额外构造语料。

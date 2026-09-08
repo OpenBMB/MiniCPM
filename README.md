@@ -186,7 +186,7 @@ During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD*
 
 #### What does RL + OPD bring?
 
-**RL + OPD** is a key part of MiniCPM5-2B post-training. During the **RL** stage, we adopted the critic-based algorithm described in [JustRL II](https://app.notion.com/p/panhaoxuan/JustRL-II-Scaling-Small-LLMs-to-128K-Reasoning-with-a-Critic-3c77e972297c80adb8b5f4b05d267012#5f3eb56b29f048ebab5f71138f12e36f), substantially improving training stability and achieving significant gains across multiple domains. On the benchmarks listed below, RL + OPD improves reasoning and general capabilities by an average of **↑10.96 points**, and agentic capabilities by **↑6.96 points**.
+**RL + OPD** is a key part of MiniCPM5-2B post-training. During the **RL** stage, we adopted the critic-based algorithm described in [JustRL II](https://panhaoxuan.notion.site/justrl-ii-scaling-small-llms-to-128k-reasoning-with-a-critic), substantially improving training stability and achieving significant gains across multiple domains. On the benchmarks listed below, RL + OPD improves reasoning and general capabilities by an average of **↑10.96 points**, and agentic capabilities by **↑6.96 points**.
 
 **OPD** merges the capabilities of 16 expert models produced by RL training, including 5 agentic expert models. At each response position, we compute the full-vocabulary reverse KL divergence between student and teacher logits as the advantage estimate, replacing the original verification-based advantage. OPD directly reuses the prompts used to train each RL teacher as distillation data, so no additional corpus construction is required.
 
