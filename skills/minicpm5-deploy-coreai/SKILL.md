@@ -1,21 +1,21 @@
 ---
 name: minicpm5-deploy-coreai
-description: Run MiniCPM5-2B on-device inside a Swift app with Apple Core AI (iOS 27 / macOS 27). Use when the user targets an iPhone, iPad or Mac app, or says "iOS", "iPhone", "Swift", "Xcode", "Core AI", "CoreAIKit", ".aimodel", "on-device in my app", or wants a Foundation Models LanguageModelSession backed by MiniCPM5-2B.
+description: Run MiniCPM5-2B or MiniCPM5-1B on-device inside a Swift app with Apple Core AI (iOS 27 / macOS 27). Use when the user targets an iPhone, iPad or Mac app, or says "iOS", "iPhone", "Swift", "Xcode", "Core AI", "CoreAIKit", ".aimodel", "on-device in my app", or wants a Foundation Models LanguageModelSession backed by MiniCPM5.
 ---
 
-# Deploy MiniCPM5-2B with Apple Core AI (iPhone / iPad / Mac)
+# Deploy MiniCPM5-2B / MiniCPM5-1B with Apple Core AI (iPhone / iPad / Mac)
 
-Apple's on-device runtime in iOS 27 / macOS 27. The model is an `.aimodel` bundle loaded from Swift; no Python at runtime. The bundle is a community conversion from the [Core AI Model Zoo](https://github.com/john-rocky/coreai-model-zoo) (not an OpenBMB or Apple release). Covers MiniCPM5-2B only. Human-readable reference: [`docs/deployment/coreai.md`](../../docs/deployment/coreai.md).
+Apple's on-device runtime in iOS 27 / macOS 27. The model is an `.aimodel` bundle loaded from Swift; no Python at runtime. The bundles are community conversions from the [Core AI Model Zoo](https://github.com/john-rocky/coreai-model-zoo) (not an OpenBMB or Apple release). Covers MiniCPM5-2B and MiniCPM5-1B. Human-readable reference: [`docs/deployment/coreai.md`](../../docs/deployment/coreai.md).
 
 ## Required input
 
 | Var | Example | Default |
 | --- | --- | --- |
-| `MODEL` | `minicpm5-2b` (CoreAIKit catalog id) | `minicpm5-2b` |
+| `MODEL` | `minicpm5-2b` or `minicpm5-1b` (CoreAIKit catalog id) | `minicpm5-2b` |
 | `TARGET` | `mac` (headless CLI) or `iphone` (Xcode app) | `mac` |
 | `PROMPT` | `1+1=?` | `1+1=?` |
 
-Bundle: [`mlboydaisuke/MiniCPM5-2B-CoreAI`](https://huggingface.co/mlboydaisuke/MiniCPM5-2B-CoreAI) (int8, 2.7 GB). Downloads on first use.
+Bundles: [`mlboydaisuke/MiniCPM5-2B-CoreAI`](https://huggingface.co/mlboydaisuke/MiniCPM5-2B-CoreAI) (int8, 2.7 GB) and [`mlboydaisuke/MiniCPM5-1B-CoreAI`](https://huggingface.co/mlboydaisuke/MiniCPM5-1B-CoreAI) (int8, 1.1 GB; revision b8a6ac397ccd5fb815f97336f8a8b1800b110da1 or newer). Download on first use.
 
 ## Steps
 
@@ -50,7 +50,7 @@ Progress (download, load) goes to stderr; stdout carries only the final answer, 
 open ChatDemo.xcodeproj
 ```
 
-In Xcode: choose the iPhone as the run destination, set your signing team under **Signing & Capabilities**, Run, then pick "MiniCPM5 2B" in the model picker. The app already carries the `com.apple.developer.kernel.increased-memory-limit` entitlement the bundle needs.
+In Xcode: choose the iPhone as the run destination, set your signing team under **Signing & Capabilities**, Run, then pick "MiniCPM5 2B" or "MiniCPM5 1B" in the model picker. The app already carries the `com.apple.developer.kernel.increased-memory-limit` entitlement the bundle needs.
 
 ### 2C. Integrate into your own app
 
@@ -59,7 +59,7 @@ Add the package (Xcode: **File → Add Package Dependencies…**, `https://githu
 ```swift
 import CoreAIKit
 
-let chat = try await ChatSession(catalog: "minicpm5-2b")
+let chat = try await ChatSession(catalog: "minicpm5-2b")     // or "minicpm5-1b"
 let reply = try await chat.respond(to: "1+1=?")               // answer only; thinking is separate
 ```
 
@@ -67,12 +67,13 @@ let reply = try await chat.respond(to: "1+1=?")               // answer only; th
 
 ### 3. Validate
 
-stdout (or the app's reply) contains `2` for `1+1=?`, and generation stops on its own. Measured on an M4 Max with the bundle already cached: `1 + 1 = 2.` in 18 s wall time including engine load; Apple's `llm-runner` on the same bundle thinks, answers `2`, and stops at `<|im_end|>`.
+stdout (or the app's reply) contains `2` for `1+1=?`, and generation stops on its own. Measured on an M4 Max with the bundle already cached: the 2B answers `1 + 1 = 2.` in 18 s wall time including engine load; Apple's `llm-runner` on the same bundles thinks, answers `2`, and stops at `<|im_end|>` (2B after 190 tokens, 1B after 171).
 
 ## Without CoreAIKit (Apple's own package)
 
 ```bash
 hf download mlboydaisuke/MiniCPM5-2B-CoreAI --include "int8/*" --local-dir ./MiniCPM5-2B-CoreAI
+# 1B: hf download mlboydaisuke/MiniCPM5-1B-CoreAI --include "int8/*" --local-dir ./MiniCPM5-1B-CoreAI
 ```
 
 ```swift
@@ -89,7 +90,8 @@ Mac CLI from the same repo: `swift run -c release llm-runner --model ./MiniCPM5-
 ## Common pitfalls
 
 - **Wrong Xcode selected**: `swift` builds against whichever Xcode `xcode-select` points at. Set `DEVELOPER_DIR` as in step 0.
-- **First launch on iPhone**: one-time on-device specialization of the 2.7 GB bundle (28.9 s on iPhone 17 Pro), then cached. Needs about 3 GB free storage; a full phone fails with `No space left on device`.
+- **First launch on iPhone**: one-time on-device specialization (2B: 28.9 s on iPhone 17 Pro; 1B: 7.3 s), then cached. The 2B needs about 3 GB free storage; a full phone fails with `No space left on device`.
+- **1B revision**: use `b8a6ac397ccd5fb815f97336f8a8b1800b110da1` or newer. The earlier 1B revision (`5ad650f`) did not stop at the end of a turn.
 - **Context on iPhone**: prompt + generated tokens must stay under 1024 on iOS. Trim or chunk history on the phone; macOS has no cap.
 - **Thinking is on by default** (as in the released chat template) and can run several hundred tokens before the answer. Keep `maxResponseTokens` generous; read the trace from `.thinking` events if needed.
 - **Debug builds** are about 3× slower per token. Measure in Release (`-c release`).
