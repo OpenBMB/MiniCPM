@@ -25,7 +25,7 @@ Before picking a backend, you MUST know:
 | GGUF F16 / Q8_0 / Q4_K_M | [`openbmb/MiniCPM5-2B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) or [`openbmb/MiniCPM5-1B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | `minicpm5-deploy-llama-cpp` / `-ollama` / `-lmstudio` |
 | MLX (Apple Silicon) | [`openbmb/MiniCPM5-2B-MLX`](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) or [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | `minicpm5-deploy-mlx` |
 | LiteRT-LM `.litertlm` (Android / iOS / desktop / IoT, CPU + GPU) | [`litert-community/MiniCPM5-2B`](https://huggingface.co/litert-community/MiniCPM5-2B) or [`litert-community/MiniCPM5-1B`](https://huggingface.co/litert-community/MiniCPM5-1B) | `minicpm5-deploy-litert` |
-| Core AI `.aimodel` (iPhone / iPad / Mac apps, Swift; community conversion, MiniCPM5-2B only) | [`mlboydaisuke/MiniCPM5-2B-CoreAI`](https://huggingface.co/mlboydaisuke/MiniCPM5-2B-CoreAI) | `minicpm5-deploy-coreai` |
+| Core AI `.aimodel` (iPhone / iPad / Mac apps, Swift; community conversion, MiniCPM5-2B and MiniCPM5-1B) | [`mlboydaisuke/MiniCPM5-2B-CoreAI`](https://huggingface.co/mlboydaisuke/MiniCPM5-2B-CoreAI) | `minicpm5-deploy-coreai` |
 
 If the user has a local copy, accept any directory path that contains `config.json` and `model.safetensors` (or the equivalent GGUF / MLX layout).
 
@@ -42,7 +42,7 @@ If the user has a local copy, accept any directory path that contains `config.js
 | "LM Studio" / "desktop GUI" | macOS / Windows / Linux | GGUF or MLX | **`minicpm5-deploy-lmstudio`** |
 | "MLX" / "Apple Silicon native" / "fastest on Mac" | Apple Silicon | MLX | **`minicpm5-deploy-mlx`** |
 | "Android" / "on-device app" / "Edge Gallery" / "LiteRT" / "LiteRT-LM" / "litertlm" / "Raspberry Pi" | Android phone, iPhone, desktop or IoT board (CPU or GPU) | LiteRT-LM `.litertlm` | **`minicpm5-deploy-litert`** |
-| "iPhone" / "iOS app" / "Swift" / "Xcode" / "Core AI" | iPhone / iPad / Apple Silicon Mac | Core AI `.aimodel` (MiniCPM5-2B) | **`minicpm5-deploy-coreai`** |
+| "iPhone" / "iOS app" / "Swift" / "Xcode" / "Core AI" | iPhone / iPad / Apple Silicon Mac | Core AI `.aimodel` (MiniCPM5-2B / 1B) | **`minicpm5-deploy-coreai`** |
 
 If the user **has not specified** any of the above and asks "how do I run this?":
 
@@ -51,7 +51,7 @@ If the user **has not specified** any of the above and asks "how do I run this?"
 - **CUDA box, want minimal Python**: pick `minicpm5-deploy-transformers`.
 - **Apple Silicon laptop**: pick `minicpm5-deploy-ollama` (easiest) or `minicpm5-deploy-mlx` (fastest).
 - **Android phone, or an on-device app (Android / iOS)**: pick `minicpm5-deploy-litert`.
-- **iPhone / iPad, or a Swift / Xcode app on any Apple device**: pick `minicpm5-deploy-coreai` (MiniCPM5-2B).
+- **iPhone / iPad, or a Swift / Xcode app on any Apple device**: pick `minicpm5-deploy-coreai` (MiniCPM5-2B or MiniCPM5-1B).
 - **CPU only / Windows / low-VRAM**: pick `minicpm5-deploy-llama-cpp` (Q4_K_M).
 
 ## 3. Invocation contract

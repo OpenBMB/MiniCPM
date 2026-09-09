@@ -1,8 +1,8 @@
-# Deploy MiniCPM5-2B with Apple Core AI (iPhone / iPad / Mac)
+# Deploy MiniCPM5-2B / MiniCPM5-1B with Apple Core AI (iPhone / iPad / Mac)
 
 [Core AI](https://developer.apple.com/documentation/coreai) is Apple's on-device ML runtime in iOS 27 / macOS 27. A model is exported once to an `.aimodel` bundle and then runs inside a Swift app on iPhone, iPad and Apple Silicon Mac, with no Python at runtime. The bundle below runs on the GPU through Core AI's pipelined engine. Use this path when the target is an **app** (Swift / Xcode). For Python on a Mac, use [MLX](./mlx.md).
 
-The bundle below is a **community conversion**, maintained in the [Core AI Model Zoo](https://github.com/john-rocky/coreai-model-zoo) (not an OpenBMB or Apple release). Its Hugging Face card carries the conversion recipe and the measurements quoted here. This page covers MiniCPM5-2B; the zoo's MiniCPM5-1B bundle is not listed here yet.
+The bundles below are **community conversions**, maintained in the [Core AI Model Zoo](https://github.com/john-rocky/coreai-model-zoo) (not an OpenBMB or Apple release). Each Hugging Face card carries the conversion recipe and the measurements quoted here. This page covers MiniCPM5-2B and MiniCPM5-1B; the catalog ids are `minicpm5-2b` and `minicpm5-1b`.
 
 ## TL;DR
 
@@ -14,9 +14,10 @@ cd coreai-kit/Examples/ChatDemo
 # Headless run on the Mac (downloads the bundle on first use, then loads from cache):
 swift run -c release chat-cli --model minicpm5-2b --prompt "1+1=?"
 # → 1 + 1 = 2.
+swift run -c release chat-cli --model minicpm5-1b --prompt "1+1=?"   # the 1B: same command, 1.1 GB
 
 # On an iPhone: open ChatDemo.xcodeproj, pick your device as the run destination,
-# set your signing team, Run, then choose "MiniCPM5 2B" in the model picker.
+# set your signing team, Run, then choose "MiniCPM5 2B" (or "MiniCPM5 1B") in the model picker.
 ```
 
 ## Pre-converted bundle
@@ -24,16 +25,20 @@ swift run -c release chat-cli --model minicpm5-2b --prompt "1+1=?"
 | Model | Hugging Face repo | Quantization | Size | Numerics vs HF fp32 |
 | --- | --- | --- | --- | --- |
 | MiniCPM5-2B | [mlboydaisuke/MiniCPM5-2B-CoreAI](https://huggingface.co/mlboydaisuke/MiniCPM5-2B-CoreAI) | int8 weight-only, per-block-32 | 2.7 GB | 24/24 + 24/24 greedy tokens exact on iPhone, 16/16 on Mac |
+| MiniCPM5-1B | [mlboydaisuke/MiniCPM5-1B-CoreAI](https://huggingface.co/mlboydaisuke/MiniCPM5-1B-CoreAI) (revision b8a6ac397ccd5fb815f97336f8a8b1800b110da1 or newer) | int8 weight-only, per-block-32 | 1.1 GB | 24/24 greedy tokens exact + the stop on iPhone, 16/16 on Mac |
 
-It is a dynamic-shape bundle: one file runs unchanged on macOS and iOS through Core AI's pipelined engine. SDPA, RoPE and RMSNorm stay in full precision; the chat template's end-of-turn token `<|im_end|>` (id 130073) is set as the bundle's `eos_token`, and the model stops there (checked on `1+1=?` with both runtimes below).
+Both are dynamic-shape bundles: one file runs unchanged on macOS and iOS through Core AI's pipelined engine. SDPA, RoPE and RMSNorm stay in full precision; the chat template's end-of-turn token `<|im_end|>` (id 130073) is set as the bundle's `eos_token`, and the model stops there (checked on `1+1=?` with both runtimes below, for both sizes).
+
+Use the 1B revision named above or newer: the earlier 1B revision (`5ad650f`, per-channel int8) did not stop at the end of a turn, and its card says why.
 
 ## Measured (greedy, 128-token random prompt, Release build)
 
 | | iPhone 17 Pro decode | iPhone 17 Pro prefill | M4 Max decode |
 | --- | --- | --- | --- |
 | MiniCPM5-2B int8 | 22.4 tok/s | 27.3 tok/s | 127.6 tok/s |
+| MiniCPM5-1B int8 | 61.7 tok/s | 65.6 tok/s | 246.6 tok/s |
 
-Per-block-32 int8 lands on the Mac GPU's quantized-matmul path; the per-channel int8 sibling of this bundle decoded 5× slower on the Mac (25.6 tok/s) and the same on the phone, which is why the bundle ships per-block-32 scales.
+Per-block-32 int8 lands on the Mac GPU's quantized-matmul path; the per-channel int8 sibling of the 2B decoded 5× slower on the Mac (25.6 tok/s) and the same on the phone, which is why both bundles ship per-block-32 scales.
 
 ## Swift API (CoreAIKit)
 
@@ -48,7 +53,7 @@ Per-block-32 int8 lands on the Mac GPU's quantized-matmul path; the per-channel 
 ```swift
 import CoreAIKit
 
-let chat = try await ChatSession(catalog: "minicpm5-2b")
+let chat = try await ChatSession(catalog: "minicpm5-2b")     // or "minicpm5-1b"
 let reply = try await chat.respond(to: "1+1=?")
 print(reply)                                                  // final answer only
 
@@ -74,6 +79,7 @@ The bundle also loads with Apple's Swift package from [apple/coreai-models](http
 ```bash
 hf download mlboydaisuke/MiniCPM5-2B-CoreAI --include "int8/*" --local-dir ./MiniCPM5-2B-CoreAI
 # ./MiniCPM5-2B-CoreAI/int8/ holds metadata.json, the .aimodel, and tokenizer/
+# 1B: hf download mlboydaisuke/MiniCPM5-1B-CoreAI --include "int8/*" --local-dir ./MiniCPM5-1B-CoreAI
 ```
 
 ```swift
@@ -96,18 +102,20 @@ The export uses Apple's `coreai-torch` (`coreai.llm.export`) with two adjustment
 
 ```bash
 git clone https://github.com/john-rocky/coreai-model-zoo && cd coreai-model-zoo
-python3 conversion/zoo_convert.py show minicpm5-2b    # prints the exact export command
+python3 conversion/zoo_convert.py show minicpm5-2b    # prints the exact export command (minicpm5-1b for the 1B)
 python3 conversion/zoo_convert.py run  minicpm5-2b    # export_minicpm5.py --hf-id openbmb/MiniCPM5-2B --qconfig minicpm5_int8sym_b32.yaml
 python3 cli/coreai_verify.py <bundle> -n 16           # greedy token check against the fp32 HF reference
+python3 cli/coreai_verify.py <bundle> --chat no-think --prompt "Reply with only the number: 1+1=?" -n 16 --must-stop-within 16
+#   ^ the end-of-turn check: the fp32 reference answers `2` and stops; a bundle that runs past that stop fails
 ```
 
-Point `--hf-id` at a local fine-tuned checkpoint to convert your own weights. Full notes: [`models/minicpm5-2b`](https://github.com/john-rocky/coreai-model-zoo/blob/main/models/minicpm5-2b/README.md) in the zoo.
+Point `--hf-id` at a local fine-tuned checkpoint to convert your own weights. Keep per-block-32 scales: a per-channel int8 export of the 1B produced a bundle whose LM head scored every vocab id above ~65024 at zero through the engine, `<|im_end|>` included, while a short greedy parity check still passed — the stop check above is what catches it. Full notes: [`models/minicpm5-2b`](https://github.com/john-rocky/coreai-model-zoo/blob/main/models/minicpm5-2b/README.md) and [`models/minicpm5-1b`](https://github.com/john-rocky/coreai-model-zoo/blob/main/models/minicpm5-1b/README.md) in the zoo.
 
 ## Common pitfalls
 
 - **Toolchain**: macOS 27 / iOS 27 and Xcode 27 are required. CoreAIKit 0.4.1 is pinned to Xcode 27 beta 5; if `swift` picks another Xcode, export `DEVELOPER_DIR=/Applications/Xcode-27.0.0-Beta.5.app/Contents/Developer` first.
-- **First launch on iPhone**: the 2.7 GB bundle specializes on the phone once (28.9 s on iPhone 17 Pro), then the cache persists. This needs about 3 GB of free storage and the `com.apple.developer.kernel.increased-memory-limit` entitlement (ChatDemo has it). A full phone fails with `No space left on device`.
+- **First launch on iPhone**: the bundle specializes on the phone once (2B: 28.9 s on iPhone 17 Pro; 1B: 7.3 s), then the cache persists. The 2B needs about 3 GB of free storage and the `com.apple.developer.kernel.increased-memory-limit` entitlement (ChatDemo has it). A full phone fails with `No space left on device`.
 - **Context on iPhone**: prompt + generated tokens must stay under 1024 on iOS (the shipped pipelined engine caps growing-KV capacity there). Trim or chunk the history on the phone; macOS has no cap.
 - **Debug builds** are about 3× slower per token on host-side work. Measure in Release.
 - **macOS App Sandbox**: enable **Outgoing Connections (Client)** for the first-use download.
-- **Model runs past the end of turn**: not expected with this bundle, since `eos_token` is `<|im_end|>` and the stop was checked end to end. If you re-export yourself, keep that setting and check a short no-think prompt (`1+1=?` should end within a few tokens).
+- **Model runs past the end of turn**: not expected with these bundles (the 1B from revision b8a6ac397ccd5fb815f97336f8a8b1800b110da1 on), since `eos_token` is `<|im_end|>` and the stop was checked end to end. If you re-export yourself, keep that setting, keep per-block-32 scales, and run the stop check above (`Reply with only the number: 1+1=?` should end at `2`).

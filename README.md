@@ -586,7 +586,7 @@ The two top-level skills cover deployment and fine-tuning:
 
 | Top-level skill | What it does | Routes to |
 | --- | --- | --- |
-| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` · `sglang` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` · `litert` |
+| **[`minicpm5-deploy`](./skills/minicpm5-deploy/SKILL.md)** | Inference router | `transformers` · `vllm` · `sglang` · `llama-cpp` · `ollama` · `lmstudio` · `mlx` · `litert` · `coreai` |
 | **[`minicpm5-finetune`](./skills/minicpm5-finetune/SKILL.md)** | Fine tuning router | `trl` · `llamafactory` · `ms-swift` · `unsloth` · `xtuner` |
 
 In Cursor / Claude Code, you can call them like this: the agent reads the top-level skill, selects the matching sub-skill and cookbook based on the target backend, hardware, and data path, then runs the command and reports back.
@@ -598,7 +598,7 @@ In Cursor / Claude Code, you can call them like this: the agent reads the top-le
 
 The tables below list the cookbook and sub-skill for each inference backend and fine-tuning framework. Quantized models are not listed as standalone backends; they are described under the inference backend that can load each format.
 
-**Inference Deployment** (8 backends)
+**Inference Deployment** (9 backends)
 
 | Backend | Model format / use case | Cookbook | Paired Agent Skill |
 | --- | --- | --- | --- |
@@ -610,6 +610,7 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 | [MLX](https://github.com/ml-explore/mlx-lm) | MLX / 4bit local inference on Apple Silicon | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
 | [LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM) | `.litertlm` on-device runtime: Android / iOS / desktop / IoT, CPU + GPU | [`docs/deployment/litert.md`](./docs/deployment/litert.md) | [`minicpm5-deploy-litert`](./skills/minicpm5-deploy-litert/SKILL.md) |
 | [ArcLight](https://github.com/OpenBMB/ArcLight) | GGUF local on-device, CPU, Desktop & Server | [`docs/deployment/arclight.md`](./docs/deployment/arclight.md) | [`minicpm5-deploy-arclight`](./skills/minicpm5-deploy-arclight/SKILL.md) |
+| Core AI | Apple `.aimodel`, on-device in Swift apps: iPhone / iPad / Mac (community conversion) | [`docs/deployment/coreai.md`](./docs/deployment/coreai.md) | [`minicpm5-deploy-coreai`](./skills/minicpm5-deploy-coreai/SKILL.md) |
 
 **Fine tuning** (5 frameworks)
 
