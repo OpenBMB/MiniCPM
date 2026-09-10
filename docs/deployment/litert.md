@@ -1,6 +1,6 @@
 # Deploy MiniCPM5-2B and MiniCPM5-1B with LiteRT-LM (Android / iOS / desktop)
 
-[LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM) is Google's on-device runtime for language models (LiteRT is the runtime formerly called TensorFlow Lite). A model is packed once into a `.litertlm` bundle, and the same file runs on the CPU and the GPU of Android phones, iPhones and desktops, through a command-line tool, a Python package, and Kotlin / Swift APIs. Use this path when the target is a **phone or an app**. For a Python process on a Mac use [MLX](./mlx.md); for a GGUF workflow use [llama.cpp](./llama_cpp.md) or [Ollama](./ollama.md).
+[LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM) is Google's on-device runtime for language models, built on [LiteRT](https://github.com/google-ai-edge/litert) (formerly TensorFlow Lite). A model is packed once into a `.litertlm` bundle, and the same file runs on the CPU and the GPU of Android phones, iPhones and desktops, through a command-line tool, a Python package, and Kotlin / Swift APIs. Use this path when the target is a **phone or an app**.
 
 The MiniCPM5-2B bundles are hosted in [litert-community/MiniCPM5-2B](https://huggingface.co/litert-community/MiniCPM5-2B); that card carries the conversion recipe and the measurements quoted here. The MiniCPM5-1B bundles are hosted in [litert-community/MiniCPM5-1B](https://huggingface.co/litert-community/MiniCPM5-1B). Every command on this page was run with `litert-lm` 0.17.0 on an Apple M4 Max; the Android check used `litertlm-android` 0.17.0 on a Galaxy S26.
 
@@ -29,7 +29,7 @@ litert-lm run "$MODEL" --backend gpu --top-k 40 --top-p 0.95 --temperature 1.0 -
 
 ## Pre-converted bundles
 
-| Model | File | Recipe | Size | Runs on |
+| Model | File | Recipe | Size | Tested on |
 | --- | --- | --- | --- | --- |
 | MiniCPM5-2B | [`MiniCPM5-2B_int4.litertlm`](https://huggingface.co/litert-community/MiniCPM5-2B/blob/main/MiniCPM5-2B_int4.litertlm) | int4 blockwise-32 linears, int8 embedding | 1.55 GB | CPU + GPU: Mac, Galaxy S26, iPhone 17 Pro |
 | MiniCPM5-2B | [`MiniCPM5-2B_int8.litertlm`](https://huggingface.co/litert-community/MiniCPM5-2B/blob/main/MiniCPM5-2B_int8.litertlm) | int8 dynamic linears + embedding, fp32 activations declared | 2.60 GB | CPU + GPU: Mac, Galaxy S26 (not iOS, see pitfalls) |
@@ -138,9 +138,6 @@ Accuracy, GSM8K first 100 test questions, greedy, thinking off (the protocol of 
 
 ## See also
 
-- [`ollama.md`](./ollama.md) — one-line CLI path on a laptop, GGUF
-- [`mlx.md`](./mlx.md) — Python on Apple Silicon
-- [`llama_cpp.md`](./llama_cpp.md) — GGUF on CPU / CUDA
 - [litert-community/MiniCPM5-2B](https://huggingface.co/litert-community/MiniCPM5-2B) — recipe, correctness, all measurements, `litertlm_manifest.json`
 - [litert-community/MiniCPM5-1B](https://huggingface.co/litert-community/MiniCPM5-1B)
 - LiteRT-LM guides: [CLI](https://developers.google.com/edge/litert-lm/cli), [Android](https://developers.google.com/edge/litert-lm/android), [Swift](https://developers.google.com/edge/litert-lm/swift), [Python](https://developers.google.com/edge/litert-lm/python)

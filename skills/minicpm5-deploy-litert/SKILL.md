@@ -66,8 +66,7 @@ The reply contains `2` for `1+1=?`. With thinking on it comes after `[/thought]`
 
 ## When NOT to use
 
-- Python on a Mac, no app → `minicpm5-deploy-mlx`
-- GGUF, one-line CLI on a laptop → `minicpm5-deploy-ollama`; CPU / CUDA build → `minicpm5-deploy-llama-cpp`
+- GGUF files already in hand → `minicpm5-deploy-llama-cpp` or `minicpm5-deploy-ollama`
 - Server with an OpenAI-compatible endpoint → `minicpm5-deploy-vllm` or `minicpm5-deploy-sglang`
 
 ## Reference
