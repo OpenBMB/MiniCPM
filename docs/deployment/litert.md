@@ -32,7 +32,7 @@ litert-lm run "$MODEL" --backend gpu --top-k 40 --top-p 0.95 --temperature 1.0 -
 | Model | File | Recipe | Size | Tested on |
 | --- | --- | --- | --- | --- |
 | MiniCPM5-2B | [`MiniCPM5-2B_int4.litertlm`](https://huggingface.co/litert-community/MiniCPM5-2B/blob/main/MiniCPM5-2B_int4.litertlm) | int4 blockwise-32 linears, int8 embedding | 1.55 GB | CPU + GPU: Mac, Galaxy S26, iPhone 17 Pro |
-| MiniCPM5-2B | [`MiniCPM5-2B_int8.litertlm`](https://huggingface.co/litert-community/MiniCPM5-2B/blob/main/MiniCPM5-2B_int8.litertlm) | int8 dynamic linears + embedding, fp32 activations declared | 2.60 GB | CPU + GPU: Mac, Galaxy S26 (not iOS, see pitfalls) |
+| MiniCPM5-2B | [`MiniCPM5-2B_int8.litertlm`](https://huggingface.co/litert-community/MiniCPM5-2B/blob/main/MiniCPM5-2B_int8.litertlm) | int8 dynamic linears + embedding, fp32 activations declared | 2.60 GB | CPU + GPU: Mac, Galaxy S26 (iOS: see below) |
 | MiniCPM5-1B | [`minicpm_wi4b32_wi8_afp32.litertlm`](https://huggingface.co/litert-community/MiniCPM5-1B/blob/main/minicpm_wi4b32_wi8_afp32.litertlm) | int4 block-32 linears, int8 embedding and LM head, fp32 activations | 0.79 GB | CPU (Mac) |
 | MiniCPM5-1B | [`minicpm_wi4b32_wi8_afp32_gpu_opt.litertlm`](https://huggingface.co/litert-community/MiniCPM5-1B/blob/main/minicpm_wi4b32_wi8_afp32_gpu_opt.litertlm) | same recipe, graph laid out for the GPU | 0.79 GB | GPU (Mac) |
 | MiniCPM5-1B | [`MiniCPM5-1B_dynamic_wi8_afp32.litertlm`](https://huggingface.co/litert-community/MiniCPM5-1B/blob/main/MiniCPM5-1B_dynamic_wi8_afp32.litertlm) | int8 dynamic, fp32 activations | 1.11 GB | CPU (Mac) |
@@ -101,7 +101,7 @@ Checked on a Galaxy S26 (Snapdragon SM8850, Adreno) with `litertlm-android` 0.17
 
 ## iOS
 
-The int4 file passes the card's 8-question check on an iPhone 17 Pro on both backends (Metal GPU and CPU, init 5.7 s and 2.2 s). The int8 file is a desktop / Android build: its main weight section is 2.33 GB, above the single-section memory-map budget of an iOS app with default entitlements. The Swift API is documented in the [LiteRT-LM Swift guide](https://developers.google.com/edge/litert-lm/swift) (Swift Package Manager, `https://github.com/google-ai-edge/LiteRT-LM`); this page does not cover the Xcode steps.
+The int4 file passes the card's 8-question check on an iPhone 17 Pro on both backends (Metal GPU and CPU, init 5.7 s and 2.2 s). The int8 file's main weight section is 2.33 GB, more than an iOS app maps in one piece with the default entitlements; the `com.apple.developer.kernel.increased-memory-limit` and `com.apple.developer.kernel.extended-virtual-addressing` entitlements lift that limit (sections larger than this have loaded and run on an iPhone 17 Pro with other models; not re-checked with this file). The Swift API is documented in the [LiteRT-LM Swift guide](https://developers.google.com/edge/litert-lm/swift) (Swift Package Manager, `https://github.com/google-ai-edge/LiteRT-LM`); this page does not cover the Xcode steps.
 
 ## Measured (from the litert-community card)
 
@@ -129,7 +129,7 @@ Accuracy, GSM8K first 100 test questions, greedy, thinking off (the protocol of 
 
 - **int4 with thinking on may never close its reasoning.** Quantization costs this 42-layer model its thinking discipline first: on the card's 10-question thinking-on subset the int4 file closes 0/10 on the CPU (it keeps re-checking until the budget), while int8 closes 9/10 like the bf16 model. The same shows on the CLI: `1+1=?` on the CPU and `Explain GQA in one sentence.` on the GPU ran into the 4096-token budget with no answer. When the answer matters, use `--thinking false` on int4, or the int8 file.
 - **int8 declares fp32 activations in the bundle.** With the GPU's default fp16 activations the int8 model's reasoning on one gate question ran 2000+ tokens without closing; with fp32 it closes in ~450 tokens. The cost is about 14 % of GPU decode speed, and on Adreno the int8 GPU decode ends up level with the same phone's CPU.
-- **int8 on iOS**: not loadable by a default-entitlement app (2.33 GB single section, above). Use int4 on iPhone.
+- **int8 on iOS needs two entitlements.** With the default entitlements the 2.33 GB weight section does not map; the increased-memory-limit and extended-virtual-addressing entitlements lift that (see iOS). int4 needs neither.
 - **Budget cuts leave no answer**: a `--thinking-budget` below ~2048 (4096 for math) truncates the chain and the model emits nothing after it.
 - **First run per backend is slow**: the CPU run writes a 1.3 GB XNNPACK cache beside the file and the GPU run compiles its kernels (`--cache no` skips the disk cache; the Kotlin `cacheDir` is the same mechanism).
 - **GPU in your own Android app**: without the `<uses-native-library>` entries above, `initialize()` succeeds and the first message fails with `Can not find OpenCL library on this device`.

@@ -58,7 +58,7 @@ The reply contains `2` for `1+1=?`. With thinking on it comes after `[/thought]`
 
 - **int4 + thinking on may not close its reasoning** (CPU especially): the card's 10-question thinking-on subset closes 0/10 on int4 CPU, 9/10 on int8. Use `--thinking false` on int4, or the int8 file, when the answer matters.
 - **int8 declares fp32 activations** (a correctness fix for the GPU's fp16 default); GPU decode is ~14 % slower for it, and on Adreno int8 GPU decode is level with the CPU. int4 is the phone file.
-- **int8 is not for iOS**: its 2.33 GB weight section exceeds a default-entitlement app's single-section memory-map budget. iPhone: int4 (checked on iPhone 17 Pro, GPU and CPU).
+- **int8 on iOS needs the increased-memory-limit and extended-virtual-addressing entitlements** (2.33 GB weight section; the default entitlements do not map it). int4 needs neither (checked on iPhone 17 Pro, GPU and CPU).
 - **First run per backend is slow**: a 1.3 GB XNNPACK cache is written beside the file on the CPU, kernels are compiled on the GPU (`--cache no` to skip the disk cache).
 - **Android GPU without the manifest entries**: `initialize()` succeeds, the first message fails with `Can not find OpenCL library on this device`.
 - **Temperature without top-k does nothing**: pass `--top-k` above 1 together with `--top-p` / `--temperature` (default top-k 1 = greedy).
