@@ -5,7 +5,7 @@ description: Run MiniCPM5-2B or MiniCPM5-1B on-device with Google's LiteRT-LM ru
 
 # Deploy MiniCPM5-2B / MiniCPM5-1B with LiteRT-LM (Android / iOS / desktop)
 
-Google's on-device runtime (LiteRT, formerly TensorFlow Lite). One `.litertlm` bundle runs on CPU and GPU through a CLI, Python, Kotlin and Swift. The MiniCPM5-2B bundles are community conversions hosted in `litert-community` (not an OpenBMB or Google release). Human-readable reference: [`docs/deployment/litert.md`](../../docs/deployment/litert.md).
+Google's on-device runtime (LiteRT, formerly TensorFlow Lite). One `.litertlm` bundle runs on CPU and GPU through a CLI, Python, Kotlin and Swift. The bundles are hosted in `litert-community`. Human-readable reference: [`docs/deployment/litert.md`](../../docs/deployment/litert.md).
 
 ## Required input
 

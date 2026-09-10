@@ -24,7 +24,7 @@ Before picking a backend, you MUST know:
 | **HF fp16 (recommended)** | [`openbmb/MiniCPM5-2B`](https://huggingface.co/openbmb/MiniCPM5-2B) or [`openbmb/MiniCPM5-1B`](https://huggingface.co/openbmb/MiniCPM5-1B) | `transformers` / `vllm` (no `--quantization`) / `vllm-ascend` / `sglang` / any `minicpm5-finetune-*` |
 | GGUF F16 / Q8_0 / Q4_K_M | [`openbmb/MiniCPM5-2B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) or [`openbmb/MiniCPM5-1B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | `minicpm5-deploy-llama-cpp` / `-ollama` / `-lmstudio` |
 | MLX (Apple Silicon) | [`openbmb/MiniCPM5-2B-MLX`](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) or [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | `minicpm5-deploy-mlx` |
-| LiteRT-LM `.litertlm` (Android / iOS / desktop, CPU + GPU; community conversion) | [`litert-community/MiniCPM5-2B`](https://huggingface.co/litert-community/MiniCPM5-2B) or [`litert-community/MiniCPM5-1B`](https://huggingface.co/litert-community/MiniCPM5-1B) | `minicpm5-deploy-litert` |
+| LiteRT-LM `.litertlm` (Android / iOS / desktop, CPU + GPU) | [`litert-community/MiniCPM5-2B`](https://huggingface.co/litert-community/MiniCPM5-2B) or [`litert-community/MiniCPM5-1B`](https://huggingface.co/litert-community/MiniCPM5-1B) | `minicpm5-deploy-litert` |
 
 If the user has a local copy, accept any directory path that contains `config.json` and `model.safetensors` (or the equivalent GGUF / MLX layout).
 

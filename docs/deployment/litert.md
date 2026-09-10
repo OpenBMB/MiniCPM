@@ -2,7 +2,7 @@
 
 [LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM) is Google's on-device runtime for language models (LiteRT is the runtime formerly called TensorFlow Lite). A model is packed once into a `.litertlm` bundle, and the same file runs on the CPU and the GPU of Android phones, iPhones and desktops, through a command-line tool, a Python package, and Kotlin / Swift APIs. Use this path when the target is a **phone or an app**. For a Python process on a Mac use [MLX](./mlx.md); for a GGUF workflow use [llama.cpp](./llama_cpp.md) or [Ollama](./ollama.md).
 
-The MiniCPM5-2B bundles below are **community conversions** (not an OpenBMB or Google release), hosted in [litert-community/MiniCPM5-2B](https://huggingface.co/litert-community/MiniCPM5-2B); that card carries the conversion recipe and the measurements quoted here. The MiniCPM5-1B bundles are hosted in [litert-community/MiniCPM5-1B](https://huggingface.co/litert-community/MiniCPM5-1B). Every command on this page was run with `litert-lm` 0.17.0 on an Apple M4 Max; the Android check used `litertlm-android` 0.17.0 on a Galaxy S26.
+The MiniCPM5-2B bundles are hosted in [litert-community/MiniCPM5-2B](https://huggingface.co/litert-community/MiniCPM5-2B); that card carries the conversion recipe and the measurements quoted here. The MiniCPM5-1B bundles are hosted in [litert-community/MiniCPM5-1B](https://huggingface.co/litert-community/MiniCPM5-1B). Every command on this page was run with `litert-lm` 0.17.0 on an Apple M4 Max; the Android check used `litertlm-android` 0.17.0 on a Galaxy S26.
 
 ## TL;DR
 

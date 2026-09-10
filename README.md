@@ -297,7 +297,7 @@ MiniCPM5-2B uses the **standard `LlamaForCausalLM` architecture**, so mainstream
 | LM Studio | GGUF Mac desktop app and OpenAI server | [lmstudio.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/lmstudio.md) | [minicpm5-deploy-lmstudio](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-lmstudio/SKILL.md) |
 | MLX | MLX / 4bit local inference on Apple Silicon | [mlx.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/mlx.md) | [minicpm5-deploy-mlx](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-mlx/SKILL.md) |
 | ArcLight | GGUF local on-device, CPU, Desktop & Server | [arclight.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/arclight.md) | [minicpm5-deploy-arclight](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-arclight/SKILL.md) |
-| LiteRT-LM | `.litertlm` on-device runtime: Android / iOS / desktop, CPU + GPU (community conversion) | [litert.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/litert.md) | [minicpm5-deploy-litert](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-litert/SKILL.md) |
+| LiteRT-LM | `.litertlm` on-device runtime: Android / iOS / desktop, CPU + GPU | [litert.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/litert.md) | [minicpm5-deploy-litert](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-litert/SKILL.md) |
 | vLLM Ascend         | BF16 / FP16 OpenAI server                   | [vllm_ascend.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm_ascend.md)                 | [minicpm5-deploy-vllm-ascend](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-vllm-ascend/SKILL.md)  |
 
 #### Fine-tuning
@@ -582,7 +582,7 @@ The tables below list the cookbook and sub-skill for each inference backend and 
 | [Ollama](https://github.com/ollama/ollama) | GGUF local on-device runtime | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
 | [LM Studio](https://lmstudio.ai) | GGUF Mac desktop app and OpenAI server | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
 | [MLX](https://github.com/ml-explore/mlx-lm) | MLX / 4bit local inference on Apple Silicon | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
-| [LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM) | `.litertlm` on-device runtime: Android / iOS / desktop, CPU + GPU (community conversion) | [`docs/deployment/litert.md`](./docs/deployment/litert.md) | [`minicpm5-deploy-litert`](./skills/minicpm5-deploy-litert/SKILL.md) |
+| [LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM) | `.litertlm` on-device runtime: Android / iOS / desktop, CPU + GPU | [`docs/deployment/litert.md`](./docs/deployment/litert.md) | [`minicpm5-deploy-litert`](./skills/minicpm5-deploy-litert/SKILL.md) |
 | [ArcLight](https://github.com/OpenBMB/ArcLight) | GGUF local on-device, CPU, Desktop & Server | [`docs/deployment/arclight.md`](./docs/deployment/arclight.md) | [`minicpm5-deploy-arclight`](./skills/minicpm5-deploy-arclight/SKILL.md) |
 
 **Fine tuning** (5 frameworks)
