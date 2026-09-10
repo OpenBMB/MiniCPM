@@ -24,7 +24,7 @@ Before picking a backend, you MUST know:
 | **HF fp16 (recommended)** | [`openbmb/MiniCPM5-2B`](https://huggingface.co/openbmb/MiniCPM5-2B) or [`openbmb/MiniCPM5-1B`](https://huggingface.co/openbmb/MiniCPM5-1B) | `transformers` / `vllm` (no `--quantization`) / `vllm-ascend` / `sglang` / any `minicpm5-finetune-*` |
 | GGUF F16 / Q8_0 / Q4_K_M | [`openbmb/MiniCPM5-2B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) or [`openbmb/MiniCPM5-1B-GGUF`](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) | `minicpm5-deploy-llama-cpp` / `-ollama` / `-lmstudio` |
 | MLX (Apple Silicon) | [`openbmb/MiniCPM5-2B-MLX`](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) or [`openbmb/MiniCPM5-1B-MLX`](https://huggingface.co/openbmb/MiniCPM5-1B-MLX) | `minicpm5-deploy-mlx` |
-| LiteRT-LM `.litertlm` (Android / iOS / desktop, CPU + GPU) | [`litert-community/MiniCPM5-2B`](https://huggingface.co/litert-community/MiniCPM5-2B) or [`litert-community/MiniCPM5-1B`](https://huggingface.co/litert-community/MiniCPM5-1B) | `minicpm5-deploy-litert` |
+| LiteRT-LM `.litertlm` (Android / iOS / desktop / IoT, CPU + GPU) | [`litert-community/MiniCPM5-2B`](https://huggingface.co/litert-community/MiniCPM5-2B) or [`litert-community/MiniCPM5-1B`](https://huggingface.co/litert-community/MiniCPM5-1B) | `minicpm5-deploy-litert` |
 
 If the user has a local copy, accept any directory path that contains `config.json` and `model.safetensors` (or the equivalent GGUF / MLX layout).
 
@@ -40,7 +40,7 @@ If the user has a local copy, accept any directory path that contains `config.js
 | "Ollama" / "ollama run" / "Modelfile" | macOS / Linux laptop | GGUF | **`minicpm5-deploy-ollama`** |
 | "LM Studio" / "desktop GUI" | macOS / Windows / Linux | GGUF or MLX | **`minicpm5-deploy-lmstudio`** |
 | "MLX" / "Apple Silicon native" / "fastest on Mac" | Apple Silicon | MLX | **`minicpm5-deploy-mlx`** |
-| "Android" / "on-device app" / "Edge Gallery" / "LiteRT" / "LiteRT-LM" / "litertlm" | Android phone, iPhone, or a desktop app (CPU or GPU) | LiteRT-LM `.litertlm` | **`minicpm5-deploy-litert`** |
+| "Android" / "on-device app" / "Edge Gallery" / "LiteRT" / "LiteRT-LM" / "litertlm" / "Raspberry Pi" | Android phone, iPhone, desktop or IoT board (CPU or GPU) | LiteRT-LM `.litertlm` | **`minicpm5-deploy-litert`** |
 
 If the user **has not specified** any of the above and asks "how do I run this?":
 
@@ -73,7 +73,7 @@ curl http://localhost:PORT/v1/chat/completions \
 
 Expected: HTTP 200 with `choices[0].message.content` containing `"2"`.
 
-`minicpm5-deploy-litert` runs in-process with no HTTP server; its own step 3 (`litert-lm run … --prompt "1+1=?"`, the answer contains `2`) is the equivalent check.
+`minicpm5-deploy-litert` also serves this endpoint: after `litert-lm import … minicpm5-2b`, `litert-lm serve` listens on port 9379 ([guide](https://developers.google.com/edge/litert-lm/cli/openai_server)); use `"model": "minicpm5-2b"`, add `"reasoning_effort": "none"` for a direct answer, and cap with `max_completion_tokens`.
 
 ## 5. Known cross-backend pitfalls
 

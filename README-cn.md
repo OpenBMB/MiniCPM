@@ -299,7 +299,7 @@ MiniCPM5-2B 使用**标准** `LlamaForCausalLM` **架构**，主流推理引擎�
 | LM Studio    | GGUF，Mac 桌面应用与 OpenAI server                | [lmstudio.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/lmstudio.md)         | [minicpm5-deploy-lmstudio](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-lmstudio/SKILL.md)         |
 | MLX          | MLX / 4bit，Apple Silicon 本地推理               | [mlx.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/mlx.md)                   | [minicpm5-deploy-mlx](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-mlx/SKILL.md)                   |
 | ArcLight     | GGUF 本地端侧 / CPU / 桌面 / 服务器                  | [arclight.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/arclight.md)         | [minicpm5-deploy-arclight](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-arclight/SKILL.md)         |
-| LiteRT-LM    | `.litertlm` 端侧运行时：Android / iOS / 桌面，CPU + GPU | [litert.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/litert.md)             | [minicpm5-deploy-litert](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-litert/SKILL.md)             |
+| LiteRT-LM    | `.litertlm` 端侧运行时：Android / iOS / 桌面 / IoT，CPU + GPU | [litert.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/litert.md)             | [minicpm5-deploy-litert](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-litert/SKILL.md)             |
 | vLLM Ascend         | BF16 / FP16 OpenAI server                   | [vllm_ascend.md](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm_ascend.md)                 | [minicpm5-deploy-vllm-ascend](https://github.com/OpenBMB/MiniCPM/blob/main/skills/minicpm5-deploy-vllm-ascend/SKILL.md)  | 
 
 #### 微调
@@ -574,7 +574,7 @@ MiniCPM5-1B 使用**标准 `LlamaForCausalLM` 架构**，主流推理引擎可�
 
 下方按推理后端和微调框架列出对应的 cookbook 与子 Skill。量化模型不单独作为后端列出，而是在可加载对应格式的推理后端中说明。
 
-**推理部署**（8 个后端）
+**推理部署**（9 个后端）
 
 | 后端 | 适用模型 / 场景 | Cookbook | 对应 Agent Skill |
 | --- | --- | --- | --- |
@@ -585,7 +585,7 @@ MiniCPM5-1B 使用**标准 `LlamaForCausalLM` 架构**，主流推理引擎可�
 | [Ollama](https://github.com/ollama/ollama) | GGUF，本地端侧运行 | [`docs/deployment/ollama.md`](./docs/deployment/ollama.md) | [`minicpm5-deploy-ollama`](./skills/minicpm5-deploy-ollama/SKILL.md) |
 | [LM Studio](https://lmstudio.ai) | GGUF，Mac 桌面应用与 OpenAI server | [`docs/deployment/lmstudio.md`](./docs/deployment/lmstudio.md) | [`minicpm5-deploy-lmstudio`](./skills/minicpm5-deploy-lmstudio/SKILL.md) |
 | [MLX](https://github.com/ml-explore/mlx-lm) | MLX / 4bit，Apple Silicon 本地推理 | [`docs/deployment/mlx.md`](./docs/deployment/mlx.md) | [`minicpm5-deploy-mlx`](./skills/minicpm5-deploy-mlx/SKILL.md) |
-| [LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM) | `.litertlm` 端侧运行时：Android / iOS / 桌面，CPU + GPU | [`docs/deployment/litert.md`](./docs/deployment/litert.md) | [`minicpm5-deploy-litert`](./skills/minicpm5-deploy-litert/SKILL.md) |
+| [LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM) | `.litertlm` 端侧运行时：Android / iOS / 桌面 / IoT，CPU + GPU | [`docs/deployment/litert.md`](./docs/deployment/litert.md) | [`minicpm5-deploy-litert`](./skills/minicpm5-deploy-litert/SKILL.md) |
 | [ArcLight](https://github.com/OpenBMB/ArcLight) | GGUF 本地端侧 / CPU / 桌面 / 服务器 | [`docs/deployment/arclight.md`](./docs/deployment/arclight.md) | [`minicpm5-deploy-arclight`](./skills/minicpm5-deploy-arclight/SKILL.md) |
 
 **微调**（5 个框架）
