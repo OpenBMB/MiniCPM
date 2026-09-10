@@ -7,13 +7,11 @@ The MiniCPM5-2B bundles are hosted in [litert-community/MiniCPM5-2B](https://hug
 ## TL;DR
 
 ```bash
-uv tool install litert-lm     # the LiteRT-LM CLI (0.17.0 at the time of writing)
+uv tool install litert-lm
 
-# Downloads the 1.55 GB int4 bundle on first use, runs it on the CPU:
+# first run downloads the 1.55 GB int4 bundle
 litert-lm run --from-huggingface-repo=litert-community/MiniCPM5-2B MiniCPM5-2B_int4.litertlm \
     --prompt "What is the capital of France?"
-# [thought] … The capital of France is Paris. I should provide a clear and concise answer. [/thought]
-# The capital of France is Paris.
 ```
 
 The file lands in `~/.litert-lm/cache/huggingface/litert-community/MiniCPM5-2B/`; later runs skip the download. GPU, and the thinking switches:
@@ -21,10 +19,10 @@ The file lands in `~/.litert-lm/cache/huggingface/litert-community/MiniCPM5-2B/`
 ```bash
 MODEL=~/.litert-lm/cache/huggingface/litert-community/MiniCPM5-2B/MiniCPM5-2B_int4.litertlm
 
-litert-lm run "$MODEL" --backend gpu --prompt "1+1=?"                    # reasoning on the thought channel, then: 2
-litert-lm run "$MODEL" --backend gpu --thinking false --prompt "1+1=?"   # direct answer, no reasoning
+litert-lm run "$MODEL" --backend gpu --prompt "1+1=?"
+litert-lm run "$MODEL" --backend gpu --thinking false --prompt "1+1=?"
 litert-lm run "$MODEL" --backend gpu --thinking-budget 2048 --prompt "1+1=?"
-litert-lm run "$MODEL" --backend gpu --top-k 40 --top-p 0.95 --temperature 1.0 --thinking false --prompt "1+1=?"   # sampled (see Thinking)
+litert-lm run "$MODEL" --backend gpu --top-k 40 --top-p 0.95 --temperature 1.0 --thinking false --prompt "1+1=?"
 ```
 
 ## Pre-converted bundles
@@ -40,7 +38,7 @@ litert-lm run "$MODEL" --backend gpu --top-k 40 --top-p 0.95 --temperature 1.0 -
 Which 2B file: **int4 is the phone file** (smaller, fastest GPU decode on every device measured) and the right one for direct answers or short reasoning. **int8 is the file when the reasoning has to complete**: on the same questions its thinking chains are 3–4× shorter than int4's and they terminate where int4 runs into the token budget. Both 2B files embed the checkpoint's own `chat_template.jinja`, so `enable_thinking` and the tool-calling format work unchanged, and both declare the `thought` channel (next section). The 2B repo also carries two CPU-only files described in its card.
 
 ```bash
-# int8 (2.60 GB), when the reasoning has to finish; the GPU here is the Mac's Metal:
+# int8
 litert-lm run --from-huggingface-repo=litert-community/MiniCPM5-2B MiniCPM5-2B_int8.litertlm --backend gpu \
     --prompt "A train travels 60 km in 45 minutes. What is its average speed in km/h?"
 
@@ -65,7 +63,7 @@ Thinking is the model's default: with no thinking flag it decides for itself and
 **Kotlin API (your own app).** The runtime is one dependency from Google Maven ([Android guide](https://developers.google.com/edge/litert-lm/android)):
 
 ```kotlin
-// build.gradle.kts — repositories { google() }
+// build.gradle.kts
 implementation("com.google.ai.edge.litertlm:litertlm-android:0.17.0")
 ```
 
@@ -83,21 +81,21 @@ The GPU backend needs the OpenCL library declared in `AndroidManifest.xml` (Andr
 import com.google.ai.edge.litertlm.*
 
 val engine = Engine(EngineConfig(
-    modelPath = modelFile.absolutePath,          // MiniCPM5-2B_int4.litertlm in your app's storage
-    backend = Backend.GPU(),                     // or Backend.CPU()
-    cacheDir = context.cacheDir.absolutePath,    // compiled-kernel cache; the first load is slower
+    modelPath = modelFile.absolutePath,
+    backend = Backend.GPU(),
+    cacheDir = context.cacheDir.absolutePath,
 ))
 engine.initialize()
 
 engine.createConversation(ConversationConfig(maxOutputToken = 1024)).use { conversation ->
     val reply = conversation.sendMessage("Explain on-device AI in simple terms.")
-    println(reply)                       // the answer
-    println(reply.channels["thought"])   // the reasoning, kept out of the answer
+    println(reply)
+    println(reply.channels["thought"])
 }
 engine.close()
 ```
 
-Checked on a Galaxy S26 (Snapdragon SM8850, Adreno) with `litertlm-android` 0.17.0 and the int4 file: the engine initializes on `Backend.GPU()` with every node of every signature delegated to OpenCL (1873 of 1873 on the 1024-token prefill, 1692 of 1692 on decode; only the externalized embedding lookup runs on the CPU), and the reply arrives with the reasoning in `channels["thought"]`. `ConversationConfig` also takes `thinkingConfig = ThinkingConfig(enableThinking = false)` or `ThinkingConfig(enableThinking = true, thinkingTokenBudget = 2048)` and a `samplerConfig = SamplerConfig(topK = 40, topP = 0.95, temperature = 1.0)`, as in the Android guide. `conversation.sendMessageAsync(...)` streams.
+Checked on a Galaxy S26 (Snapdragon SM8850, Adreno) with `litertlm-android` 0.17.0 and the int4 file: the engine initializes on `Backend.GPU()` (`Backend.CPU()` selects the CPU) with every node of every signature delegated to OpenCL (1873 of 1873 on the 1024-token prefill, 1692 of 1692 on decode; only the externalized embedding lookup runs on the CPU), and the reply arrives with the reasoning in `channels["thought"]`. `ConversationConfig` also takes `thinkingConfig = ThinkingConfig(enableThinking = false)` or `ThinkingConfig(enableThinking = true, thinkingTokenBudget = 2048)` and a `samplerConfig = SamplerConfig(topK = 40, topP = 0.95, temperature = 1.0)`, as in the Android guide. `conversation.sendMessageAsync(...)` streams.
 
 ## iOS
 

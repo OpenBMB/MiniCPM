@@ -22,7 +22,7 @@ Google's on-device runtime (LiteRT, formerly TensorFlow Lite). One `.litertlm` b
 ### 1. Install (once)
 
 ```bash
-uv tool install litert-lm      # litert-lm 0.17.0 at the time of writing
+uv tool install litert-lm
 ```
 
 ### 2A. Run a pre-converted bundle (desktop CLI)
@@ -44,7 +44,7 @@ val engine = Engine(EngineConfig(modelPath = path, backend = Backend.GPU(), cach
 engine.initialize()
 engine.createConversation(ConversationConfig(maxOutputToken = 1024)).use { conversation ->
     val reply = conversation.sendMessage("1+1=?")
-    println(reply); println(reply.channels["thought"])   // answer; reasoning
+    println(reply); println(reply.channels["thought"])
 }
 ```
 
