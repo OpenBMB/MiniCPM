@@ -32,7 +32,7 @@ litert-lm run --from-huggingface-repo="${LITERT_REPO}" "${FILE}" \
     --backend "${BACKEND}" --thinking "${THINKING:-false}" --prompt "${PROMPT}"
 ```
 
-The first run downloads the file into `~/.litert-lm/cache/huggingface/<repo>/`; later runs skip the download. With thinking on, the reasoning prints between `[thought]` and `[/thought]` and the answer follows; `--thinking-budget 2048` caps the reasoning (4096 for math); leave `--thinking` out and the model decides for itself, and in practice it reasons before every answer. Sampling as OpenBMB recommends: `--top-k 40 --top-p 0.95 --temperature 1.0` (the CLI's default top-k is 1 = greedy, so temperature alone changes nothing).
+The first run downloads the file into `~/.litert-lm/cache/huggingface/<repo>/`; later runs skip the download. With thinking on, the reasoning prints between `[thought]` and `[/thought]` and the answer follows; `--thinking-budget 2048` caps the reasoning (4096 for math); `THINKING=true` makes the model reason first. Sampling as OpenBMB recommends: `--top-k 40 --top-p 0.95 --temperature 1.0` (the CLI's default top-k is 1 = greedy, so temperature alone changes nothing).
 
 ### 2B. Android
 

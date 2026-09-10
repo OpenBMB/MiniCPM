@@ -57,7 +57,7 @@ Thinking is the default of the 2B files and the two 1B int4 files: with no think
 
 - `--thinking false`: direct answers with no reasoning block; on `1+1=?` (GPU) the turn took 3.0 s against 24.7 s with thinking on.
 - `--thinking-budget N`: caps the reasoning at N tokens. This model's chains run long, so start at 2048 and use 4096 for math.
-- Sampling: OpenBMB recommends `temperature 1.0`, `top_p 0.95`. The bundles set no sampler and the engine's default is greedy whatever the temperature, so pass all three: `--top-k 40 --top-p 0.95 --temperature 1.0` (with `--top-p --temperature` alone the output stays byte-identical across seeds). The card's correctness numbers are greedy.
+- Sampling: OpenBMB recommends `temperature 1.0`, `top_p 0.95`. The bundles ship a greedy sampler (temperature 0, no top-k), which stays greedy whatever the temperature, so pass all three: `--top-k 40 --top-p 0.95 --temperature 1.0` (with `--top-p --temperature` alone the output stays byte-identical across seeds). The card's correctness numbers are greedy.
 - The KV cache takes the bundle's setting: 4096 tokens for the two 2B files and `MiniCPM5-1B_dynamic_wi8_afp32`, 1024 for the two 1B int4 files (`--max-num-tokens` to change it); the prompt format is ChatML, from the template embedded in each bundle.
 
 ## OpenAI-compatible server
@@ -145,7 +145,7 @@ Accuracy, GSM8K first 100 test questions, greedy, thinking off, up to 2048 new t
 
 - **Thinking on the int4 file** runs long chains: on the card's ten-question thinking-on subset (3584-token budget) it closes 0/10 on the CPU, where int8 closes 9/10 like the bf16 model. Pass `--thinking false` for direct answers; when the reasoning has to complete, use the int8 file.
 - **int8 on iOS needs the increased-memory-limit entitlement.** With the default entitlements the 2.33 GB weight section does not map; add `com.apple.developer.kernel.increased-memory-limit` (see iOS). int4's 1.28 GB main section is under the limit.
-- **The output cap is what leaves no answer**: when the reasoning runs into the context (`--max-num-tokens`, 4096 for the 2B files) or the app's `maxOutputToken`, the chain is cut and nothing follows. Keep those at 2048 or more (4096 for math).
+- **The output cap is what leaves no answer**: when the reasoning runs into the context (`--max-num-tokens`, 4096 for the 2B files) or the app's `maxOutputToken`, the chain is cut and nothing follows. When the reasoning has to complete, keep those at 2048 or more (4096 for math); 1024, as in the snippets, is enough for short answers.
 - **First run per backend is slow**: the CPU run writes an XNNPACK weight cache beside the file and the GPU run compiles its kernels (`--cache no` skips the disk cache; the Kotlin `cacheDir` is the same mechanism).
 - **GPU in your own Android app**: without the `<uses-native-library>` entries above, `initialize()` succeeds and the first message fails with `Can not find OpenCL library on this device`.
 - **Temperature without top-k does nothing**: `--temperature` and `--top-p` only take effect together with `--top-k` above 1 (the default is greedy). The Kotlin `SamplerConfig` takes the same three fields.
