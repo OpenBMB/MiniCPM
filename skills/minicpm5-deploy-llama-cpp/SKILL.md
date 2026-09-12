@@ -44,7 +44,7 @@ huggingface-cli download ${GGUF_REPO} MiniCPM5-2B-${QUANT}.gguf --local-dir .
 
 ```bash
 llama-cli -m MiniCPM5-2B-${QUANT}.gguf \
-    -n 2048 --temp 1.0 --top-p 0.95 -ngl ${NGL} -c ${CTX}
+    -n 2048 --temp 1.0 --top-p 0.95 --min-p 0.0 -ngl ${NGL} -c ${CTX}
 ```
 
 ### 3b. OpenAI-compatible HTTP server
@@ -62,19 +62,21 @@ curl http://localhost:8080/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-2B",
         "messages": [{"role":"user","content":"1+1=?"}],
-        "temperature": 1.0, "top_p": 0.95, "max_tokens": 64
+        "temperature": 1.0, "top_p": 0.95, "min_p": 0.0, "max_tokens": 64
     }'
 ```
 
 Expected: `"2"` in the reply.
 
+In llama.cpp, the default `min_p=0.05` can lead to repetitive output: it filters out tokens whose probability is below 5% of the highest-probability token, potentially discarding the exact tokens needed to break out of a repetition loop. To prevent this, we set `min_p=0.0`.
+
 ## Sampling defaults
 
-| Mode | `--temp` | `--top-p` |
-| --- | --- | --- |
-| MiniCPM5-2B Think | 1.0 | 0.95 |
-| MiniCPM5-1B Think | 0.9 | 0.95 |
-| MiniCPM5-1B No-think | 0.7 | 0.95 |
+| Mode | `--temp` | `--top-p` | `--min-p` |
+| --- | --- | --- | --- |
+| MiniCPM5-2B Think | 1.0 | 0.95 | 0.0 |
+| MiniCPM5-1B Think | 0.9 | 0.95 | 0.0 |
+| MiniCPM5-1B No-think | 0.7 | 0.95 | 0.0 |
 
 ## Choosing a quant
 

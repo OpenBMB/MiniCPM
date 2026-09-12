@@ -21,7 +21,7 @@ These artifacts work directly with vanilla `llama.cpp` and every `llama.cpp`-bas
 huggingface-cli download openbmb/MiniCPM5-2B-GGUF MiniCPM5-2B-Q4_K_M.gguf --local-dir ./minicpm5
 
 # Interactive chat (auto-applies the chat template)
-llama-cli -m ./minicpm5/MiniCPM5-2B-Q4_K_M.gguf -n 2048 --temp 1.0 --top-p 0.95 -ngl 99
+llama-cli -m ./minicpm5/MiniCPM5-2B-Q4_K_M.gguf -n 2048 --temp 1.0 --top-p 0.95 --min-p 0.0 -ngl 99
 ```
 
 ## OpenAI-compatible server
@@ -34,9 +34,11 @@ curl http://localhost:8080/v1/chat/completions \
     -d '{
         "model": "MiniCPM5-2B",
         "messages": [{"role": "user", "content": "1+1=?"}],
-        "temperature": 1.0, "top_p": 0.95, "max_tokens": 256
+        "temperature": 1.0, "top_p": 0.95, "min_p": 0.0, "max_tokens": 256
     }'
 ```
+
+In llama.cpp, the default `min_p=0.05` can lead to repetitive output: it filters out tokens whose probability is below 5% of the highest-probability token, potentially discarding the exact tokens needed to break out of a repetition loop. To prevent this, we set `min_p=0.0`.
 
 ## Generation parameters
 

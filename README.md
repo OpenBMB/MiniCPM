@@ -194,6 +194,12 @@ During **post-training**, we proceed in three steps: **SFT**, **RL**, and **OPD*
 
 ### Quickstart
 
+We recommend using the following sets of sampling parameters for generation: `temperature=1.0, top_p=0.95, min_p=0.0`.
+
+If you encounter repetitive outputs, try: `temperature=1.0, top_p=0.95, min_p=0.0, repetition_penalty=1.05`.
+
+Please note that the support for sampling parameters varies according to inference frameworks.
+
 #### vLLM
 
 ```bash
@@ -242,6 +248,26 @@ python -m sglang.launch_server \
   --port 30000
 ```
 
+#### Llama.cpp
+
+```bash
+llama-server -m MiniCPM5-2B-F16.gguf -a MiniCPM5-2B --port 8080 -ngl 99 -c 8192 --jinja
+```
+
+`-c 8192` sets the context length. You can adjust this value as needed.
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-2B",
+        "messages": [{"role": "user", "content": "1+1=?"}],
+        "temperature": 1.0, "top_p": 0.95, "min_p": 0.0, "max_tokens": 256
+    }'
+```
+
+In llama.cpp, the default `min_p=0.05` can lead to repetitive output: it filters out tokens whose probability is below 5% of the highest-probability token, potentially discarding the exact tokens needed to break out of a repetition loop. To prevent this, we set `min_p=0.0`.
+
 #### Transformers
 
 ```bash
@@ -270,7 +296,6 @@ outputs = model.generate(**inputs, max_new_tokens=128)
 print(tokenizer.decode(outputs[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True))
 ```
 
-Recommended sampling params: `temperature=1.0, top_p=0.95`
 
 ### Tool Calling
 
