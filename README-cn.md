@@ -196,6 +196,12 @@ MiniCPM5-2B 的训练过程是 **[UltraData 分级数据管理体系](https://ar
 
 ### 快速上手
 
+我们建议在生成时使用以下采样参数组合：`temperature=1.0, top_p=0.95, min_p=0.0`。
+
+如果遇到重复输出，请尝试：`temperature=1.0, top_p=0.95, min_p=0.0, repetition_penalty=1.05`。
+
+请注意，不同推理框架对采样参数的支持程度有所差异。
+
 #### vLLM
 
 ```bash
@@ -244,6 +250,26 @@ python -m sglang.launch_server \
   --port 30000
 ```
 
+#### Llama.cpp
+
+```bash
+llama-server -m MiniCPM5-2B-F16.gguf -a MiniCPM5-2B --port 8080 -ngl 99 -c 8192 --jinja
+```
+
+在这个例子里 `-c 8192` 设置了上下文长度为 8192，可以根据需要修改上下文长度。
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-2B",
+        "messages": [{"role": "user", "content": "1+1=?"}],
+        "temperature": 1.0, "top_p": 0.95, "min_p": 0.0, "max_tokens": 256
+    }'
+```
+
+llama.cpp 默认设置 `min_p=0.05`，会过滤掉概率低于最高概率 token 5% 的 token。这种过滤反而可能引发重复——它恰恰过滤掉了模型摆脱重复循环所需的那些 token。我们明确将 `min_p` 设为 `0.0` 以禁用该过滤。
+
 #### Transformers
 
 ```bash
@@ -271,8 +297,6 @@ inputs = tokenizer.apply_chat_template(
 outputs = model.generate(**inputs, max_new_tokens=128)
 print(tokenizer.decode(outputs[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True))
 ```
-
-推荐的采样参数：`temperature=1.0, top_p=0.95`
 
 ### 工具调用
 
