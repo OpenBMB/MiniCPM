@@ -5,7 +5,7 @@
 | Model | ms-swift version | Arguments |
 | --- | --- | --- |
 | MiniCPM5-1B | PyPI `4.5.3` | `--model_type llama --template minicpm5` |
-| MiniCPM5-2B | `4.6.0.dev0` | `--model_type llama --template minicpm5_2b` |
+| MiniCPM5-2B | `>=4.6.0.dev0` | `--model_type llama --template minicpm5_2b` |
 
 Both models require `transformers>=5.6`.
 
@@ -17,7 +17,7 @@ For MiniCPM5-1B, install the PyPI release directly:
 pip install "ms-swift==4.5.3" "transformers>=5.6"
 ```
 
-For MiniCPM5-2B, the `minicpm5_2b` template requires `ms-swift==4.6.0.dev0`.
+For MiniCPM5-2B, the `minicpm5_2b` template requires `ms-swift>=4.6.0.dev0`.
 Install the pinned source revision:
 
 ```bash
@@ -74,7 +74,7 @@ CUDA_VISIBLE_DEVICES=0 swift sft \
 > **Select the template that matches the model**:
 > - `--model_type llama` — without it, ms-swift errors with `Multiple possible types found: ['codefuse_codellama', 'llama', 'openbuddy_llama', 'yi']`.
 > - MiniCPM5-1B: `--template minicpm5`, available in the current PyPI release.
-> - MiniCPM5-2B: `--template minicpm5_2b`, available in `ms-swift==4.6.0.dev0`.
+> - MiniCPM5-2B: `--template minicpm5_2b`, available in `ms-swift>=4.6.0.dev0`.
 >
 > Both errors are because MiniCPM5 shares its disk-level architecture and tokenizer with several llama-family models, and ms-swift refuses to guess.
 
@@ -148,7 +148,7 @@ Add `--model_type llama` (see "Two flags you MUST pass" above).
 
 ### `Failed to automatically match template_type`
 
-Use `--template minicpm5` for MiniCPM5-1B. Use `--template minicpm5_2b` for MiniCPM5-2B and make sure the active environment uses `ms-swift==4.6.0.dev0`.
+Use `--template minicpm5` for MiniCPM5-1B. Use `--template minicpm5_2b` for MiniCPM5-2B and make sure the active environment uses `ms-swift>=4.6.0.dev0`.
 
 ### `minicpm5_2b is not registered`
 
@@ -158,7 +158,7 @@ Check the installed `ms-swift` version:
 python -c "from importlib.metadata import version; print(version('ms-swift'))"
 ```
 
-If the environment still contains an older release such as `4.4.1`, install the pinned `4.6.0.dev0` source revision described above.
+If the environment contains an older release such as `4.4.1`, install `ms-swift>=4.6.0.dev0`. The source installation above pins a known revision for reproducibility.
 
 ### Conflict with LLaMA-Factory in the same env
 

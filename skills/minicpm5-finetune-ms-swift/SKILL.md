@@ -1,6 +1,6 @@
 ---
 name: minicpm5-finetune-ms-swift
-description: Fine-tune MiniCPM5-1B or MiniCPM5-2B with ms-swift or Megatron-SWIFT. Use when the user mentions "ms-swift", "swift sft", "swift rlhf", or "megatron sft". MiniCPM5-1B uses the PyPI release with `--template minicpm5`; MiniCPM5-2B requires `ms-swift==4.6.0.dev0` with `--template minicpm5_2b`. Both use `--model_type llama`.
+description: Fine-tune MiniCPM5-1B or MiniCPM5-2B with ms-swift or Megatron-SWIFT. Use when the user mentions "ms-swift", "swift sft", "swift rlhf", or "megatron sft". MiniCPM5-1B uses the PyPI release with `--template minicpm5`; MiniCPM5-2B requires `ms-swift>=4.6.0.dev0` with `--template minicpm5_2b`. Both use `--model_type llama`.
 ---
 
 # Fine-tune MiniCPM5-1B and MiniCPM5-2B with ms-swift
@@ -10,7 +10,7 @@ Select the version and template that match the model:
 | Model | ms-swift version | Arguments |
 | --- | --- | --- |
 | MiniCPM5-1B | PyPI `4.5.3` | `--model_type llama --template minicpm5` |
-| MiniCPM5-2B | `4.6.0.dev0` | `--model_type llama --template minicpm5_2b` |
+| MiniCPM5-2B | `>=4.6.0.dev0` | `--model_type llama --template minicpm5_2b` |
 
 Both models require `transformers>=5.6`.
 
@@ -146,7 +146,7 @@ NPROC_PER_NODE=8 swift sft \
 
 - **`Failed to automatically match model_type`**: add `--model_type llama`.
 - **`Failed to automatically match template_type`**: use `--template minicpm5` for MiniCPM5-1B or `--template minicpm5_2b` for MiniCPM5-2B.
-- **`minicpm5_2b is not registered`**: the active Python environment is using an older ms-swift release. Install the pinned `4.6.0.dev0` source revision.
+- **`minicpm5_2b is not registered`**: the active Python environment is using an older ms-swift release. Install `ms-swift>=4.6.0.dev0`; the source installation above pins a known revision for reproducibility.
 - **Conflict with LLaMA-Factory in same env**: LLaMA-Factory pins `transformers==4.52`, ms-swift wants the latest (currently transformers ≥5.6). Use separate venvs, or set `PYTHONNOUSERSITE=1` to ignore user-site `transformers`.
 
 ## Reference
