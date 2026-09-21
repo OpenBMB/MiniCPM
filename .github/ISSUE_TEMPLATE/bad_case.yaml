@@ -1,0 +1,36 @@
+name: "😟 Bad Case"
+description: "Report a bad case to help us improve MiniCPM | 提交一个 bad case 反馈来帮助我们改进 MiniCPM"
+title: "[Bad Case]: "
+labels: ["badcase"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your feedback!
+
+        感谢您的反馈！
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description / 描述"
+      description: |
+        Please describe your use case, and tell us what is the wrong answer of the model and what is the correct answer you expect.
+
+        请描述您的使用案例，并告诉我们目前模型回答的错误结果是什么，以及您期望的正确结果是什么。
+      placeholder: |
+        User: xxx
+        Assistant: yyy
+        User: zzz
+        Assistant: bad case / 错误结果
+
+        Expected: correct answer / 正确结果
+    validations:
+      required: true
+  - type: textarea
+    id: explaination
+    attributes:
+      label: "Case Explaination / 案例解释"
+      description: |
+        If possible, please explain why the model's answer is wrong, and how you think the model's answer should be improved.
+
+        如果可以的话，请解释为什么模型输出的答案是错误的，以及您认为模型的回答应该如何改进。

@@ -1,0 +1,9 @@
+# for finetune
+jieba>=0.42.1
+ruamel_yaml>=0.18.5
+rouge_chinese>=1.0.3
+jupyter>=1.0.0
+datasets>=2.16.1
+peft>=0.7.1
+deepspeed>=0.13.1
+flash_attn>=2.5.1

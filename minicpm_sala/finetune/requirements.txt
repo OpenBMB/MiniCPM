@@ -1,0 +1,7 @@
+json
+typing
+dataclasses
+torch
+transformers
+accelerate
+deepspeed

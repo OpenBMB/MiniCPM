@@ -1,0 +1,318 @@
+:root {
+  --neon-blue: #00f3ff;
+  --neon-purple: #ffffff;
+  --dark-panel: rgba(10, 10, 30, 0.95);
+  --glass-color: rgba(255, 255, 255, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Orbitron', monospace;
+}
+
+body {
+  overflow: hidden;
+}
+
+.cyber-container {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #0a0a1f 0%, #000000 100%);
+  padding: 2rem;
+  gap: 2rem;
+  overflow: hidden;
+}
+
+/* 全息背景 */
+.hologram-bg {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    rgba(0, 255, 255, 0.05) 5px,
+    rgba(0, 255, 255, 0.05) 10px
+  );
+  animation: scan 20s linear infinite;
+  z-index: 0;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(50%) rotate(360deg); }
+}
+
+/* 面板样式 */
+.tech-panel {
+  position: relative;
+  width: 220px;
+  padding: 1.5rem;
+  background: var(--glass-color);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  z-index: 1;
+}
+
+.tech-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-blue));
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* 输入框 */
+.input-wrapper {
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+.neon-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.neon-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.neon-input:focus {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.input-glow {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+  animation: glowPulse 2s infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+/* 核心区域 */
+.core-module {
+  position: relative;
+  flex: 1;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.quantum-textarea {
+  flex: 1;
+  padding: 2rem;
+  font-size: 1.2rem;
+  background: rgba(0, 0, 20, 0.7);
+  border: 2px solid var(--neon-blue);
+  border-radius: 12px;
+  color: #fff;
+  outline: none;
+  resize: both;
+  min-height: 300px;
+  backdrop-filter: blur(5px);
+  font-family: 'Orbitron', monospace;
+  transition: all 0.3s ease;
+}
+
+.quantum-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.quantum-textarea:focus {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 20px var(--neon-purple);
+}
+
+.core-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, var(--neon-blue) 0%, transparent 70%);
+  opacity: 0.1;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  animation: pulseGlow 5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  100% { transform: translate(-50%, -50%) scale(1.2); }
+}
+
+/* 数据流动画 */
+.data-stream {
+  position: absolute;
+  bottom: 1rem;
+  right: 2rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.stream-pulse {
+  width: 6px;
+  height: 6px;
+  background: var(--neon-blue);
+  border-radius: 50%;
+  animation: pulseDot 1.5s infinite;
+}
+
+.delay-1 {
+  animation-delay: 0.3s;
+}
+
+.delay-2 {
+  animation-delay: 0.6s;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(1.5); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .cyber-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .tech-panel {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  
+  .core-module {
+    min-height: 400px;
+  }
+}
+.markdown-editor {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+  z-index: 1;
+}
+
+.markdown-input,
+.markdown-preview {
+  flex: 1;
+  padding: 15px;
+  font-size: 16px;
+  border: 2px solid var(--neon-blue);
+  border-radius: 8px;
+  background: rgba(0, 0, 20, 0.7);
+  color: #fff;
+  font-family: 'Orbitron', monospace;
+  resize: both;
+}
+
+.markdown-input {
+  min-height: 300px;
+  outline: none;
+}
+
+.markdown-input:focus {
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.markdown-preview {
+  max-height: 800px; /* 设置最大高度，超出后滚动 */
+  width: 100%;
+  overflow-y: auto;  /* 垂直方向溢出时显示滚动条 */
+  padding: 10px;
+  border: 1px solid #333;
+  background-color: #111;
+  color: #eee;
+  font-family: monospace;
+}
+
+/* Markdown 内容增强样式 */
+.markdown-preview h1, h2, h3 {
+  color: var(--neon-purple);
+}
+
+.markdown-preview pre {
+  background: #111;
+  padding: 10px;
+  border-radius: 6px;
+  color: #00ffcc;
+  overflow-x: auto;
+}
+
+.markdown-preview code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: var(--neon-blue);
+}
+
+.core-module {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.markdown-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.neon-button {
+  background-color: #000;
+  color: #0f0;
+  border: 2px solid #0f0;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.neon-button:hover {
+  background-color: #0f0;
+  color: #000;
+}
+
+.markdown-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 1rem;
+}

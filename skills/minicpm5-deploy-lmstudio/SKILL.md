@@ -1,0 +1,107 @@
+---
+name: minicpm5-deploy-lmstudio
+description: Run MiniCPM5-1B or MiniCPM5-2B in LM Studio (desktop GUI) using either the GGUF runtime (cross-platform) or the MLX runtime (Apple Silicon, faster). Includes OpenAI-compatible local server. Use when the user mentions "LM Studio", desktop GUI inference, "lms" CLI, or wants a no-code chat UI for MiniCPM5.
+---
+
+# Deploy MiniCPM5-1B and MiniCPM5-2B with LM Studio
+
+Desktop GUI + OpenAI-compatible local server. On Apple Silicon ships **two runtimes**:
+
+| Runtime | Format | When to use |
+| --- | --- | --- |
+| **GGUF** (llama.cpp engine) | F16 / Q8_0 / Q4_K_M | cross-platform, same artifact as Ollama; Q4_K_M build |
+| **MLX** (Apple Silicon only) | bf16 / 4-bit | ~60 % faster, automatic think/answer split via `reasoning_content`; Q4 build |
+
+## Required input
+
+| Var | Example | Default |
+| --- | --- | --- |
+| Runtime | `gguf` or `mlx` | `mlx` on Apple Silicon, `gguf` elsewhere |
+| `QUANT` | `Q4_K_M` (GGUF) or `4bit` (MLX) | `Q4_K_M` / `4bit` |
+| `MODEL_NAME` | `minicpm5-2b` | `minicpm5-2b` |
+
+## Steps
+
+### 1. Install LM Studio + complete onboarding
+
+```bash
+brew install --cask lm-studio
+open -a "LM Studio"     # accept EULA + pick model source
+```
+
+> ⚠️ The first launch MUST be GUI — `lms` (CLI) refuses with `Cannot find LM Studio installation` until LM Studio has run interactively at least once.
+
+### 2A. GGUF runtime path
+
+```bash
+mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-2B-GGUF
+huggingface-cli download openbmb/MiniCPM5-2B-GGUF MiniCPM5-2B-${QUANT}.gguf \
+    --local-dir ~/.lmstudio/models/openbmb/MiniCPM5-2B-GGUF/
+
+LMS="/Applications/LM Studio.app/Contents/Resources/app/.webpack/lms"
+"$LMS" server start                              # binds 127.0.0.1:1234
+"$LMS" load minicpm5-2b --gpu max --context-length 8192 -y
+"$LMS" ps                                        # verify the model is loaded
+```
+
+### 2B. MLX runtime path (Apple Silicon, recommended on Mac)
+
+The MLX runtime needs an MLX-format checkpoint. The published MiniCPM5-2B MLX repo is [`openbmb/MiniCPM5-2B-MLX`](https://huggingface.co/openbmb/MiniCPM5-2B-MLX) (4-bit affine); there is no separate `-bf16` / `-4bit` variant. Either drop that one in as-is, or convert locally from `openbmb/MiniCPM5-2B` (see `minicpm5-deploy-mlx`). Then:
+
+```bash
+# Option A — use the official pre-quantized repo
+huggingface-cli download openbmb/MiniCPM5-2B-MLX \
+    --local-dir ~/.lmstudio/models/openbmb/MiniCPM5-2B-MLX
+
+# Option B — drop a locally converted directory in
+mkdir -p ~/.lmstudio/models/openbmb/MiniCPM5-2B-MLX-${QUANT}
+cp -r ./minicpm5-mlx-${QUANT}/* ~/.lmstudio/models/openbmb/MiniCPM5-2B-MLX-${QUANT}/
+
+"$LMS" server start
+"$LMS" load minicpm5-2b-mlx${QUANT:+-${QUANT}} --gpu max -y
+```
+
+### 3. Validate
+
+```bash
+curl http://127.0.0.1:1234/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "minicpm5-2b",
+        "messages": [{"role":"user","content":"1+1=?"}],
+        "temperature": 1.0, "top_p": 0.95, "max_tokens": 64
+    }'
+```
+
+Expected: `"2"` in the reply.
+
+For the MLX runtime, a think prompt produces output split into `message.reasoning_content` (the `<think>` block) and `message.content` (the final answer) automatically — that's an MLX-runtime feature, not a model setting.
+
+## Think vs nothink (MiniCPM5-1B)
+
+LM Studio 0.4.13's chat-completion endpoint does **not** propagate `chat_template_kwargs.enable_thinking` to the GGUF runtime. Instead:
+
+- **Default = think mode** for both runtimes.
+- **For nothink** with the GGUF runtime, prepend the closing think block manually:
+  ```json
+  "messages": [
+    {"role":"user","content":"1+1=?"},
+    {"role":"assistant","content":"<think>\n\n</think>\n\n"}
+  ]
+  ```
+  and the model continues from there.
+- **MLX runtime**: think/answer are auto-split, you don't need to do anything.
+
+## Common pitfalls
+
+- **MLX runtime not available**: only on Apple Silicon. On Intel Mac / Windows / Linux LM Studio, only the GGUF runtime works.
+
+## When NOT to use
+
+- Just want CLI / scripted runs → `minicpm5-deploy-ollama` is leaner
+- Production server → `minicpm5-deploy-vllm`
+- No GUI desired → `minicpm5-deploy-llama-cpp` (`llama-server`)
+
+## Reference
+
+[`docs/deployment/lmstudio.md`](../../docs/deployment/lmstudio.md)

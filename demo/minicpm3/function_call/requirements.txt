@@ -1,0 +1,2 @@
+datamodel_code_generator
+vllm
