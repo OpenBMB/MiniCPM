@@ -99,7 +99,7 @@ async def search_text_batch(request:MessageRequest):
                 title = abstract.split("\n")[1]
                 title = title.split(":")[1].strip()
                 titles.append(title)
-            except:
+            except Exception:
                 titles.append("")
         results.append({ "search_keywords":search_keywords, "summarys":abstracts, "done":done, "score":score, "titles":titles, "bibkeys":bibkeys})
     

@@ -80,21 +80,21 @@ class SurveyManager:
         try:
             content = SurveyManager._to_one_line(current_survey["title"])
             string += f"# {content}\n"
-        except:
+        except Exception:
             string += f"# Title: None\n"
         
         # abstract
         try:
             content = SurveyManager._to_one_line(current_survey["abstract"])
             string += f"## Abstract\n{content}\n"
-        except:
+        except Exception:
             string += f"## Abstract\nNone\n"
         
         # introduction
         try:
             content = SurveyManager._to_one_line(current_survey["introduction"])
             string += f"## Introduction\n{content}\n"
-        except:
+        except Exception:
             string += f"## Introduction\nNone\n"
         
         # sections
@@ -122,7 +122,7 @@ class SurveyManager:
         try:
             content = SurveyManager._to_one_line(current_survey["conclusion"])
             string += f"## Conclusion\n{content}\n"
-        except:
+        except Exception:
             string += f"## Conclusion:\nNone\n"
         
         return string
@@ -154,20 +154,20 @@ class SurveyManager:
         try:
             content = SurveyManager._abbr_one_line(current_survey["title"], abbr=False)
             string += f"# Title: {content}\n"
-        except:
+        except Exception:
             string += f"# Title: None\n"
         # abstract
         try:
             content = SurveyManager._abbr_one_line(current_survey["abstract"], abbr=False)
             string += f"# Abstract: {content}\n"
-        except:
+        except Exception:
             string += f"# Abstract: None\n"
         
         # introduction
         try:
             content = SurveyManager._abbr_one_line(current_survey["introduction"])
             string += f"# Introduction: {content}\n"
-        except:
+        except Exception:
             string += f"# Introduction: None\n"
         
         # sections
@@ -191,7 +191,7 @@ class SurveyManager:
         try:
             content = SurveyManager._abbr_one_line(current_survey["conclusion"])
             string += f"# Conclusion: {content}\n"
-        except:
+        except Exception:
             string += f"# Conclusion: None\n"
         
         return string
@@ -246,7 +246,7 @@ class SurveyManager:
                     j = int(keys[1].lower().split("subsection-")[-1])-1
                     try:
                         return SurveyManager.update_one_section(current_survey["sections"][i]["subsections"], j,  content)
-                    except:
+                    except Exception:
                         # print("update fail!")
                         return False
 
@@ -256,7 +256,7 @@ class SurveyManager:
                     k = int(keys[2].lower().split("subsubsection-")[-1])-1
                     try:
                         return SurveyManager.update_one_section(current_survey["sections"][i]["subsections"][j]["subsubsections"], k, content)  # 禁用第四级
-                    except:
+                    except Exception:
                         # print("update fail!")
                         return False
                 else:
@@ -264,7 +264,7 @@ class SurveyManager:
                     # print("unsupported update_pos keys")
                     return False
                     # raise ValueError("unsupported update_pos keys")
-        except:
+        except Exception:
             # print("update fail!")
             return False
             # print("answer is not a valid json object.")
@@ -659,7 +659,7 @@ class BufferManager:
         
         try:
             current_update = response.split("Current Update:")[-1].split("Next Plan:")[0]
-        except:
+        except Exception:
             current_update = response
         
         # pattern
@@ -733,7 +733,7 @@ class BufferManager:
                     else:
                         assert isinstance(answer["content"], str)
                 has_answer = True
-            except:
+            except Exception:
                 answer = {}
         else:
             answer = {}
@@ -743,10 +743,10 @@ class BufferManager:
         
         try:
             next_plan = response.split("Next Plan:")[1]
-        except:
+        except Exception:
             try:
                 next_plan = response.split("</answer>")[1]
-            except:
+            except Exception:
                 next_plan = response
     
         think_match = re.search(think_pattern, next_plan, re.DOTALL)  # 多行提取
@@ -768,7 +768,7 @@ class BufferManager:
                 if tool_call["name"] == "search_engine":
                     assert isinstance(tool_call["arguments"]["query"], list)
                 has_tool_call = True
-            except:
+            except Exception:
                 tool_call = {}
         else:
             
