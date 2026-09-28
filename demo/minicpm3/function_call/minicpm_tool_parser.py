@@ -67,7 +67,7 @@ class MiniCPMToolParser(ToolParser):
             return ret
         else:
             return ExtractedToolCallInformation(
-                tools_called=True,
+                tools_called=False,
                 tool_calls=[],
                 content=msg.get("content", None),
             )
