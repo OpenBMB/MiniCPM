@@ -54,6 +54,19 @@ llama-server -m MiniCPM5-2B-${QUANT}.gguf \
     --port 8080 -ngl ${NGL} -c ${CTX} --jinja
 ```
 
+### 3c. Tool calling (multi-turn)
+
+If the client sends tools and earlier tool calls back, serve the JSON-arguments template, or list and object arguments in the history are rendered as `ab` and an empty string:
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/OpenBMB/MiniCPM/main/docs/deployment/chat_templates/minicpm5_2b_llama_cpp.jinja
+llama-server -m MiniCPM5-2B-${QUANT}.gguf \
+    --port 8080 -ngl ${NGL} -c ${CTX} --jinja \
+    --chat-template-file minicpm5_2b_llama_cpp.jinja
+```
+
+For MiniCPM5-1B use `minicpm5_1b_llama_cpp.jinja`. Details: [`docs/deployment/llama_cpp.md#tool-calling`](../../docs/deployment/llama_cpp.md#tool-calling).
+
 ### 4. Validate
 
 ```bash
@@ -89,6 +102,7 @@ In llama.cpp, the default `min_p=0.05` can lead to repetitive output: it filters
 ## Common pitfalls
 
 - **Slow on CPU + large context**: drop `-c 131072` to `-c 8192` if you don't need 128 K.
+- **Second tool call never comes, or comes back with `[]` / `{}` arguments**: the released template garbles list and object arguments in the history on llama.cpp. Serve `--chat-template-file` from step 3c.
 
 ## Building your own GGUF (advanced)
 

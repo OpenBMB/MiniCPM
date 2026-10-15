@@ -48,6 +48,39 @@ In llama.cpp, the default `min_p=0.05` can lead to repetitive output: it filters
 | MiniCPM5-1B Think | 0.9 | 0.95 | reasoning, math, code, multi-step |
 | MiniCPM5-1B No-think | 0.7 | 0.95 | fast assistant, latency-bound |
 
+## Tool calling
+
+`llama-server --jinja` parses MiniCPM5's `<function>` / `<param>` output into OpenAI `tool_calls`, so the first tool call works with the released GGUF. Multi-turn tool use needs one template change.
+
+When the client sends an earlier tool call back, the chat template writes each non-string argument with `{{ param_value }}`. Transformers renders that in Python form; llama.cpp's Jinja engine joins a list and drops an object:
+
+| Renderer | `{"keywords": ["blood pressure", "heart rate"], "window": {"unit": "month", "n": 2}}` in the history |
+| --- | --- |
+| Transformers | `<param name="keywords">['blood pressure', 'heart rate']</param><param name="window">{'unit': 'month', 'n': 2}</param>` |
+| llama.cpp (b11630) | `<param name="keywords">blood pressureheart rate</param><param name="window"></param>` |
+
+Serve the template from [`chat_templates/`](./chat_templates/), which writes these arguments as JSON:
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/OpenBMB/MiniCPM/main/docs/deployment/chat_templates/minicpm5_2b_llama_cpp.jinja
+llama-server -m MiniCPM5-2B-Q4_K_M.gguf --port 8080 -ngl 99 -c 8192 --jinja \
+    --chat-template-file minicpm5_2b_llama_cpp.jinja
+```
+
+For MiniCPM5-1B use `minicpm5_1b_llama_cpp.jinja`. Each file is the model's `chat_template.jinja` with only that change: a conversation whose arguments are all strings renders exactly as before, and llama.cpp and Transformers render every conversation identically.
+
+The arguments are written as JSON rather than in Python form because llama.cpp constrains a tool call to its JSON schema: a model that copies `['blood pressure', ...]` from its history cannot write the quote, and the argument comes back empty. The vLLM parser in [`tool_parsers/`](../../tool_parsers/) accepts both forms.
+
+Measured on llama.cpp b11630 with Q4_K_M, 16 seeds per row, at the sampling settings above (temperature 1.0 for 2B, 0.9 for 1B; top-p 0.95; min-p 0). The history holds one call with the arguments above and a tool result asking to search again with twice the window; a second call passes if it keeps both keywords and asks for `{"unit": "month", "n": 4}`.
+
+| History written by | MiniCPM5-2B | MiniCPM5-1B |
+| --- | --- | --- |
+| the template in the released GGUF | 0 / 16 | 0 / 16 |
+| Python form (`['a', 'b']`) | 6 / 16 | not run |
+| JSON (`chat_templates/`) | 16 / 16 | 10 / 16 |
+
+With the released GGUF's template, MiniCPM5-2B never made the second call: it kept reasoning about the malformed earlier call until `max_tokens`. MiniCPM5-1B called again in 8 of 16 runs, never with a valid window.
+
 ## Build a GGUF from your own checkpoint
 
 If you've trained your own MiniCPM5-1B or MiniCPM5-2B variant (continue-pretraining, domain SFT, …) and want to publish a GGUF, the pipeline is:
