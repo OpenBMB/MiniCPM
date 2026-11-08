@@ -48,6 +48,8 @@ In llama.cpp, the default `min_p=0.05` can lead to repetitive output: it filters
 | MiniCPM5-1B Think | 0.9 | 0.95 | reasoning, math, code, multi-step |
 | MiniCPM5-1B No-think | 0.7 | 0.95 | fast assistant, latency-bound |
 
+> **Repeat penalty:** For MiniCPM5-2B F16/non-quantized weights, the maintainer-recommended value is `1.05`. Systematic experiments for quantized variants are still pending, so no validated per-quant recommendation is currently available.
+
 ## Build a GGUF from your own checkpoint
 
 If you've trained your own MiniCPM5-1B or MiniCPM5-2B variant (continue-pretraining, domain SFT, …) and want to publish a GGUF, the pipeline is:
