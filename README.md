@@ -10,7 +10,7 @@
 
 <p align="center">
 <a href="https://arxiv.org/pdf/2506.07900" target="_blank">MiniCPM Tech Report</a> |
-<a href="https://modelbest.feishu.cn/wiki/UtWxwcERfiRIpIkBOjuc3h9tn1D?fromScene=spaceOverview" target="_blank">MiniCPM Wiki (in Chinese)</a> |
+<a href="https://openbmb.cn/docs/" target="_blank">MiniCPM Wiki (in Chinese)</a> |
 <a href="https://github.com/OpenBMB/MiniCPM-V/" target="_blank">MiniCPM-V Repo</a> |
 <a href="https://ultradata.openbmb.cn/" target="_blank">UltraData</a> |
 <a href="https://huggingface.co/spaces/openbmb/MiniCPM5-2B-Demo" target="_blank">Online Demo</a>
