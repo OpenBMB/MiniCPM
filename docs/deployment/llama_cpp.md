@@ -79,3 +79,29 @@ build/bin/llama-quantize "$OUT/F16.gguf" "$OUT/Q8_0.gguf"   Q8_0
 
 - [`ollama.md`](./ollama.md) — `ollama run` directly from these GGUFs
 - [`lmstudio.md`](./lmstudio.md) — desktop GUI for the same GGUFs
+
+## Check historical tool-argument rendering
+
+For multi-turn tool use, a historical assistant tool call should retain the JSON
+values of its arguments when the chat template renders the next prompt. Run this
+optional regression check against a local `llama-server` started with `--jinja`:
+
+```bash
+python3 docs/deployment/check_tool_argument_rendering.py --port 8080
+```
+
+The standard-library-only script sends synthetic messages to `/apply-template`;
+it does not generate tokens or execute tools. It exits nonzero if any case loses
+its expected value. Nine JSON cases cover arrays, objects, empty collections,
+booleans, zero, null, nesting and Unicode. Three string controls check content
+preservation, allowing raw text or a CDATA wrapper. They do **not** validate XML
+escaping or CDATA safety. This is not an inference-quality benchmark.
+
+This coverage accompanies the template fix proposed in
+[PR #386](https://github.com/OpenBMB/MiniCPM/pull/386), whose implementation and
+credit remain with its author. With MiniCPM5-1B Q4_K_M (model revision
+`3d55fac80935ae6456986ad2384b5cbcc4d6c948`) and llama.cpp `b11630`, the embedded
+template passed 4/12 cases; the 1B template from PR #386 at
+`c74c623608db4b5fc238f927f225b34af3ec2a56` passed 12/12. To compare, restart the
+same server with that template supplied through `--chat-template-file` and rerun
+the command. These results do not establish behavior for 2B or other runtimes.
