@@ -1,8 +1,8 @@
-# Deploy MiniCPM5 with SGLang
-
-For the MoE checkpoint, follow the [MiniCPM5-15B MoE](#minicpm5-15b-moe) instructions.
+# Deploy MiniCPM5-1B and MiniCPM5-2B with SGLang
 
 [SGLang](https://github.com/sgl-project/sglang) serves MiniCPM5-1B and MiniCPM5-2B as standard `LlamaForCausalLM` models with **RadixAttention prefix cache**, very high concurrency, and an OpenAI-compatible API.
+
+For MiniCPM5-15B-A2.5B, see [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
 
 ## Install
 
@@ -138,7 +138,7 @@ outputs = llm.generate(
 print(outputs)
 ```
 
-## MiniCPM5-15B MoE
+## MiniCPM5-15B-A2.5B
 
 ### Install the SGLang preview
 
@@ -153,10 +153,10 @@ python -m pip install "git+https://github.com/cyxu0401/sglang.git@2df30246756003
 Set `MODEL_PATH` to the Hugging Face repo ID or the local snapshot directory for the BF16 checkpoint. If you use a local snapshot, include the tokenizer and chat template alongside the weights.
 
 ```bash
-export MODEL_PATH="/path/to/MiniCPM5-15B"
+export MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B"
 python -m sglang.launch_server \
     --model-path "$MODEL_PATH" \
-    --served-model-name MiniCPM5-15B \
+    --served-model-name MiniCPM5-15B-A2.5B \
     --dtype bfloat16 --tp-size 1 \
     --context-length 4096 --max-total-tokens 8192 \
     --mem-fraction-static 0.72 --max-running-requests 4 \
@@ -169,14 +169,14 @@ These settings give each request a 4,096-token context budget for the prompt and
 
 ### Chat completion
 
-From another terminal, check that `GET /v1/models` lists `MiniCPM5-15B`, then send a short request.
+From another terminal, check that `GET /v1/models` lists `MiniCPM5-15B-A2.5B`, then send a short request.
 
 ```bash
 curl -fsS http://127.0.0.1:30000/v1/models
 curl -fsS http://127.0.0.1:30000/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "MiniCPM5-15B",
+        "model": "MiniCPM5-15B-A2.5B",
         "messages": [{"role": "user", "content": "Introduce yourself in one sentence."}],
         "temperature": 0,
         "max_tokens": 128,
@@ -192,7 +192,7 @@ Add `--tool-call-parser minicpm5` to the launch command to parse the checkpoint'
 curl -fsS http://127.0.0.1:30000/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "MiniCPM5-15B",
+        "model": "MiniCPM5-15B-A2.5B",
         "messages": [
             {"role": "system", "content": "Use lookup_temperature to answer weather questions."},
             {"role": "user", "content": "What is the current temperature in Beijing?"}
@@ -223,10 +223,10 @@ When the model calls the tool, check `choices[0].message.tool_calls` for the fun
 Set `DRAFT_MODEL_PATH` to the Hugging Face repo ID or local snapshot of the DSpark draft trained for this target checkpoint. Stop the first server and launch DSpark in the same terminal so `MODEL_PATH` stays set.
 
 ```bash
-export DRAFT_MODEL_PATH="/path/to/MiniCPM5-15B-DSpark"
+export DRAFT_MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B-DSpark"
 python -m sglang.launch_server \
     --model-path "$MODEL_PATH" \
-    --served-model-name MiniCPM5-15B \
+    --served-model-name MiniCPM5-15B-A2.5B \
     --dtype bfloat16 --tp-size 1 \
     --context-length 4096 --max-total-tokens 8192 \
     --mem-fraction-static 0.72 --max-running-requests 4 \

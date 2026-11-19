@@ -1,11 +1,14 @@
 ---
 name: minicpm5-deploy-sglang
-description: Serve MiniCPM5-1B, MiniCPM5-2B, or MiniCPM5-15B MoE with SGLang on NVIDIA GPUs. Use for OpenAI-compatible serving, RadixAttention prefix caching, batch evaluation, MiniCPM5 XML tool calling, or DSpark speculative decoding.
+description: Serve MiniCPM5-1B or MiniCPM5-2B via SGLang as an OpenAI-compatible HTTP server with RadixAttention prefix cache and built-in MiniCPM5 tool-call parsing. Use when the user asks for "SGLang", "RadixAttention", "prefix cache", batch evaluation, tool calling, or wants a high-concurrency NVIDIA-GPU server alternative to vLLM.
+  Also covers MiniCPM5-15B-A2.5B on NVIDIA GPUs, including DSpark.
 ---
 
-# Deploy MiniCPM5 with SGLang
+# Deploy MiniCPM5-1B and MiniCPM5-2B with SGLang
 
-Use the steps below for the 1B and 2B dense checkpoints. For a 15B MoE checkpoint, start at [MiniCPM5-15B MoE](#minicpm5-15b-moe).
+OpenAI-compatible server with RadixAttention prefix cache. Best fit for **tool calling**, batched eval pipelines, and high-concurrency serving.
+
+For a MiniCPM5-15B-A2.5B checkpoint, start at [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
 
 ## Required input
 
@@ -142,9 +145,9 @@ print(outputs)
 - One-shot Python → `minicpm5-deploy-transformers`
 - No NVIDIA GPU → `minicpm5-deploy-llama-cpp` / `minicpm5-deploy-mlx`
 
-## MiniCPM5-15B MoE
+## MiniCPM5-15B-A2.5B
 
-Use the [15B deployment commands](../../docs/deployment/sglang.md#minicpm5-15b-moe) for this checkpoint. For a standalone skill installation, open the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md#minicpm5-15b-moe). The pinned preview recognizes `minicpm5_moe` with the `MiniCPM5MoEForCausalLM` architecture.
+Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/sglang.md#minicpm5-15b-a25b). For a standalone skill installation, open the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md#minicpm5-15b-a25b). The pinned preview recognizes `minicpm5_moe` with the `MiniCPM5MoEForCausalLM` architecture.
 
 1. Resolve `MODEL_PATH` to the user's BF16 model ID or local snapshot. Check the installed SGLang revision, CUDA driver and available GPU memory. The cookbook starts with one H800, TP=1 and a 4,096-token context.
 2. Install the pinned preview and start the BF16 server with the cookbook command. Check `/v1/models` for the configured served name, then send the chat sample. Use the served name in the request's `model` field.

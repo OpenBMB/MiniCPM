@@ -2,6 +2,8 @@
 
 vLLM `>=0.21` supports MiniCPM5-1B and MiniCPM5-2B natively — no custom kernels. For production-grade throughput and OpenAI-compatible chat completions, this is the recommended path.
 
+For MiniCPM5-15B-A2.5B, see [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
+
 ## Install
 
 ```bash
@@ -118,3 +120,60 @@ curl http://localhost:8000/v1/chat/completions \
 ```
 
 Once vLLM `v0.23` (or later) is released with the parser baked in, drop `--tool-parser-plugin` and use only `--tool-call-parser minicpm5`.
+
+## MiniCPM5-15B-A2.5B
+
+### Runtime requirement
+
+The preview test used a vLLM build with native support for `MiniCPM5MoEForCausalLM` and the `minicpm5_moe` configuration. The launch commands require an installed build with that adapter. Public installation instructions for the adapter are pending.
+
+### Start the BF16 server
+
+Set `MODEL_PATH` to the BF16 Hugging Face repo ID or a local snapshot with the weights, tokenizer, and chat template. The example uses a single NVIDIA H800 and a 4,096-token context.
+
+```bash
+MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B"
+vllm serve "$MODEL_PATH" \
+    --served-model-name MiniCPM5-15B-A2.5B \
+    --dtype bfloat16 --tensor-parallel-size 1 \
+    --max-model-len 4096 --gpu-memory-utilization 0.72 \
+    --max-num-seqs 4 --max-num-batched-tokens 1024 \
+    --enforce-eager --no-enable-prefix-caching \
+    --host 127.0.0.1 --port 8000
+```
+
+### Chat completion
+
+Once `GET /v1/models` lists `MiniCPM5-15B-A2.5B`, send a chat request from a separate terminal.
+
+```bash
+curl -fsS http://127.0.0.1:8000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-15B-A2.5B",
+        "messages": [{"role": "user", "content": "Explain grouped-query attention in one sentence."}],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {"enable_thinking": false}
+    }'
+```
+
+### Speculative decoding with DSpark
+
+Use a build that also supports `Qwen3DSparkModel` and a draft trained for the exact target checkpoint. Run the following in the server terminal after stopping the baseline server.
+
+```bash
+DRAFT_MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B-DSpark"
+SPEC_CONFIG=$(python -c 'import json, sys; print(json.dumps({"method": "dspark", "model": sys.argv[1], "num_speculative_tokens": 7}))' "$DRAFT_MODEL_PATH")
+
+vllm serve "$MODEL_PATH" \
+    --served-model-name MiniCPM5-15B-A2.5B \
+    --dtype bfloat16 --tensor-parallel-size 1 \
+    --max-model-len 4096 --gpu-memory-utilization 0.72 \
+    --max-num-seqs 4 --max-num-batched-tokens 1024 \
+    --enforce-eager --no-enable-prefix-caching \
+    --speculative-config "$SPEC_CONFIG" \
+    --host 127.0.0.1 --port 8000
+```
+
+Send the same chat request and check the vLLM logs or `/metrics` for speculative decoding activity. A BF16 offline test on one H800 used TP=1 and seven speculative tokens per step. The baseline and DSpark matched greedy token IDs on four prompts with 64 generated tokens each. The serving recipe uses those engine settings.
