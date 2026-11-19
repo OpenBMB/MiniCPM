@@ -38,7 +38,7 @@ def evaluate_function_calls(test_data: list, eval_data: list) :
             pred_data = test_data[i]
 
             gt_data = eval_data[i]
-        except:
+        except Exception:
             breakpoint()
 
         if not validate_prediction(pred_data): 
