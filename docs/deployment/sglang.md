@@ -1,4 +1,6 @@
-# Deploy MiniCPM5-1B and MiniCPM5-2B with SGLang
+# Deploy MiniCPM5 with SGLang
+
+For the MoE checkpoint, follow the [MiniCPM5-15B MoE](#minicpm5-15b-moe) instructions.
 
 [SGLang](https://github.com/sgl-project/sglang) serves MiniCPM5-1B and MiniCPM5-2B as standard `LlamaForCausalLM` models with **RadixAttention prefix cache**, very high concurrency, and an OpenAI-compatible API.
 
@@ -135,3 +137,105 @@ outputs = llm.generate(
 )
 print(outputs)
 ```
+
+## MiniCPM5-15B MoE
+
+### Install the SGLang preview
+
+The examples use the BF16 checkpoint with `model_type` set to `minicpm5_moe` and `MiniCPM5MoEForCausalLM` in `architectures`. Install the [pinned SGLang preview](https://github.com/cyxu0401/sglang/commit/2df302467560035d8de0558553ace4a4ebb86ed3) in a Python 3.11+ environment on Linux with a CUDA 13-compatible NVIDIA driver. The BF16 inference smoke test for this revision used one H800.
+
+```bash
+python -m pip install "git+https://github.com/cyxu0401/sglang.git@2df302467560035d8de0558553ace4a4ebb86ed3#subdirectory=python"
+```
+
+### Start the BF16 server
+
+Set `MODEL_PATH` to the Hugging Face repo ID or the local snapshot directory for the BF16 checkpoint. If you use a local snapshot, include the tokenizer and chat template alongside the weights.
+
+```bash
+export MODEL_PATH="/path/to/MiniCPM5-15B"
+python -m sglang.launch_server \
+    --model-path "$MODEL_PATH" \
+    --served-model-name MiniCPM5-15B \
+    --dtype bfloat16 --tp-size 1 \
+    --context-length 4096 --max-total-tokens 8192 \
+    --mem-fraction-static 0.72 --max-running-requests 4 \
+    --attention-backend fa3 --moe-runner-backend triton \
+    --enable-deterministic-inference --disable-decode-cuda-graph --disable-prefill-cuda-graph \
+    --host 127.0.0.1 --port 30000
+```
+
+These settings give each request a 4,096-token context budget for the prompt and completion combined. When increasing the context length, size `--max-total-tokens` for the new context and available KV-cache memory.
+
+### Chat completion
+
+From another terminal, check that `GET /v1/models` lists `MiniCPM5-15B`, then send a short request.
+
+```bash
+curl -fsS http://127.0.0.1:30000/v1/models
+curl -fsS http://127.0.0.1:30000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-15B",
+        "messages": [{"role": "user", "content": "Introduce yourself in one sentence."}],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {"enable_thinking": false}
+    }'
+```
+
+### Tool calling for 15B
+
+Add `--tool-call-parser minicpm5` to the launch command to parse the checkpoint's XML tool calls. The example uses a tool for looking up temperatures. The client supplies the tool implementation.
+
+```bash
+curl -fsS http://127.0.0.1:30000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-15B",
+        "messages": [
+            {"role": "system", "content": "Use lookup_temperature to answer weather questions."},
+            {"role": "user", "content": "What is the current temperature in Beijing?"}
+        ],
+        "tools": [{
+            "type": "function",
+            "function": {
+                "name": "lookup_temperature",
+                "description": "Look up the current temperature for a city in Celsius.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"city": {"type": "string"}},
+                    "required": ["city"]
+                }
+            }
+        }],
+        "tool_choice": "auto",
+        "temperature": 0,
+        "max_tokens": 2048,
+        "chat_template_kwargs": {"enable_thinking": true, "has_tool_sep": false}
+    }'
+```
+
+When the model calls the tool, check `choices[0].message.tool_calls` for the function name and its JSON-encoded arguments. To continue the conversation, send the assistant message with its tool calls and a `role: "tool"` message with the result and matching `tool_call_id`.
+
+### Speculative decoding with DSpark
+
+Set `DRAFT_MODEL_PATH` to the Hugging Face repo ID or local snapshot of the DSpark draft trained for this target checkpoint. Stop the first server and launch DSpark in the same terminal so `MODEL_PATH` stays set.
+
+```bash
+export DRAFT_MODEL_PATH="/path/to/MiniCPM5-15B-DSpark"
+python -m sglang.launch_server \
+    --model-path "$MODEL_PATH" \
+    --served-model-name MiniCPM5-15B \
+    --dtype bfloat16 --tp-size 1 \
+    --context-length 4096 --max-total-tokens 8192 \
+    --mem-fraction-static 0.72 --max-running-requests 4 \
+    --attention-backend fa3 --moe-runner-backend triton \
+    --enable-deterministic-inference --disable-decode-cuda-graph --disable-prefill-cuda-graph \
+    --speculative-algorithm DSPARK \
+    --speculative-draft-model-path "$DRAFT_MODEL_PATH" \
+    --speculative-dspark-block-size 7 \
+    --host 127.0.0.1 --port 30000
+```
+
+Reuse the chat request for a smoke test and check that `GET /server_info` reports `speculative_algorithm` as `DSPARK`. In an offline inference check on one H800 with BF16, FA3 attention and Triton MoE, the baseline and DSpark matched greedy token IDs for four prompts with 64 generated tokens each. See the [SGLang validation notes](https://github.com/sgl-project/sglang/pull/51522) for the tested settings and results across attention backends.

@@ -1,11 +1,11 @@
 ---
 name: minicpm5-deploy-sglang
-description: Serve MiniCPM5-1B or MiniCPM5-2B via SGLang as an OpenAI-compatible HTTP server with RadixAttention prefix cache and built-in MiniCPM5 tool-call parsing. Use when the user asks for "SGLang", "RadixAttention", "prefix cache", batch evaluation, tool calling, or wants a high-concurrency NVIDIA-GPU server alternative to vLLM.
+description: Serve MiniCPM5-1B, MiniCPM5-2B, or MiniCPM5-15B MoE with SGLang on NVIDIA GPUs. Use for OpenAI-compatible serving, RadixAttention prefix caching, batch evaluation, MiniCPM5 XML tool calling, or DSpark speculative decoding.
 ---
 
-# Deploy MiniCPM5-1B and MiniCPM5-2B with SGLang
+# Deploy MiniCPM5 with SGLang
 
-OpenAI-compatible server with RadixAttention prefix cache. Best fit for **tool calling**, batched eval pipelines, and high-concurrency serving.
+Use the steps below for the 1B and 2B dense checkpoints. For a 15B MoE checkpoint, start at [MiniCPM5-15B MoE](#minicpm5-15b-moe).
 
 ## Required input
 
@@ -141,6 +141,15 @@ print(outputs)
 - Production serving without batch-eval needs → `minicpm5-deploy-vllm` is simpler
 - One-shot Python → `minicpm5-deploy-transformers`
 - No NVIDIA GPU → `minicpm5-deploy-llama-cpp` / `minicpm5-deploy-mlx`
+
+## MiniCPM5-15B MoE
+
+Use the [15B deployment commands](../../docs/deployment/sglang.md#minicpm5-15b-moe) for this checkpoint. For a standalone skill installation, open the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md#minicpm5-15b-moe). The pinned preview recognizes `minicpm5_moe` with the `MiniCPM5MoEForCausalLM` architecture.
+
+1. Resolve `MODEL_PATH` to the user's BF16 model ID or local snapshot. Check the installed SGLang revision, CUDA driver and available GPU memory. The cookbook starts with one H800, TP=1 and a 4,096-token context.
+2. Install the pinned preview and start the BF16 server with the cookbook command. Check `/v1/models` for the configured served name, then send the chat sample. Use the served name in the request's `model` field.
+3. For tool calling, launch with `--tool-call-parser minicpm5` and send the cookbook's tool request. Check that the returned `message.tool_calls` contains the expected function and that its arguments decode as JSON. Keep the returned tool-call ID when sending a tool result.
+4. For DSpark, resolve `DRAFT_MODEL_PATH` to the draft for the exact target checkpoint. Use the cookbook's FA3 and Triton configuration with `--speculative-algorithm DSPARK` and block size `7`. Reuse the chat sample and check `/server_info` for `DSPARK`. Record the runtime revision, GPU and flags with the outcome of each check.
 
 ## Reference
 
