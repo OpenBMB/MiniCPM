@@ -101,4 +101,4 @@ Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/vllm.md#m
 
 1. Use the pinned source from [vLLM PR #68748](https://github.com/vllm-project/vllm/pull/68748) with the cookbook's official CUDA nightly and Python overlay. Set `MODEL_DIR` and `TOKENIZER_DIR` to the target weights and compatible fast tokenizer with its chat template.
 2. Launch with the cookbook's single-H800 settings. For the compressed-tensors INT4 checkpoint, select Marlin for both Linear and MoE. Check `/v1/models` for `MiniCPM5-15B-A2.5B` and send the chat sample.
-3. For DSpark, use the matching `Qwen3DSparkModel` draft and seven speculative tokens. Check the logs or `/metrics` for draft activity. The earlier INT4 check matched greedy tokens on two of four prompts across draft modes.
+3. For DSpark, set `DSPARK_DIR` to the draft checkpoint trained for the selected MiniCPM5-15B-A2.5B target and set `num_speculative_tokens` to `7`. Check the logs or `/metrics` for draft activity. The earlier INT4 check matched greedy tokens on two of four prompts across draft modes.
