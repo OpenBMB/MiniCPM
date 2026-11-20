@@ -119,6 +119,6 @@ Trained a **LoRA adapter** (not a full model) and want to apply it at runtime wi
 
 Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/llama_cpp.md#minicpm5-15b-a25b). For a standalone skill installation, open the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/llama_cpp.md#minicpm5-15b-a25b).
 
-1. Resolve `GGUF_PATH` to the user's MiniCPM5-15B-A2.5B GGUF file. Build the pinned `llama-server` with the cookbook commands or use an existing build that supports the `minicpm5_moe` GGUF architecture.
-2. Launch with the GGUF's embedded Jinja template. Verify that the chat sample returns an assistant message. Match context size and GPU offload to the user's hardware.
-3. For DSpark, use the matching draft **GGUF** and the cookbook's `draft-dspark` settings. Check the logs for proposed and accepted draft tokens during a chat request.
+1. Build the pinned runtime from [llama.cpp PR #32644](https://github.com/ggml-org/llama.cpp/pull/32644) with support for the `minicpm5_moe` architecture. Resolve `GGUF_PATH` to a BF16, Q8_0 or Q4_K_M target. If the user only has HF weights, follow the cookbook's target conversion link.
+2. Launch with the embedded Jinja template, `--min-p 0` and F16 target K/V. The cookbook uses an 8,192-token context with one slot. Choose GPU offload and context size for the available memory and run the chat sample.
+3. For DSpark, use the matching draft GGUF, `draft-dspark`, two candidates per round, `--spec-draft-p-min 0` and F16 draft K/V. Check the server log for proposed and accepted draft tokens.

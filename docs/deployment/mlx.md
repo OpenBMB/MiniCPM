@@ -2,8 +2,6 @@
 
 [MLX](https://github.com/ml-explore/mlx) is Apple's on-device tensor framework. For MiniCPM5-1B and MiniCPM5-2B it is the recommended path on Apple Silicon (M1–M4) when you want **highest throughput** and want to stay inside one Python process — no separate server, no `llama.cpp` build chain.
 
-For MiniCPM5-15B-A2.5B, see [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
-
 ## TL;DR
 
 ```bash
@@ -101,48 +99,3 @@ Confirm you're on `mlx-lm >= 0.31`. Older versions ignored multi-id `eos_token_i
 - [`transformers.md`](./transformers.md) — same checkpoint, CPU / CUDA path
 - [`llama_cpp.md`](./llama_cpp.md) — alternative on-device path (CPU + Metal)
 - [`lmstudio.md`](./lmstudio.md) — desktop GUI consumer of the same MLX models
-
-## MiniCPM5-15B-A2.5B
-
-### Install the MLX example
-
-On Apple silicon, use the [pinned MiniCPM5 example](https://github.com/cyxu0401/mlx/tree/6c36de3df7f202fb7f4db75e14127a7aa20469d6/examples/python/minicpm5) in a Python 3.13 environment. The example uses MLX and MLX LM for local generation.
-
-```bash
-git init mlx-minicpm5
-cd mlx-minicpm5
-git fetch --depth 1 https://github.com/cyxu0401/mlx.git 6c36de3df7f202fb7f4db75e14127a7aa20469d6
-git checkout --detach FETCH_HEAD
-python -m pip install 'mlx==0.32.4' 'mlx-lm==0.32.2'
-```
-
-### Prepare the weights and generate
-
-Use the asymmetric GPTQ INT4 checkpoint in compressed-tensors `pack-quantized` format with group size 128. Each projection's routed expert tensors must be in the same source shard. The repacker keeps the INT4 codes and writes the MLX weights, tokenizer, and chat template into a separate directory.
-
-```bash
-CT_MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B-INT4"
-MLX_MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B-MLX"
-python -m examples.python.minicpm5.repack "$CT_MODEL_PATH" "$MLX_MODEL_PATH"
-
-python -m examples.python.minicpm5.generate \
-    --model "$MLX_MODEL_PATH" \
-    --prompt "Explain grouped-query attention in one sentence." \
-    --max-tokens 64 --json
-```
-
-For an already repacked checkpoint, set `MLX_MODEL_PATH` to its directory and run the generation command.
-
-### Speculative decoding with DSpark
-
-Pass the matching DSpark draft snapshot. This example supports a `Qwen3DSparkModel` draft with a vanilla Markov head.
-
-```bash
-DRAFT_MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B-DSpark"
-python -m examples.python.minicpm5.generate \
-    --model "$MLX_MODEL_PATH" --draft-model "$DRAFT_MODEL_PATH" \
-    --prompt "Explain grouped-query attention in one sentence." \
-    --max-tokens 64 --json
-```
-
-Inspect the JSON for generated token IDs and DSpark verification counters. The example ran both modes on an Apple M5 with 16 GiB of unified memory. Greedy token IDs matched for three of four prompts in that check. [MLX validation notes](https://github.com/cyxu0401/mlx/pull/1)

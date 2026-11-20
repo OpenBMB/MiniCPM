@@ -155,10 +155,9 @@ We are releasing **MiniCPM5-2B**, the second model in the **MiniCPM5** series, f
 
 ## MiniCPM5-15B-A2.5B Deployment
 
-- **SGLang** for BF16 serving and DSpark on NVIDIA GPUs. [Cookbook](./docs/deployment/sglang.md#minicpm5-15b-a25b) · [Agent Skill](./skills/minicpm5-deploy-sglang/SKILL.md#minicpm5-15b-a25b)
-- **vLLM** for BF16 serving and DSpark with a build that includes MiniCPM5 MoE support. [Cookbook](./docs/deployment/vllm.md#minicpm5-15b-a25b) · [Agent Skill](./skills/minicpm5-deploy-vllm/SKILL.md#minicpm5-15b-a25b)
+- **SGLang** for BF16 serving with FA3 on NVIDIA H800. [Cookbook](./docs/deployment/sglang.md#minicpm5-15b-a25b) · [Agent Skill](./skills/minicpm5-deploy-sglang/SKILL.md#minicpm5-15b-a25b)
+- **vLLM** for BF16 and INT4 Marlin serving, with optional DSpark. [Cookbook](./docs/deployment/vllm.md#minicpm5-15b-a25b) · [Agent Skill](./skills/minicpm5-deploy-vllm/SKILL.md#minicpm5-15b-a25b)
 - **llama.cpp** for GGUF inference and DSpark with a matching draft GGUF. [Cookbook](./docs/deployment/llama_cpp.md#minicpm5-15b-a25b) · [Agent Skill](./skills/minicpm5-deploy-llama-cpp/SKILL.md#minicpm5-15b-a25b)
-- **MLX** for asymmetric INT4 inference and DSpark on Apple silicon. [Cookbook](./docs/deployment/mlx.md#minicpm5-15b-a25b) · [Agent Skill](./skills/minicpm5-deploy-mlx/SKILL.md#minicpm5-15b-a25b)
 
 ## 🚀 MiniCPM5-2B
 

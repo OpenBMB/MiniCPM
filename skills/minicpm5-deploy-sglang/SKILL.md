@@ -1,7 +1,7 @@
 ---
 name: minicpm5-deploy-sglang
 description: Serve MiniCPM5-1B or MiniCPM5-2B via SGLang as an OpenAI-compatible HTTP server with RadixAttention prefix cache and built-in MiniCPM5 tool-call parsing. Use when the user asks for "SGLang", "RadixAttention", "prefix cache", batch evaluation, tool calling, or wants a high-concurrency NVIDIA-GPU server alternative to vLLM.
-  Also covers MiniCPM5-15B-A2.5B on NVIDIA GPUs, including DSpark.
+  Also covers BF16 serving for MiniCPM5-15B-A2.5B with FA3 on NVIDIA H800.
 ---
 
 # Deploy MiniCPM5-1B and MiniCPM5-2B with SGLang
@@ -147,12 +147,11 @@ print(outputs)
 
 ## MiniCPM5-15B-A2.5B
 
-Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/sglang.md#minicpm5-15b-a25b). For a standalone skill installation, open the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md#minicpm5-15b-a25b). The pinned preview recognizes `minicpm5_moe` with the `MiniCPM5MoEForCausalLM` architecture.
+Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/sglang.md#minicpm5-15b-a25b) or the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md#minicpm5-15b-a25b) for a standalone skill installation.
 
-1. Resolve `MODEL_PATH` to the user's BF16 model ID or local snapshot. Check the installed SGLang revision, CUDA driver and available GPU memory. The cookbook starts with one H800, TP=1 and a 4,096-token context.
-2. Install the pinned preview and start the BF16 server with the cookbook command. Check `/v1/models` for the configured served name, then send the chat sample. Use the served name in the request's `model` field.
-3. For tool calling, launch with `--tool-call-parser minicpm5` and send the cookbook's tool request. Check that the returned `message.tool_calls` contains the expected function and that its arguments decode as JSON. Keep the returned tool-call ID when sending a tool result.
-4. For DSpark, resolve `DRAFT_MODEL_PATH` to the draft for the exact target checkpoint. Use the cookbook's FA3 and Triton configuration with `--speculative-algorithm DSPARK` and block size `7`. Reuse the chat sample and check `/server_info` for `DSPARK`. Record the runtime revision, GPU and flags with the outcome of each check.
+1. Locate the BF16 snapshot with its tokenizer and chat template. Use the cookbook's pinned source from [SGLang PR #51568](https://github.com/sgl-project/sglang/pull/51568) and CUDA 13 image with FA3. The preview maps legacy `MiniCPM5MoEForCausalLM` checkpoints to the native `MiniCPM5ForCausalLM` model.
+2. Start `sglang serve` with `--attention-backend fa3` on one H800. Wait for `/health`, verify the served name on `/v1/models`, and send the chat sample.
+3. For a tool-calling request, enable `--tool-call-parser minicpm5` and verify the returned `message.tool_calls` and JSON arguments on that checkpoint.
 
 ## Reference
 

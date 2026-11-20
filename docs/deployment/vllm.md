@@ -123,28 +123,80 @@ Once vLLM `v0.23` (or later) is released with the parser baked in, drop `--tool-
 
 ## MiniCPM5-15B-A2.5B
 
-### Runtime requirement
+The preview in [vLLM PR #68748](https://github.com/vllm-project/vllm/pull/68748) registers `MiniCPM5MoEForCausalLM` and supports BF16 and compressed-tensors INT4 W4A16. The launch below uses one H800 with TP=1.
 
-The preview test used a vLLM build with native support for `MiniCPM5MoEForCausalLM` and the `minicpm5_moe` configuration. The launch commands require an installed build with that adapter. Public installation instructions for the adapter are pending.
+### Prepare the preview runtime
 
-### Start the BF16 server
-
-Set `MODEL_PATH` to the BF16 Hugging Face repo ID or a local snapshot with the weights, tokenizer, and chat template. The example uses a single NVIDIA H800 and a 4,096-token context.
+The validation used the official CUDA nightly built at `9c1d45c21836370104d4eb51d3b46eda20719c47` with the PR's Python code overlaid. Set `MODEL_ROOT` to the host directory containing the target, its fast tokenizer and, for DSpark, the matching draft snapshot. Use complete local directories so all model files are available inside the container.
 
 ```bash
-MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B"
-vllm serve "$MODEL_PATH" \
-    --served-model-name MiniCPM5-15B-A2.5B \
-    --dtype bfloat16 --tensor-parallel-size 1 \
-    --max-model-len 4096 --gpu-memory-utilization 0.72 \
-    --max-num-seqs 4 --max-num-batched-tokens 1024 \
-    --enforce-eager --no-enable-prefix-caching \
-    --host 127.0.0.1 --port 8000
+git init vllm-minicpm5
+cd vllm-minicpm5
+git fetch --depth 1 https://github.com/cyxu0401/vllm.git 9d6347741dffb309e014475b49d1a752025d4e4a
+git checkout --detach FETCH_HEAD
+
+MODEL_ROOT="/absolute/path/to/checkpoints"
+docker run --rm -it --gpus device=0 --ipc=host \
+    -p 127.0.0.1:8000:8000 \
+    -v "$PWD:/vllm-src:ro" -v "$MODEL_ROOT:/models:ro" \
+    --entrypoint /bin/bash \
+    vllm/vllm-openai@sha256:663d493862a5d2c3f212f28d1bf5a5fd76dff08ec76dd1ebd72a7d230621be9a
+```
+
+In the container, overlay the five Python files onto the image's vLLM package. The overlay keeps the image's compiled extensions and uses a separate directory for the PR files.
+
+```bash
+VLLM_PACKAGE=$(python3 -c 'from importlib.util import find_spec; from pathlib import Path; print(Path(find_spec("vllm").origin).parent)')
+OVERLAY=$(mktemp -d)
+cp -as "$VLLM_PACKAGE" "$OVERLAY/vllm"
+
+for file in \
+    model_executor/models/minicpm5_moe.py \
+    model_executor/models/registry.py \
+    transformers_utils/config.py \
+    transformers_utils/configs/__init__.py \
+    transformers_utils/configs/minicpm5_moe.py; do
+    cp --remove-destination "/vllm-src/vllm/$file" "$OVERLAY/vllm/$file"
+done
+
+export PYTHONPATH="$OVERLAY${PYTHONPATH:+:$PYTHONPATH}"
+cd "$OVERLAY"
+```
+
+### Choose the checkpoint and launch
+
+Set `MODEL_DIR` to the BF16 snapshot and `TOKENIZER_DIR` to the target's Transformers-compatible fast tokenizer, including its chat template. Use the model directory for both when it includes the compatible tokenizer. Run any optional settings in the same shell before starting the server.
+
+```bash
+MODEL_DIR="/models/MiniCPM5-15B-A2.5B"
+TOKENIZER_DIR="/models/MiniCPM5-15B-A2.5B-tokenizer"
+extra=()
+```
+
+For the asymmetric INT4 checkpoint in compressed-tensors format, select its directory and use Marlin for both Linear and MoE layers.
+
+```bash
+MODEL_DIR="/models/MiniCPM5-15B-A2.5B-INT4"
+extra+=(--quantization compressed-tensors --linear-backend marlin --moe-backend marlin)
+```
+
+To run DSpark with either precision, use the draft trained for the selected target.
+
+```bash
+DSPARK_DIR="/models/MiniCPM5-15B-A2.5B-DSpark"
+SPEC_CONFIG=$(python3 -c 'import json, sys; print(json.dumps({"method": "dspark", "model": sys.argv[1], "num_speculative_tokens": 7}))' "$DSPARK_DIR")
+extra+=(--speculative-config "$SPEC_CONFIG")
+```
+
+```bash
+vllm serve "$MODEL_DIR" --tokenizer "$TOKENIZER_DIR" \
+    --host 0.0.0.0 --port 8000 --served-model-name MiniCPM5-15B-A2.5B \
+    --dtype bfloat16 --tensor-parallel-size 1 --max-model-len 4096 \
+    --max-num-seqs 8 --gpu-memory-utilization 0.80 --generation-config vllm \
+    "${extra[@]}"
 ```
 
 ### Chat completion
-
-Once `GET /v1/models` lists `MiniCPM5-15B-A2.5B`, send a chat request from a separate terminal.
 
 ```bash
 curl -fsS http://127.0.0.1:8000/v1/chat/completions \
@@ -153,27 +205,10 @@ curl -fsS http://127.0.0.1:8000/v1/chat/completions \
         "model": "MiniCPM5-15B-A2.5B",
         "messages": [{"role": "user", "content": "Explain grouped-query attention in one sentence."}],
         "temperature": 0,
-        "max_tokens": 128,
-        "chat_template_kwargs": {"enable_thinking": false}
+        "max_tokens": 128
     }'
 ```
 
-### Speculative decoding with DSpark
+### Validation scope
 
-Use a build that also supports `Qwen3DSparkModel` and a draft trained for the exact target checkpoint. Run the following in the server terminal after stopping the baseline server.
-
-```bash
-DRAFT_MODEL_PATH="/path/to/MiniCPM5-15B-A2.5B-DSpark"
-SPEC_CONFIG=$(python -c 'import json, sys; print(json.dumps({"method": "dspark", "model": sys.argv[1], "num_speculative_tokens": 7}))' "$DRAFT_MODEL_PATH")
-
-vllm serve "$MODEL_PATH" \
-    --served-model-name MiniCPM5-15B-A2.5B \
-    --dtype bfloat16 --tensor-parallel-size 1 \
-    --max-model-len 4096 --gpu-memory-utilization 0.72 \
-    --max-num-seqs 4 --max-num-batched-tokens 1024 \
-    --enforce-eager --no-enable-prefix-caching \
-    --speculative-config "$SPEC_CONFIG" \
-    --host 127.0.0.1 --port 8000
-```
-
-Send the same chat request and check the vLLM logs or `/metrics` for speculative decoding activity. A BF16 offline test on one H800 used TP=1 and seven speculative tokens per step. The baseline and DSpark matched greedy token IDs on four prompts with 64 generated tokens each. The serving recipe uses those engine settings.
+At the pinned revision, one H800 completed four 48-token greedy requests for each BF16 and INT4 configuration with DSpark off and on. The INT4 trace showed Marlin for both Linear and MoE. BF16 matched greedy token IDs on all four prompts across draft modes. INT4 matched on two of four. The validation used `/v1/completions` with fixed input token IDs. [vLLM PR validation](https://github.com/vllm-project/vllm/pull/68748#validation)

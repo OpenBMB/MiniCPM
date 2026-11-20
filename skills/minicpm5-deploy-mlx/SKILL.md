@@ -1,14 +1,11 @@
 ---
 name: minicpm5-deploy-mlx
 description: Run MiniCPM5-1B or MiniCPM5-2B natively on Apple Silicon with Apple's MLX framework. Use when the user has an Apple Silicon Mac and asks for "MLX", "mlx_lm", "mlx_lm.convert", "mlx_lm.generate", or wants the fastest path on Apple Silicon.
-  Also covers MiniCPM5-15B-A2.5B asymmetric INT4 inference and DSpark on Apple silicon.
 ---
 
 # Deploy MiniCPM5-1B and MiniCPM5-2B with MLX (Apple Silicon)
 
 Apple's on-device tensor framework. Highest throughput on M-series. Stays inside one Python process — no separate server, no `llama.cpp` build chain.
-
-For MiniCPM5-15B-A2.5B, start at [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
 
 ## Required input
 
@@ -85,11 +82,3 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 ## Reference
 
 [`docs/deployment/mlx.md`](../../docs/deployment/mlx.md)
-
-## MiniCPM5-15B-A2.5B
-
-Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/mlx.md#minicpm5-15b-a25b). For a standalone skill installation, open the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/mlx.md#minicpm5-15b-a25b).
-
-1. On Apple silicon, locate a supported compressed-tensors asymmetric INT4 checkpoint with group size 128 or its repacked MLX output. Follow the cookbook to fetch the pinned example and install its Python dependencies.
-2. For the compressed-tensors source, run `examples.python.minicpm5.repack` and write to a new output directory. Run `examples.python.minicpm5.generate` on the repacked weights and verify the returned text.
-3. For DSpark, pass the matching `Qwen3DSparkModel` snapshot with `--draft-model`. Check the example's JSON output for generated token IDs and DSpark counters.
