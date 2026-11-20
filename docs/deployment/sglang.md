@@ -2,6 +2,8 @@
 
 [SGLang](https://github.com/sgl-project/sglang) serves MiniCPM5-1B and MiniCPM5-2B as standard `LlamaForCausalLM` models with **RadixAttention prefix cache**, very high concurrency, and an OpenAI-compatible API.
 
+For MiniCPM5-15B-A2.5B, see [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
+
 ## Install
 
 ```bash
@@ -135,3 +137,48 @@ outputs = llm.generate(
 )
 print(outputs)
 ```
+
+## MiniCPM5-15B-A2.5B
+
+Use the BF16 preview build from [SGLang PR #51568](https://github.com/sgl-project/sglang/pull/51568). It registers `MiniCPM5ForCausalLM` for `model_type=minicpm5_moe` and maps the legacy `MiniCPM5MoEForCausalLM` architecture to the native implementation.
+
+### Run on one NVIDIA H800
+
+Use the pinned PR source with the official Linux x86-64 CUDA 13 image. This image includes FA3. Set `MODEL_PATH` to an absolute path to a complete BF16 snapshot with its tokenizer and chat template.
+
+```bash
+git init sglang-minicpm5
+cd sglang-minicpm5
+git fetch --depth 1 https://github.com/cyxu0401/sglang.git 3c6688d1cdc01bc492a0a302e9e2e4241360e0a0
+git checkout --detach FETCH_HEAD
+
+MODEL_PATH="/absolute/path/to/MiniCPM5-15B-A2.5B"
+docker run --rm --gpus device=0 --ipc=host \
+    -p 127.0.0.1:30000:30000 \
+    -v "$PWD/python:/sglang-src/python:ro" \
+    -v "$MODEL_PATH:/model:ro" \
+    -e PYTHONPATH=/sglang-src/python \
+    lmsysorg/sglang@sha256:d7976d3a5963ea29eb34a3d94dd2304b3b9a8245da78add7ada9cb15bf77a641 \
+    sglang serve --model-path /model \
+    --served-model-name MiniCPM5-15B-A2.5B \
+    --attention-backend fa3 --host 0.0.0.0 --port 30000
+```
+
+The checkpoint sets BF16 and SGLang defaults to TP=1. The port mapping makes the server available on the host's loopback address.
+
+### Chat completion
+
+Check readiness at `/health` and confirm that `/v1/models` lists `MiniCPM5-15B-A2.5B`. Then send a chat request.
+
+```bash
+curl -fsS http://127.0.0.1:30000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "MiniCPM5-15B-A2.5B",
+        "messages": [{"role": "user", "content": "Explain grouped-query attention in one sentence."}],
+        "temperature": 0,
+        "max_tokens": 128
+    }'
+```
+
+For XML tool calling, add `--tool-call-parser minicpm5` to the launch command and use the [tool request example](#tool-calling) with `MiniCPM5-15B-A2.5B` in its `model` field. Check the parsed `message.tool_calls` on your checkpoint. The model PR's launch example covers ordinary BF16 inference.

@@ -1,11 +1,14 @@
 ---
 name: minicpm5-deploy-llama-cpp
 description: Run MiniCPM5-1B or MiniCPM5-2B with llama.cpp using the released GGUF artifacts (F16 / Q8_0 / Q4_K_M). Use when the user wants CPU-only / consumer-GPU / cross-platform native deployment, asks for "llama.cpp", "llama-cli", "llama-server", "GGUF", or has no Python available.
+  Also covers GGUF inference and DSpark for MiniCPM5-15B-A2.5B.
 ---
 
 # Deploy MiniCPM5-1B and MiniCPM5-2B with llama.cpp
 
 CPU / edge / consumer-GPU deployment via the released GGUF artifacts. The artifacts work directly with vanilla `llama.cpp` and every downstream runtime (Ollama / LM Studio / `llama-cpp-python`).
+
+For MiniCPM5-15B-A2.5B, start at [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
 
 ## Required input
 
@@ -111,3 +114,11 @@ Trained a **LoRA adapter** (not a full model) and want to apply it at runtime wi
 ## Reference
 
 [`docs/deployment/llama_cpp.md`](../../docs/deployment/llama_cpp.md)
+
+## MiniCPM5-15B-A2.5B
+
+Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/llama_cpp.md#minicpm5-15b-a25b). For a standalone skill installation, open the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/llama_cpp.md#minicpm5-15b-a25b).
+
+1. Build the pinned runtime from [llama.cpp PR #32644](https://github.com/ggml-org/llama.cpp/pull/32644) with support for the `minicpm5_moe` architecture. Resolve `GGUF_PATH` to a BF16, Q8_0 or Q4_K_M target. If the user only has HF weights, follow the cookbook's target conversion link.
+2. Launch with the embedded Jinja template, `--min-p 0` and F16 target K/V. The cookbook uses an 8,192-token context with one slot. Choose GPU offload and context size for the available memory and run the chat sample.
+3. For DSpark, use the matching draft GGUF, `draft-dspark`, two candidates per round, `--spec-draft-p-min 0` and F16 draft K/V. Check the server log for proposed and accepted draft tokens.

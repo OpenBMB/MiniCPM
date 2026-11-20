@@ -1,11 +1,20 @@
 ---
 name: minicpm5-deploy
 description: Pick the right inference backend for a MiniCPM5-1B or MiniCPM5-2B checkpoint and route to a backend-specific cookbook skill. Use when the user wants to deploy / serve / chat-with / benchmark a MiniCPM5 model and has not yet committed to a specific engine, or when they say "deploy MiniCPM5", "run MiniCPM5", "serve MiniCPM5", "MiniCPM5 推理", "部署 MiniCPM5".
+  Also routes MiniCPM5-15B-A2.5B checkpoints to SGLang, vLLM or llama.cpp.
 ---
 
 # Deploy MiniCPM5-1B and MiniCPM5-2B — backend router
 
 You're being asked to deploy / serve / chat-with a MiniCPM5-1B or MiniCPM5-2B checkpoint. Your job is to **pick exactly one backend skill below** based on the user's hardware, format, and goal, then **invoke that skill** rather than improvising.
+
+## MiniCPM5-15B-A2.5B
+
+For a MiniCPM5-15B-A2.5B checkpoint, use the matching skill's 15B section and follow its startup and validation steps.
+
+- **BF16 on NVIDIA H800.** Use the FA3 serving recipe in [SGLang](../minicpm5-deploy-sglang/SKILL.md#minicpm5-15b-a25b), or follow [vLLM](../minicpm5-deploy-vllm/SKILL.md#minicpm5-15b-a25b) when the user selects vLLM.
+- **Compressed-tensors INT4 or vLLM DSpark.** Use the [vLLM preview](../minicpm5-deploy-vllm/SKILL.md#minicpm5-15b-a25b). Use a matching draft when enabling DSpark.
+- **GGUF inference or conversion from BF16 weights.** Use [llama.cpp](../minicpm5-deploy-llama-cpp/SKILL.md#minicpm5-15b-a25b).
 
 ## 1. Required input from the user
 

@@ -1,11 +1,14 @@
 ---
 name: minicpm5-deploy-vllm
 description: Serve MiniCPM5-1B or MiniCPM5-2B via vLLM as an OpenAI-compatible HTTP server. Use when the user wants high-throughput production serving on NVIDIA GPU, asks for "vLLM", "OpenAI server", "REST API for MiniCPM5", or "production deployment".
+  Also covers MiniCPM5-15B-A2.5B BF16, INT4 Marlin and DSpark with the vLLM preview.
 ---
 
 # Deploy MiniCPM5-1B and MiniCPM5-2B with vLLM
 
 OpenAI-compatible server for the BF16 / FP16 MiniCPM5-1B or MiniCPM5-2B checkpoint.
+
+For MiniCPM5-15B-A2.5B, start at [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
 
 ## Required input
 
@@ -91,3 +94,11 @@ Drop `--tool-parser-plugin` once vLLM ships a release containing the parser nati
 ## Reference
 
 [`docs/deployment/vllm.md`](../../docs/deployment/vllm.md)
+
+## MiniCPM5-15B-A2.5B
+
+Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/vllm.md#minicpm5-15b-a25b). For a standalone skill installation, open the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm.md#minicpm5-15b-a25b).
+
+1. Use the pinned source from [vLLM PR #68748](https://github.com/vllm-project/vllm/pull/68748) with the cookbook's official CUDA nightly and Python overlay. Set `MODEL_DIR` and `TOKENIZER_DIR` to the target weights and compatible fast tokenizer with its chat template.
+2. Launch with the cookbook's single-H800 settings. For the compressed-tensors INT4 checkpoint, select Marlin for both Linear and MoE. Check `/v1/models` for `MiniCPM5-15B-A2.5B` and send the chat sample.
+3. For DSpark, set `DSPARK_DIR` to the draft checkpoint trained for the selected MiniCPM5-15B-A2.5B target and set `num_speculative_tokens` to `7`. Check the logs or `/metrics` for draft activity. The earlier INT4 check matched greedy tokens on two of four prompts across draft modes.

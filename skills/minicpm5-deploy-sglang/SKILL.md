@@ -1,11 +1,14 @@
 ---
 name: minicpm5-deploy-sglang
 description: Serve MiniCPM5-1B or MiniCPM5-2B via SGLang as an OpenAI-compatible HTTP server with RadixAttention prefix cache and built-in MiniCPM5 tool-call parsing. Use when the user asks for "SGLang", "RadixAttention", "prefix cache", batch evaluation, tool calling, or wants a high-concurrency NVIDIA-GPU server alternative to vLLM.
+  Also covers BF16 serving for MiniCPM5-15B-A2.5B with FA3 on NVIDIA H800.
 ---
 
 # Deploy MiniCPM5-1B and MiniCPM5-2B with SGLang
 
 OpenAI-compatible server with RadixAttention prefix cache. Best fit for **tool calling**, batched eval pipelines, and high-concurrency serving.
+
+For a MiniCPM5-15B-A2.5B checkpoint, start at [MiniCPM5-15B-A2.5B](#minicpm5-15b-a25b).
 
 ## Required input
 
@@ -141,6 +144,14 @@ print(outputs)
 - Production serving without batch-eval needs → `minicpm5-deploy-vllm` is simpler
 - One-shot Python → `minicpm5-deploy-transformers`
 - No NVIDIA GPU → `minicpm5-deploy-llama-cpp` / `minicpm5-deploy-mlx`
+
+## MiniCPM5-15B-A2.5B
+
+Use the [MiniCPM5-15B-A2.5B deployment commands](../../docs/deployment/sglang.md#minicpm5-15b-a25b) or the [GitHub cookbook](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/sglang.md#minicpm5-15b-a25b) for a standalone skill installation.
+
+1. Locate the BF16 snapshot with its tokenizer and chat template. Use the cookbook's pinned source from [SGLang PR #51568](https://github.com/sgl-project/sglang/pull/51568) and CUDA 13 image with FA3. The preview maps legacy `MiniCPM5MoEForCausalLM` checkpoints to the native `MiniCPM5ForCausalLM` model.
+2. Start `sglang serve` with `--attention-backend fa3` on one H800. Wait for `/health`, verify the served name on `/v1/models`, and send the chat sample.
+3. For a tool-calling request, enable `--tool-call-parser minicpm5` and verify the returned `message.tool_calls` and JSON arguments on that checkpoint.
 
 ## Reference
 
